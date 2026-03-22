@@ -6,3 +6,4 @@ dist
 .wrangler
 .turbo
 *.log
+.dev.vars
