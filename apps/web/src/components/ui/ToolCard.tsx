@@ -1,0 +1,72 @@
+"use client"
+import Link from "next/link"
+import type { Tool } from "@/types"
+
+const gradients = [
+  "linear-gradient(145deg, #0a1a2e, #0d3358)",
+  "linear-gradient(145deg, #0a1f0e, #0d4a1f)",
+  "linear-gradient(145deg, #1a0e06, #3d1a08)",
+  "linear-gradient(145deg, #0e0a1a, #1f0d3d)",
+  "linear-gradient(145deg, #1a0808, #3d0d0d)",
+  "linear-gradient(145deg, #081a1a, #0d3d3d)",
+  "linear-gradient(145deg, #0e1a08, #1f3d0d)",
+  "linear-gradient(145deg, #1a1a08, #3d3d0d)",
+  "linear-gradient(145deg, #080e1a, #0d1f3d)",
+  "linear-gradient(145deg, #0e0814, #220d33)",
+  "linear-gradient(145deg, #081408, #0d331a)",
+  "linear-gradient(145deg, #14080a, #331020)",
+]
+
+interface ToolCardProps {
+  tool:  Tool
+  index: number
+}
+
+export default function ToolCard({ tool, index }: ToolCardProps)
+{
+  const bg = gradients[index % gradients.length]
+
+  const card = (
+    <div
+      className={`tool-card ${tool.isLive ? "tool-card-live" : "tool-card-soon"}`}
+      style={{ background: bg }}
+    >
+      <div className="tool-card-badge">
+        <span className={tool.isLive ? "badge-live" : "badge-soon"}>
+          {tool.isLive ? "LIVE" : "SOON"}
+        </span>
+      </div>
+
+      <div className="tool-card-icon">{tool.icon}</div>
+
+      <div>
+        <p className="tool-card-name">{tool.name}</p>
+        <p className="tool-card-desc">
+          {tool.description.length > 30
+            ? tool.description.slice(0, 30) + "…"
+            : tool.description}
+        </p>
+      </div>
+    </div>
+  )
+
+  if(tool.isLive)
+  {
+    return <Link href={`/tools/${tool.slug}`}>{card}</Link>
+  }
+
+  return card
+}
+
+
+export function SeeMoreCard({ href, label }: { href: string; label: string })
+{
+  return (
+    <Link href={href}>
+      <div className="see-more-card">
+        <span className="see-more-arrow">→</span>
+        <p className="see-more-label">{label}</p>
+      </div>
+    </Link>
+  )
+}
