@@ -1,0 +1,44 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Tool {
+  id          Int      @id @default(autoincrement())
+  name        String
+  slug        String   @unique
+  description String
+  category    String
+  icon        String
+  url         String
+  isLive      Boolean  @default(false)
+  isFeatured  Boolean  @default(false)
+  usageCount  Int      @default(0)
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Blog {
+  id          Int      @id @default(autoincrement())
+  title       String
+  slug        String   @unique
+  content     String
+  excerpt     String
+  coverImage  String?
+  published   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Counter {
+  id        Int      @id @default(autoincrement())
+  key       String   @unique
+  value     Int      @default(0)
+  updatedAt DateTime @updatedAt
+}

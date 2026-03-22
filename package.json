@@ -1,0 +1,17 @@
+{
+  "name": "cubosapiens",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "deploy": "turbo run deploy"
+  },
+  "devDependencies": {
+    "turbo": "latest",
+    "typescript": "^5.0.0"
+  }
+}
