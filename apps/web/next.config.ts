@@ -1,7 +1,15 @@
-import type { NextConfig } from "next"
+import type { OpenNextConfig } from "@opennextjs/cloudflare"
 
-const nextConfig: NextConfig = {
-  output: "standalone",
+const config: OpenNextConfig = {
+  default: {
+    override: {
+      wrapper:       "cloudflare-node",
+      converter:     "edge",
+      incrementalCache: "dummy",
+      tagCache:      "dummy",
+      queue:         "dummy",
+    }
+  }
 }
 
-export default nextConfig
+export default config
