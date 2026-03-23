@@ -1,58 +1,43 @@
 "use client"
 
 import { useState, useEffect, useLayoutEffect } from "react"
-import Link          from "next/link"
+import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { fetchCounters } from "@/lib/api"
 
-export default function Header()
-{
-  const [isDark,   setIsDark]   = useState(false)
+export default function Header() {
+  // ✅ Initialize from localStorage safely
+  const [isDark, setIsDark] = useState(() => {
+    if (typeof window === "undefined") return false
+    return localStorage.getItem("theme") === "dark"
+  })
+
   const [visitors, setVisitors] = useState<number | null>(null)
-  const [search,   setSearch]   = useState("")
+  const [search, setSearch] = useState("")
   const router = useRouter()
 
- useLayoutEffect(() => {
-  const saved = localStorage.getItem("theme")
-  if(saved === "dark")
-  {
-    setIsDark(true)
-    document.body.classList.add("dark")
-    document.body.classList.remove("light")
-  }
-  else
-  {
-    document.body.classList.add("light")
-    document.body.classList.remove("dark")
-  }
-}, [])
+  // ✅ Only sync DOM, no setState here
+  useLayoutEffect(() => {
+    document.body.classList.toggle("dark", isDark)
+    document.body.classList.toggle("light", !isDark)
+  }, [isDark])
 
+  // ✅ Fetch once
   useEffect(() => {
     fetchCounters().then(d => setVisitors(d.visits))
   }, [])
 
- function toggleTheme()
-{
-  const next = !isDark
-  setIsDark(next)
-  localStorage.setItem("theme", next ? "dark" : "light")
-
-  if(next)
-  {
-    document.body.classList.add("dark")
-    document.body.classList.remove("light")
+  function toggleTheme() {
+    const next = !isDark
+    setIsDark(next)
+    localStorage.setItem("theme", next ? "dark" : "light")
   }
-  else
-  {
-    document.body.classList.add("light")
-    document.body.classList.remove("dark")
-  }
-}
 
-  function handleSearch(e: React.FormEvent)
-  {
+  function handleSearch(e: React.FormEvent) {
     e.preventDefault()
-    if(search.trim()) router.push(`/search?q=${encodeURIComponent(search.trim())}`)
+    if (search.trim()) {
+      router.push(`/search?q=${encodeURIComponent(search.trim())}`)
+    }
   }
 
   return (

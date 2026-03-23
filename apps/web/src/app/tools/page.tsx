@@ -1,6 +1,4 @@
 import { fetchTools }  from "@/lib/api"
-import ToolCard        from "@/components/ui/ToolCard"
-import type { Tool }   from "@/types"
 
 export const metadata = {
   title:       "All Tools — CUBOSAPIENS",

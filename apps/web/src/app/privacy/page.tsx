@@ -20,7 +20,7 @@ export default function PrivacyPage()
         <p>We collect minimal data:</p>
         <ul>
           <li><strong>Usage data</strong> — pages visited, anonymous visit counts stored in Cloudflare KV</li>
-          <li><strong>Location data</strong> — only if you use "Use Current Location". Processed in your browser only, never sent to our servers</li>
+          <li><strong>Location data</strong> — only if you use &quot;Use Current Location&quot;. Processed in your browser only, never sent to our servers</li>
           <li><strong>Photos</strong> — processed entirely in your browser. Never uploaded to any server</li>
           <li><strong>Cookies</strong> — see our Cookie Policy</li>
         </ul>
