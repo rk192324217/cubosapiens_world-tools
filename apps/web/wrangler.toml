@@ -1,10 +1,10 @@
 name = "cubosapiens-web"
-main = "apps/web/.open-next/worker.js"
+main = ".open-next/worker.js"
 compatibility_date = "2024-09-23"
 compatibility_flags = ["nodejs_compat"]
 
 [assets]
-directory = "apps/web/.open-next/assets"
+directory = ".open-next/assets"
 
 [vars]
 NEXT_PUBLIC_API_URL = "https://api.cubosapiens.world"
