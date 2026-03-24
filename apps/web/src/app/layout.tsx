@@ -3,6 +3,7 @@ import { Alfa_Slab_One, Syne, DM_Sans }    from "next/font/google"
 import "./globals.css"
 import Header from "@/components/layout/Header"
 import Footer from "@/components/layout/Footer"
+import TrackVisit from "@/components/TrackVisit"
 
 // ── Fonts loaded via next/font/google ─────────────────────────
 // Next.js downloads these at build time
@@ -29,7 +30,7 @@ const dmSans = DM_Sans({
 })
 
 export const metadata: Metadata = {
-  title:       "CUBOSAPIENS — Free Tools, Games & AI",
+  title:       "Cubosapiens",
   description: "Free browser tools, games and AI for everyone. No signup. No cost.",
 }
 
@@ -42,6 +43,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${alfaSlabOne.variable} ${syne.variable} ${dmSans.variable}`}>
+        <TrackVisit />
         <Header />
         <main>{children}</main>
         <Footer />
