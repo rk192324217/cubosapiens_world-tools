@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { fetchCounters } from "@/lib/api"
+import Image from "next/image";
 
 export default function Header() {
 
@@ -40,9 +41,21 @@ export default function Header() {
   return (
     <div className="header-wrap">
       <header className="header">
-
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+/>
         <Link href="/" className="header-logo">
-          <div className="header-logo-icon">C</div>
+
+          <Image
+          
+            src="/logo.png"
+            alt="logo"
+            className="header-logo-icon"
+            width={32}
+            height={32}
+            priority
+          />
           <span className="header-logo-text">CUBOSAPIENS</span>
         </Link>
 
@@ -65,8 +78,11 @@ export default function Header() {
           </form>
 
           <div className="header-counter">
-            <span>{visitors !== null ? visitors.toLocaleString() : "—"}</span>
-          </div>
+  <i className="fa-solid fa-users counter-icon"></i>
+  <span>
+    {visitors !== null ? visitors.toLocaleString() : "—"}
+  </span>
+</div>
 
           <button className="header-toggle" onClick={toggleTheme}>
             {isDark ? "☀" : "☾"}

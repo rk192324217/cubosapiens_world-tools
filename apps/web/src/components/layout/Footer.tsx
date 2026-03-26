@@ -1,5 +1,6 @@
 "use client"
 import Link from "next/link"
+import Image from"next/image"
 
 export default function Footer()
 {
@@ -14,7 +15,15 @@ export default function Footer()
         <div className="footer-top">
 
           <div className="footer-brand">
-            <div className="footer-brand-icon">C</div>
+            <Image
+                      
+                        src="/logo.png"
+                        alt="logo"
+                        className="footer-brand-icon"
+                        width={100}
+                        height={100}
+                        priority
+                      />
             <p className="footer-brand-text">
               Free tools, games and AI for everyone on the internet.
               No signup. No cost. Always free.
