@@ -23,6 +23,7 @@ export default function Footer()
                         width={100}
                         height={100}
                         priority
+                        unoptimized
                       />
             <p className="footer-brand-text">
               Free tools, games and AI for everyone on the internet.

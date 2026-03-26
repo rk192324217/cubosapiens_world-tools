@@ -52,9 +52,10 @@ export default function Header() {
             src="/logo.png"
             alt="logo"
             className="header-logo-icon"
-            width={32}
-            height={32}
+            width={38}
+            height={38}
             priority
+            unoptimized
           />
           <span className="header-logo-text">CUBOSAPIENS</span>
         </Link>
@@ -73,7 +74,7 @@ export default function Header() {
               className="header-search"
               value={search}
               onChange={e => setSearch(e.target.value)}
-              placeholder="Search tools..."
+              placeholder="Search"
             />
           </form>
 
