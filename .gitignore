@@ -8,4 +8,5 @@ dist
 *.log
 .dev.vars
 .open-next
-.next
+sw.js
+workbox-*

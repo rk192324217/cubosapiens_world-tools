@@ -72,7 +72,7 @@ a { text-decoration: none; color: inherit; }
 }
 
 .header {
-  width: 90%;
+  width: 60%;
   max-width: 1200px;
   display: flex;
   align-items: center;
@@ -677,7 +677,7 @@ body.light .footer-bottom-link { color: #aaa; }
 @media (max-width: 640px) {
   .tool-grid,
   .tool-grid-faded {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
   }
 
   .header-logo-text { display: none; }
@@ -1293,7 +1293,7 @@ body.light .footer-bottom-link { color: #aaa; }
 
   .tool-page-sidebar {
     position: static;
-    order: -1;
+    /* order: -1; */
   }
 
   .recommended-list {
@@ -1312,6 +1312,9 @@ body.light .footer-bottom-link { color: #aaa; }
 }
 
 @media (max-width: 768px) {
+  .header{
+    width:100%;
+  }
   .page-container { padding: 24px 20px 60px; }
 
   .tool-page { padding: 16px 16px 60px; }
@@ -1326,6 +1329,7 @@ body.light .footer-bottom-link { color: #aaa; }
 }
 
 @media (max-width: 640px) {
+  .tool-page { padding: 10px 10px 20px; }
   .recommended-list {
     grid-template-columns: 1fr;
   }

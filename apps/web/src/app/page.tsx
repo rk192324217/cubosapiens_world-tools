@@ -34,13 +34,13 @@ export default async function HomePage()
       {/* ── HERO ── */}
       <section className="hero">
 
-        <div className="hero-tag">
+        {/* <div className="hero-tag">
           ⚡ Free · No signup · Works in browser
-        </div>
+        </div> */}
 
         <h1 className="hero-title">
           Everything you need.<br />
-          <span className="hero-title-accent">One place.</span>
+          <span className="hero-title-accent">All in One place.</span>
         </h1>
 
         <p className="hero-subtitle">
@@ -70,7 +70,7 @@ export default async function HomePage()
 
       {/* ── TOOLS ── */}
       <section className="section">
-        <span className="section-tag">What we offer</span>
+        {/* <span className="section-tag">What we offer</span> */}
         <h2 className="section-title">Tools</h2>
         <ToolGrid
           tools={tools}

@@ -31,9 +31,12 @@ const dmSans = DM_Sans({
 
 export const metadata: Metadata = {
   title:       "Cubosapiens",
-  description: "Free browser tools, games and AI for everyone. No signup. No cost.",
+  description: "Free browser tools, games and AI for everyone.",
+    manifest: "/manifest.json",
 }
-
+export const viewport = {
+  themeColor: "#000000",
+}
 export default function RootLayout({
   children,
 }: {
