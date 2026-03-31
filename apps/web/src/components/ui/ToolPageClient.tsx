@@ -53,7 +53,19 @@ export default function ToolPageClient({ tool, recommended }: Props)
         <div className="tool-fullscreen">
           <div className="tool-fullscreen-bar">
             <span className="tool-fullscreen-name">
-              {tool.icon} {tool.name}
+              {tool.icon.endsWith(".png") || tool.icon.endsWith(".svg") ? (
+                      <Image
+                        src={`/icons/${tool.icon}`}
+                        alt={tool.name}
+                        className="tool-card-icon-img"
+                        width={48}
+                        height={48}
+                        unoptimized
+                        // style={{ objectFit: "contain" }}
+                      />
+                    ) : (
+                      <span>{tool.icon}</span>
+                    )} {tool.name}
             </span>
             <button
               className="tool-fullscreen-exit"
@@ -116,7 +128,19 @@ export default function ToolPageClient({ tool, recommended }: Props)
             </div>
           ) : (
             <div className="tool-coming-soon">
-              <span className="tool-coming-icon">{tool.icon}</span>
+              <span className="tool-coming-icon">{tool.icon.endsWith(".png") || tool.icon.endsWith(".svg") ? (
+                      <Image
+                        src={`/icons/${tool.icon}`}
+                        alt={tool.name}
+                        className="tool-card-icon-img"
+                        width={48}
+                        height={48}
+                        unoptimized
+                        // style={{ objectFit: "contain" }}
+                      />
+                    ) : (
+                      <span>{tool.icon}</span>
+                    )}</span>
               <h2>Coming Soon</h2>
               <p>This tool is under development. Check back soon.</p>
             </div>
@@ -136,7 +160,19 @@ export default function ToolPageClient({ tool, recommended }: Props)
                 href={`/tools/${rec.slug}`}
                 className="recommended-card"
               >
-                <div className="recommended-icon">{rec.icon}</div>
+                <div className="recommended-icon">{tool.icon.endsWith(".png") || tool.icon.endsWith(".svg") ? (
+                      <Image
+                        src={`/icons/${tool.icon}`}
+                        alt={tool.name}
+                        className="tool-card-icon-img"
+                        width={48}
+                        height={48}
+                        unoptimized
+                        // style={{ objectFit: "contain" }}
+                      />
+                    ) : (
+                      <span>{tool.icon}</span>
+                    )}</div>
                 <div className="recommended-info">
                   <p className="recommended-name">{rec.name}</p>
                   <p className="recommended-desc">
