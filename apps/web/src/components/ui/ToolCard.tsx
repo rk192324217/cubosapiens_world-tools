@@ -1,6 +1,7 @@
 "use client"
-import Link from "next/link"
-import type { Tool } from "@/types"
+import Link from "next/link";
+import type { Tool } from "@/types";
+import Image from "next/image";
 
 const gradients = [
   "linear-gradient(145deg, #0a1a2e, #0d3358)",
@@ -22,7 +23,7 @@ interface ToolCardProps {
   index: number
 }
 
-export default function ToolCard({ tool, index }: ToolCardProps)
+export default function ToolCard({ tool, index }: ToolCardProps) 
 {
   const bg = gradients[index % gradients.length]
 
@@ -37,7 +38,20 @@ export default function ToolCard({ tool, index }: ToolCardProps)
         </span>
       </div>
 
-      <div className="tool-card-icon">{tool.icon}</div>
+      <div className="tool-card-icon">
+        {tool.icon.endsWith(".png") || tool.icon.endsWith(".svg") ? (
+          <Image
+            src={`/icons/${tool.icon}`}
+            alt={tool.name}
+            className="tool-card-icon-img"
+            width={48}
+            height={48}
+            // style={{ objectFit: "contain" }}
+          />
+        ) : (
+          <span>{tool.icon}</span>
+        )}
+      </div>
 
       <div>
         <p className="tool-card-name">{tool.name}</p>
@@ -50,8 +64,8 @@ export default function ToolCard({ tool, index }: ToolCardProps)
     </div>
   )
 
-  if(tool.isLive)
-  {
+  if(tool.isLive) 
+    {
     return <Link href={`/tools/${tool.slug}`}>{card}</Link>
   }
 
@@ -60,7 +74,7 @@ export default function ToolCard({ tool, index }: ToolCardProps)
 
 
 export function SeeMoreCard({ href, label }: { href: string; label: string })
-{
+ {
   return (
     <Link href={href}>
       <div className="see-more-card">
