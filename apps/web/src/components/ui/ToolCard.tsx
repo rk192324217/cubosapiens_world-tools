@@ -46,6 +46,7 @@ export default function ToolCard({ tool, index }: ToolCardProps)
             className="tool-card-icon-img"
             width={48}
             height={48}
+            unoptimized
             // style={{ objectFit: "contain" }}
           />
         ) : (
