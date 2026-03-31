@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from "react"
 import Link                                 from "next/link"
 import type { Tool }                        from "@/types"
-
+import Image from"next/image"
 interface Props {
   tool:        Tool
   recommended: Tool[]
@@ -78,7 +78,19 @@ export default function ToolPageClient({ tool, recommended }: Props)
         <div className="tool-page-main">
 
           <div className="tool-page-header">
-            <div className="tool-page-icon">{tool.icon}</div>
+            <div className="tool-page-icon">{tool.icon.endsWith(".png") || tool.icon.endsWith(".svg") ? (
+                      <Image
+                        src={`/icons/${tool.icon}`}
+                        alt={tool.name}
+                        className="tool-card-icon-img"
+                        width={48}
+                        height={48}
+                        unoptimized
+                        // style={{ objectFit: "contain" }}
+                      />
+                    ) : (
+                      <span>{tool.icon}</span>
+                    )}</div>
             <div>
               <h1 className="tool-page-title">{tool.name}</h1>
               <p className="tool-page-desc">{tool.description}</p>
