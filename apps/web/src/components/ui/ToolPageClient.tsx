@@ -52,20 +52,7 @@ export default function ToolPageClient({ tool, recommended }: Props)
       {isFullscreen && (
         <div className="tool-fullscreen">
           <div className="tool-fullscreen-bar">
-            <span className="tool-fullscreen-name">
-              {tool.icon.endsWith(".png") || tool.icon.endsWith(".svg") ? (
-                      <Image
-                        src={`/icons/${tool.icon}`}
-                        alt={tool.name}
-                        className="tool-card-icon-img"
-                        width={48}
-                        height={48}
-                        unoptimized
-                        // style={{ objectFit: "contain" }}
-                      />
-                    ) : (
-                      <span>{tool.icon}</span>
-                    )} {tool.name}
+            <span className="tool-fullscreen-name">{tool.name}
             </span>
             <button
               className="tool-fullscreen-exit"
@@ -88,35 +75,6 @@ export default function ToolPageClient({ tool, recommended }: Props)
 
         {/* LEFT */}
         <div className="tool-page-main">
-
-          <div className="tool-page-header">
-            <div className="tool-page-icon">{tool.icon.endsWith(".png") || tool.icon.endsWith(".svg") ? (
-                      <Image
-                        src={`/icons/${tool.icon}`}
-                        alt={tool.name}
-                        className="tool-card-icon-img"
-                        width={48}
-                        height={48}
-                        unoptimized
-                        // style={{ objectFit: "contain" }}
-                      />
-                    ) : (
-                      <span>{tool.icon}</span>
-                    )}</div>
-            <div>
-              <h1 className="tool-page-title">{tool.name}</h1>
-              <p className="tool-page-desc">{tool.description}</p>
-            </div>
-            {tool.isLive && (
-              <button
-                className="tool-open-btn"
-                onClick={() => setIsFullscreen(true)}
-              >
-                ⛶ View Fullscreen
-              </button>
-            )}
-          </div>
-
           {tool.isLive ? (
             <div className="tool-iframe-wrap">
               <iframe
@@ -145,7 +103,33 @@ export default function ToolPageClient({ tool, recommended }: Props)
               <p>This tool is under development. Check back soon.</p>
             </div>
           )}
-
+           <div className="tool-page-header">
+            <div className="tool-page-icon">{tool.icon.endsWith(".png") || tool.icon.endsWith(".svg") ? (
+                      <Image
+                        src={`/icons/${tool.icon}`}
+                        alt={tool.name}
+                        className="tool-page-icon"
+                        width={48}
+                        height={48}
+                        unoptimized
+                        // style={{ objectFit: "contain" }}
+                      />
+                    ) : (
+                      <span>{tool.icon}</span>
+                    )}</div>
+            <div className="tool-page-holder">
+              <h1 className="tool-page-title">{tool.name}</h1>
+              <p className="tool-page-desc">{tool.description}</p>
+            </div>
+            {tool.isLive && (
+              <button
+                className="tool-open-btn"
+                onClick={() => setIsFullscreen(true)}
+              >
+                ⛶ View Fullscreen
+              </button>
+            )}
+          </div>
         </div>
 
         {/* RIGHT — sidebar */}
@@ -160,18 +144,18 @@ export default function ToolPageClient({ tool, recommended }: Props)
                 href={`/tools/${rec.slug}`}
                 className="recommended-card"
               >
-                <div className="recommended-icon">{tool.icon.endsWith(".png") || tool.icon.endsWith(".svg") ? (
+                <div className="recommended-icon">{rec.icon.endsWith(".png") || rec.icon.endsWith(".svg") ? (
                       <Image
-                        src={`/icons/${tool.icon}`}
-                        alt={tool.name}
-                        className="tool-card-icon-img"
+                        src={`/icons/${rec.icon}`}
+                        alt={rec.name}
+                        className="recommended-icon "
                         width={48}
                         height={48}
                         unoptimized
                         // style={{ objectFit: "contain" }}
                       />
                     ) : (
-                      <span>{tool.icon}</span>
+                      <span>{rec.icon}</span>
                     )}</div>
                 <div className="recommended-info">
                   <p className="recommended-name">{rec.name}</p>
