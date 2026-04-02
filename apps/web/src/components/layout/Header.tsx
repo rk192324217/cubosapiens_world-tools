@@ -7,8 +7,8 @@ import { fetchCounters } from "@/lib/api"
 import Image from "next/image";
 
 export default function Header() {
-
-  const [isDark, setIsDark] = useState(() => {
+  //setIsDark
+  const [isDark] = useState(() => {
     if (typeof window === "undefined") return false
     return localStorage.getItem("theme") === "dark"
   })
@@ -19,17 +19,17 @@ export default function Header() {
 
   useEffect(() => {
     document.body.classList.toggle("dark", isDark)
-    document.body.classList.toggle("light", !isDark)
-    localStorage.setItem("theme", isDark ? "dark" : "light")
+    // document.body.classList.toggle("light", !isDark)
+    // localStorage.setItem("theme", isDark ? "dark" : "light")
   }, [isDark])
 
   useEffect(() => {
     fetchCounters().then(d => setVisitors(d.visits))
   }, [])
 
-  function toggleTheme() {
-    setIsDark(prev => !prev)
-  }
+  // function toggleTheme() {
+  //   setIsDark(prev => !prev)
+  // }
 
   function handleSearch(e: React.FormEvent) {
     e.preventDefault()
@@ -41,14 +41,14 @@ export default function Header() {
   return (
     <div className="header-wrap">
       <header className="header">
-<link
-  rel="stylesheet"
-  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-/>
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        />
         <Link href="/" className="header-logo">
 
           <Image
-          
+
             src="/logo.png"
             alt="logo"
             className="header-logo-icon"
@@ -79,15 +79,15 @@ export default function Header() {
           </form>
 
           <div className="header-counter">
-  <i className="fa-solid fa-users counter-icon"></i>
-  <span>
-    {visitors !== null ? visitors.toLocaleString() : "—"}
-  </span>
-</div>
+            <i className="fa-solid fa-users counter-icon"></i>
+            <span>
+              {visitors !== null ? visitors.toLocaleString() : "—"}
+            </span>
+          </div>
 
-          <button className="header-toggle" onClick={toggleTheme}>
+          {/* <button className="header-toggle" onClick={toggleTheme}>
             {isDark ? "☀" : "☾"}
-          </button>
+          </button> */}
 
         </div>
       </header>

@@ -1,9 +1,12 @@
 import type { Metadata }                    from "next"
-import { Alfa_Slab_One, Syne, DM_Sans }    from "next/font/google"
+import { Alfa_Slab_One, Syne, DM_Sans,Geist }    from "next/font/google"
 import "./globals.css"
 import Header from "@/components/layout/Header"
 import Footer from "@/components/layout/Footer"
 import TrackVisit from "@/components/TrackVisit"
+import { cn } from "@/lib/utils";
+const geist = Geist({subsets:['latin'],variable:'--font-sans'});
+
 
 // ── Fonts loaded via next/font/google ─────────────────────────
 // Next.js downloads these at build time
@@ -44,7 +47,7 @@ export default function RootLayout({
 })
 {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning className={cn("font-sans", geist.variable)}>
       <body className={`${alfaSlabOne.variable} ${syne.variable} ${dmSans.variable}`}>
         <TrackVisit />
         <Header />

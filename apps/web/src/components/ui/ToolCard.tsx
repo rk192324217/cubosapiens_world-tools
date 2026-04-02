@@ -29,7 +29,7 @@ export default function ToolCard({ tool }: ToolCardProps)
 
   const card = (
     
-    <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl p-6 hover:bg-white/20 transition duration-300">
+    <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl p-6 hover:bg-white/20 transition duration-300 tool-grid-cards" >
 <div
       className={`tool-card ${tool.isLive ? "tool-card-live" : "tool-card-soon"}`}    >
       <div className="tool-card-badge">

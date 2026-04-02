@@ -1,8 +1,7 @@
 import { fetchTools, fetchCounters } from "@/lib/api"
-import ToolGrid                      from "@/components/ui/ToolGrid"
-
-export default async function HomePage()
-{
+import ToolGrid from "@/components/ui/ToolGrid"
+import ColorBends from "@/components/colorbends";
+export default async function HomePage() {
   const [tools, counters] = await Promise.all([
     fetchTools(),
     fetchCounters()
@@ -12,16 +11,16 @@ export default async function HomePage()
 
   // Placeholder data for games and AI
   const games = [
-    { icon: "🐍", name: "Snake"      },
-    { icon: "🟩", name: "Wordle"     },
-    { icon: "🧠", name: "Memory"     },
-    { icon: "♟️", name: "Chess"      },
+    { icon: "🐍", name: "Snake" },
+    { icon: "🟩", name: "Wordle" },
+    { icon: "🧠", name: "Memory" },
+    { icon: "♟️", name: "Chess" },
   ]
 
   const aiTools = [
-    { icon: "🤖", name: "AI Chat"      },
-    { icon: "✍️", name: "AI Writer"    },
-    { icon: "🎨", name: "AI Image"     },
+    { icon: "🤖", name: "AI Chat" },
+    { icon: "✍️", name: "AI Writer" },
+    { icon: "🎨", name: "AI Image" },
     { icon: "📊", name: "AI Summarise" },
   ]
 
@@ -30,7 +29,21 @@ export default async function HomePage()
 
       {/* Ambient glow */}
       <div className="hero-glow" />
-
+      <div className="app-background">
+        <ColorBends
+          rotation={45}
+          speed={0.2}
+          colors={["#94ea24", "#4d8700", "#54a465"]}
+          transparent
+          autoRotate={0}
+          scale={1}
+          frequency={1}
+          warpStrength={1}
+          mouseInfluence={1}
+          parallax={0.5}
+          noise={0}
+        />
+      </div>
       {/* ── HERO ── */}
       <section className="hero">
 
