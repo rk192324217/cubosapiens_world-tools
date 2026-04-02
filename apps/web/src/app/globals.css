@@ -242,7 +242,7 @@ a { text-decoration: none; color: inherit; }
   position: relative;
   z-index: 1;
   text-align: center;
-  padding: 80px 24px 60px;
+  padding: 40px 24px 60px;
 }
 
 .hero-glow {
@@ -722,7 +722,7 @@ body.light .footer-bottom-link { color: #aaa; }
   .header-nav   { display: none; }
   .header-search { width: 100px; }
   .section      { padding: 0 20px 60px; }
-  .hero         { padding: 60px 20px 40px; }
+  .hero         { padding: 30px 20px 40px; }
 .tool-card-icon-img{
   width:80px;
   height:80px;
