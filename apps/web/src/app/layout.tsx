@@ -5,6 +5,7 @@ import Header from "@/components/layout/Header"
 import Footer from "@/components/layout/Footer"
 import TrackVisit from "@/components/TrackVisit"
 import { cn } from "@/lib/utils";
+import PWAInstallPrompt from "@/components/PWAInstallPrompt"
 const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 
@@ -35,7 +36,7 @@ const dmSans = DM_Sans({
 export const metadata: Metadata = {
   title:       "Cubosapiens",
   description: "Free browser tools, games and AI for everyone.",
-    manifest: "/manifest.json",
+  manifest: "/manifest.json",
 }
 export const viewport = {
   themeColor: "#000000",
@@ -53,6 +54,7 @@ export default function RootLayout({
         <Header />
         <main>{children}</main>
         <Footer />
+        <PWAInstallPrompt />
       </body>
     </html>
   )
