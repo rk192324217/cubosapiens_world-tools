@@ -131,7 +131,74 @@ async function main()
     ]
   })
 
-  console.log("✅ 12 tools seeded")
+  // console.log("✅ 12 tools seeded")
+  await prisma.game.createMany({
+    skipDuplicates: true,
+    data: [
+      {
+        name:        "Snake",
+        slug:        "snake",
+        description: "Classic arcade snake — eat, grow, don't crash",
+        genre:       "arcade",
+        icon:        "🐍",
+        url:         "https://snake.cubosapiens.world",
+        isLive:      true,
+        isFeatured:  true,
+        order:       1
+      },
+      {
+        name:        "Wordle",
+        slug:        "wordle",
+        description: "Guess the 5-letter word in 6 tries",
+        genre:       "word",
+        icon:        "🟩",
+        url:         "https://wordle.cubosapiens.world",
+        isLive:      false,
+        order:       2
+      },
+      {
+        name:        "Memory",
+        slug:        "memory",
+        description: "Flip cards and match pairs to win",
+        genre:       "puzzle",
+        icon:        "🧠",
+        url:         "https://memory.cubosapiens.world",
+        isLive:      false,
+        order:       3
+      },
+      {
+        name:        "Chess",
+        slug:        "chess",
+        description: "Play chess against the computer",
+        genre:       "strategy",
+        icon:        "♟️",
+        url:         "https://chess.cubosapiens.world",
+        isLive:      false,
+        order:       4
+      },
+      {
+        name:        "Aim Lab",
+        slug:        "aim-lab",
+        description: "Train your aim and reaction time",
+        genre:       "action",
+        icon:        "🎯",
+        url:         "https://aim.cubosapiens.world",
+        isLive:      false,
+        order:       5
+      },
+      {
+        name:        "Tetris",
+        slug:        "tetris",
+        description: "Classic block stacking — clear lines, survive",
+        genre:       "arcade",
+        icon:        "🧩",
+        url:         "https://tetris.cubosapiens.world",
+        isLive:      false,
+        order:       6
+      },
+    ]
+  })
+  console.log("✅ 6 games seeded")
 }
 
 main()

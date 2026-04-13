@@ -1,55 +1,55 @@
-import { fetchTools, fetchCounters } from "@/lib/api"
-import ToolGrid from "@/components/ui/ToolGrid"
-import ColorBends from "@/components/colorbends";
-export default async function HomePage() {
-  const [tools, counters] = await Promise.all([
+import { fetchTools, fetchGames } from "@/lib/api"
+import ToolGrid   from "@/components/ui/ToolGrid"
+import GameGrid   from "@/components/ui/GameGrid"
+// import ColorBends from "@/components/colorbends"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faGamepad, faTools, faRobot } from "@fortawesome/free-solid-svg-icons"
+export default async function HomePage()
+{
+  const [tools, games] = await Promise.all([
     fetchTools(),
-    fetchCounters()
+    fetchGames(),
   ])
 
-  const liveCount = tools.filter(t => t.isLive).length
-
-  // Placeholder data for games and AI
-  const games = [
-    { icon: "🐍", name: "Snake" },
-    { icon: "🟩", name: "Wordle" },
-    { icon: "🧠", name: "Memory" },
-    { icon: "♟️", name: "Chess" },
-  ]
-
   const aiTools = [
-    { icon: "🤖", name: "AI Chat" },
-    { icon: "✍️", name: "AI Writer" },
-    { icon: "🎨", name: "AI Image" },
+    { icon: "🤖", name: "AI Chat"      },
+    { icon: "✍️", name: "AI Writer"    },
+    { icon: "🎨", name: "AI Image"     },
     { icon: "📊", name: "AI Summarise" },
   ]
 
   return (
     <div>
 
-      {/* Ambient glow */}
-      <div className="hero-glow" />
-      <div className="app-background">
+      {/* ── BACKGROUND — fixed, covers whole page ── */}
+      {/* <div className="app-background">
         <ColorBends
-          rotation={45}
-          speed={0.2}
-          colors={["#94ea24", "#4d8700", "#54a465"]}
-          transparent
-          autoRotate={0}
-          scale={1}
-          frequency={1}
-          warpStrength={1}
-          mouseInfluence={1}
-          parallax={0.5}
-          noise={0}
+          rotation={30}
+          speed={0.08}
+          colors={["#47d306", "#b6ff88", "#fafafa", "#00bf76"]}
+          transparent={false}
+          autoRotate={0.3}
+          scale={1.4}
+          frequency={0.7}
+          warpStrength={0.6}
+          mouseInfluence={0.2}
+          parallax={0.1}
+          noise={0.02}
         />
-      </div>
-      {/* ── HERO ── */}
+      </div> */}
+
+      {/* ── HERO GLOW — subtle top radial ── */}
+      <div className="hero-glow" />
+
+      {/* ══════════════════════════════════
+          HERO
+      ══════════════════════════════════ */}
       <section className="hero">
 
-        {/* <div className="hero-tag">
-          ⚡ Free · No signup · Works in browser
-        </div> */}
+        <div className="hero-eyebrow">
+          <span className="hero-dot" />
+          Free · No signup · Works in browser
+        </div>
 
         <h1 className="hero-title">
           Everything you need.<br />
@@ -61,30 +61,28 @@ export default async function HomePage() {
           No accounts. No cost. Just open and use.
         </p>
 
-        <div className="stats-bar">
-          <div className="stat-item">
-            <span className="stat-value">
-              {counters.visits > 0 ? counters.visits.toLocaleString() : "0"}
-            </span>
-            <span className="stat-label">Visitors</span>
-          </div>
-          <div className="stat-item">
-            <span className="stat-value">{liveCount}</span>
-            <span className="stat-label">Live Tools</span>
-          </div>
-          <div className="stat-item">
-            <span className="stat-value">∞</span>
-            <span className="stat-label">Always Free</span>
-          </div>
+        <div className="hero-pills">
+          <span className="hero-pill"><FontAwesomeIcon icon={faTools} /> Tools</span>
+          <span className="hero-pill"><FontAwesomeIcon icon={faGamepad} /> Games</span>
+          <span className="hero-pill"><FontAwesomeIcon icon={faRobot} /> AI</span>
+          <span className="hero-pill hero-pill-live">
+            <span className="games-live-dot" style={{ width: 6, height: 6 }} />
+            Always Free
+          </span>
         </div>
 
       </section>
 
-
-      {/* ── TOOLS ── */}
+      {/* ══════════════════════════════════
+          TOOLS
+      ══════════════════════════════════ */}
       <section className="section">
-        {/* <span className="section-tag">What we offer</span> */}
-        <h2 className="section-title">Tools</h2>
+        <div className="section-header">
+          <div>
+            <span className="section-tag">What we offer</span>
+            <h2 className="section-title">Tools</h2>
+          </div>
+        </div>
         <ToolGrid
           tools={tools}
           seeMoreHref="/tools"
@@ -93,57 +91,71 @@ export default async function HomePage() {
         />
       </section>
 
-
-      {/* ── GAMES ── */}
+      {/* ══════════════════════════════════
+          GAMES
+      ══════════════════════════════════ */}
       <section className="section">
-        <span className="section-tag">Play in browser</span>
-        <h2 className="section-title">
-          Games
-          <span className="section-title-muted">— coming soon</span>
-        </h2>
-
-        <div className="tool-grid-faded">
-          {games.map((g, i) => (
-            <div
-              key={i}
-              className="tool-card"
-              style={{ background: "linear-gradient(145deg, #080e1a, #0d1f3d)" }}
-            >
-              <div className="tool-card-badge">
-                <span className="badge-soon">SOON</span>
-              </div>
-              <div className="tool-card-icon">{g.icon}</div>
-              <div>
-                <p className="tool-card-name">{g.name}</p>
-              </div>
-            </div>
-          ))}
+        <div className="section-header">
+          <div>
+            <span className="section-tag">Play in browser</span>
+            <h2 className="section-title">
+              Games
+              {games.filter(g => g.isLive).length === 0 && (
+                <span className="section-title-muted">— coming soon</span>
+              )}
+            </h2>
+          </div>
         </div>
+
+        {games.length > 0 ? (
+          <GameGrid
+            games={games}
+            seeMoreHref="/games"
+            seeMoreLabel="All Games"
+            maxItems={11}
+          />
+        ) : (
+          <div className="tool-grid-faded">
+            {[
+              { icon: "🐍", name: "Snake"  },
+              { icon: "🟩", name: "Wordle" },
+              { icon: "🧠", name: "Memory" },
+              { icon: "♟️", name: "Chess"  },
+            ].map((g, i) => (
+              <div key={i} className="tool-card tool-card-soon">
+                <div className="tool-card-badge">
+                  <span className="badge-soon">SOON</span>
+                </div>
+                <div className="tool-card-icon">{g.icon}</div>
+                <div><p className="tool-card-name">{g.name}</p></div>
+              </div>
+            ))}
+          </div>
+        )}
       </section>
 
-
-      {/* ── AI ── */}
+      {/* ══════════════════════════════════
+          AI TOOLS
+      ══════════════════════════════════ */}
       <section className="section">
-        <span className="section-tag">Powered by AI</span>
-        <h2 className="section-title">
-          AI Tools
-          <span className="section-title-muted">— coming soon</span>
-        </h2>
+        <div className="section-header">
+          <div>
+            <span className="section-tag">Powered by AI</span>
+            <h2 className="section-title">
+              AI Tools
+              <span className="section-title-muted">— coming soon</span>
+            </h2>
+          </div>
+        </div>
 
         <div className="tool-grid-faded">
           {aiTools.map((a, i) => (
-            <div
-              key={i}
-              className="tool-card"
-              style={{ background: "linear-gradient(145deg, #0a080e, #14082a)" }}
-            >
+            <div key={i} className="tool-card tool-card-soon">
               <div className="tool-card-badge">
                 <span className="badge-soon">SOON</span>
               </div>
               <div className="tool-card-icon">{a.icon}</div>
-              <div>
-                <p className="tool-card-name">{a.name}</p>
-              </div>
+              <div><p className="tool-card-name">{a.name}</p></div>
             </div>
           ))}
         </div>

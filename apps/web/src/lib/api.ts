@@ -126,6 +126,41 @@ export async function trackVisit(): Promise<void>
 
 }
 
+// ── Games ──────────────────────────────────────────────────────
+export async function fetchGames(): Promise<Game[]> {
+
+  try {
+    const res = await fetch(`${API_URL}/api/games`)
+
+    if (!res.ok) throw new Error("Failed to fetch games")
+
+    const json = await res.json()
+    return json.data || []
+  }
+  catch (err) {
+    console.error("fetchGames error:", err)
+    return []
+  }
+
+}
+
+export async function fetchGame(slug: string): Promise<Game | null> {
+
+  try {
+    const res = await fetch(`${API_URL}/api/games/${slug}`)
+
+    if (!res.ok) throw new Error("Game not found")
+
+    const json = await res.json()
+    return json.data || null
+  }
+  catch (err) {
+    console.error("fetchGame error:", err)
+    return null
+  }
+
+}
+
 
 // ── Track download ────────────────────────────────────────────
 // Called when user downloads a stamped photo

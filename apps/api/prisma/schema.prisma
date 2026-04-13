@@ -15,10 +15,26 @@ model Tool {
   description String
   category    String
   icon        String
-  url         String
+  url         String   @unique
   isLive      Boolean  @default(false)
   isFeatured  Boolean  @default(false)
   usageCount  Int      @default(0)
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Game {
+  id          Int      @id @default(autoincrement())
+  name        String
+  slug        String   @unique
+  description String
+  genre       String   // arcade | puzzle | strategy | action | word
+  icon        String   // emoji OR filename like "snake.png"
+  url         String   // https://cubo-snake.cubosapiens.world
+  isLive      Boolean  @default(false)
+  isFeatured  Boolean  @default(false)
+  playCount   Int      @default(0)
   order       Int      @default(0)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt

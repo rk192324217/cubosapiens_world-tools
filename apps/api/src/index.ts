@@ -190,6 +190,71 @@ app.get("/api/counter", async (c) => {
 
 })
 
+// ══════════════════════════════════════════════════════════════
+// GAMES
+// ══════════════════════════════════════════════════════════════
+
+// GET /api/games  — optional ?genre= and ?live=true
+app.get("/api/games", async (c) => {
+
+  const genre    = c.req.query("genre")
+  const liveOnly = c.req.query("live") === "true"
+
+  const supabase = createClient(
+    c.env.SUPABASE_URL,
+    c.env.SUPABASE_KEY
+  )
+
+  let query = supabase
+    .from("Game")
+    .select("*")
+    .order("order", { ascending: true })
+
+  if (genre) {
+    query = query.eq("genre", genre)
+  }
+
+  if (liveOnly) {
+    query = query.eq("isLive", true)
+  }
+
+  const { data, error } = await query
+
+  if (error) {
+    return c.json({ success: false, error: error.message }, 500)
+  }
+
+  return c.json({
+    success: true,
+    data: data
+  })
+})
+
+// GET /api/games/:slug
+app.get("/api/games/:slug", async (c) => {
+
+  const slug = c.req.param("slug")
+
+  const supabase = createClient(
+    c.env.SUPABASE_URL,
+    c.env.SUPABASE_KEY
+  )
+
+  const { data, error } = await supabase
+    .from("Game")
+    .select("*")
+    .eq("slug", slug)
+    .single()
+
+  if (error || !data) {
+    return c.json({ success: false, error: "Not found" }, 404)
+  }
+
+  return c.json({
+    success: true,
+    data: data
+  })
+})
 
 // ── Increment visit counter ───────────────────────────────────
 // POST /api/counter/visit
