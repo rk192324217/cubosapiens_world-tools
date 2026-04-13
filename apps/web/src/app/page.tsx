@@ -3,13 +3,14 @@ import ToolGrid   from "@/components/ui/ToolGrid"
 import GameGrid   from "@/components/ui/GameGrid"
 // import ColorBends from "@/components/colorbends"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faGamepad, faTools, faRobot } from "@fortawesome/free-solid-svg-icons"
+import { faGamepad, faTools, faRobot,faUser } from "@fortawesome/free-solid-svg-icons"
 export default async function HomePage()
 {
-  const [tools, games,counter] = await Promise.all([
+  const [counters,tools, games] = await Promise.all([
+    fetchCounters(),
     fetchTools(),
     fetchGames(),
-    fetchCounters(),
+    
   ])
 
   const aiTools = [
@@ -66,6 +67,8 @@ export default async function HomePage()
           <span className="hero-pill"><FontAwesomeIcon icon={faTools} /> Tools</span>
           <span className="hero-pill"><FontAwesomeIcon icon={faGamepad} /> Games</span>
           <span className="hero-pill"><FontAwesomeIcon icon={faRobot} /> AI</span>
+          <span className="hero-pill"><FontAwesomeIcon icon={faUser} /> {counters.visits > 0 ? counters.visits.toLocaleString() : "0"}</span>
+
           <span className="hero-pill hero-pill-live">
             <span className="games-live-dot" style={{ width: 6, height: 6 }} />
             Always Free
