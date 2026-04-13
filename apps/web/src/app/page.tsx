@@ -1,4 +1,4 @@
-import { fetchTools, fetchGames } from "@/lib/api"
+import { fetchTools, fetchGames, fetchCounters } from "@/lib/api"
 import ToolGrid   from "@/components/ui/ToolGrid"
 import GameGrid   from "@/components/ui/GameGrid"
 // import ColorBends from "@/components/colorbends"
@@ -6,9 +6,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faGamepad, faTools, faRobot } from "@fortawesome/free-solid-svg-icons"
 export default async function HomePage()
 {
-  const [tools, games] = await Promise.all([
+  const [tools, games,counter] = await Promise.all([
     fetchTools(),
     fetchGames(),
+    fetchCounters(),
   ])
 
   const aiTools = [
