@@ -4,8 +4,6 @@ import { useState, useEffect, useCallback } from "react"
 import Link                                 from "next/link"
 import type { Game }                        from "@/lib/api"
 import Image from "next/image"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faGamepad } from "@fortawesome/free-solid-svg-icons"
 interface Props {
   game:        Game
   recommended: Game[]
@@ -132,7 +130,7 @@ export default function GamePageClient({ game, recommended }: Props)
                 onClick={() => setMobilePanelOpen(p => !p)}
                 aria-label="More games"
               >
-                <FontAwesomeIcon icon={faGamepad} /> More Games
+                <i className="fa fa-gamepad" aria-hidden="true"></i> More Games
               </button>
             </div>
           </div>

@@ -32,11 +32,41 @@ const dmSans = DM_Sans({
   variable: "--font-body",
   display:  "swap",
 })
-
 export const metadata: Metadata = {
-  title:       "Cubosapiens",
-  description: "Free browser tools, games and AI for everyone.",
+  title: {
+    default:  "CUBOSAPIENS",
+    template: "%s | CUBOSAPIENS",
+  },
+  description: "Free browser tools, games and AI for everyone. No signup. No cost.",
+  keywords:    ["free tools", "GPS photo stamp", "QR generator", "browser tools", "free online tools","online games", "password generator"],
+  authors:     [{ name: "CUBOSAPIENS" }],
+  creator:     "CUBOSAPIENS",
+  metadataBase: new URL("https://cubosapiens.world"),
+  openGraph: {
+    type:        "website",
+    locale:      "en_US",
+    url:         "https://cubosapiens.world",
+    siteName:    "CUBOSAPIENS",
+    title:       "CUBOSAPIENS",
+    description: "Free browser tools, games and AI for everyone. No signup. No cost.",
+    images: [{
+      url:    "/og-image.png",
+      width:  1200,
+      height: 630,
+      alt:    "CUBOSAPIENS",
+    }],
+  },
+  twitter: {
+    card:        "summary_large_image",
+    title:       "CUBOSAPIENS",
+    description: "Free browser tools, games and AI for everyone.",
+    images:      ["/og-image.png"],
+  },
   manifest: "/manifest.json",
+  icons: {
+    icon:  "/favicon.ico",
+    apple: "/icons/icon-192.png",
+  },
 }
 export const viewport = {
   themeColor: "#000000",

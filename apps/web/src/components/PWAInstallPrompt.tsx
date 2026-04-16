@@ -62,7 +62,7 @@ export default function PWAInstallPrompt()
         <button className="pwa-close" onClick={handleDismiss}>✕</button>
         <div className="pwa-icon">
           <Image
-  src="/icons/icon-128.png"
+  src="/icons/icon-192.png"
   alt="CUBOSAPIENS"
   width={64}
   height={64}
@@ -74,10 +74,10 @@ export default function PWAInstallPrompt()
         </p>
         <div className="pwa-btns">
           <button className="pwa-btn-install" onClick={handleInstall}>
-            ⬇ Install App
+            <i className="fa-solid fa-download"></i>Install App
           </button>
           <button className="pwa-btn-skip" onClick={handleDismiss}>
-            Not now
+            <i className="fa-solid fa-x"></i>Not now
           </button>
         </div>
       </div>
