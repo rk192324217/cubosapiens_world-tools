@@ -62,22 +62,22 @@ export default function PWAInstallPrompt()
         <button className="pwa-close" onClick={handleDismiss}>✕</button>
         <div className="pwa-icon">
           <Image
-  src="/icons/icon-192.png"
+  src="/icon-192.png"
   alt="CUBOSAPIENS"
   width={64}
   height={64}
 />
         </div> 
-        <h3 className="pwa-title">Install CUBOSAPIENS</h3>
+        <h3 className="pwa-title">CUBOSAPIENS</h3>
         <p className="pwa-desc">
-          Add to your home screen for instant access to all tools, games and AI — works offline too.
+          Add to your home screen for instant access to all tools, games and AI.
         </p>
         <div className="pwa-btns">
           <button className="pwa-btn-install" onClick={handleInstall}>
-            <i className="fa-solid fa-download"></i>Install App
+            <i className="fa-solid fa-download" ></i>Install App
           </button>
           <button className="pwa-btn-skip" onClick={handleDismiss}>
-            <i className="fa-solid fa-x"></i>Not now
+            <i className="fa-solid fa-x"></i>Later
           </button>
         </div>
       </div>
