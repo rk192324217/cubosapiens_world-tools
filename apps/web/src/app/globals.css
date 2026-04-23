@@ -328,8 +328,8 @@ a { text-decoration: none; color: inherit; }
 .tool-card-live:hover,
 .game-card-live:hover {
   transform:    translateY(-7px) scale(1.025);
-  background:   rgba(255, 255, 255, 0.12);
-  border-color: rgba(255, 255, 255, 0.24);
+  background:   #c2ff723a;
+  border-color: #c2ff72;
   box-shadow:
     0 28px 56px rgba(0, 0, 0, 0.55),
     inset 0  1px 0 rgba(255, 255, 255, 0.16),
@@ -401,6 +401,7 @@ a { text-decoration: none; color: inherit; }
   font-family: var(--font-heading);
   letter-spacing: 0.2px;
   margin-bottom: 3px;
+  text-align:center;
 }
 
 .tool-card-desc {
@@ -2020,7 +2021,7 @@ a { text-decoration: none; color: inherit; }
   border-radius: 22px;
 
   /* Glass */
-  background: rgba(0, 0, 0, 0);
+  background: rgba(0, 0, 0, 0.486);
   backdrop-filter: blur(28px) saturate(180%);
   -webkit-backdrop-filter: blur(28px) saturate(180%);
   border: 1px solid rgba(255, 255, 255, 0.13);
@@ -2045,9 +2046,45 @@ a { text-decoration: none; color: inherit; }
   border-radius: 10px;
   flex-shrink: 0;
 }
+.header-logo-text {
+  font-family: var(--font-display);
+  font-weight: 100;
+  font-size: 22px;
+  letter-spacing: 1px;
+
+  background: linear-gradient(
+    100deg,
+    #c1ff72 0%,
+    #b4ff44 45%,
+    #b2f85a 55%,
+    #c1ff72 100%
+  );
+
+  background-size: 200% 100%;
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+
+  animation: soft-shift 5s ease-in-out infinite;
+}
+
+/* subtle horizontal light movement */
+@keyframes soft-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
 
 /* Gold gradient logo text — like LeetCode premium */
-.header-logo-text {
+/* .header-logo-text {
   font-family: var(--font-heading);
   font-weight: 800;
   font-size: 16px;
@@ -2059,7 +2096,7 @@ a { text-decoration: none; color: inherit; }
   color: transparent;
   background-size: 200% auto;
   animation: gold-shimmer 4s linear infinite;
-}
+} */
 
 @keyframes gold-shimmer {
   0%   { background-position: 0% center;   }
@@ -2270,7 +2307,7 @@ a { text-decoration: none; color: inherit; }
   width: 80%;
   max-width: 1300px;
   margin-top: 8px;
-  background: rgba(0, 0, 0, 0);
+  background: rgba(0, 0, 0, 0.486);
   backdrop-filter: blur(28px);
   -webkit-backdrop-filter: blur(28px);
   border: 1px solid rgba(88, 233, 21, 0.433);
@@ -2281,7 +2318,7 @@ a { text-decoration: none; color: inherit; }
 }
 
 @media (max-width: 900px) { .header-dropdown { width: 92%; } }
-@media (max-width: 600px) { .header-dropdown { width: 100%; border-radius: 14px; } }
+@media (max-width: 600px) { .header-dropdown { width: 100%; border-radius: auto; } }
 
 .dropdown-section { margin-bottom: 4px; }
 

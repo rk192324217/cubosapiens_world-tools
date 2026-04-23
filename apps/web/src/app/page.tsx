@@ -3,6 +3,50 @@ import ToolGrid   from "@/components/ui/ToolGrid"
 import GameGrid   from "@/components/ui/GameGrid"
 // import ColorBends from "@/components/colorbends"
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import type { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title:       "CUBOSAPIENS",
+  description: "Free browser-based tools, games and AI for everyone. No signup, no cost, simply works in your browser.",
+  keywords:    ["free online tools", "browser tools", "GPS photo stamp", "QR code generator", "image compressor", "PDF merger", "word counter", "free games", "AI tools", "cubosapiens", "AI Games", "Virtual Games"],
+  authors:     [{ name: "CUBOSAPIENS", url: "https://cubosapiens.world" }],
+  creator:     "CUBOSAPIENS",
+  metadataBase: new URL("https://cubosapiens.world"),
+  alternates: {
+    canonical: "https://www.cubosapiens.world",
+  },
+  openGraph: {
+    type:        "website",
+    locale:      "en_US",
+    url:         "https://cubosapiens.world",
+    siteName:    "CUBOSAPIENS",
+    title:       "CUBOSAPIENS — Free Tools, Games & AI all in One Place",
+    description: "Free browser tools, games and AI for everyone. No accounts. No cost. Just open and use.",
+    images: [{
+      url:    "https://cubosapiens.world/og-image.png",
+      width:  1200,
+      height: 630,
+      alt:    "CUBOSAPIENS — Free Tools, Games & AI",
+    }],
+  },
+  twitter: {
+    card:        "summary_large_image",
+    title:       "CUBOSAPIENS — Free Tools, Games & AI in One Place",
+    description: "Free browser tools, games and AI for everyone. No accounts. No cost.",
+    images:      ["https://cubosapiens.world/og-image.png"],
+  },
+  robots: {
+    index:               true,
+    follow:              true,
+    googleBot: {
+      index:             true,
+      follow:            true,
+      "max-image-preview":   "large",
+      "max-snippet":         -1,
+      "max-video-preview":   -1,
+    },
+  },
+}
 export default async function HomePage()
 {
   const [counters,tools, games] = await Promise.all([
