@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react"
 import Link       from "next/link"
 import Image      from "next/image"
 import { useRouter, usePathname } from "next/navigation"
-import { fetchCounters } from "@/lib/api"
+// import { fetchCounters } from "@/lib/api"
 
 const navLinks = [
   { href: "/",      label: "Home",  icon: <i className="fa-regular fa-house"></i> },
@@ -31,9 +31,9 @@ export default function Header()
   const menuRef  = useRef<HTMLDivElement>(null)
   const searchRef = useRef<HTMLInputElement>(null)
 
-  useEffect(() => {
-    fetchCounters().then(d => setVisitors(d.visits))
-  }, [])
+  // useEffect(() => {
+  //   fetchCounters().then(d => setVisitors(d.visits))
+  // }, [])
 
   // Close menu on route change
   useEffect(() => { setMenuOpen(false) }, [pathname])
@@ -124,10 +124,10 @@ export default function Header()
             </button>
 
             {/* Visitor counter */}
-            <div className="header-counter">
+            {/* <div className="header-counter">
               <i className="fa-solid fa-users" />
               <span>{visitors !== null ? visitors.toLocaleString() : "—"}</span>
-            </div>
+            </div> */}
 
             {/* Mobile hamburger */}
             <button

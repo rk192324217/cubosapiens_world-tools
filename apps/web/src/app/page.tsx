@@ -50,8 +50,7 @@ export const metadata: Metadata = {
 }
 export default async function HomePage()
 {
-  const [counters,tools, games] = await Promise.all([
-    fetchCounters(),
+  const [tools, games] = await Promise.all([
     fetchTools(),
     fetchGames(),
     
@@ -111,7 +110,7 @@ export default async function HomePage()
           <span className="hero-pill"><i className="fas fa-tools"></i> Tools</span>
           <span className="hero-pill"><i className="fas fa-gamepad"></i> Games</span>
           <span className="hero-pill"><i className="fas fa-robot"></i>  AI</span>
-          <span className="hero-pill"><i className="fas fa-user"></i> {counters.visits > 0 ? counters.visits.toLocaleString() : "0"}</span>
+          {/*<span className="hero-pill"><i className="fas fa-user"></i> {counters.visits > 0 ? counters.visits.toLocaleString() : "0"}</span>*/}
 
           <span className="hero-pill hero-pill-live">
             <span className="games-live-dot" style={{ width: 6, height: 6 }} />
