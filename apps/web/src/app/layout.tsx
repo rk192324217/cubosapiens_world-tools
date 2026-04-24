@@ -79,6 +79,8 @@ export default function RootLayout({
 {
   return (
     <html lang="en" suppressHydrationWarning className={cn("font-sans", geist.variable)}>
+      <head><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2633780400369885"
+     crossOrigin="anonymous"></script></head>
       <body className={`${alfaSlabOne.variable} ${syne.variable} ${dmSans.variable}`}>
         <TrackVisit />
         <Header />
