@@ -7,7 +7,13 @@
 /* =====================
    VARIABLES
    ===================== */
-
+.ad-unit-wrap {
+  width: 100%;
+  margin: 24px 0;
+  min-height: 100px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
 :root {
   --font-display:   'Alfa Slab One', serif;
   --font-heading:   'Syne', sans-serif;

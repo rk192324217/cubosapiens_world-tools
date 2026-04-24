@@ -3,6 +3,7 @@ import ToolGrid   from "@/components/ui/ToolGrid"
 import GameGrid   from "@/components/ui/GameGrid"
 // import ColorBends from "@/components/colorbends"
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import AdUnit from "@/components/ui/AdUnit"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
@@ -136,7 +137,9 @@ export default async function HomePage()
           maxItems={11}
         />
       </section>
-
+<div className="section" style={{ paddingBottom: 0 }}>
+        <AdUnit slot="3749734432" />
+      </div>
       {/* ══════════════════════════════════
           GAMES
       ══════════════════════════════════ */}
@@ -179,7 +182,9 @@ export default async function HomePage()
           </div>
         )}
       </section>
-
+<div className="section" style={{ paddingBottom: 0 }}>
+        <AdUnit slot="3749734432" />
+      </div>
       {/* ══════════════════════════════════
           AI TOOLS
       ══════════════════════════════════ */}
