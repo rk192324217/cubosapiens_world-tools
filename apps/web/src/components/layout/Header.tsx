@@ -52,6 +52,18 @@ export default function Header()
   useEffect(() => {
     if(searchOpen) searchRef.current?.focus()
   }, [searchOpen])
+
+  useEffect(() => {
+    if (menuOpen) {
+      document.body.style.overflow = "hidden"
+    } else {
+      document.body.style.overflow = ""
+    }
+    return () => {
+      document.body.style.overflow = ""
+    }
+  }, [menuOpen])
+
 function handleSearch(e: React.FormEvent) {
   e.preventDefault()
   if(search.trim()) {
