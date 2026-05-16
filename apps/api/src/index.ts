@@ -2,6 +2,12 @@ import { Hono }           from "hono"
 import { cors }           from "hono/cors"
 import { createClient }   from "@supabase/supabase-js"
 
+// ── Error handling imports ────────────────────────────────────
+import { NotFoundError, InternalError } from "./errors"
+import { errorHandler }                 from "./middleware/errorHandler"
+import { notFoundHandler }              from "./middleware/notFound"
+import { successResponse }              from "./helpers/response"
+
 // ─────────────────────────────────────────────────────────────
 // Types — what our data looks like
 // ─────────────────────────────────────────────────────────────
@@ -35,6 +41,14 @@ type Env = {
 const app = new Hono<{ Bindings: Env }>()
 
 
+// ── Global Error Handling ─────────────────────────────────────
+// Catches all thrown errors and returns standardized JSON
+// Must be registered before routes
+
+app.onError(errorHandler)
+app.notFound(notFoundHandler)
+
+
 // ── CORS ──────────────────────────────────────────────────────
 // Allows your frontend to call this API
 // Without this the browser blocks the request
@@ -56,7 +70,7 @@ app.use("*", cors({
 // Visit api.cubosapiens.world/ to test
 
 app.get("/", (c) => {
-  return c.json({
+  return successResponse(c, {
     status:  "ok",
     message: "CUBOSAPIENS API is running",
     version: "1.0.0"
@@ -105,19 +119,11 @@ app.get("/api/tools", async (c) => {
   // If something went wrong in the database
   if(error)
   {
-    return c.json({
-      success: false,
-      data:    null,
-      error:   error.message
-    }, 500)
+    throw new InternalError(error.message)
   }
 
   // Return tools as JSON
-  return c.json({
-    success: true,
-    data:    data as Tool[],
-    error:   null
-  })
+  return successResponse(c, data as Tool[])
 
 })
 
@@ -144,20 +150,12 @@ app.get("/api/tools/:slug", async (c) => {
     .eq("slug", slug)   // WHERE slug = 'gps-cam'
     .single()           // expect exactly one result
 
-  if(error)
+  if(error || !data)
   {
-    return c.json({
-      success: false,
-      data:    null,
-      error:   "Tool not found"
-    }, 404)
+    throw new NotFoundError("Tool not found")
   }
 
-  return c.json({
-    success: true,
-    data:    data as Tool,
-    error:   null
-  })
+  return successResponse(c, data as Tool)
 
 })
 
@@ -181,11 +179,9 @@ app.get("/api/counter", async (c) => {
     supabase.from("Counter").select("value").eq("key", "download_count").single()
   ])
 
-  return c.json({
-    success:   true,
+  return successResponse(c, {
     visits:    visitResult.data?.value    || 0,
     downloads: downloadResult.data?.value || 0,
-    error:     null
   })
 
 })
@@ -221,13 +217,10 @@ app.get("/api/games", async (c) => {
   const { data, error } = await query
 
   if (error) {
-    return c.json({ success: false, error: error.message }, 500)
+    throw new InternalError(error.message)
   }
 
-  return c.json({
-    success: true,
-    data: data
-  })
+  return successResponse(c, data)
 })
 
 // GET /api/games/:slug
@@ -247,13 +240,10 @@ app.get("/api/games/:slug", async (c) => {
     .single()
 
   if (error || !data) {
-    return c.json({ success: false, error: "Not found" }, 404)
+    throw new NotFoundError("Game not found")
   }
 
-  return c.json({
-    success: true,
-    data: data
-  })
+  return successResponse(c, data)
 })
 
 // ── Increment visit counter ───────────────────────────────────
@@ -271,7 +261,7 @@ app.post("/api/counter/visit", async (c) => {
 
   if(isBot)
   {
-    return c.json({ ignored: true, reason: "bot" })
+    return successResponse(c, { ignored: true, reason: "bot" })
   }
 
   const supabase = createClient(
@@ -293,10 +283,7 @@ app.post("/api/counter/visit", async (c) => {
     .from("Counter")
     .upsert({ key: "visit_count", value: newValue })
 
-  return c.json({
-    success: true,
-    visits:  newValue
-  })
+  return successResponse(c, { visits: newValue })
 
 })
 
@@ -324,10 +311,7 @@ app.post("/api/counter/download", async (c) => {
     .from("Counter")
     .upsert({ key: "download_count", value: newValue })
 
-  return c.json({
-    success:   true,
-    downloads: newValue
-  })
+  return successResponse(c, { downloads: newValue })
 
 })
 
