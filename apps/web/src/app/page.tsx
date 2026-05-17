@@ -48,20 +48,15 @@ export const metadata: Metadata = {
     },
   },
 }
+
 export default async function HomePage()
 {
-  const [tools, games] = await Promise.all([
+  // Fetch all three in parallel — no waterfall
+  const [tools, games, aiTools] = await Promise.all([
     fetchTools(),
     fetchGames(),
-    
+    fetchTools({ category: "ai" }),
   ])
-
-  const aiTools = [
-    { icon: "🤖", name: "AI Chat"      },
-    { icon: "✍️", name: "AI Writer"    },
-    { icon: "🎨", name: "AI Image"     },
-    { icon: "📊", name: "AI Summarise" },
-  ]
 
   return (
     <div>
@@ -154,7 +149,6 @@ export default async function HomePage()
           </div>
         </div>
 
-
           <GameGrid
             games={games}
             seeMoreHref="/games"
@@ -173,24 +167,42 @@ export default async function HomePage()
             <span className="section-tag">Powered by AI</span>
             <h2 className="section-title">
               AI Tools
-              <span className="section-title-muted">— coming soon</span>
+              {aiTools.filter(t => t.isLive).length === 0 && (
+                <span className="section-title-muted">— coming soon</span>
+              )}
             </h2>
           </div>
         </div>
 
-        <div className="tool-grid-faded">
-          {aiTools.map((a, i) => (
-            <div key={i} className="tool-card tool-card-soon">
-              <div className="tool-card-badge">
-                <span className="badge-soon">SOON</span>
+        {aiTools.length > 0 ? (
+          // Real tools from the database — reuse the same ToolGrid
+          <ToolGrid
+            tools={aiTools}
+            seeMoreHref="/ai"
+            seeMoreLabel="All AI Tools"
+            maxItems={4}
+            faded={aiTools.every(t => !t.isLive)}
+          />
+        ) : (
+          // No AI tools seeded yet — keep the "coming soon" feel
+          <div className="tool-grid-faded">
+            {[
+              { icon: "🤖", name: "AI Chat"      },
+              { icon: "✍️", name: "AI Writer"    },
+              { icon: "🎨", name: "AI Image"     },
+              { icon: "📊", name: "AI Summarise" },
+            ].map((a, i) => (
+              <div key={i} className="tool-card tool-card-soon">
+                <div className="tool-card-badge">
+                  <span className="badge-soon">SOON</span>
+                </div>
+                <div className="tool-card-icon">{a.icon}</div>
+                <div><p className="tool-card-name">{a.name}</p></div>
               </div>
-              <div className="tool-card-icon">{a.icon}</div>
-              <div><p className="tool-card-name">{a.name}</p></div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </section>
-
     </div>
   )
 }
