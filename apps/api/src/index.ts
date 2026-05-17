@@ -256,6 +256,49 @@ app.get("/api/games/:slug", async (c) => {
   })
 })
 
+// ── Get all AI tools ──────────────────────────────────────────
+// GET /api/ai
+// Convenience route — equivalent to /api/tools?category=ai
+// Returns only tools whose category is "ai", ordered by `order`
+//
+// Optional query params:
+//   ?live=true   → only live AI tools
+
+app.get("/api/ai", async (c) => {
+
+  const supabase = createClient(
+    c.env.SUPABASE_URL,
+    c.env.SUPABASE_KEY
+  )
+
+  const liveOnly = c.req.query("live")
+
+  let query = supabase
+    .from("Tool")
+    .select("*")
+    .eq("category", "ai")                     
+    .order("order", { ascending: true })
+
+  if (liveOnly === "true") query = query.eq("isLive", true)
+
+  const { data, error } = await query
+
+  if (error) {
+    return c.json({
+      success: false,
+      data:    null,
+      error:   error.message
+    }, 500)
+  }
+
+  return c.json({
+    success: true,
+    data:    data as Tool[],
+    error:   null
+  })
+
+})
+
 // ── Increment visit counter ───────────────────────────────────
 // POST /api/counter/visit
 // Called once per session when user opens the site

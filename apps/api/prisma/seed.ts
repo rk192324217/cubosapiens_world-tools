@@ -128,10 +128,71 @@ async function main()
         isLive:      false,
         order:       12
       },
+      {
+        name:        "AI Chat",
+        slug:        "ai-chat",
+        description: "Chat with AI assistant",
+        category:    "ai",
+        icon:        "🤖",
+        url:         "https://chat.cubosapiens.world",
+        isLive:      false,
+        order:       13
+      },
+      {
+        name:        "AI Writer",
+        slug:        "ai-writer",
+        description: "Write content with AI",
+        category:    "ai",
+        icon:        "✍️",
+        url:         "https://writer.cubosapiens.world",
+        isLive:      false,
+        order:       14
+      },
+      {
+        name:        "AI Image",
+        slug:        "ai-image",
+        description: "Generate images from text",
+        category:    "ai",
+        icon:        "🎨",
+        url:         "https://imagine.cubosapiens.world",
+        isLive:      false,
+        order:       15
+      },
+      {
+        name:        "AI Summarise",
+        slug:        "ai-summarise",
+        description: "Summarise any text instantly",
+        category:    "ai",
+        icon:        "📊",
+        url:         "https://summarise.cubosapiens.world",
+        isLive:      false,
+        order:       16
+      },
+      {
+        name:        "AI Translate",
+        slug:        "ai-translate",
+        description: "Translate any language",
+        category:    "ai",
+        icon:        "🔤",
+        url:         "https://translate.cubosapiens.world",
+        isLive:      false,
+        order:       17
+      },
+      {
+        name:        "AI Code",
+        slug:        "ai-code",
+        description: "Generate and explain code",
+        category:    "ai",
+        icon:        "💻",
+        url:         "https://code.cubosapiens.world",
+        isLive:      false,
+        order:       18
+      },
     ]
   })
 
-  // console.log("✅ 12 tools seeded")
+  console.log("✅ 18 tools seeded (including 6 AI tools)")
+
   await prisma.game.createMany({
     skipDuplicates: true,
     data: [
@@ -198,6 +259,7 @@ async function main()
       },
     ]
   })
+
   console.log("✅ 6 games seeded")
 }
 

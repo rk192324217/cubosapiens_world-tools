@@ -2611,3 +2611,26 @@ a { text-decoration: none; color: inherit; }
 @media (max-width: 640px) {
   .about-stat-value { font-size: 24px; }
 }
+
+@keyframes skeleton-pulse {
+  0%, 100% { opacity: 0.4; }
+  50%       { opacity: 0.8; }
+}
+ 
+.skeleton {
+  background:     var(--bg-surface2);
+  border-radius:  var(--radius-sm);
+  animation:      skeleton-pulse 1.4s ease-in-out infinite;
+}
+ 
+/* Individual skeleton shapes */
+.skeleton-tag    { width: 80px;  height: 22px; margin: 0 auto 12px; border-radius: 99px; }
+.skeleton-title  { width: 260px; height: 40px; margin: 0 auto 12px; }
+.skeleton-sub    { width: 380px; height: 18px; margin: 0 auto;      max-width: 90%; }
+.skeleton-search { width: 100%;  height: 44px; border-radius: var(--radius-md); }
+.skeleton-tab    { width: 88px;  height: 34px; border-radius: 99px; }
+.skeleton-card   { min-height: 120px; display: flex; flex-direction: column; gap: 10px; padding: 16px; }
+.skeleton-badge  { width: 44px;  height: 18px; border-radius: 99px; }
+.skeleton-icon   { width: 44px;  height: 44px; border-radius: var(--radius-sm); }
+.skeleton-name   { width: 70%;   height: 16px; }
+.skeleton-desc   { width: 90%;   height: 13px; }
