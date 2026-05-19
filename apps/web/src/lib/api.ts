@@ -180,3 +180,5 @@ export async function trackDownload(): Promise<void>
   }
 
 }
+
+export type Game = Games
