@@ -3085,3 +3085,28 @@ a {
 .skeleton-icon   { width: 44px;  height: 44px; border-radius: var(--radius-sm); }
 .skeleton-name   { width: 70%;   height: 16px; }
 .skeleton-desc   { width: 90%;   height: 13px; }
+
+.scroll-to-top-btn {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 50;
+  background-color: #000000; /* Change to match CUBOSAPIENS primary color */
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.scroll-to-top-btn:hover {
+  transform: scale(1.1);
+  background-color: #222222;
+}
