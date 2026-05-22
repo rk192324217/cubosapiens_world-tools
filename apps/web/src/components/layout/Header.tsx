@@ -59,11 +59,14 @@ export default function Header() {
   useEffect(() => {
     if (menuOpen) {
       document.body.style.overflow = "hidden"
+      document.documentElement.style.overflow = "hidden"
     } else {
       document.body.style.overflow = ""
+      document.documentElement.style.overflow = ""
     }
     return () => {
       document.body.style.overflow = ""
+      document.documentElement.style.overflow = ""
     }
   }, [menuOpen])
 
@@ -198,7 +201,7 @@ export default function Header() {
 
         {/* ── MOBILE DROPDOWN MENU ── */}
         {menuOpen && ( // added an additional functionality so that the X works and the menu is closeable in phone.
-          <div className="header-dropdown" ref={menuRef}>
+          <div className="header-dropdown fixed left-0 right-0 top-[70px] overflow-y-auto max-h-[calc(100vh-70px)] overscroll-contain z-50 bg-[#0a0a0a]/95 backdrop-blur-md" ref={menuRef}>
             <button
               className="dropdown-promo-btn"
               onClick={handleShare}
