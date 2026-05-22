@@ -1,17 +1,23 @@
 "use client"
 import Link from "next/link"
-import Image from"next/image";
-export default function Footer()
-{
-  const tools = ["GPS CAM", "QR Generator", "PDF Merger", "Compressor", "Word Counter"]
-  const legal = [
-    { l: "Privacy Policy", h: "/privacy"  },
-    { l: "Terms of Use",   h: "/terms"    },
-    { l: "Cookie Policy",  h: "/cookies"  },
+import Image from "next/image";
+
+export default function Footer() {
+  const navigate = [
+    { label: "TOOLS", href: "/tools",  icon: "fa-solid fa-wrench"  },
+    { label: "GAMES", href: "/games",  icon: "fa-solid fa-gamepad" },
+    { label: "AI",    href: "/ai",     icon: "fa-solid fa-robot"   },
   ]
+
+  const legal = [
+    { l: "Privacy Policy", h: "/privacy" },
+    { l: "Terms of Use",   h: "/terms"   },
+    { l: "Cookie Policy",  h: "/cookies" },
+  ]
+
   const company = [
     { l: "About",   h: "/about"   },
-    { l: "Contact", h: "/contact" },  
+    { l: "Contact", h: "/contact" },
   ]
 
   return (
@@ -22,21 +28,19 @@ export default function Footer()
 
           <div className="footer-brand">
             <Image
-                      
-                        src="/logo.png"
-                        alt="logo"
-                        className="footer-brand-icon"
-                        width={100}
-                        height={100}
-                        priority
-                        unoptimized
-                      />
+              src="/logo.png"
+              alt="logo"
+              className="footer-brand-icon"
+              width={100}
+              height={100}
+              priority
+              unoptimized
+            />
             <p className="footer-brand-text">
               Free tools, games and AI for everyone on the internet.
               No signup. No cost. Always free.
             </p>
 
-            {/* Social links */}
             <div className="footer-social">
               <a href="https://www.instagram.com/cubosapiens/" target="_blank" rel="noopener noreferrer" className="footer-social-link" title="Instagram">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -53,16 +57,16 @@ export default function Footer()
                   <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
                 </svg>
               </a>
-              {/* Discord — coming soon */}
-              {/* <a href="https://discord.gg/cubosapiens" target="_blank" rel="noopener noreferrer" className="footer-social-link" title="Discord">Discord</a> */}
             </div>
-
           </div>
 
           <div>
-            <p className="footer-col-title">Tools</p>
-            {tools.map(t => (
-              <Link key={t} href={`/tools/${t.toLowerCase().replace(/ /g, "-")}`} className="footer-link">{t}</Link>
+            <p className="footer-col-title">Navigate</p>
+            {navigate.map(item => (
+              <Link key={item.href} href={item.href} className="footer-link">
+                <i className={item.icon} style={{ marginRight: "8px" }}></i>
+                {item.label}
+              </Link>
             ))}
           </div>
 
@@ -88,12 +92,12 @@ export default function Footer()
         </div>
 
         <div className="footer-bottom">
-          <span className="footer-copy">© 2026 CUBOSAPIENS. All rights reserved.</span>
-          <span className="footer-copy">Made with ❤️ in India 🇮🇳</span>
+          <span className="footer-copy">&copy; 2026 CUBOSAPIENS. All rights reserved.</span>
+          <span className="footer-copy">Made with &hearts; in India</span>
           <div className="footer-bottom-links">
-            <Link href="/privacy"  className="footer-bottom-link">Privacy</Link>
-            <Link href="/terms"    className="footer-bottom-link">Terms</Link>
-            <Link href="/contact"  className="footer-bottom-link">Contact</Link>
+            <Link href="/privacy" className="footer-bottom-link">Privacy</Link>
+            <Link href="/terms"   className="footer-bottom-link">Terms</Link>
+            <Link href="/contact" className="footer-bottom-link">Contact</Link>
           </div>
         </div>
 
