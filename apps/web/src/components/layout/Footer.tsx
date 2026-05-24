@@ -7,6 +7,7 @@ export default function Footer() {
     { label: "TOOLS", href: "/tools",  icon: "fa-solid fa-wrench"  },
     { label: "GAMES", href: "/games",  icon: "fa-solid fa-gamepad" },
     { label: "AI",    href: "/ai",     icon: "fa-solid fa-robot"   },
+    { label: "BLOG",  href: "/blog",   icon: "fa-solid fa-newspaper" },
   ]
 
   const legal = [

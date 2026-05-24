@@ -11,6 +11,7 @@ const navLinks = [
   { href: "/tools", label: "Tools", icon: <i className="fa-solid fa-screwdriver-wrench"></i> },
   { href: "/games", label: "Games", icon: <i className="fa-solid fa-gamepad"></i> },
   { href: "/ai", label: "AI", icon: <i className="fa-solid fa-robot"></i> },
+  { href: "/blog",  label: "Blog",  icon: <i className="fa-solid fa-newspaper"></i> },
 ]
 
 const moreLinks = [

@@ -35,16 +35,13 @@ export interface Games{
   order:       number
   createdAt:   string
 }
-export interface Blog {
-  id:          number
-  title:       string
-  slug:        string
-  content:     string
-  excerpt:     string
-  coverImage?: string
-  published:   boolean
-  createdAt:   string
-}
+
+export type BlogTag =
+  | "technical"
+  | "oss"
+  | "guides"
+  | "general"
+  | "others"
 
 export interface ApiResponse<T> {
   success: boolean

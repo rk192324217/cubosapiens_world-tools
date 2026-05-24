@@ -1,7 +1,6 @@
 import { Hono }           from "hono"
 import { cors }           from "hono/cors"
 import { createClient }   from "@supabase/supabase-js"
-
 // ─────────────────────────────────────────────────────────────
 // Types — what our data looks like
 // ─────────────────────────────────────────────────────────────
