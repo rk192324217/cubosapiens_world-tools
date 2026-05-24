@@ -1,6 +1,7 @@
 import { fetchTools, fetchGames } from "@/lib/api"
 import ToolGrid   from "@/components/ui/ToolGrid"
 import GameGrid   from "@/components/ui/GameGrid"
+import AiAccessButton from "@/components/ui/AIAccessButton"
 // import ColorBends from "@/components/colorbends"
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 // import AdUnit from "@/components/ui/AdUnit"
@@ -58,6 +59,8 @@ export default async function HomePage()
     fetchTools({ category: "ai" }),
   ])
 
+  const aiHasLive = aiTools.some(t => t.isLive)
+
   return (
     <div>
 
@@ -104,7 +107,13 @@ export default async function HomePage()
         <div className="hero-pills">
           <a href="./tools"><span className="hero-pill"><i className="fas fa-tools"></i> Tools</span></a>
           <a href="./games"><span className="hero-pill"><i className="fas fa-gamepad"></i> Games</span></a>
-          <a href="./ai"><span className="hero-pill"><i className="fas fa-robot"></i>  AI</span></a>
+          <AiAccessButton
+            href="/ai"
+            label="AI"
+            icon={<i className="fas fa-robot"></i>}
+            className="hero-pill"
+            hasLive={aiHasLive}
+          />
           {/* <span className="hero-pill"><i className="fas fa-user"></i> {counters.visits > 0 ? counters.visits.toLocaleString() : "0"}</span> */}
 
           {/* <span className="hero-pill hero-pill-live">
