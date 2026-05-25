@@ -11,6 +11,7 @@ export default function PWAInstallPrompt()
   
  const [prompt, setPrompt] = useState<BeforeInstallPromptEvent | null>(null)
   const [visible, setVisible] = useState(false)
+  const [logoSrc, setLogoSrc] = useState("/icon-192.png")
 
   // Check installed and dismissed lazily — no setState in effect
   const isInstalled = typeof window !== "undefined" &&
@@ -62,10 +63,16 @@ export default function PWAInstallPrompt()
         <button className="pwa-close" onClick={handleDismiss}>✕</button>
         <div className="pwa-icon">
           <Image
-  src="/icon-192.png"
+  src={logoSrc}
   alt="CUBOSAPIENS"
   width={64}
   height={64}
+  priority
+  loading="eager"
+  fetchPriority="high"
+  onError={() => {
+    if (logoSrc !== "/logo.png") setLogoSrc("/logo.png")
+  }}
 />
         </div> 
         <h3 className="pwa-title">CUBOSAPIENS</h3>
