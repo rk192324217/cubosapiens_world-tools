@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { useRouter, usePathname } from "next/navigation"
+import Clock from "@/components/Clock"
 // import { fetchCounters } from "@/lib/api"
 
 const navLinks = [
@@ -152,6 +153,11 @@ export default function Header() {
                 placeholder="Search tools & games..."
               />
             </form>
+
+            {/* Clock Widget */}
+            <div className="relative">
+              <Clock />
+            </div>
 
             {/* Mobile search toggle */}
             <button
