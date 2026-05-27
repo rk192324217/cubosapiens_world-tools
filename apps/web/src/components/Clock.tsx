@@ -29,7 +29,7 @@ export default function Clock() {
       // Get timezone
       const tzName = new Intl.DateTimeFormat("en-US", {
         timeZoneName: "short",
-      }).formatParts(now).find(part => part.type === "timeZoneName")?.value || "UTC"
+      }).formatToParts(now).find(part => part.type === "timeZoneName")?.value || "UTC"
       setTimezone(tzName)
 
       // 12-hour format
