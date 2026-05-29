@@ -156,13 +156,14 @@ export default function Header() {
 
           {/* ── RIGHT SIDE ── */}
           <div className="header-right flex items-center gap-3">
-            <a
+           <a
            href="https://github.com/rk192324217/cubosapiens_world-tools"
            target="_blank"
            rel="noopener noreferrer"
            className="flex items-center gap-1 px-2 py-1 rounded bg-black/40 hover:bg-black/60 text-white text-sm"
            >
-           ⭐ {stars !== null ? stars : "..."}
+           <i className="fa-solid fa-star text-yellow-400"></i>
+           <span>{stars !== null ? stars : "..."}</span>
            </a>
 
             {/* Desktop search bar */}
