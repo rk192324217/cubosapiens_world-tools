@@ -25,6 +25,7 @@ export default function Header() {
   const [search, setSearch] = useState("")
   const [menuOpen, setMenuOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
+  const [stars, setStars] = useState<number | null>(null)
   const pathname = usePathname()
   const router = useRouter()
   const menuRef = useRef<HTMLDivElement>(null)
@@ -66,6 +67,20 @@ export default function Header() {
       document.body.style.overflow = ""
     }
   }, [menuOpen])
+
+  useEffect(() => {
+  const fetchStars = async () => {
+    try {
+      const res = await fetch("https://api.github.com/repos/rk192324217/cubosapiens_world-tools")
+      const data = await res.json()
+      setStars(data.stargazers_count)
+    } catch (error) {
+      console.error("Error fetching stars:", error)
+    }
+  }
+
+  fetchStars()
+}, [])
 
   function handleSearch(e: React.FormEvent) {
     e.preventDefault()
@@ -141,6 +156,14 @@ export default function Header() {
 
           {/* ── RIGHT SIDE ── */}
           <div className="header-right flex items-center gap-3">
+            <a
+           href="https://github.com/rk192324217/cubosapiens_world-tools"
+           target="_blank"
+           rel="noopener noreferrer"
+           className="flex items-center gap-1 px-2 py-1 rounded bg-black/40 hover:bg-black/60 text-white text-sm"
+           >
+           ⭐ {stars !== null ? stars : "..."}
+           </a>
 
             {/* Desktop search bar */}
             <form onSubmit={handleSearch} className="header-search-form !hidden lg:!flex items-center">
