@@ -1,0 +1,40 @@
+<svg xmlns="http://w3.org" viewBox="0 0 800 800" width="100%" height="100%">
+  <defs>
+    <linearGradient id="cubeTop" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00f2fe" />
+      <stop offset="100%" stop-color="#4facfe" />
+    </linearGradient>
+    <linearGradient id="cubeLeft" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0066ff" />
+      <stop offset="100%" stop-color="#0022aa" />
+    </linearGradient>
+    <linearGradient id="cubeRight" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0575e6" />
+      <stop offset="100%" stop-color="#00f2fe" />
+    </linearGradient>
+    <linearGradient id="radarGlow" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#00f2fe" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#00f2fe" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="neonGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="10" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+  <g opacity="0.25" stroke="#00f2fe" fill="none" stroke-width="2" stroke-dasharray="8,6">
+    <circle cx="400" cy="400" r="320"/>
+    <circle cx="400" cy="400" r="220"/>
+  </g>
+  <circle cx="400" cy="400" r="100" fill="url(#radarGlow)" opacity="0.2"/>
+  <g transform="translate(0, -40)">
+    <ellipse cx="400" cy="680" rx="70" ry="25" fill="#00f2fe" opacity="0.2" filter="url(#neonGlow)"/>
+    <line x1="400" y1="520" x2="400" y2="680" stroke="#00f2fe" stroke-width="4" stroke-dasharray="10,10" filter="url(#neonGlow)"/>
+    <polygon points="400,430 180,300 180,520 400,650" fill="url(#cubeLeft)" stroke="#0066ff" stroke-width="2"/>
+    <polygon points="400,430 620,300 620,520 400,650" fill="url(#cubeRight)" stroke="#00f2fe" stroke-width="2"/>
+    <polygon points="400,180 620,300 400,430 180,300" fill="url(#cubeTop)" stroke="#ffffff" stroke-width="1.5"/>
+    <g filter="url(#neonGlow)">
+      <polygon points="400,260 490,305 400,350 310,305" fill="none" stroke="#ffffff" stroke-width="3"/>
+      <circle cx="400" cy="305" r="12" fill="#ffffff"/>
+    </g>
+  </g>
+</svg>
