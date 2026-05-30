@@ -118,10 +118,9 @@ export async function trackVisit(): Promise<void>
       method: "POST"
     })
   }
-  catch(err)
+  catch
   {
     // Silently fail — not critical
-    console.error("trackVisit error:", err)
   }
 
 }

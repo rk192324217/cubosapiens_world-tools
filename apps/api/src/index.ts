@@ -13,7 +13,6 @@ import {
 import { Hono }           from "hono"
 import { cors }           from "hono/cors"
 import { createClient }   from "@supabase/supabase-js"
-
 // ─────────────────────────────────────────────────────────────
 // Types — what our data looks like
 // ─────────────────────────────────────────────────────────────
@@ -34,10 +33,13 @@ type Tool = {
 }
 
 type Env = {
-  SUPABASE_URL:      string   // Cloudflare Worker env variable
-  SUPABASE_KEY:      string   // Cloudflare Worker env variable
-  VISIT_COUNT:       number
-  DOWNLOAD_COUNT:    number
+  SUPABASE_URL:           string
+  SUPABASE_KEY:           string
+  VISIT_COUNT:            number
+  DOWNLOAD_COUNT:         number
+  RATE_LIMIT_MAX?:        number
+  RATE_LIMIT_WINDOW_MS?:  number
+  WRITE_LIMIT_MAX?:       number
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -60,6 +62,51 @@ app.use("*", cors({
   ],
   allowMethods: ["GET", "POST", "OPTIONS"],
 }))
+
+
+    const requestCounts = new Map<string, { count: number; resetAt: number }>();
+
+const rateLimiter = (limit: number, windowMs: number) => {
+  return async (c: any, next: any) => {
+    const ip = c.req.header("CF-Connecting-IP") ?? 
+               c.req.header("X-Forwarded-For") ?? 
+               "unknown";
+    
+    const now = Date.now();
+    const record = requestCounts.get(ip);
+
+    if (!record || now > record.resetAt) {
+      requestCounts.set(ip, { count: 1, resetAt: now + windowMs });
+      return next();
+    }
+
+    if (record.count >= limit) {
+      const retryAfter = Math.ceil((record.resetAt - now) / 1000);
+      console.warn(`[RateLimit] Blocked IP: ${ip} at ${new Date().toISOString()}`);
+      c.header("Retry-After", String(retryAfter));
+      c.header("X-RateLimit-Limit", String(limit));
+      c.header("X-RateLimit-Remaining", "0");
+      return c.json({
+        success: false,
+        error: `Too many requests. Please try again after ${retryAfter} seconds.`,
+        data: null
+      }, 429);
+    }
+
+    record.count++;
+    c.header("X-RateLimit-Limit", String(limit));
+    c.header("X-RateLimit-Remaining", String(limit - record.count));
+    return next();
+  };
+};
+
+app.use("*", async (c: any, next: any) => {
+  const limit = Number(c.env.RATE_LIMIT_MAX) || 100;
+  const windowMs = Number(c.env.RATE_LIMIT_WINDOW_MS) || 15 * 60 * 1000;
+  return rateLimiter(limit, windowMs)(c, next);
+});
+
+const writeLimit = (limit: number, windowMs: number) => rateLimiter(limit, windowMs);
 
 
 // ── Health check ──────────────────────────────────────────────
@@ -338,7 +385,10 @@ app.get("/api/ai", async (c) => {
 // Called once per session when user opens the site
 // Uses upsert — inserts if not exists, updates if exists
 
-app.post("/api/counter/visit", async (c) => {
+app.post("/api/counter/visit", async (c: any, next: any) => {
+  const limit = Number(c.env.WRITE_LIMIT_MAX) || 20;
+  return writeLimit(limit, 15 * 60 * 1000)(c, next);
+}, async (c) => {
 
   // Basic bot filter
   // User-Agent is a string the browser sends identifying itself
@@ -382,7 +432,10 @@ app.post("/api/counter/visit", async (c) => {
 // POST /api/counter/download
 // Called when user downloads a stamped photo
 
-app.post("/api/counter/download", async (c) => {
+app.post("/api/counter/download", async (c: any, next: any) => {
+  const limit = Number(c.env.WRITE_LIMIT_MAX) || 20;
+  return writeLimit(limit, 15 * 60 * 1000)(c, next);
+}, async (c) =>  {
 
   const supabase = createClient(
     c.env.SUPABASE_URL,

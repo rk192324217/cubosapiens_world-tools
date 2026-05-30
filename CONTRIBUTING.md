@@ -41,6 +41,7 @@ Root scripts are managed by Turbo.
   ```
 
 ---
+
 ## How to Contribute
 
 1. **Find an issue**: browse [Issues](https://github.com/rk192324217/cubosapiens_world-tools/issues) or create one describing what you want to build.
@@ -98,6 +99,70 @@ Use descriptive branch names, for example:
 - `add-new-tool`
 - `api-auth-bug`
 - `update-contributing`
+
+---
+
+## Writing a Blog Post
+
+Blog posts are Markdown files stored in `apps/web/content/blogs/`.
+The filename becomes the URL slug: `my-post.md` -> `cubosapiens.world/blog/my-post`.
+
+There is no form or account required, you submit a blog post the same way you submit any other
+change: via a pull request.
+
+### Frontmatter schema
+
+Every post must start with a YAML frontmatter block:
+
+```yaml
+---
+title: "Your Post Title"
+description: "One-sentence summary shown on the listing card and in search results (≤ 160 chars)."
+author: "Your Name"
+authorGithub: "your-github-username"   # optional — links your name to your GitHub profile
+date: "2025-05-21"                     # YYYY-MM-DD
+tags: ["technical"]                    # one or more of: technical | oss | guides | general | others
+---
+```
+
+### Supported content
+
+- Headings (`##`, `###`)
+- Bold, italic, inline code
+- Fenced code blocks with language hint (syntax highlighting is automatic):
+  ````
+  ```typescript
+  const x = 1
+  ```
+  ````
+- GitHub Flavored Markdown tables
+- Blockquotes
+- Images: `![alt text](./path)` — place images in `apps/web/public/blog-images/`
+- Links
+
+### Steps to contribute a blog post
+
+1. Fork the repository.
+2. Create a branch:
+   ```bash
+   git checkout -b blog/your-post-title
+   ```
+3. Create your Markdown file in `apps/web/content/blogs/`:
+   ```
+   apps/web/content/blogs/your-post-title.md
+   ```
+4. Preview locally — your post will appear at `http://localhost:3000/blog/your-post-title`:
+   ```bash
+   cd apps/web
+   npm run dev
+   ```
+5. Open a Pull Request against `main` and describe what your post is about.
+   A maintainer will review and merge it.
+
+### Example post
+
+See [`apps/web/content/blogs/getting-started-with-open-source.md`](apps/web/content/blogs/getting-started-with-open-source.md)
+for a complete working example.
 
 ---
 

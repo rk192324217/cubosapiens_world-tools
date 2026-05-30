@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { useRouter, usePathname } from "next/navigation"
+import AiAccessButton from "@/components/ui/AIAccessButton"
 // import { fetchCounters } from "@/lib/api"
 
 const navLinks = [
@@ -11,6 +12,7 @@ const navLinks = [
   { href: "/tools", label: "Tools", icon: <i className="fa-solid fa-screwdriver-wrench"></i> },
   { href: "/games", label: "Games", icon: <i className="fa-solid fa-gamepad"></i> },
   { href: "/ai", label: "AI", icon: <i className="fa-solid fa-robot"></i> },
+  { href: "/blog",  label: "Blog",  icon: <i className="fa-solid fa-newspaper"></i> },
 ]
 
 const moreLinks = [
@@ -20,7 +22,7 @@ const moreLinks = [
   { href: "/terms", label: "Terms of Use", icon: <i className="fa-solid fa-file-contract"></i> },
 ]
 
-export default function Header() {
+export default function Header({ hasLiveAi }: { hasLiveAi: boolean }) {
   const [visitors, setVisitors] = useState<number | null>(null)
   const [search, setSearch] = useState("")
   const [menuOpen, setMenuOpen] = useState(false)
@@ -122,13 +124,24 @@ export default function Header() {
           {/* ── DESKTOP NAV ── */}
           <nav className="header-nav hidden lg:flex items-center gap-2 xl:gap-4 shrink-0">
             {navLinks.map(link => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={`header-nav-link px-1 xl:px-3 ${pathname === link.href ? "header-nav-active" : ""}`}
-              >
-                {link.label}
-              </Link>
+              link.href === "/ai" ? (
+                <AiAccessButton
+                  key={link.href}
+                  href={link.href}
+                  label={link.label}
+                  className={`header-nav-link px-1 xl:px-3 ${pathname === link.href ? "header-nav-active" : ""}`}
+                  hasLive={hasLiveAi}
+                  showIcon={false}
+                />
+              ) : (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`header-nav-link px-1 xl:px-3 ${pathname === link.href ? "header-nav-active" : ""}`}
+                >
+                  {link.label}
+                </Link>
+              )
             ))}
             <button
               className="header-nav-link"
@@ -144,7 +157,7 @@ export default function Header() {
 
             {/* Desktop search bar */}
             <form onSubmit={handleSearch} className="header-search-form !hidden lg:!flex items-center">
-              <span className="header-search-icon">⌕</span>
+              <span className="header-search-icon lg:text-[15px] xl:text-[17px] leading-none">⌕</span>
               <input
                 className="header-search !w-full max-w-[140px] xl:max-w-[220px]"
                 value={search}
@@ -211,17 +224,28 @@ export default function Header() {
               <p className="dropdown-label">Navigate</p>
               <div className="dropdown-links">
                 {navLinks.map(link => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    className={`dropdown-link ${pathname === link.href ? "dropdown-link-active" : ""}`}
-                  >
-                    <span className="dropdown-link-icon">{link.icon}</span>
-                    <span>{link.label}</span>
-                    {link.href === "/games" && (
-                      <span className="dropdown-badge-live">LIVE</span>
-                    )}
-                  </Link>
+                  link.href === "/ai" ? (
+                    <AiAccessButton
+                      key={link.href}
+                      href={link.href}
+                      label={link.label}
+                      icon={link.icon}
+                      className={`dropdown-link ${pathname === link.href ? "dropdown-link-active" : ""}`}
+                      hasLive={hasLiveAi}
+                    />
+                  ) : (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      className={`dropdown-link ${pathname === link.href ? "dropdown-link-active" : ""}`}
+                    >
+                      <span className="dropdown-link-icon">{link.icon}</span>
+                      <span>{link.label}</span>
+                      {link.href === "/games" && (
+                        <span className="dropdown-badge-live">LIVE</span>
+                      )}
+                    </Link>
+                  )
                 ))}
               </div>
             </div>
