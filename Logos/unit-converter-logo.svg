@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 120" width="420" height="120">
+  <defs>
+    <!-- Top face of cube -->
+    <linearGradient id="ucTop" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#7FFFD4"/>
+      <stop offset="100%" style="stop-color:#00CED1"/>
+    </linearGradient>
+    <!-- Left face -->
+    <linearGradient id="ucLeft" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00A8CC"/>
+      <stop offset="100%" style="stop-color:#005F7F"/>
+    </linearGradient>
+    <!-- Right face -->
+    <linearGradient id="ucRight" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#0077A8"/>
+      <stop offset="100%" style="stop-color:#003F5C"/>
+    </linearGradient>
+    <!-- Arrow accent gradient -->
+    <linearGradient id="arrowGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#7FFFD4;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#00CED1;stop-opacity:1"/>
+    </linearGradient>
+    <!-- Glow -->
+    <filter id="ucGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="2" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <!-- Shadow -->
+    <filter id="ucShadow">
+      <feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="#00CED1" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <!-- ── Isometric Cube ── -->
+  <g transform="translate(14, 8)" filter="url(#ucShadow)">
+    <!-- Top face -->
+    <polygon points="44,6 80,26 44,46 8,26" fill="url(#ucTop)"/>
+    <!-- Left face -->
+    <polygon points="8,26 44,46 44,90 8,70" fill="url(#ucLeft)"/>
+    <!-- Right face -->
+    <polygon points="44,46 80,26 80,70 44,90" fill="url(#ucRight)"/>
+    <!-- Edge highlights -->
+    <polyline points="8,26 44,6 80,26" fill="none" stroke="#B8FFF5" stroke-width="0.8" stroke-opacity="0.55"/>
+    <line x1="44" y1="6" x2="44" y2="46" stroke="#B8FFF5" stroke-width="0.8" stroke-opacity="0.35"/>
+
+    <!-- ── Conversion arrows on top face (the unique unit-converter mark) ── -->
+    <!-- Arrow pointing right -->
+    <g filter="url(#ucGlow)">
+      <!-- Right arrow body -->
+      <line x1="32" y1="26" x2="50" y2="20" stroke="#ffffff" stroke-width="1.8" stroke-opacity="0.9" stroke-linecap="round"/>
+      <!-- Right arrowhead -->
+      <polygon points="50,20 44,17 46,23" fill="#ffffff" fill-opacity="0.9"/>
+
+      <!-- Left arrow body -->
+      <line x1="56" y1="30" x2="38" y2="36" stroke="#7FFFD4" stroke-width="1.8" stroke-opacity="0.85" stroke-linecap="round"/>
+      <!-- Left arrowhead -->
+      <polygon points="38,36 44,39 42,33" fill="#7FFFD4" fill-opacity="0.85"/>
+    </g>
+  </g>
+
+  <!-- ── Wordmark ── -->
+  <g transform="translate(122, 0)">
+    <!-- "Unit" bold -->
+    <text
+      x="0" y="62"
+      font-family="'Trebuchet MS','Segoe UI',Arial,sans-serif"
+      font-size="40"
+      font-weight="700"
+      letter-spacing="-0.5"
+      fill="#E8F8FF"
+    >Unit</text>
+    <!-- space -->
+    <text
+      x="88" y="62"
+      font-family="'Trebuchet MS','Segoe UI',Arial,sans-serif"
+      font-size="40"
+      font-weight="300"
+      letter-spacing="-0.5"
+      fill="#00CED1"
+    >Converter</text>
+
+    <!-- Sub-brand line -->
+    <text
+      x="1" y="82"
+      font-family="'Trebuchet MS','Segoe UI',Arial,sans-serif"
+      font-size="10.5"
+      font-weight="400"
+      letter-spacing="3.8"
+      fill="#00A8CC"
+      fill-opacity="0.7"
+    >CUBOSAPIENS TOOLS</text>
+
+    <!-- Accent underline -->
+    <line x1="0" y1="89" x2="285" y2="89" stroke="url(#arrowGrad)" stroke-width="1" stroke-opacity="0.35"/>
+  </g>
+</svg>

@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="ucT" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#7FFFD4"/>
+      <stop offset="100%" style="stop-color:#00CED1"/>
+    </linearGradient>
+    <linearGradient id="ucL" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00A8CC"/>
+      <stop offset="100%" style="stop-color:#005F7F"/>
+    </linearGradient>
+    <linearGradient id="ucR" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#0077A8"/>
+      <stop offset="100%" style="stop-color:#003F5C"/>
+    </linearGradient>
+    <filter id="ucG2">
+      <feGaussianBlur stdDeviation="1" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <g transform="translate(32,32)">
+    <!-- Top face -->
+    <polygon points="0,-18 20,-8 0,2 -20,-8" fill="url(#ucT)"/>
+    <!-- Left face -->
+    <polygon points="-20,-8 0,2 0,22 -20,12" fill="url(#ucL)"/>
+    <!-- Right face -->
+    <polygon points="0,2 20,-8 20,12 0,22" fill="url(#ucR)"/>
+    <!-- Edge highlights -->
+    <polyline points="-20,-8 0,-18 20,-8" fill="none" stroke="#B8FFF5" stroke-width="0.7" stroke-opacity="0.5"/>
+    <line x1="0" y1="-18" x2="0" y2="2" stroke="#B8FFF5" stroke-width="0.7" stroke-opacity="0.3"/>
+
+    <!-- Conversion arrows on top face -->
+    <g filter="url(#ucG2)">
+      <!-- Right arrow -->
+      <line x1="-8" y1="-8" x2="6" y2="-14" stroke="#ffffff" stroke-width="1.6" stroke-opacity="0.9" stroke-linecap="round"/>
+      <polygon points="6,-14 1,-17 2,-11" fill="#ffffff" fill-opacity="0.9"/>
+      <!-- Left arrow -->
+      <line x1="8" y1="-4" x2="-6" y2="2" stroke="#7FFFD4" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/>
+      <polygon points="-6,2 -1,5 -2,-1" fill="#7FFFD4" fill-opacity="0.85"/>
+    </g>
+  </g>
+</svg>

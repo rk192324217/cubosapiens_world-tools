@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Unit Converter Logo — Preview</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Trebuchet MS', 'Segoe UI', sans-serif; background: #0d1117; color: #e8f8ff; }
+
+  .header {
+    padding: 32px 48px 18px;
+    border-bottom: 1px solid #1e2d3d;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .header h1 { font-size: 12px; letter-spacing: 4px; color: #00CED1; font-weight: 400; text-transform: uppercase; }
+  .issue-tag { font-size: 11px; background: #0a2a2a; color: #7FFFD4; padding: 3px 10px; border-radius: 20px; border: 1px solid #00CED1; letter-spacing: 1px; }
+
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: #111; margin: 2px; }
+
+  .panel {
+    padding: 48px 40px;
+    display: flex; flex-direction: column;
+    align-items: center; gap: 28px;
+  }
+  .dark  { background: #0d1117; }
+  .dark2 { background: #060810; }
+  .light { background: #f0f8ff; }
+  .mid   { background: #102030; }
+
+  .label {
+    font-size: 10px; letter-spacing: 3px;
+    text-transform: uppercase; opacity: 0.4;
+    margin-bottom: -16px;
+  }
+  .light .label { color: #003F5C; }
+
+  .logo-full { width: 340px; height: auto; }
+  .icon-lg   { width: 80px; height: 80px; }
+  .icon-md   { width: 40px; height: 40px; }
+  .icon-sm   { width: 24px; height: 24px; }
+  .icon-xs   { width: 16px; height: 16px; }
+
+  .row { display: flex; align-items: center; gap: 20px; }
+
+  .files {
+    grid-column: 1/-1;
+    background: #07090f;
+    display: flex; justify-content: center;
+    align-items: center; gap: 12px;
+    padding: 28px; flex-wrap: wrap;
+    border-top: 1px solid #1e2d3d;
+  }
+  .files span { font-size: 10px; letter-spacing: 3px; color: #00CED1; opacity: 0.5; text-transform: uppercase; margin-right: 12px; }
+  code { font-size: 11px; background: #0d1117; color: #7FFFD4; padding: 4px 10px; border-radius: 4px; border: 1px solid #1e3a3a; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Unit Converter — Logo Preview</h1>
+  <span class="issue-tag">Issue #80</span>
+</div>
+
+<div class="grid">
+
+  <!-- Dark panel: full logo -->
+  <div class="panel dark">
+    <span class="label">Dark Background</span>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 120" class="logo-full">
+      <defs>
+        <linearGradient id="t1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#7FFFD4"/><stop offset="100%" style="stop-color:#00CED1"/></linearGradient>
+        <linearGradient id="l1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#00A8CC"/><stop offset="100%" style="stop-color:#005F7F"/></linearGradient>
+        <linearGradient id="r1" x1="100%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color:#0077A8"/><stop offset="100%" style="stop-color:#003F5C"/></linearGradient>
+        <linearGradient id="ag1" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#7FFFD4"/><stop offset="100%" style="stop-color:#00CED1"/></linearGradient>
+        <filter id="gw1"><feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        <filter id="sh1"><feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="#00CED1" flood-opacity="0.3"/></filter>
+      </defs>
+      <g transform="translate(14,8)" filter="url(#sh1)">
+        <polygon points="44,6 80,26 44,46 8,26" fill="url(#t1)"/>
+        <polygon points="8,26 44,46 44,90 8,70" fill="url(#l1)"/>
+        <polygon points="44,46 80,26 80,70 44,90" fill="url(#r1)"/>
+        <polyline points="8,26 44,6 80,26" fill="none" stroke="#B8FFF5" stroke-width="0.8" stroke-opacity="0.55"/>
+        <line x1="44" y1="6" x2="44" y2="46" stroke="#B8FFF5" stroke-width="0.8" stroke-opacity="0.35"/>
+        <g filter="url(#gw1)">
+          <line x1="32" y1="26" x2="50" y2="20" stroke="#ffffff" stroke-width="1.8" stroke-opacity="0.9" stroke-linecap="round"/>
+          <polygon points="50,20 44,17 46,23" fill="#ffffff" fill-opacity="0.9"/>
+          <line x1="56" y1="30" x2="38" y2="36" stroke="#7FFFD4" stroke-width="1.8" stroke-opacity="0.85" stroke-linecap="round"/>
+          <polygon points="38,36 44,39 42,33" fill="#7FFFD4" fill-opacity="0.85"/>
+        </g>
+      </g>
+      <g transform="translate(122,0)">
+        <text x="0" y="62" font-family="'Trebuchet MS','Segoe UI',Arial,sans-serif" font-size="40" font-weight="700" letter-spacing="-0.5" fill="#E8F8FF">Unit</text>
+        <text x="88" y="62" font-family="'Trebuchet MS','Segoe UI',Arial,sans-serif" font-size="40" font-weight="300" letter-spacing="-0.5" fill="#00CED1">Converter</text>
+        <text x="1" y="82" font-family="'Trebuchet MS','Segoe UI',Arial,sans-serif" font-size="10.5" font-weight="400" letter-spacing="3.8" fill="#00A8CC" fill-opacity="0.7">CUBOSAPIENS TOOLS</text>
+        <line x1="0" y1="89" x2="285" y2="89" stroke="url(#ag1)" stroke-width="1" stroke-opacity="0.35"/>
+      </g>
+    </svg>
+  </div>
+
+  <!-- Light panel: full logo -->
+  <div class="panel light">
+    <span class="label">Light Background</span>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 120" class="logo-full">
+      <defs>
+        <linearGradient id="t2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#00CED1"/><stop offset="100%" style="stop-color:#0096A0"/></linearGradient>
+        <linearGradient id="l2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#0077A8"/><stop offset="100%" style="stop-color:#004F70"/></linearGradient>
+        <linearGradient id="r2" x1="100%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color:#005580"/><stop offset="100%" style="stop-color:#002F4C"/></linearGradient>
+        <linearGradient id="ag2" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#00CED1"/><stop offset="100%" style="stop-color:#0077A8"/></linearGradient>
+        <filter id="gw2"><feGaussianBlur stdDeviation="1.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        <filter id="sh2"><feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="#00CED1" flood-opacity="0.18"/></filter>
+      </defs>
+      <g transform="translate(14,8)" filter="url(#sh2)">
+        <polygon points="44,6 80,26 44,46 8,26" fill="url(#t2)"/>
+        <polygon points="8,26 44,46 44,90 8,70" fill="url(#l2)"/>
+        <polygon points="44,46 80,26 80,70 44,90" fill="url(#r2)"/>
+        <polyline points="8,26 44,6 80,26" fill="none" stroke="#ffffff" stroke-width="0.9" stroke-opacity="0.5"/>
+        <line x1="44" y1="6" x2="44" y2="46" stroke="#ffffff" stroke-width="0.9" stroke-opacity="0.3"/>
+        <g filter="url(#gw2)">
+          <line x1="32" y1="26" x2="50" y2="20" stroke="#ffffff" stroke-width="1.8" stroke-opacity="0.9" stroke-linecap="round"/>
+          <polygon points="50,20 44,17 46,23" fill="#ffffff" fill-opacity="0.9"/>
+          <line x1="56" y1="30" x2="38" y2="36" stroke="#ffffff" stroke-width="1.8" stroke-opacity="0.7" stroke-linecap="round"/>
+          <polygon points="38,36 44,39 42,33" fill="#ffffff" fill-opacity="0.7"/>
+        </g>
+      </g>
+      <g transform="translate(122,0)">
+        <text x="0" y="62" font-family="'Trebuchet MS','Segoe UI',Arial,sans-serif" font-size="40" font-weight="700" letter-spacing="-0.5" fill="#003F5C">Unit</text>
+        <text x="88" y="62" font-family="'Trebuchet MS','Segoe UI',Arial,sans-serif" font-size="40" font-weight="300" letter-spacing="-0.5" fill="#007A8A">Converter</text>
+        <text x="1" y="82" font-family="'Trebuchet MS','Segoe UI',Arial,sans-serif" font-size="10.5" font-weight="400" letter-spacing="3.8" fill="#006680" fill-opacity="0.8">CUBOSAPIENS TOOLS</text>
+        <line x1="0" y1="89" x2="285" y2="89" stroke="url(#ag2)" stroke-width="1" stroke-opacity="0.28"/>
+      </g>
+    </svg>
+  </div>
+
+  <!-- Icon sizes -->
+  <div class="panel dark2">
+    <span class="label">Icon Sizes — Dark</span>
+    <div class="row">
+      <!-- 80px -->
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" class="icon-lg">
+        <defs>
+          <linearGradient id="t3" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#7FFFD4"/><stop offset="100%" style="stop-color:#00CED1"/></linearGradient>
+          <linearGradient id="l3" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#00A8CC"/><stop offset="100%" style="stop-color:#005F7F"/></linearGradient>
+          <linearGradient id="r3" x1="100%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color:#0077A8"/><stop offset="100%" style="stop-color:#003F5C"/></linearGradient>
+          <filter id="gw3"><feGaussianBlur stdDeviation="1" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        </defs>
+        <g transform="translate(32,32)">
+          <polygon points="0,-18 20,-8 0,2 -20,-8" fill="url(#t3)"/>
+          <polygon points="-20,-8 0,2 0,22 -20,12" fill="url(#l3)"/>
+          <polygon points="0,2 20,-8 20,12 0,22" fill="url(#r3)"/>
+          <polyline points="-20,-8 0,-18 20,-8" fill="none" stroke="#B8FFF5" stroke-width="0.7" stroke-opacity="0.5"/>
+          <line x1="0" y1="-18" x2="0" y2="2" stroke="#B8FFF5" stroke-width="0.7" stroke-opacity="0.3"/>
+          <g filter="url(#gw3)">
+            <line x1="-8" y1="-8" x2="6" y2="-14" stroke="#fff" stroke-width="1.6" stroke-opacity="0.9" stroke-linecap="round"/>
+            <polygon points="6,-14 1,-17 2,-11" fill="#fff" fill-opacity="0.9"/>
+            <line x1="8" y1="-4" x2="-6" y2="2" stroke="#7FFFD4" stroke-width="1.6" stroke-opacity="0.85" stroke-linecap="round"/>
+            <polygon points="-6,2 -1,5 -2,-1" fill="#7FFFD4" fill-opacity="0.85"/>
+          </g>
+        </g>
+      </svg>
+      <!-- 40px -->
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" class="icon-md">
+        <defs>
+          <linearGradient id="t4" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#7FFFD4"/><stop offset="100%" style="stop-color:#00CED1"/></linearGradient>
+          <linearGradient id="l4" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#00A8CC"/><stop offset="100%" style="stop-color:#005F7F"/></linearGradient>
+          <linearGradient id="r4" x1="100%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color:#0077A8"/><stop offset="100%" style="stop-color:#003F5C"/></linearGradient>
+        </defs>
+        <g transform="translate(32,32)">
+          <polygon points="0,-18 20,-8 0,2 -20,-8" fill="url(#t4)"/>
+          <polygon points="-20,-8 0,2 0,22 -20,12" fill="url(#l4)"/>
+          <polygon points="0,2 20,-8 20,12 0,22" fill="url(#r4)"/>
+          <line x1="-8" y1="-8" x2="6" y2="-14" stroke="#fff" stroke-width="1.8" stroke-opacity="0.9" stroke-linecap="round"/>
+          <polygon points="6,-14 1,-17 2,-11" fill="#fff" fill-opacity="0.9"/>
+          <line x1="8" y1="-4" x2="-6" y2="2" stroke="#7FFFD4" stroke-width="1.8" stroke-opacity="0.85" stroke-linecap="round"/>
+          <polygon points="-6,2 -1,5 -2,-1" fill="#7FFFD4" fill-opacity="0.85"/>
+        </g>
+      </svg>
+      <!-- 24px -->
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" class="icon-sm">
+        <defs>
+          <linearGradient id="t5" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#7FFFD4"/><stop offset="100%" style="stop-color:#00CED1"/></linearGradient>
+          <linearGradient id="l5" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#00A8CC"/><stop offset="100%" style="stop-color:#005F7F"/></linearGradient>
+          <linearGradient id="r5" x1="100%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color:#0077A8"/><stop offset="100%" style="stop-color:#003F5C"/></linearGradient>
+        </defs>
+        <g transform="translate(32,32)">
+          <polygon points="0,-18 20,-8 0,2 -20,-8" fill="url(#t5)"/>
+          <polygon points="-20,-8 0,2 0,22 -20,12" fill="url(#l5)"/>
+          <polygon points="0,2 20,-8 20,12 0,22" fill="url(#r5)"/>
+        </g>
+      </svg>
+      <!-- 16px -->
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" class="icon-xs">
+        <defs>
+          <linearGradient id="t6" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#7FFFD4"/><stop offset="100%" style="stop-color:#00CED1"/></linearGradient>
+          <linearGradient id="l6" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#00A8CC"/><stop offset="100%" style="stop-color:#005F7F"/></linearGradient>
+          <linearGradient id="r6" x1="100%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color:#0077A8"/><stop offset="100%" style="stop-color:#003F5C"/></linearGradient>
+        </defs>
+        <g transform="translate(32,32)">
+          <polygon points="0,-18 20,-8 0,2 -20,-8" fill="url(#t6)"/>
+          <polygon points="-20,-8 0,2 0,22 -20,12" fill="url(#l6)"/>
+          <polygon points="0,2 20,-8 20,12 0,22" fill="url(#r6)"/>
+        </g>
+      </svg>
+    </div>
+    <p class="label" style="margin-top:4px; opacity:0.35;">80px · 40px · 24px · 16px (favicon)</p>
+  </div>
+
+  <!-- Mid bg panel -->
+  <div class="panel mid">
+    <span class="label">Mid / Navy Background</span>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 120" class="logo-full">
+      <defs>
+        <linearGradient id="t7" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#7FFFD4"/><stop offset="100%" style="stop-color:#00CED1"/></linearGradient>
+        <linearGradient id="l7" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#00A8CC"/><stop offset="100%" style="stop-color:#005F7F"/></linearGradient>
+        <linearGradient id="r7" x1="100%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color:#0077A8"/><stop offset="100%" style="stop-color:#003F5C"/></linearGradient>
+        <linearGradient id="ag7" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#7FFFD4"/><stop offset="100%" style="stop-color:#00CED1"/></linearGradient>
+        <filter id="gw7"><feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        <filter id="sh7"><feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="#00CED1" flood-opacity="0.2"/></filter>
+      </defs>
+      <g transform="translate(14,8)" filter="url(#sh7)">
+        <polygon points="44,6 80,26 44,46 8,26" fill="url(#t7)"/>
+        <polygon points="8,26 44,46 44,90 8,70" fill="url(#l7)"/>
+        <polygon points="44,46 80,26 80,70 44,90" fill="url(#r7)"/>
+        <polyline points="8,26 44,6 80,26" fill="none" stroke="#B8FFF5" stroke-width="0.8" stroke-opacity="0.55"/>
+        <line x1="44" y1="6" x2="44" y2="46" stroke="#B8FFF5" stroke-width="0.8" stroke-opacity="0.35"/>
+        <g filter="url(#gw7)">
+          <line x1="32" y1="26" x2="50" y2="20" stroke="#ffffff" stroke-width="1.8" stroke-opacity="0.9" stroke-linecap="round"/>
+          <polygon points="50,20 44,17 46,23" fill="#ffffff" fill-opacity="0.9"/>
+          <line x1="56" y1="30" x2="38" y2="36" stroke="#7FFFD4" stroke-width="1.8" stroke-opacity="0.85" stroke-linecap="round"/>
+          <polygon points="38,36 44,39 42,33" fill="#7FFFD4" fill-opacity="0.85"/>
+        </g>
+      </g>
+      <g transform="translate(122,0)">
+        <text x="0" y="62" font-family="'Trebuchet MS','Segoe UI',Arial,sans-serif" font-size="40" font-weight="700" letter-spacing="-0.5" fill="#E8F8FF">Unit</text>
+        <text x="88" y="62" font-family="'Trebuchet MS','Segoe UI',Arial,sans-serif" font-size="40" font-weight="300" letter-spacing="-0.5" fill="#00CED1">Converter</text>
+        <text x="1" y="82" font-family="'Trebuchet MS','Segoe UI',Arial,sans-serif" font-size="10.5" font-weight="400" letter-spacing="3.8" fill="#00A8CC" fill-opacity="0.7">CUBOSAPIENS TOOLS</text>
+        <line x1="0" y1="89" x2="285" y2="89" stroke="url(#ag7)" stroke-width="1" stroke-opacity="0.35"/>
+      </g>
+    </svg>
+  </div>
+
+  <!-- File list -->
+  <div class="files">
+    <span>Assets</span>
+    <code>unit-converter-logo.svg</code>
+    <code>unit-converter-icon.svg</code>
+  </div>
+
+</div>
+</body>
+</html>
