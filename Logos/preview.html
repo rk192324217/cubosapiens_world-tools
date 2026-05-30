@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>CuboSapiens — Logo Preview</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Trebuchet MS', 'Segoe UI', sans-serif; background: #0d1117; color: #e8f8ff; }
+
+  .header {
+    padding: 40px 48px 20px;
+    border-bottom: 1px solid #1e2d3d;
+  }
+  .header h1 { font-size: 13px; letter-spacing: 4px; color: #00CED1; font-weight: 400; text-transform: uppercase; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    padding: 2px;
+    background: #1a1a2e;
+  }
+
+  .panel {
+    padding: 52px 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+  }
+  .panel-dark  { background: #0d1117; }
+  .panel-dark2 { background: #0a0a14; }
+  .panel-light { background: #f0f8ff; }
+  .panel-mid   { background: #1a2540; }
+
+  .label {
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    opacity: 0.4;
+    margin-bottom: -20px;
+  }
+  .panel-light .label { color: #003F5C; }
+
+  .logo-full { width: 320px; height: auto; }
+  .logo-icon { width: 80px; height: 80px; }
+  .logo-icon-sm { width: 32px; height: 32px; }
+  .logo-icon-fav { width: 16px; height: 16px; }
+
+  .icon-row {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .section-title {
+    width: 100%;
+    text-align: center;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: #00CED1;
+    opacity: 0.6;
+    text-transform: uppercase;
+    padding: 28px 0 0;
+    border-top: 1px solid #1e2d3d;
+    margin-top: 8px;
+  }
+
+  .full-row {
+    grid-column: 1 / -1;
+    background: #07090f;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 48px;
+    gap: 64px;
+    flex-wrap: wrap;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>CuboSapiens &mdash; Logo Asset Preview</h1>
+</div>
+
+<div class="grid">
+
+  <!-- Dark bg, full logo -->
+  <div class="panel panel-dark">
+    <span class="label">Dark Background</span>
+    <!-- Full logo inline SVG -->
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 120" class="logo-full">
+      <defs>
+        <linearGradient id="faceTop" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#7FFFD4"/><stop offset="100%" style="stop-color:#00CED1"/>
+        </linearGradient>
+        <linearGradient id="faceLeft" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#00A8CC"/><stop offset="100%" style="stop-color:#005F7F"/>
+        </linearGradient>
+        <linearGradient id="faceRight" x1="100%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" style="stop-color:#0077A8"/><stop offset="100%" style="stop-color:#003F5C"/>
+        </linearGradient>
+        <filter id="glow"><feGaussianBlur stdDeviation="2.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        <filter id="shadow"><feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#00CED1" flood-opacity="0.25"/></filter>
+      </defs>
+      <g transform="translate(18,10)" filter="url(#shadow)">
+        <polygon points="42,8 78,28 42,48 6,28" fill="url(#faceTop)"/>
+        <polygon points="6,28 42,48 42,88 6,68" fill="url(#faceLeft)"/>
+        <polygon points="42,48 78,28 78,68 42,88" fill="url(#faceRight)"/>
+        <polyline points="6,28 42,8 78,28" fill="none" stroke="#A8FFEF" stroke-width="0.8" stroke-opacity="0.6"/>
+        <line x1="42" y1="8" x2="42" y2="48" stroke="#A8FFEF" stroke-width="0.8" stroke-opacity="0.4"/>
+        <circle cx="42" cy="30" r="2.8" fill="#fff" fill-opacity="0.85" filter="url(#glow)"/>
+        <circle cx="33" cy="35" r="1.6" fill="#fff" fill-opacity="0.55"/>
+        <circle cx="51" cy="35" r="1.6" fill="#fff" fill-opacity="0.55"/>
+        <line x1="42" y1="30" x2="33" y2="35" stroke="#fff" stroke-width="0.9" stroke-opacity="0.45"/>
+        <line x1="42" y1="30" x2="51" y2="35" stroke="#fff" stroke-width="0.9" stroke-opacity="0.45"/>
+      </g>
+      <g transform="translate(118,0)">
+        <text x="0" y="68" font-family="'Trebuchet MS','Segoe UI',Arial,sans-serif" font-size="44" font-weight="700" letter-spacing="-1" fill="#E8F8FF">Cubo</text>
+        <text x="107" y="68" font-family="'Trebuchet MS','Segoe UI',Arial,sans-serif" font-size="44" font-weight="300" letter-spacing="-0.5" fill="#00CED1">Sapiens</text>
+        <text x="1" y="88" font-family="'Trebuchet MS','Segoe UI',Arial,sans-serif" font-size="11.5" font-weight="400" letter-spacing="3.5" fill="#00A8CC" fill-opacity="0.75">THINK IN DIMENSIONS</text>
+      </g>
+      <line x1="118" y1="96" x2="382" y2="96" stroke="#00CED1" stroke-width="0.75" stroke-opacity="0.3"/>
+    </svg>
+  </div>
+
+  <!-- Light bg, full logo -->
+  <div class="panel panel-light">
+    <span class="label">Light Background</span>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 120" class="logo-full">
+      <defs>
+        <linearGradient id="faceTopL" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#00CED1"/><stop offset="100%" style="stop-color:#0096A0"/>
+        </linearGradient>
+        <linearGradient id="faceLeftL" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#0077A8"/><stop offset="100%" style="stop-color:#004F70"/>
+        </linearGradient>
+        <linearGradient id="faceRightL" x1="100%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" style="stop-color:#005580"/><stop offset="100%" style="stop-color:#002F4C"/>
+        </linearGradient>
+        <filter id="glowL"><feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        <filter id="shadowL"><feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#00CED1" flood-opacity="0.18"/></filter>
+      </defs>
+      <g transform="translate(18,10)" filter="url(#shadowL)">
+        <polygon points="42,8 78,28 42,48 6,28" fill="url(#faceTopL)"/>
+        <polygon points="6,28 42,48 42,88 6,68" fill="url(#faceLeftL)"/>
+        <polygon points="42,48 78,28 78,68 42,88" fill="url(#faceRightL)"/>
+        <polyline points="6,28 42,8 78,28" fill="none" stroke="#ffffff" stroke-width="0.9" stroke-opacity="0.5"/>
+        <line x1="42" y1="8" x2="42" y2="48" stroke="#ffffff" stroke-width="0.9" stroke-opacity="0.3"/>
+        <circle cx="42" cy="30" r="2.8" fill="#fff" fill-opacity="0.9" filter="url(#glowL)"/>
+        <circle cx="33" cy="35" r="1.6" fill="#fff" fill-opacity="0.6"/>
+        <circle cx="51" cy="35" r="1.6" fill="#fff" fill-opacity="0.6"/>
+        <line x1="42" y1="30" x2="33" y2="35" stroke="#fff" stroke-width="0.9" stroke-opacity="0.45"/>
+        <line x1="42" y1="30" x2="51" y2="35" stroke="#fff" stroke-width="0.9" stroke-opacity="0.45"/>
+      </g>
+      <g transform="translate(118,0)">
+        <text x="0" y="68" font-family="'Trebuchet MS','Segoe UI',Arial,sans-serif" font-size="44" font-weight="700" letter-spacing="-1" fill="#003F5C">Cubo</text>
+        <text x="107" y="68" font-family="'Trebuchet MS','Segoe UI',Arial,sans-serif" font-size="44" font-weight="300" letter-spacing="-0.5" fill="#007A8A">Sapiens</text>
+        <text x="1" y="88" font-family="'Trebuchet MS','Segoe UI',Arial,sans-serif" font-size="11.5" font-weight="400" letter-spacing="3.5" fill="#006680" fill-opacity="0.8">THINK IN DIMENSIONS</text>
+      </g>
+      <line x1="118" y1="96" x2="382" y2="96" stroke="#00CED1" stroke-width="0.75" stroke-opacity="0.25"/>
+    </svg>
+  </div>
+
+  <!-- Icon sizes on dark -->
+  <div class="panel panel-dark2">
+    <span class="label">Icon Sizes — Dark</span>
+    <div class="icon-row">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" class="logo-icon">
+        <defs>
+          <linearGradient id="ft2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#7FFFD4"/><stop offset="100%" style="stop-color:#00CED1"/></linearGradient>
+          <linearGradient id="fl2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#00A8CC"/><stop offset="100%" style="stop-color:#005F7F"/></linearGradient>
+          <linearGradient id="fr2" x1="100%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color:#0077A8"/><stop offset="100%" style="stop-color:#003F5C"/></linearGradient>
+          <filter id="g3"><feGaussianBlur stdDeviation="1.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        </defs>
+        <g transform="translate(32,32)">
+          <polygon points="0,-18 20,-8 0,2 -20,-8" fill="url(#ft2)"/>
+          <polygon points="-20,-8 0,2 0,22 -20,12" fill="url(#fl2)"/>
+          <polygon points="0,2 20,-8 20,12 0,22" fill="url(#fr2)"/>
+          <polyline points="-20,-8 0,-18 20,-8" fill="none" stroke="#B8FFF5" stroke-width="0.7" stroke-opacity="0.6"/>
+          <line x1="0" y1="-18" x2="0" y2="2" stroke="#B8FFF5" stroke-width="0.7" stroke-opacity="0.4"/>
+          <circle cx="0" cy="-5" r="2.2" fill="#fff" fill-opacity="0.9" filter="url(#g3)"/>
+          <circle cx="-7" cy="0" r="1.2" fill="#fff" fill-opacity="0.5"/>
+          <circle cx="7" cy="0" r="1.2" fill="#fff" fill-opacity="0.5"/>
+          <line x1="0" y1="-5" x2="-7" y2="0" stroke="#fff" stroke-width="0.8" stroke-opacity="0.4"/>
+          <line x1="0" y1="-5" x2="7" y2="0" stroke="#fff" stroke-width="0.8" stroke-opacity="0.4"/>
+        </g>
+      </svg>
+      <!-- 32px -->
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" class="logo-icon-sm">
+        <defs>
+          <linearGradient id="ft3" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#7FFFD4"/><stop offset="100%" style="stop-color:#00CED1"/></linearGradient>
+          <linearGradient id="fl3" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#00A8CC"/><stop offset="100%" style="stop-color:#005F7F"/></linearGradient>
+          <linearGradient id="fr3" x1="100%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color:#0077A8"/><stop offset="100%" style="stop-color:#003F5C"/></linearGradient>
+        </defs>
+        <g transform="translate(32,32)">
+          <polygon points="0,-18 20,-8 0,2 -20,-8" fill="url(#ft3)"/>
+          <polygon points="-20,-8 0,2 0,22 -20,12" fill="url(#fl3)"/>
+          <polygon points="0,2 20,-8 20,12 0,22" fill="url(#fr3)"/>
+          <circle cx="0" cy="-5" r="2.5" fill="#fff" fill-opacity="0.9"/>
+        </g>
+      </svg>
+      <!-- 16px favicon sim -->
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" class="logo-icon-fav">
+        <defs>
+          <linearGradient id="ft4" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#7FFFD4"/><stop offset="100%" style="stop-color:#00CED1"/></linearGradient>
+          <linearGradient id="fl4" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#00A8CC"/><stop offset="100%" style="stop-color:#005F7F"/></linearGradient>
+          <linearGradient id="fr4" x1="100%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color:#0077A8"/><stop offset="100%" style="stop-color:#003F5C"/></linearGradient>
+        </defs>
+        <g transform="translate(32,32)">
+          <polygon points="0,-18 20,-8 0,2 -20,-8" fill="url(#ft4)"/>
+          <polygon points="-20,-8 0,2 0,22 -20,12" fill="url(#fl4)"/>
+          <polygon points="0,2 20,-8 20,12 0,22" fill="url(#fr4)"/>
+        </g>
+      </svg>
+    </div>
+    <p class="label" style="margin-top:4px;">80px &nbsp;·&nbsp; 32px &nbsp;·&nbsp; 16px</p>
+  </div>
+
+  <!-- Icon on mid bg -->
+  <div class="panel panel-mid">
+    <span class="label">Icon — Mid Background</span>
+    <div class="icon-row">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" class="logo-icon">
+        <defs>
+          <linearGradient id="ft5" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#7FFFD4"/><stop offset="100%" style="stop-color:#00CED1"/></linearGradient>
+          <linearGradient id="fl5" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#00A8CC"/><stop offset="100%" style="stop-color:#005F7F"/></linearGradient>
+          <linearGradient id="fr5" x1="100%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color:#0077A8"/><stop offset="100%" style="stop-color:#003F5C"/></linearGradient>
+          <filter id="g5"><feGaussianBlur stdDeviation="1.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        </defs>
+        <g transform="translate(32,32)">
+          <polygon points="0,-18 20,-8 0,2 -20,-8" fill="url(#ft5)"/>
+          <polygon points="-20,-8 0,2 0,22 -20,12" fill="url(#fl5)"/>
+          <polygon points="0,2 20,-8 20,12 0,22" fill="url(#fr5)"/>
+          <polyline points="-20,-8 0,-18 20,-8" fill="none" stroke="#B8FFF5" stroke-width="0.7" stroke-opacity="0.6"/>
+          <line x1="0" y1="-18" x2="0" y2="2" stroke="#B8FFF5" stroke-width="0.7" stroke-opacity="0.4"/>
+          <circle cx="0" cy="-5" r="2.2" fill="#fff" fill-opacity="0.9" filter="url(#g5)"/>
+          <circle cx="-7" cy="0" r="1.2" fill="#fff" fill-opacity="0.5"/>
+          <circle cx="7" cy="0" r="1.2" fill="#fff" fill-opacity="0.5"/>
+          <line x1="0" y1="-5" x2="-7" y2="0" stroke="#fff" stroke-width="0.8" stroke-opacity="0.4"/>
+          <line x1="0" y1="-5" x2="7" y2="0" stroke="#fff" stroke-width="0.8" stroke-opacity="0.4"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+
+</div>
+
+<!-- Full width strip -->
+<div style="background:#07090f; display:flex; justify-content:center; align-items:center; padding:36px 48px; gap:12px; border-top:1px solid #1e2d3d; margin-top:2px; flex-wrap:wrap;">
+  <span style="font-size:10px;letter-spacing:3px;color:#00CED1;opacity:0.5;text-transform:uppercase;margin-right:20px;">Assets</span>
+  <code style="font-size:11px; background:#0d1117; color:#7FFFD4; padding:4px 10px; border-radius:4px; border:1px solid #1e3a3a;">cubosapiens-logo.svg</code>
+  <code style="font-size:11px; background:#0d1117; color:#7FFFD4; padding:4px 10px; border-radius:4px; border:1px solid #1e3a3a;">cubosapiens-icon.svg</code>
+</div>
+
+</body>
+</html>
