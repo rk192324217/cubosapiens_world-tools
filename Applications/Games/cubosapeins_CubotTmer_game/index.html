@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CuboTimer — Speedcubing Timer</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Bebas+Neue&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo">
+      <span class="logo-cube">⬛</span>
+      <span class="logo-text">CUBO<span class="logo-accent">TIMER</span></span>
+    </div>
+    <div class="header-right">
+      <select id="puzzleSelect" title="Select puzzle">
+        <option value="3x3">3×3</option>
+        <option value="2x2">2×2</option>
+        <option value="4x4">4×4</option>
+        <option value="pyraminx">Pyraminx</option>
+        <option value="skewb">Skewb</option>
+      </select>
+      <button id="btnClearSession" title="Clear session">🗑 Clear</button>
+    </div>
+  </header>
+
+  <!-- SCRAMBLE -->
+  <section class="scramble-section">
+    <div class="scramble-label">SCRAMBLE</div>
+    <div id="scramble" class="scramble-text">Loading scramble...</div>
+    <button id="btnNewScramble" title="New scramble">↺ New</button>
+  </section>
+
+  <!-- TIMER -->
+  <main class="timer-section">
+    <div id="timerDisplay" class="timer-display">0.000</div>
+    <div id="timerHint" class="timer-hint">Hold <kbd>SPACE</kbd> to start · Tap &amp; hold on mobile</div>
+  </main>
+
+  <!-- STATS -->
+  <section class="stats-section">
+    <div class="stat-card">
+      <div class="stat-label">BEST</div>
+      <div class="stat-value" id="statBest">—</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">AO5</div>
+      <div class="stat-value" id="statAo5">—</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">AO12</div>
+      <div class="stat-value" id="statAo12">—</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">MEAN</div>
+      <div class="stat-value" id="statMean">—</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">COUNT</div>
+      <div class="stat-value" id="statCount">0</div>
+    </div>
+  </section>
+
+  <!-- SOLVE HISTORY -->
+  <section class="history-section">
+    <div class="history-header">
+      <span>SOLVE HISTORY</span>
+    </div>
+    <div id="historyList" class="history-list">
+      <div class="history-empty">No solves yet. Start timing!</div>
+    </div>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
