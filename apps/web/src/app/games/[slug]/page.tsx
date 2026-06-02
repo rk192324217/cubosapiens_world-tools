@@ -9,7 +9,7 @@ interface Props {
 
 // ── Metadata ──
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug } = params
+  const { slug } = await params
 
   const game = await fetchGame(slug)
 
@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 // ── Page ──
 export default async function GamePage({ params }: Props) {
 
-  const { slug } = params
+  const { slug } = await params
 
   const [game, allGames] = await Promise.all([
     fetchGame(slug),

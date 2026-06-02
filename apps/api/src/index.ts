@@ -1,3 +1,15 @@
+import { validate } from "./middleware/validation"
+
+import {
+  toolQuerySchema,
+  toolSlugSchema,
+} from "./validations/tool.schema"
+
+import {
+  gameQuerySchema,
+  gameSlugSchema,
+} from "./validations/game.schema"
+
 import { Hono }           from "hono"
 import { cors }           from "hono/cors"
 import { createClient }   from "@supabase/supabase-js"
@@ -122,7 +134,11 @@ app.get("/", (c) => {
 //
 // Example: /api/tools?category=image&live=true
 
-app.get("/api/tools", async (c) => {
+app.get(
+  "/api/tools",
+  validate("query", toolQuerySchema),
+
+  async (c) =>  {
 
   // Create Supabase client using Worker env variables
   const supabase = createClient(
@@ -131,8 +147,10 @@ app.get("/api/tools", async (c) => {
   )
 
   // Read optional query params from URL
-  const category = c.req.query("category")  // e.g. "image"
-  const liveOnly = c.req.query("live")      // e.g. "true"
+  const {
+  category,
+  live: liveOnly
+  } = c.req.valid("query")
 
   // Start building the query
   // .from("Tool") → which table
@@ -174,7 +192,11 @@ app.get("/api/tools", async (c) => {
 // Returns one tool by its slug
 // Example: /api/tools/gps-cam
 
-app.get("/api/tools/:slug", async (c) => {
+app.get(
+  "/api/tools/:slug",
+  validate("param", toolSlugSchema),
+
+  async (c) => {
 
   const supabase = createClient(
     c.env.SUPABASE_URL,
@@ -183,7 +205,7 @@ app.get("/api/tools/:slug", async (c) => {
 
   // Get the slug from the URL
   // e.g. if URL is /api/tools/gps-cam then slug = "gps-cam"
-  const slug = c.req.param("slug")
+  const {slug }= c.req.valid("param")
 
   const { data, error } = await supabase
     .from("Tool")
@@ -242,10 +264,18 @@ app.get("/api/counter", async (c) => {
 // ══════════════════════════════════════════════════════════════
 
 // GET /api/games  — optional ?genre= and ?live=true
-app.get("/api/games", async (c) => {
+app.get(
+  "/api/games",
+  validate("query", gameQuerySchema),
 
-  const genre    = c.req.query("genre")
-  const liveOnly = c.req.query("live") === "true"
+  async (c) =>  {
+
+  const {
+  genre,
+  live
+} = c.req.valid("query")
+
+const liveOnly = live === "true"
 
   const supabase = createClient(
     c.env.SUPABASE_URL,
@@ -278,9 +308,13 @@ app.get("/api/games", async (c) => {
 })
 
 // GET /api/games/:slug
-app.get("/api/games/:slug", async (c) => {
+app.get(
+  "/api/games/:slug",
+  validate("param", gameSlugSchema),
 
-  const slug = c.req.param("slug")
+  async (c) => {
+
+  const {slug} = c.req.valid("param")
 
   const supabase = createClient(
     c.env.SUPABASE_URL,
