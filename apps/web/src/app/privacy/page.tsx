@@ -1,5 +1,3 @@
-import styles from "./privacy.module.css"
-
 import {
   ShieldCheck,
   Zap,
@@ -19,32 +17,28 @@ export const metadata = {
 
 export default function PrivacyPage() {
   return (
-<div className={styles.privacyPage}>
-
-      <section className={styles.privacyHero}>
-
-        <div className={styles.heroBadge}>
+    <div className="privacyPage">
+      <section className="privacyHero">
+        <div className="heroBadge">
           PRIVACY • TRANSPARENCY • SECURITY
         </div>
 
         <h1>Privacy Policy</h1>
 
         <p>
-          We believe privacy should be simple, transparent,
-          and easy to understand.
+          We believe privacy should be simple, transparent, and easy to
+          understand.
         </p>
 
-        <div className={styles.heroMeta}>
+        <div className="heroMeta">
           <span>Last Updated: 22 April 2026</span>
           <span>Privacy-First Platform</span>
         </div>
-
       </section>
 
-      <section className={styles.summaryGrid}>
-
-        <div className={styles.summaryCard}>
-          <div className={styles.summaryIcon}>
+      <section className="summaryGrid">
+        <div className="summaryCard">
+          <div className="summaryIcon">
             <ShieldCheck size={28} />
           </div>
 
@@ -55,20 +49,18 @@ export default function PrivacyPage() {
           </p>
         </div>
 
-        <div className={styles.summaryCard}>
-          <div className={styles.summaryIcon}>
+        <div className="summaryCard">
+          <div className="summaryIcon">
             <Zap size={28} />
           </div>
 
           <h3>Browser Processing</h3>
 
-          <p>
-            Most tools work completely inside your browser.
-          </p>
+          <p>Most tools work completely inside your browser.</p>
         </div>
 
-        <div className={styles.summaryCard}>
-          <div className={styles.summaryIcon}>
+        <div className="summaryCard">
+          <div className="summaryIcon">
             <BarChart3 size={28} />
           </div>
 
@@ -78,15 +70,11 @@ export default function PrivacyPage() {
             We only collect basic anonymous visit statistics.
           </p>
         </div>
-
       </section>
 
-      <section className={styles.privacyLayout}>
-
-        <aside className={styles.privacySidebar}>
-
-          <div className={styles.sidebarCard}>
-
+      <section className="privacyLayout">
+        <aside className="privacySidebar">
+          <div className="sidebarCard">
             <h4>Contents</h4>
 
             <a href="#who">Who We Are</a>
@@ -94,61 +82,45 @@ export default function PrivacyPage() {
             <a href="#permissions">Permissions</a>
             <a href="#rights">Your Rights</a>
             <a href="#contact">Contact</a>
-
           </div>
-
         </aside>
 
-        <div className={styles.privacyContent}>
-
-          <div className={styles.contentCard} id="who">
-
-            <div className={styles.contentTop}>
-
-              <span className={styles.contentNumber}>
-                01
-              </span>
+        <div className="privacyContent">
+          <div className="contentCard" id="who">
+            <div className="contentTop">
+              <span className="contentNumber">01</span>
 
               <div>
                 <h2>Who We Are</h2>
 
-                <p className={styles.sectionSubtitle}>
+                <p className="sectionSubtitle">
                   Open-source browser tools built with privacy in mind.
                 </p>
               </div>
-
             </div>
 
             <p>
-              CUBOSAPIENS operates browser-based tools designed to work
-              without accounts, subscriptions, or invasive tracking systems.
+              CUBOSAPIENS operates browser-based tools designed to work without
+              accounts, subscriptions, or invasive tracking systems.
             </p>
-
           </div>
 
-          <div className={styles.contentCard} id="collect">
-
-            <div className={styles.contentTop}>
-
-              <span className={styles.contentNumber}>
-                02
-              </span>
+          <div className="contentCard" id="collect">
+            <div className="contentTop">
+              <span className="contentNumber">02</span>
 
               <div>
                 <h2>What We Collect</h2>
 
-                <p className={styles.sectionSubtitle}>
+                <p className="sectionSubtitle">
                   Only the minimum required information.
                 </p>
               </div>
-
             </div>
 
-            <div className={styles.featureList}>
-
-              <div className={styles.featureItem}>
-
-                <div className={styles.featureTitle}>
+            <div className="featureList">
+              <div className="featureItem">
+                <div className="featureTitle">
                   <BarChart3 size={18} />
                   <h4>Anonymous Analytics</h4>
                 </div>
@@ -156,12 +128,10 @@ export default function PrivacyPage() {
                 <p>
                   Simple visit counts without identifying users.
                 </p>
-
               </div>
 
-              <div className={styles.featureItem}>
-
-                <div className={styles.featureTitle}>
+              <div className="featureItem">
+                <div className="featureTitle">
                   <Database size={18} />
                   <h4>Theme Preferences</h4>
                 </div>
@@ -169,12 +139,10 @@ export default function PrivacyPage() {
                 <p>
                   Stored locally in your browser for convenience.
                 </p>
-
               </div>
 
-              <div className={styles.featureItem}>
-
-                <div className={styles.featureTitle}>
+              <div className="featureItem">
+                <div className="featureTitle">
                   <Mail size={18} />
                   <h4>Contact Forms</h4>
                 </div>
@@ -182,85 +150,63 @@ export default function PrivacyPage() {
                 <p>
                   Securely processed through Formspree.
                 </p>
-
               </div>
-
             </div>
-
           </div>
 
-          <div className={styles.contentCard} id="permissions">
-
-            <div className={styles.contentTop}>
-
-              <span className={styles.contentNumber}>
-                03
-              </span>
+          <div className="contentCard" id="permissions">
+            <div className="contentTop">
+              <span className="contentNumber">03</span>
 
               <div>
                 <h2>Device Permissions</h2>
 
-                <p className={styles.sectionSubtitle}>
+                <p className="sectionSubtitle">
                   Always optional and browser-controlled.
                 </p>
               </div>
-
             </div>
 
-            <div className={styles.permissionsGrid}>
-
-              <div className={styles.permissionCard}>
+            <div className="permissionsGrid">
+              <div className="permissionCard">
                 <Camera size={34} />
                 <h4>Camera</h4>
               </div>
 
-              <div className={styles.permissionCard}>
+              <div className="permissionCard">
                 <MapPinned size={34} />
                 <h4>Location</h4>
               </div>
 
-              <div className={styles.permissionCard}>
+              <div className="permissionCard">
                 <Mic size={34} />
                 <h4>Microphone</h4>
               </div>
-
             </div>
-
           </div>
 
-          <div className={styles.contentCard} id="rights">
-
-            <div className={styles.contentTop}>
-
-              <span className={styles.contentNumber}>
-                04
-              </span>
+          <div className="contentCard" id="rights">
+            <div className="contentTop">
+              <span className="contentNumber">04</span>
 
               <div>
                 <h2>Your Rights</h2>
 
-                <p className={styles.sectionSubtitle}>
+                <p className="sectionSubtitle">
                   Transparency and control over your data.
                 </p>
               </div>
-
             </div>
 
-            <div className={styles.rightsBanner}>
-              You can clear local browser data anytime and opt out of personalized ads.
+            <div className="rightsBanner">
+              You can clear local browser data anytime and opt out of
+              personalized ads.
             </div>
-
           </div>
-
         </div>
-
       </section>
 
-      <section
-        className={styles.privacyContact}
-        id="contact"
-      >
-
+      <section className="privacyContact" id="contact">
         <h2>Questions About Privacy?</h2>
 
         <p>
@@ -270,9 +216,7 @@ export default function PrivacyPage() {
         <a href="mailto:cubosapiens@gmail.com">
           cubosapiens@gmail.com
         </a>
-
       </section>
-
     </div>
   )
 }
