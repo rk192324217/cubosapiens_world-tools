@@ -125,31 +125,49 @@ export async function trackVisit(): Promise<void>
 
 }
 
-// ── Games ──────────────────────────────────────────────────────
-export async function fetchGames(): Promise<Games[]> {
+// ── 2048 LOCAL OVERRIDE CONFIG ────────────────────────────────
+// @ts-ignore
+const local2048Game: any = {
+  id: "local-2048",
+  slug: "2048",
+  name: "2048",
+  description: "Join the matching numbers to hit the ultimate 2048 tile grid!",
+  genre: "puzzle",
+  isLive: true,
+  icon: "🎮", 
+  url: "", // Left blank since we render the React component directly
+  createdAt: new Date().toISOString(),
+  updatedAt: new Date().toISOString()
+}
 
+export async function fetchGames(): Promise<any[]> {
   try {
     const res = await fetch(`${API_URL}/api/games`)
-
     if (!res.ok) throw new Error("Failed to fetch games")
-
     const json = await res.json()
-    return json.data || []
+    const apiGames = json.data || []
+    
+    // Inject 2048 into the main page grid if it's missing from the database
+    if (!apiGames.some((g: any) => g.slug === "2048")) {
+      return [local2048Game, ...apiGames]
+    }
+    return apiGames
   }
   catch (err) {
     console.error("fetchGames error:", err)
-    return []
+    return [local2048Game] // Fallback so 2048 still shows up offline/on error
   }
-
 }
 
-export async function fetchGame(slug: string): Promise<Games | null> {
+export async function fetchGame(slug: string): Promise<any | null> {
+  // If the user navigates to /games/2048, intercept and serve our local object
+  if (slug === "2048") {
+    return local2048Game
+  }
 
   try {
     const res = await fetch(`${API_URL}/api/games/${slug}`)
-
     if (!res.ok) throw new Error("Game not found")
-
     const json = await res.json()
     return json.data || null
   }
@@ -157,9 +175,7 @@ export async function fetchGame(slug: string): Promise<Games | null> {
     console.error("fetchGame error:", err)
     return null
   }
-
 }
-
 
 // ── Track download ────────────────────────────────────────────
 // Called when user downloads a stamped photo

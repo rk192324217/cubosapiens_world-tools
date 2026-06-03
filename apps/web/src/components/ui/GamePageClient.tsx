@@ -1,9 +1,11 @@
 "use client"
 
 import { useState, useEffect, useCallback } from "react"
-import Link                                 from "next/link"
-import type { Game }                        from "@/lib/api"
+import Link from "next/link"
+import type { Games as Game } from "@/types"
 import Image from "next/image"
+import Game2048 from "@/components/ui/Game2048"
+
 interface Props {
   game:        Game
   recommended: Game[]
@@ -14,7 +16,6 @@ export default function GamePageClient({ game, recommended }: Props)
   const [isFullscreen, setIsFullscreen] = useState(false)
   const [isMobilePanelOpen, setMobilePanelOpen] = useState(false)
 
-  // ESC exits fullscreen
   const handleKey = useCallback((e: KeyboardEvent) => {
     if(e.key === "Escape") setIsFullscreen(false)
   }, [])
@@ -24,7 +25,6 @@ export default function GamePageClient({ game, recommended }: Props)
     return () => document.removeEventListener("keydown", handleKey)
   }, [handleKey])
 
-  // Hide header/footer in fullscreen
   useEffect(() => {
     const header = document.querySelector(".header-wrap") as HTMLElement
     const footer = document.querySelector(".footer")      as HTMLElement
@@ -63,23 +63,38 @@ export default function GamePageClient({ game, recommended }: Props)
               ✕ &nbsp;<kbd>Esc</kbd>
             </button>
           </div>
-          <iframe
-            src={game.url}
-            className="tool-fullscreen-iframe"
-            title={game.name}
-            allow="autoplay"
-          />
+          {game.slug === "2048" ? (
+           <div 
+  className="w-full h-[calc(100vh-40px)] flex items-center justify-center bg-black"
+  style={{ overflowY: "auto", scrollbarWidth: "thin", scrollbarColor: "#ff6b00 #0a0a0a" }}
+>
+  <Game2048 />
+</div>
+          ) : (
+            <iframe
+              src={game.url}
+              className="tool-fullscreen-iframe"
+              title={game.name}
+              allow="autoplay"
+            />
+          )}
         </div>
       )}
 
       {/* ── MAIN LAYOUT ────────────────────────────────────── */}
       <div className="game-page">
 
-        {/* LEFT — main content */}
         <div className="game-page-main">
 
-          {/* Game embed or coming soon */}
-          {game.isLive ? (
+          {/* Render local code if game slug matches 2048 */}
+          {game.slug === "2048" ? (
+           <div 
+  className="game-iframe-wrap flex items-center justify-center bg-black p-6 rounded-xl border border-zinc-900"
+  style={{ overflowY: "auto", height: "85vh", scrollbarWidth: "thin", scrollbarColor: "#ff6b00 #0a0a0a" }}
+>
+  <Game2048 />
+</div>
+          ) : game.isLive ? (
             <div className="game-iframe-wrap">
               <iframe
                 src={game.url}
@@ -98,25 +113,27 @@ export default function GamePageClient({ game, recommended }: Props)
 
           {/* Game info bar */}
           <div className="game-page-header">
-            <div className="game-page-icon">{game.icon.endsWith(".png") || game.icon.endsWith(".svg") ? (
-                      <Image
-                        src={`/icons/${game.icon}`}
-                        alt={game.name}
-                        className="game-page-icon"
-                        width={48}
-                        height={48}
-                        unoptimized
-                      />
-                    ) : (
-                      <span>{game.icon}</span>
-                    )}</div>
+            <div className="game-page-icon">
+              {game.icon && (game.icon.endsWith(".png") || game.icon.endsWith(".svg")) ? (
+                <Image
+                  src={`/icons/${game.icon}`}
+                  alt={game.name}
+                  className="game-page-icon"
+                  width={48}
+                  height={48}
+                  unoptimized
+                />
+              ) : (
+                <span>{game.icon || "🎮"}</span>
+              )}
+            </div>
             <div className="game-page-holder">
               <h1 className="game-page-title">{game.name}</h1>
               <p className="game-page-desc">{game.description}</p>
               <span className="game-genre-pill">{game.genre}</span>
             </div>
             <div className="game-page-actions">
-              {game.isLive && (
+              {(game.isLive || game.slug === "2048") && (
                 <button
                   className="game-fullscreen-btn"
                   onClick={() => setIsFullscreen(true)}
@@ -124,7 +141,6 @@ export default function GamePageClient({ game, recommended }: Props)
                   ⛶ Fullscreen
                 </button>
               )}
-              {/* Mobile — toggle recommended panel */}
               <button
                 className="game-rec-toggle"
                 onClick={() => setMobilePanelOpen(p => !p)}
@@ -135,7 +151,7 @@ export default function GamePageClient({ game, recommended }: Props)
             </div>
           </div>
 
-          {/* Mobile recommended panel — slides in below info bar */}
+          {/* Mobile recommended panel */}
           {isMobilePanelOpen && (
             <div className="game-rec-mobile">
               <p className="sidebar-title">More Games</p>
@@ -167,20 +183,22 @@ export default function GamePageClient({ game, recommended }: Props)
 function RecommendedGameCard({ game }: { game: Game })
 {
   const inner = (
-    <div className={`recommended-card ${!game.isLive ? "recommended-card-soon" : ""}`}>
+    <div className={`recommended-card ${!game.isLive && game.slug !== "2048" ? "recommended-card-soon" : ""}`}>
       <div className="recommended-icon">
-        <span>{game.icon.endsWith(".png") || game.icon.endsWith(".svg") ? (
-                  <Image
-                    src={`/icons/${game.icon}`}
-                    alt={game.name}
-                    className="recommended-icon"
-                    width={48}
-                    height={48}
-                    unoptimized
-                  />
-                ) : (
-                  <span>{game.icon}</span>
-                )}</span>
+        <span>
+          {game.icon && (game.icon.endsWith(".png") || game.icon.endsWith(".svg")) ? (
+            <Image
+              src={`/icons/${game.icon}`}
+              alt={game.name}
+              className="recommended-icon"
+              width={48}
+              height={48}
+              unoptimized
+            />
+          ) : (
+            <span>{game.icon || "🎮"}</span>
+          )}
+        </span>
       </div>
       <div className="recommended-info">
         <p className="recommended-name">{game.name}</p>
@@ -190,14 +208,14 @@ function RecommendedGameCard({ game }: { game: Game })
             : game.description}
         </p>
       </div>
-      {game.isLive
+      {game.isLive || game.slug === "2048"
         ? <span className="recommended-live">LIVE</span>
         : <span className="badge-soon">SOON</span>
       }
     </div>
   )
 
-  if(game.isLive)
+  if(game.isLive || game.slug === "2048")
     return <Link href={`/games/${game.slug}`}>{inner}</Link>
 
   return <div style={{ cursor: "default" }}>{inner}</div>
