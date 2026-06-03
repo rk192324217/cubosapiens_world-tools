@@ -1,6 +1,7 @@
 import type { Metadata }                    from "next"
 import { Alfa_Slab_One, Syne, DM_Sans, Geist }    from "next/font/google"
 import "./globals.css"
+import BackToTop from "@/components/BackToTop";
 import Header from "@/components/layout/Header"
 import Footer from "@/components/layout/Footer"
 import TrackVisit from "@/components/TrackVisit"
@@ -93,6 +94,7 @@ export default function RootLayout({
         <Footer />
         <PWAInstallPrompt />
         <CookieBanner />
+        <BackToTop />
       </body>
     </html>
   )
