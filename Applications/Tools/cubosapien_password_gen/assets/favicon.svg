@@ -1,0 +1,20 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">PassGen favicon</title>
+  <desc id="desc">Compact lock and cube icon.</desc>
+  <defs>
+    <linearGradient id="bg" x1="8" y1="6" x2="56" y2="58" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0EA5E9"/>
+      <stop offset="0.5" stop-color="#2563EB"/>
+      <stop offset="1" stop-color="#7C3AED"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="24" y1="30" x2="42" y2="48" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#A7F3D0"/>
+      <stop offset="1" stop-color="#FDE68A"/>
+    </linearGradient>
+  </defs>
+  <rect x="6" y="6" width="52" height="52" rx="14" fill="url(#bg)"/>
+  <path d="M23 29V24C23 19 27 15 32 15C37 15 41 19 41 24V29" stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round"/>
+  <rect x="18" y="27" width="28" height="23" rx="7" fill="#0F172A" fill-opacity="0.76" stroke="#FFFFFF" stroke-opacity="0.28" stroke-width="2"/>
+  <path d="M32 33L39 37V45L32 49L25 45V37L32 33Z" fill="url(#accent)"/>
+  <path d="M32 33V41M39 37L32 41M25 37L32 41" stroke="#0F172A" stroke-opacity="0.34" stroke-width="1.6" stroke-linecap="round"/>
+</svg>

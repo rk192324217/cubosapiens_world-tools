@@ -1,0 +1,26 @@
+<svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">PassGen logo</title>
+  <desc id="desc">A geometric lock and cube mark for the CuboSapiens password generator.</desc>
+  <defs>
+    <linearGradient id="pass-bg" x1="18" y1="16" x2="110" y2="112" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0EA5E9"/>
+      <stop offset="0.48" stop-color="#2563EB"/>
+      <stop offset="1" stop-color="#7C3AED"/>
+    </linearGradient>
+    <linearGradient id="pass-accent" x1="40" y1="34" x2="90" y2="100" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#A7F3D0"/>
+      <stop offset="1" stop-color="#FDE68A"/>
+    </linearGradient>
+    <filter id="pass-shadow" x="10" y="12" width="108" height="108" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="10" stdDeviation="8" flood-color="#172554" flood-opacity="0.24"/>
+    </filter>
+  </defs>
+  <rect x="18" y="16" width="92" height="92" rx="24" fill="url(#pass-bg)" filter="url(#pass-shadow)"/>
+  <path d="M45 58V48C45 37.5 53.5 29 64 29C74.5 29 83 37.5 83 48V58" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round"/>
+  <rect x="37" y="54" width="54" height="42" rx="13" fill="#0F172A" fill-opacity="0.74" stroke="#FFFFFF" stroke-opacity="0.28" stroke-width="3"/>
+  <path d="M64 67L75 73.5V86.5L64 93L53 86.5V73.5L64 67Z" fill="url(#pass-accent)" fill-opacity="0.96"/>
+  <path d="M64 67V79.5M75 73.5L64 79.5M53 73.5L64 79.5" stroke="#0F172A" stroke-opacity="0.34" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="48" cy="75" r="3.2" fill="#A7F3D0"/>
+  <circle cx="80" cy="75" r="3.2" fill="#FDE68A"/>
+  <path d="M44 103H84" stroke="#FFFFFF" stroke-opacity="0.55" stroke-width="5" stroke-linecap="round"/>
+</svg>
