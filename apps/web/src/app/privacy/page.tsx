@@ -1,86 +1,222 @@
+import {
+  ShieldCheck,
+  Zap,
+  BarChart3,
+  Camera,
+  MapPinned,
+  Mic,
+  Database,
+  Mail,
+} from "lucide-react"
+
 export const metadata = {
-  title:       "Privacy Policy",
-  description: "CUBOSAPIENS privacy policy. We process all data in your browser. No file uploads, no user accounts, no data collection beyond anonymous analytics.",
-  openGraph: {
-    title:       "Privacy Policy",
-    description: "Learn how CUBOSAPIENS handles your data. We are privacy-first by design.",
-    url:         "https://cubosapiens.world/privacy",
-  },
+  title: "Privacy Policy",
+  description:
+    "CUBOSAPIENS privacy policy. We process all data in your browser with a privacy-first approach.",
 }
 
-export default function PrivacyPage()
-{
+export default function PrivacyPage() {
   return (
-    <div className="page-container">
-      <div className="page-hero">
-        <span className="section-tag">Legal</span>
-        <h1 className="page-hero-title">Privacy Policy</h1>
-        <p className="page-hero-sub">Last updated: 22 April 2026. We keep this simple and honest.</p>
-      </div>
+    <div className="privacyPage">
+      <section className="privacyHero">
+        <div className="heroBadge">
+          PRIVACY • TRANSPARENCY • SECURITY
+        </div>
 
-      <div className="legal-content">
+        <h1>Privacy Policy</h1>
 
-        <h2>1. Who We Are</h2>
-        <p>CUBOSAPIENS operates cubosapiens.world and its associated tool subdomains. We are an independent open-source project built and maintained by a student developer based in Chennai, India. Our mission is to give everyone on the internet access to free, useful browser tools — without accounts, subscriptions, or data collection.</p>
+        <p>
+          We believe privacy should be simple, transparent, and easy to
+          understand.
+        </p>
 
-        <h2>2. Our Privacy-First Approach</h2>
-        <p>CUBOSAPIENS is designed from the ground up to respect your privacy. We do not require you to create an account. We do not store your files, photos, or personal documents on any server. All tool processing happens entirely within your own browser on your own device. Your data never leaves your device unless you explicitly choose to share it.</p>
+        <div className="heroMeta">
+          <span>Last Updated: 22 April 2026</span>
+          <span>Privacy-First Platform</span>
+        </div>
+      </section>
 
-        <h2>3. What Data We Collect</h2>
-        <p>We collect the absolute minimum required to operate the platform:</p>
-        <ul>
-          <li><strong>Anonymous visit counts</strong> — a simple counter stored in Cloudflare KV that increments when you visit the site. No personal information is attached to this count.</li>
-          <li><strong>Theme preference</strong> — stored locally in your browser&apos;s localStorage. Never sent to our servers.</li>
-          <li><strong>Session data</strong> — a sessionStorage flag to prevent counting your visit multiple times in one session. Cleared when you close your browser.</li>
-          <li><strong>Contact form submissions</strong> — if you use our contact form, your name, email, and message are processed by Formspree (a third-party form service). See their privacy policy at formspree.io.</li>
-        </ul>
+      <section className="summaryGrid">
+        <div className="summaryCard">
+          <div className="summaryIcon">
+            <ShieldCheck size={28} />
+          </div>
 
-        <h2>4. Device Permissions</h2>
-        <p>Some tools require device permissions to function. These are always requested explicitly by your browser before any access is granted:</p>
-        <ul>
-          <li><strong>Camera</strong> — requested by tools that process photos. Your camera feed is processed locally in your browser and never transmitted to our servers.</li>
-          <li><strong>Location (GPS)</strong> — requested by GPS CAM to stamp your coordinates onto photos. Location data is processed in your browser only and never sent to our servers.</li>
-          <li><strong>Microphone</strong> — may be requested by future audio tools. Will always be opt-in and locally processed.</li>
-        </ul>
-        <p>You can revoke any permission at any time through your browser settings. Revoking a permission will disable the relevant feature but will not affect your use of other tools.</p>
+          <h3>No File Uploads</h3>
 
-        <h2>5. Third-Party Services</h2>
-        <p>We use the following third-party services to operate the platform. Each has its own privacy policy:</p>
-        <ul>
-          <li><strong>Cloudflare</strong> — our hosting provider. Cloudflare may log IP addresses and request metadata as part of its infrastructure. See cloudflare.com/privacypolicy.</li>
-          <li><strong>Supabase</strong> — our database provider, used to store tool metadata (names, descriptions, categories). No user data is stored here.</li>
-          <li><strong>OpenStreetMap / Nominatim</strong> — used for reverse geocoding in GPS CAM. Your coordinates are sent to Nominatim&apos;s servers only when you use the location feature.</li>
-          <li><strong>Esri World Imagery</strong> — provides satellite map tiles in GPS CAM. Tile requests may include your approximate location.</li>
-          <li><strong>Formspree</strong> — processes contact form submissions. See formspree.io/legal/privacy-policy.</li>
-          <li><strong>Google AdSense</strong> — we display advertisements to support the platform. Google may use cookies and your browsing data to serve personalised ads. See section 6 below.</li>
-        </ul>
+          <p>
+            Your files stay on your device and are never stored on our servers.
+          </p>
+        </div>
 
-        <h2>6. Google AdSense and Advertising</h2>
-        <p>CUBOSAPIENS uses Google AdSense to display advertisements. Google AdSense uses cookies and similar tracking technologies to serve ads that are relevant to you based on your browsing history across websites. This is how we keep CUBOSAPIENS free for everyone.</p>
-        <p>You can opt out of personalised advertising by visiting <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener noreferrer" className="about-link">Google Ads Settings</a> or by using the <a href="https://optout.aboutads.info/" target="_blank" rel="noopener noreferrer" className="about-link">Digital Advertising Alliance opt-out tool</a>.</p>
+        <div className="summaryCard">
+          <div className="summaryIcon">
+            <Zap size={28} />
+          </div>
 
-        <h2>7. Cookies</h2>
-        <p>We use a small number of cookies and browser storage items. See our <a href="/cookies" className="about-link">Cookie Policy</a> for full details.</p>
+          <h3>Browser Processing</h3>
 
-        <h2>8. Children&apos;s Privacy</h2>
-        <p>CUBOSAPIENS is a general-purpose tool platform not directed at children under 13. We do not knowingly collect any personal information from children. If you believe a child has submitted personal information through our contact form, please contact us and we will delete it immediately.</p>
+          <p>Most tools work completely inside your browser.</p>
+        </div>
 
-        <h2>9. Your Rights</h2>
-        <p>Because we collect minimal personal data, most rights under GDPR and Indian data protection law are automatically satisfied. Specifically:</p>
-        <ul>
-          <li><strong>Right to access</strong> — we hold no personal profile about you.</li>
-          <li><strong>Right to deletion</strong> — there is nothing to delete on our end. Clear your browser&apos;s localStorage and cookies to remove all locally stored preferences.</li>
-          <li><strong>Right to object</strong> — you can opt out of personalised Google ads at any time (see section 6).</li>
-          <li><strong>Contact form data</strong> — if you submitted a contact form and want your message deleted, email us at <a href="mailto:cubosapiens@gmail.com" className="about-link">cubosapiens@gmail.com</a>.</li>
-        </ul>
+        <div className="summaryCard">
+          <div className="summaryIcon">
+            <BarChart3 size={28} />
+          </div>
 
-        <h2>10. Changes to This Policy</h2>
-        <p>We may update this policy as we add new tools or services. The date at the top of this page will always reflect the latest revision. Continued use of CUBOSAPIENS after changes constitutes acceptance of the updated policy.</p>
+          <h3>Minimal Analytics</h3>
 
-        <h2>11. Contact</h2>
-        <p>For privacy questions or data requests, contact us at <a href="mailto:cubosapiens@gmail.com" className="about-link">cubosapiens@gmail.com</a> or visit our <a href="/contact" className="about-link">contact page</a>.</p>
+          <p>
+            We only collect basic anonymous visit statistics.
+          </p>
+        </div>
+      </section>
 
-      </div>
+      <section className="privacyLayout">
+        <aside className="privacySidebar">
+          <div className="sidebarCard">
+            <h4>Contents</h4>
+
+            <a href="#who">Who We Are</a>
+            <a href="#collect">Data Collection</a>
+            <a href="#permissions">Permissions</a>
+            <a href="#rights">Your Rights</a>
+            <a href="#contact">Contact</a>
+          </div>
+        </aside>
+
+        <div className="privacyContent">
+          <div className="contentCard" id="who">
+            <div className="contentTop">
+              <span className="contentNumber">01</span>
+
+              <div>
+                <h2>Who We Are</h2>
+
+                <p className="sectionSubtitle">
+                  Open-source browser tools built with privacy in mind.
+                </p>
+              </div>
+            </div>
+
+            <p>
+              CUBOSAPIENS operates browser-based tools designed to work without
+              accounts, subscriptions, or invasive tracking systems.
+            </p>
+          </div>
+
+          <div className="contentCard" id="collect">
+            <div className="contentTop">
+              <span className="contentNumber">02</span>
+
+              <div>
+                <h2>What We Collect</h2>
+
+                <p className="sectionSubtitle">
+                  Only the minimum required information.
+                </p>
+              </div>
+            </div>
+
+            <div className="featureList">
+              <div className="featureItem">
+                <div className="featureTitle">
+                  <BarChart3 size={18} />
+                  <h4>Anonymous Analytics</h4>
+                </div>
+
+                <p>
+                  Simple visit counts without identifying users.
+                </p>
+              </div>
+
+              <div className="featureItem">
+                <div className="featureTitle">
+                  <Database size={18} />
+                  <h4>Theme Preferences</h4>
+                </div>
+
+                <p>
+                  Stored locally in your browser for convenience.
+                </p>
+              </div>
+
+              <div className="featureItem">
+                <div className="featureTitle">
+                  <Mail size={18} />
+                  <h4>Contact Forms</h4>
+                </div>
+
+                <p>
+                  Securely processed through Formspree.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="contentCard" id="permissions">
+            <div className="contentTop">
+              <span className="contentNumber">03</span>
+
+              <div>
+                <h2>Device Permissions</h2>
+
+                <p className="sectionSubtitle">
+                  Always optional and browser-controlled.
+                </p>
+              </div>
+            </div>
+
+            <div className="permissionsGrid">
+              <div className="permissionCard">
+                <Camera size={34} />
+                <h4>Camera</h4>
+              </div>
+
+              <div className="permissionCard">
+                <MapPinned size={34} />
+                <h4>Location</h4>
+              </div>
+
+              <div className="permissionCard">
+                <Mic size={34} />
+                <h4>Microphone</h4>
+              </div>
+            </div>
+          </div>
+
+          <div className="contentCard" id="rights">
+            <div className="contentTop">
+              <span className="contentNumber">04</span>
+
+              <div>
+                <h2>Your Rights</h2>
+
+                <p className="sectionSubtitle">
+                  Transparency and control over your data.
+                </p>
+              </div>
+            </div>
+
+            <div className="rightsBanner">
+              You can clear local browser data anytime and opt out of
+              personalized ads.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="privacyContact" id="contact">
+        <h2>Questions About Privacy?</h2>
+
+        <p>
+          Reach out anytime for privacy-related questions or requests.
+        </p>
+
+        <a href="mailto:cubosapiens@gmail.com">
+          cubosapiens@gmail.com
+        </a>
+      </section>
     </div>
   )
 }
