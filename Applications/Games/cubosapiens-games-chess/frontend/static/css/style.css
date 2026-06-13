@@ -569,24 +569,35 @@ main { padding-top: 58px; min-height: 100vh; display: flex; flex-direction: colu
    RESPONSIVE
 ══════════════════════════════════════════════════════════ */
 
-/* Tablet: collapse sidebar into top bar */
+/* Tablet Breakpoint */
 @media (max-width: 860px) {
-  .hero { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
+  :root{
+    --board-size: min(420px, 92vw);
+  }
+  .hero { 
+    grid-template-columns: 1fr; 
+    grid-template-rows: auto 1fr; 
+  }
 
   .left {
-    flex-direction: row; flex-wrap: wrap;
+    flex-direction: row; 
+    flex-wrap: wrap;
     padding: 12px 16px; gap: 10px;
     border-right: none; border-bottom: 1px solid var(--border);
     overflow-x: auto; overflow-y: visible;
   }
+  /* Restructure nested lists for safe row wrapping */
+  .mode-list, .diff-row, .time-pills {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 6px;
+  }
+  /* Prevent compression bugs on mobile side-scrolling cells */
+  .left > div {flex-shrink: 0;}
   /* Hide less important panels on mobile */
-  .elo-panel, .stats-grid, .pgn-section { display: none; }
-
-  .left > div { flex-shrink: 0; }
+  .elo-panel, .stats-grid, .pgn-section { display: none !important; }
 
   .right { padding: 16px 12px; gap: 9px; }
-
-  --board-size: min(420px, 92vw);
 }
 
 /* Mobile: board fills width */
@@ -613,4 +624,24 @@ main { padding-top: 58px; min-height: 100vh; display: flex; flex-direction: colu
 @media (max-width: 360px) {
   :root { --board-size: calc(100vw - 16px); }
   .ctrl-btn { padding: 6px 8px; }
+}
+
+/* CUBO CHESS - Custom Pointer Fixes */
+.piece-4a7a5 {
+  pointer-events: none;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   CUBO CHESS — Layout Constraints & Animation Overrides
+═══════════════════════════════════════════════════════════ */
+
+/* Keeps the chessboard fully visible on your screen */
+#board {
+  max-width: 70vh; /* Adjusts width relative to viewport height */
+  margin: 0 auto;
+}
+
+/* Enhances the look of the movement circles */
+.square-55d63[style*="radical-gradient"] {
+  transition: background 0.15s ease-in-out;
 }
