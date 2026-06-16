@@ -41,6 +41,29 @@
 
 ---
 
+## Table of Contents
+
+- [GSSoC 2026 Badges](#gssoc-2026-badges)
+- [Connect With CuboSapiens](#connect-with-cubosapiens)
+- [Contributors](#contributors)
+- [What is CuboSapiens?](#what-is-cubosapiens)
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Browser Tools & Games Ecosystem](#browser-tools--games-ecosystem)
+- [Supported Project Categories](#supported-project-categories)
+- [Running the Project Locally](#running-the-project-locally)
+- [Running Standalone Applications](#running-standalone-applications)
+- [Contributing](#contributing)
+- [Contribution Guidelines](#contribution-guidelines)
+- [GSSoC 2026 Participation](#gssoc-2026-participation)
+- [Repository Goals](#repository-goals)
+- [Future Roadmap](#future-roadmap)
+- [Support the Project](#support-the-project)
+- [Maintainer](#maintainer)
+- [License](#license)
+
+---
+
 ## GSSoC 2026 Badges
 
 <p align="center">
