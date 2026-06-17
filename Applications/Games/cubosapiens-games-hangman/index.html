@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fantasy Hangman</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="bg-dark text-light">
+    <div class="container py-4">
+      <!-- Header -->
+      <div class="text-center mb-4">
+        <h1 class="display-4 fw-bold text-warning">
+          <i class="fas fa-dragon me-2"></i>Fantasy Hangman
+        </h1>
+        <p class="lead text-muted">
+          Harry Potter • Percy Jackson • Lord of the Rings
+        </p>
+      </div>
+
+      <!-- Stats -->
+      <div class="row justify-content-center mb-4">
+        <div class="col-lg-11">
+          <div class="d-flex justify-content-center gap-4 flex-wrap">
+            <div class="stat-box text-center">
+              <h5 class="text-success mb-1">Wins</h5>
+              <h3 id="wins" class="text-success">0</h3>
+            </div>
+            <div class="stat-box text-center">
+              <h5 class="text-danger mb-1">Losses</h5>
+              <h3 id="losses" class="text-danger">0</h3>
+            </div>
+            <div class="stat-box text-center">
+              <h5 class="text-warning mb-1">Accuracy</h5>
+              <h3 id="accuracy" class="text-warning">100%</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row justify-content-center">
+        <div class="col-lg-11">
+          <div class="card bg-dark border-warning shadow-lg">
+            <div class="card-body p-4 p-md-5">
+              <div class="row">
+                <!-- Hangman Column -->
+                <div class="col-md-5 text-center mb-4 mb-md-0">
+                  <div id="hangman" class="hangman-container mx-auto"></div>
+                  <div class="mt-4">
+                    <span class="badge bg-danger fs-5 px-4 py-3" id="attempts"
+                      >Attempts Left: 6</span
+                    >
+                  </div>
+                </div>
+
+                <!-- Game Area -->
+                <div class="col-md-7">
+                  <h5 class="text-warning mb-2">Hint:</h5>
+                  <p
+                    id="hint"
+                    class="fs-5 text-info border border-secondary p-3 rounded bg-dark"
+                  ></p>
+
+                  <div class="word-display mb-4" id="word-display"></div>
+
+                  <h6 class="text-muted">Incorrect Guesses:</h6>
+                  <div
+                    id="incorrect-guesses"
+                    class="text-danger fs-4 mb-4"
+                  ></div>
+
+                  <!-- Extra Controls -->
+                  <div class="d-flex justify-content-center gap-3 mb-4">
+                    <button id="hint-btn" class="btn btn-outline-info">
+                      <i class="fas fa-lightbulb"></i> Reveal Letter (-1
+                      attempt)
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Keyboard -->
+              <div class="mt-5">
+                <h5 class="text-warning mb-3 text-center">Choose a Letter</h5>
+                <div id="keyboard" class="keyboard-grid"></div>
+              </div>
+
+              <!-- Message -->
+              <div
+                id="game-message"
+                class="text-center fs-3 fw-bold py-4"
+              ></div>
+
+              <!-- Restart -->
+              <div class="text-center">
+                <button
+                  id="restart-btn"
+                  class="btn btn-warning btn-lg px-5 py-3"
+                >
+                  <i class="fas fa-redo-alt me-2"></i>New Game
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,323 @@
+/* styles.css */
+body {
+  background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  min-height: 100vh;
+}
+
+.card {
+  border-width: 3px;
+  background: rgba(20, 20, 40, 0.95) !important;
+}
+
+.text-warning {
+  color: #f1c40f !important;
+  text-shadow: 0 0 8px rgba(241, 196, 15, 0.5);
+}
+
+.hangman-container {
+  width: 220px;
+  height: 280px;
+  background: #1a1a2e;
+  border: 4px solid #f1c40f;
+  border-radius: 15px;
+  position: relative;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+#hangman {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.word-display {
+  font-size: 2.2rem;
+  letter-spacing: 12px;
+  font-weight: bold;
+  color: #e0e0e0;
+  text-align: center;
+  min-height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.word-display span {
+  display: inline-block;
+  min-width: 35px;
+  text-align: center;
+  border-bottom: 4px solid #f1c40f;
+  padding-bottom: 8px;
+}
+
+.word-display .revealed {
+  color: #2ecc71;
+  border-bottom-color: #2ecc71;
+  text-shadow: 0 0 10px #2ecc71;
+}
+
+.keyboard-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+.keyboard-grid button {
+  font-size: 1.1rem;
+  font-weight: bold;
+  height: 52px;
+  border: 2px solid #f1c40f;
+  background: #16213e;
+  color: #f1c40f;
+  transition: all 0.2s;
+}
+
+.keyboard-grid button:hover {
+  background: #f1c40f;
+  color: #0f0c29;
+  transform: translateY(-2px);
+}
+
+.keyboard-grid button:disabled {
+  background: #444;
+  color: #888;
+  border-color: #555;
+  cursor: not-allowed;
+  transform: none;
+}
+
+#incorrect-guesses {
+  min-height: 50px;
+}
+
+#game-message {
+  min-height: 80px;
+}
+
+.btn-warning {
+  background: #f1c40f;
+  color: #0f0c29;
+  font-weight: bold;
+  border: none;
+}
+
+.btn-warning:hover {
+  background: #f39c12;
+  color: #0f0c29;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .word-display {
+    font-size: 1.8rem;
+    letter-spacing: 8px;
+  }
+
+  .keyboard-grid {
+    grid-template-columns: repeat(6, 1fr);
+    gap: 6px;
+  }
+
+  .keyboard-grid button {
+    height: 48px;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .word-display {
+    font-size: 1.5rem;
+    letter-spacing: 6px;
+  }
+} /* styles.css */
+body {
+  background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  min-height: 100vh;
+  color: #e0e0e0;
+}
+
+.card {
+  border-width: 3px;
+  background: rgba(20, 20, 40, 0.95) !important;
+}
+
+.text-warning {
+  color: #f1c40f !important;
+  text-shadow: 0 0 8px rgba(241, 196, 15, 0.5);
+}
+
+.stat-box {
+  background: rgba(30, 30, 60, 0.6);
+  padding: 12px 24px;
+  border-radius: 12px;
+  border: 2px solid #f1c40f;
+  min-width: 110px;
+}
+
+.hangman-container {
+  width: 230px;
+  height: 290px;
+  background: #1a1a2e;
+  border: 4px solid #f1c40f;
+  border-radius: 15px;
+  position: relative;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+#hangman {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.word-display {
+  font-size: 2.4rem;
+  letter-spacing: 14px;
+  font-weight: bold;
+  color: #e0e0e0;
+  text-align: center;
+  min-height: 85px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.word-display span {
+  display: inline-block;
+  min-width: 40px;
+  text-align: center;
+  border-bottom: 5px solid #f1c40f;
+  padding-bottom: 8px;
+}
+
+.word-display .revealed {
+  color: #2ecc71;
+  border-bottom-color: #2ecc71;
+  text-shadow: 0 0 10px #2ecc71;
+}
+
+.keyboard-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+.keyboard-grid button {
+  font-size: 1.15rem;
+  font-weight: bold;
+  height: 58px;
+  border: 2px solid #f1c40f;
+  background: #16213e;
+  color: #f1c40f;
+  transition: all 0.2s;
+}
+
+.keyboard-grid button:hover:not(:disabled) {
+  background: #f1c40f;
+  color: #0f0c29;
+  transform: translateY(-3px);
+}
+
+.keyboard-grid button:disabled {
+  background: #444;
+  color: #888;
+  border-color: #555;
+  cursor: not-allowed;
+}
+
+#incorrect-guesses {
+  min-height: 55px;
+}
+
+#game-message {
+  min-height: 100px;
+}
+
+.btn-warning {
+  background: #f1c40f;
+  color: #0f0c29;
+  font-weight: bold;
+  border: none;
+}
+
+.btn-warning:hover {
+  background: #f39c12;
+}
+
+.btn-outline-info {
+  border-color: #17a2b8;
+  color: #17a2b8;
+}
+
+.btn-outline-info:hover {
+  background: #17a2b8;
+  color: white;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .word-display {
+    font-size: 1.9rem;
+    letter-spacing: 8px;
+    gap: 8px;
+  }
+
+  .keyboard-grid {
+    grid-template-columns: repeat(6, 1fr);
+    gap: 8px;
+  }
+
+  .keyboard-grid button {
+    height: 52px;
+    font-size: 1.05rem;
+  }
+
+  .stat-box {
+    min-width: 90px;
+    padding: 10px 16px;
+  }
+}
+
+@media (max-width: 576px) {
+  .word-display {
+    font-size: 1.55rem;
+    letter-spacing: 6px;
+  }
+
+  .hangman-container {
+    width: 200px;
+    height: 260px;
+  }
+
+  .keyboard-grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+/* Hangman SVG */
+.hangman-svg {
+  width: 180px;
+  height: 240px;
+}
+
+/* Hangman SVG Styling */
+.hangman-svg {
+  width: 180px;
+  height: 240px;
+}
