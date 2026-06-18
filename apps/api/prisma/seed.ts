@@ -225,6 +225,17 @@ async function main()
     skipDuplicates: true,
     data: [
       {
+            name: "Neon Arena Shooter",
+            slug: "arena-shooter",
+            description: "Survive endless waves of neon enemies in this retro arcade shooter.",
+            genre: "Arcade",
+            icon: "🔫",
+            url: "https://arena-shooter.cubosapiens.world",
+            isLive: true,
+            isFeatured: true,
+            order: 0
+      },
+      {
             name: "Tic Tac Toe",
             slug: "xo",
             description: "Play Classic Themed XO",

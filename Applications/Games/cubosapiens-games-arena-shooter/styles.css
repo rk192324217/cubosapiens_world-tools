@@ -33,6 +33,8 @@
 
 html {
   font-size: 16px;
+  height: 100%;
+  overflow: hidden;
 }
 
 body {
@@ -41,12 +43,13 @@ body {
   font-family: var(--font-base);
   font-size: 1rem;
   font-weight: 300;
-  min-height: 100vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0 0 60px;
-  overflow-x: hidden;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
 }
 
 /* Ambient Background Glows */
@@ -70,12 +73,14 @@ body > * {
 .wrapper {
   width: 100%;
   max-width: 700px;
+  height: 100%;
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  gap: 16px;
-  padding: 20px 16px;
-  flex: 1;
+  gap: 10px;
+  padding: 10px;
+  box-sizing: border-box;
 }
 
 /* Glassmorphism Panel Utility */
@@ -139,8 +144,8 @@ body > * {
   flex-direction: column;
   justify-content: center;
 }
-.screen { display: none; }
-.screen.active { display: block; }
+.screen { display: none; height: 100%; width: 100%; }
+.screen.active { display: flex; flex-direction: column; }
 
 .game-card {
   display: flex;
@@ -378,19 +383,23 @@ h1.game-title {
 
 /* CANVAS & OVERLAYS */
 #scrwrap {
-  padding: 10px;
+  padding: 0;
   position: relative;
   overflow: hidden;
   width: 100%;
-  aspect-ratio: 1; /* Square playing area */
+  flex: 1;
+  min-height: 0;
   border-radius: 16px;
   box-shadow: inset 0 0 20px rgba(0,0,0,0.8);
 }
 
 #gc {
-  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
+  object-fit: contain;
   border-radius: 8px;
 }
 

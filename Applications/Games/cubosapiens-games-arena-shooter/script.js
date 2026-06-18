@@ -56,6 +56,12 @@ window.addEventListener('keydown', e => {
   const k = e.key.toLowerCase();
   if (keys.hasOwnProperty(k)) keys[k] = true;
   if (k === 'escape') togglePause();
+  
+  // Lane movement
+  if (state.screen === 'game' && !state.paused && player) {
+    if (k === 'a' || k === 'arrowleft') player.moveLane(-1);
+    if (k === 'd' || k === 'arrowright') player.moveLane(1);
+  }
 });
 window.addEventListener('keyup', e => {
   const k = e.key.toLowerCase();
@@ -179,7 +185,9 @@ if (isMobile) setupJoysticks();
 ═══════════════════════════════════════════════════ */
 class Player {
   constructor() {
-    this.x = LOGICAL_WIDTH / 2;
+    this.lane = 8; // Lanes 1 to 15 (x = 50 to 750), 8 is middle (x = 400)
+    this.x = this.lane * 50;
+    this.targetX = this.x;
     this.radius = 20;
     this.y = LOGICAL_HEIGHT - this.radius - 20;
     this.speed = 8;
@@ -189,19 +197,29 @@ class Player {
     this.cooldown = 0;
     this.fireRate = 12; // Frames between shots
     this.invulnerable = 0;
+    this.joyCooldown = 0;
+  }
+
+  moveLane(dir) {
+    this.lane += dir;
+    this.lane = Math.max(1, Math.min(15, this.lane)); // keep within axes 50 to 750
+    this.targetX = this.lane * 50;
   }
 
   update() {
-    // Movement (1D Left/Right Only)
-    let dx = 0;
-    if (isMobile && joysticks.move.active) {
-      dx = joysticks.move.dx * this.speed;
-    } else {
-      if (keys.a || keys.arrowleft) dx -= this.speed;
-      if (keys.d || keys.arrowright) dx += this.speed;
-    }
+    // Smooth transition to targetX
+    this.x += (this.targetX - this.x) * 0.3;
 
-    this.x += dx;
+    // Mobile Joystick Lane Swiping
+    if (isMobile && joysticks.move.active) {
+      if (this.joyCooldown > 0) this.joyCooldown--;
+      if (this.joyCooldown <= 0) {
+        if (joysticks.move.dx < -0.5) { this.moveLane(-1); this.joyCooldown = 15; }
+        if (joysticks.move.dx > 0.5) { this.moveLane(1); this.joyCooldown = 15; }
+      }
+    } else {
+      this.joyCooldown = 0;
+    }
 
     // Bounds
     this.x = Math.max(this.radius, Math.min(LOGICAL_WIDTH - this.radius, this.x));
@@ -422,7 +440,10 @@ function spawnEnemy() {
   if (state.difficulty === 'hard') fastProb = 0.6;
   
   const isFast = Math.random() < fastProb;
-  let x = Math.random() * (LOGICAL_WIDTH - 60) + 30; // Keep within horizontal bounds
+  
+  // Snap enemies exactly to the grid axes (1 to 15, which means 50 to 750)
+  const lane = Math.floor(Math.random() * 15) + 1;
+  let x = lane * 50; 
   let y = -40; // Spawn just above the canvas
 
   enemies.push(new Enemy(x, y, isFast ? 'fast' : 'basic'));
