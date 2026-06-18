@@ -8,25 +8,10 @@ const canvas = document.getElementById('gc');
 const ctx = canvas.getContext('2d');
 
 // Fixed logical resolution for consistency, scaled via CSS
-let LOGICAL_WIDTH = 800;
-let LOGICAL_HEIGHT = 800;
+const LOGICAL_WIDTH = 800;
+const LOGICAL_HEIGHT = 800;
 canvas.width = LOGICAL_WIDTH;
 canvas.height = LOGICAL_HEIGHT;
-
-function resizeCanvas() {
-  const wrap = document.getElementById('scrwrap');
-  if (wrap) {
-    const rect = wrap.getBoundingClientRect();
-    if (rect.width > 0 && rect.height > 0) {
-      LOGICAL_WIDTH = rect.width;
-      LOGICAL_HEIGHT = rect.height;
-      canvas.width = LOGICAL_WIDTH;
-      canvas.height = LOGICAL_HEIGHT;
-      if (player) player.y = LOGICAL_HEIGHT - 40;
-    }
-  }
-}
-window.addEventListener('resize', resizeCanvas);
 
 const COLORS = {
   bg: '#0a0c10',
@@ -59,7 +44,7 @@ let animationId;
 /* ═══════════════════════════════════════════════════
    INPUT HANDLING (Desktop & Mobile)
 ═══════════════════════════════════════════════════ */
-const keys = { w: false, a: false, s: false, d: false, arrowup: false, arrowdown: false, arrowleft: false, arrowright: false, space: false };
+const keys = { w: false, a: false, s: false, d: false, arrowup: false, arrowdown: false, arrowleft: false, arrowright: false, ' ': false };
 const mouse = { x: LOGICAL_WIDTH / 2, y: LOGICAL_HEIGHT / 2, down: false };
 const joysticks = {
   move: { active: false, dx: 0, dy: 0, id: null },
@@ -70,13 +55,11 @@ const joysticks = {
 window.addEventListener('keydown', e => {
   const k = e.key.toLowerCase();
   if (keys.hasOwnProperty(k)) keys[k] = true;
-  if (k === ' ') keys.space = true;
-  if (k === 'escape' || k === 'p') togglePause();
+  if (k === 'escape') togglePause();
 });
 window.addEventListener('keyup', e => {
   const k = e.key.toLowerCase();
   if (keys.hasOwnProperty(k)) keys[k] = false;
-  if (k === ' ') keys.space = false;
 });
 
 // Mouse
@@ -197,19 +180,19 @@ if (isMobile) setupJoysticks();
 class Player {
   constructor() {
     this.x = LOGICAL_WIDTH / 2;
-    this.y = LOGICAL_HEIGHT - 40;
-    this.radius = 15;
-    this.speed = 6;
+    this.radius = 20;
+    this.y = LOGICAL_HEIGHT - this.radius - 20;
+    this.speed = 8;
     this.hp = 3;
     this.color = COLORS.player;
-    this.angle = -Math.PI / 2;
+    this.angle = -Math.PI / 2; // Always facing up
     this.cooldown = 0;
     this.fireRate = 12; // Frames between shots
     this.invulnerable = 0;
   }
 
   update() {
-    // Movement
+    // Movement (1D Left/Right Only)
     let dx = 0;
     if (isMobile && joysticks.move.active) {
       dx = joysticks.move.dx * this.speed;
@@ -222,19 +205,20 @@ class Player {
 
     // Bounds
     this.x = Math.max(this.radius, Math.min(LOGICAL_WIDTH - this.radius, this.x));
-    this.y = LOGICAL_HEIGHT - 40;
-    this.angle = -Math.PI / 2;
+    this.y = Math.max(this.radius, Math.min(LOGICAL_HEIGHT - this.radius, this.y));
 
-    // Aiming (Mobile right joystick can still auto-fire, but angle stays UP)
+    // Aiming & Firing Logic
+    let isFiring = false;
+    
     if (isMobile && joysticks.aim.active) {
-      mouse.down = true; // Auto-fire when aiming stick is active
-    } else if (isMobile) {
-      mouse.down = false; // Stop firing if no joystick input
+      isFiring = true; // Auto-fire when aim joystick is touched
+    } else if (!isMobile) {
+      isFiring = mouse.down || keys[' ']; // Fire with mouse or space
     }
 
     // Shooting
     if (this.cooldown > 0) this.cooldown--;
-    if ((mouse.down || keys.space) && this.cooldown <= 0) {
+    if (isFiring && this.cooldown <= 0) {
       this.shoot();
     }
 
@@ -350,11 +334,8 @@ class Enemy {
   }
 
   update() {
-    // Move straight down
+    // Move strictly downwards
     this.y += this.speed;
-    if (this.type === 'fast') {
-      this.x += Math.sin(state.frames * 0.1) * 2;
-    }
   }
 
   draw() {
@@ -367,7 +348,7 @@ class Enemy {
       ctx.beginPath();
       ctx.rect(-this.radius, -this.radius, this.radius*2, this.radius*2);
     } else {
-      ctx.rotate(Math.PI / 2); // Point down
+      ctx.rotate(Math.PI / 2); // Point downwards
       ctx.beginPath();
       ctx.moveTo(this.radius, 0);
       ctx.lineTo(-this.radius, this.radius);
@@ -437,8 +418,8 @@ function createParticles(x, y, amount, color, speed) {
 ═══════════════════════════════════════════════════ */
 function spawnEnemy() {
   const isFast = Math.random() < (0.2 + (state.wave * 0.05));
-  let x = Math.random() * (LOGICAL_WIDTH - 60) + 30;
-  let y = -30;
+  let x = Math.random() * (LOGICAL_WIDTH - 60) + 30; // Keep within horizontal bounds
+  let y = -40; // Spawn just above the canvas
 
   enemies.push(new Enemy(x, y, isFast ? 'fast' : 'basic'));
 }
@@ -507,15 +488,19 @@ function update() {
 
   projectiles.forEach((p, i) => {
     p.update();
-    if (p.x < 0 || p.x > LOGICAL_WIDTH || p.y < -30 || p.y > LOGICAL_HEIGHT || p.life <= 0) {
+    if (p.x < 0 || p.x > LOGICAL_WIDTH || p.y < -50 || p.y > LOGICAL_HEIGHT + 50 || p.life <= 0) {
       projectiles.splice(i, 1);
     }
   });
 
   enemies.forEach((e, i) => {
     e.update();
-    if (e.y > LOGICAL_HEIGHT + 30) {
-      enemies.splice(i, 1); // Remove if they fall off screen
+    // Remove if it passes bottom of screen
+    if (e.y > LOGICAL_HEIGHT + 50) {
+      enemies.splice(i, 1);
+      // Optional: taking damage if an enemy passes the player? 
+      // Un-comment the line below if you want passing enemies to hurt:
+      // player.takeDamage();
     }
   });
   particles.forEach((p, i) => {
@@ -596,11 +581,11 @@ function updateHUD() {
   document.getElementById('bdp').textContent = String(state.bestScore).padStart(6, '0');
   document.getElementById('hp-val').textContent = player.hp;
   document.getElementById('multiplier-label').textContent = `x${state.multiplier}`;
+  document.getElementById('wave-num').textContent = state.wave;
   document.getElementById('menu-hi').textContent = state.bestScore;
 }
 
 function startGame() {
-  resizeCanvas();
   player = new Player();
   projectiles = [];
   enemies = [];
