@@ -9,126 +9,128 @@
   
   <!-- Fonts & Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Outfit:wght@300;500;700&display=swap" rel="stylesheet"/>
   
   <!-- Styles -->
   <link rel="stylesheet" href="styles.css"/>
 </head>
 <body>
+<div class="wrapper">
 
-  <div class="wrapper">
-    <!-- PAGE HEADER -->
-    <header class="site-header">
-      <a href="https://cubosapiens.world" class="logo-slot" aria-label="CuboSapiens Home">
-        <img src="/assets/logo.png" alt="CuboSapiens" style="height:32px; border-radius:100%; border:rgb(179, 255, 72) 1px solid;" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'32\' height=\'32\'><rect width=\'32\' height=\'32\' fill=\'#39FF14\'/></svg>'">
-        <div class="site-name">CUBO<br>SAPIENS</div>
-      </a>
-      <nav class="breadcrumb" aria-label="Breadcrumb">
-        <a href="https://cubosapiens.world">HOME</a> &rsaquo;
-        <a href="https://cubosapiens.world/games">GAMES</a> &rsaquo; ARENA
-      </nav>
-    </header>
+  <!-- PAGE HEADER -->
+  <header class="site-header">
+    <a href="https://cubosapiens.world" class="logo-slot" aria-label="CuboSapiens Home">
+      <img src="assets/logo.png" alt="CuboSapiens" style="height:32px; border-radius:100%; border:rgb(179, 255, 72) 1px solid;" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'32\' height=\'32\'><rect width=\'32\' height=\'32\' fill=\'#39FF14\'/></svg>'">
+      <div class="site-name">CUBO<br>SAPIENS</div>
+    </a>
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="https://cubosapiens.world">HOME</a> &rsaquo;
+      <a href="https://cubosapiens.world/games">GAMES</a> &rsaquo; ARENA
+    </nav>
+  </header>
 
-    <!-- GAME CONTAINER -->
-    <div id="game-content">
-      
-      <!-- Top Bar -->
-      <div id="topbar">
-        <div class="sbox">
-          <span class="slbl">SCORE</span>
-          <span class="sval-num" id="sdp">000</span>
+  <!-- SCREENS -->
+  <div id="screen-container">
+    
+    <!-- Splash Screen -->
+    <div id="screen-splash" class="screen active">
+      <div class="glass-panel game-card">
+        <h1 class="game-title"><span class="t1">NEON</span> <span class="t2">ARENA</span></h1>
+        <div class="subtitle">CYBERPUNK SHOOTER</div>
+        <div class="decorative-grid"></div>
+        <button class="btn btn-primary" id="btn-splash-start"><i class="fa-solid fa-play"></i> TAP TO START</button>
+      </div>
+    </div>
+
+    <!-- Main Menu -->
+    <div id="screen-menu" class="screen">
+      <div class="glass-panel game-card">
+        <h1 class="game-title"><span class="t1">NEON</span> <span class="t2">ARENA</span></h1>
+        <div class="decorative-grid"></div>
+        <button class="btn btn-primary" id="btn-play"><i class="fa-solid fa-play"></i> PLAY</button>
+        <button class="btn" id="btn-hiscore"><i class="fa-solid fa-trophy"></i> BEST: <span id="menu-hi">0</span></button>
+        
+        <!-- HOW TO PLAY -->
+        <section class="htp-wrap">
+          <div class="htp-header" id="htp-toggle" role="button" tabindex="0" aria-expanded="false">
+            <i class="fa-solid fa-gamepad htp-icon"></i>
+            <span class="htp-label">HOW TO PLAY</span>
+            <i class="fa-solid fa-chevron-down htp-chev" id="htp-chev"></i>
+          </div>
+          <div class="htp-body" id="htp-body">
+            <ul>
+              <li><strong>DESKTOP:</strong> A/D or Left/Right Arrow Keys to Move. Space or Left Mouse Click to Shoot.</li>
+              <li><strong>MOBILE:</strong> Left Joystick to Move. Right Joystick/Tap to Shoot.</li>
+              <li>Shoot enemies descending from the top.</li>
+              <li>Build your multiplier by killing enemies without taking damage.</li>
+              <li>Taking damage resets your multiplier and costs HP. 3 hits and game over!</li>
+            </ul>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <!-- Game Screen -->
+    <div id="screen-game" class="screen">
+      <div class="scoreboard glass-panel">
+        <div class="score-box">
+          <span class="score-label">HP</span>
+          <span class="score-val" id="hp-val" style="color:var(--neon-pink)">3</span>
         </div>
-        <div id="ttag"><i class="fa-solid fa-crosshairs"></i> ARENA<br>SHOOTER</div>
-        <div class="sbox" style="text-align:right">
-          <span class="slbl">BEST</span>
-          <span class="sval-num" id="bdp">000</span>
+        <div class="score-box">
+          <span class="score-label">SCORE</span>
+          <span class="score-val" id="sdp" style="color:var(--neon-cyan)">000</span>
+        </div>
+        <div class="score-box">
+          <span class="score-label">BEST</span>
+          <span class="score-val" id="bdp" style="color:var(--neon-green)">000</span>
         </div>
       </div>
-
-      <!-- SCREENS -->
-      <div id="screen-container">
+      
+      <div id="hud" style="margin-top:10px;">
+        <span id="multiplier-label">x1</span>
+        <span id="lvlnum">WAVE <span id="wave-num">1</span></span>
+        <button id="pause-btn" class="act-btn" style="padding: 5px 10px; font-size:12px;"><i class="fa-solid fa-pause"></i> PAUSE</button>
+      </div>
+      
+      <div id="scrwrap" class="glass-panel">
+        <canvas id="gc"></canvas>
+        <div id="overlay" class="hidden">
+          <div id="ovt">PAUSED</div>
+          <button class="btn btn-primary" id="btn-resume"><i class="fa-solid fa-play"></i> RESUME</button>
+          <button class="btn" id="btn-quit"><i class="fa-solid fa-door-open"></i> QUIT</button>
+        </div>
         
-        <!-- Splash Screen -->
-        <div id="screen-splash" class="screen active">
-          <div class="game-card">
-            <div class="title"><i class="fa-solid fa-crosshairs"></i> ARENA SHOOTER</div>
-            <div class="subtitle">CYBERPUNK SHOOTER</div>
-            <div class="decorative-grid"></div>
-            <button class="btn btn-primary" id="btn-splash-start"><i class="fa-solid fa-play"></i> TAP TO START</button>
+        <!-- Virtual Joysticks (Mobile Only) -->
+        <div id="joystick-left" class="joystick-zone">
+          <div class="joystick-base hidden" id="jb-left">
+            <div class="joystick-stick" id="js-left"></div>
           </div>
         </div>
-
-        <!-- Main Menu -->
-        <div id="screen-menu" class="screen">
-          <div class="game-card">
-            <div class="title"><i class="fa-solid fa-crosshairs"></i> ARENA SHOOTER</div>
-            <button class="btn btn-primary" id="btn-play"><i class="fa-solid fa-play"></i> PLAY</button>
-            <button class="btn" id="btn-hiscore"><i class="fa-solid fa-trophy"></i> BEST: <span id="menu-hi">0</span></button>
-            
-            <!-- HOW TO PLAY -->
-            <section class="htp-wrap">
-              <div class="htp-header" id="htp-toggle" role="button" tabindex="0" aria-expanded="false">
-                <i class="fa-solid fa-gamepad htp-icon"></i>
-                <span class="htp-label">HOW TO PLAY</span>
-                <i class="fa-solid fa-chevron-down htp-chev" id="htp-chev"></i>
-              </div>
-              <div class="htp-body" id="htp-body">
-                <ul>
-                  <li><strong>DESKTOP:</strong> A/D or Left/Right Arrows to Move. Space or Left Click to Shoot.</li>
-                  <li><strong>MOBILE:</strong> Left Joystick to Move. Right Joystick to Shoot.</li>
-                  <li>Shoot enemies to increase your score and wave level.</li>
-                  <li>Build your multiplier by killing enemies without taking damage.</li>
-                  <li>Taking damage resets your multiplier and costs HP. 3 hits and game over!</li>
-                </ul>
-              </div>
-            </section>
+        <div id="joystick-right" class="joystick-zone">
+          <div class="joystick-base hidden" id="jb-right">
+            <div class="joystick-stick" id="js-right"></div>
           </div>
         </div>
-
-        <!-- Game Screen -->
-        <div id="screen-game" class="screen">
-          <div id="hud">
-            <span>HP <span id="hp-val">3</span></span>
-            <span id="multiplier-label">x1</span>
-            <button id="pause-btn"><i class="fa-solid fa-pause"></i> PAUSE</button>
-          </div>
-          
-          <div id="scrwrap">
-            <canvas id="gc"></canvas>
-            <div id="overlay" class="hidden">
-              <div id="ovt">PAUSED</div>
-              <button class="btn" id="btn-resume"><i class="fa-solid fa-play"></i> RESUME</button>
-              <button class="btn" id="btn-quit"><i class="fa-solid fa-door-open"></i> QUIT</button>
-            </div>
-            
-            <!-- Virtual Joysticks (Mobile Only) -->
-            <div id="joystick-left" class="joystick-zone">
-              <div class="joystick-base hidden" id="jb-left">
-                <div class="joystick-stick" id="js-left"></div>
-              </div>
-            </div>
-            <div id="joystick-right" class="joystick-zone">
-              <div class="joystick-base hidden" id="jb-right">
-                <div class="joystick-stick" id="js-right"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Game Over Screen -->
-        <div id="screen-over" class="screen">
-          <div class="game-card">
-            <div class="title over">SYSTEM FAILURE</div>
-            <div class="subtitle">GAME OVER</div>
-            <div id="over-score-wrap">SCORE: <span id="over-score">0</span></div>
-            <button class="btn btn-primary" id="btn-retry"><i class="fa-solid fa-rotate-right"></i> TRY AGAIN</button>
-            <button class="btn" id="btn-over-menu"><i class="fa-solid fa-arrow-left"></i> MENU</button>
-          </div>
-        </div>
-
+      </div>
     </div>
-  </div>
 
-  <script src="script.js"></script>
+    <!-- Game Over Screen -->
+    <div id="screen-over" class="screen">
+      <div class="glass-panel result-card">
+        <div class="res-title over">SYSTEM FAILURE</div>
+        <div class="res-sub">GAME OVER</div>
+        <div id="over-score-wrap">SCORE: <span id="over-score">0</span></div>
+        <div class="res-btns">
+          <button class="res-btn primary" id="btn-retry"><i class="fa-solid fa-rotate-right"></i> TRY AGAIN</button>
+          <button class="res-btn secondary" id="btn-over-menu"><i class="fa-solid fa-arrow-left"></i> MENU</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>
