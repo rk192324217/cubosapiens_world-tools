@@ -47,6 +47,23 @@
       <div class="glass-panel game-card">
         <h1 class="game-title"><span class="t1">NEON</span> <span class="t2">ARENA</span></h1>
         <div class="decorative-grid"></div>
+        
+        <!-- LEVEL ROW -->
+        <div class="setup-row" role="group" aria-label="Difficulty">
+          <button class="setup-btn active" data-level="easy">
+            EASY
+            <span class="diff-sub">SLOW</span>
+          </button>
+          <button class="setup-btn" data-level="mid">
+            MID
+            <span class="diff-sub">FASTER</span>
+          </button>
+          <button class="setup-btn" data-level="hard">
+            HARD
+            <span class="diff-sub">CHAOS</span>
+          </button>
+        </div>
+
         <button class="btn btn-primary" id="btn-play"><i class="fa-solid fa-play"></i> PLAY</button>
         <button class="btn" id="btn-hiscore"><i class="fa-solid fa-trophy"></i> BEST: <span id="menu-hi">0</span></button>
         
@@ -89,7 +106,6 @@
       
       <div id="hud" style="margin-top:10px;">
         <span id="multiplier-label">x1</span>
-        <span id="lvlnum">WAVE <span id="wave-num">1</span></span>
         <button id="pause-btn" class="act-btn" style="padding: 5px 10px; font-size:12px;"><i class="fa-solid fa-pause"></i> PAUSE</button>
       </div>
       
