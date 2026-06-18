@@ -28,11 +28,11 @@ let state = {
   paused: false,
   score: 0,
   bestScore: 0,
-  wave: 1,
+  difficulty: 'easy',
   multiplier: 1,
   frames: 0,
   lastTime: 0,
-  spawnRate: 120 // Frames between spawns
+  spawnRate: 100 // Frames between spawns
 };
 
 let player;
@@ -417,7 +417,11 @@ function createParticles(x, y, amount, color, speed) {
    CORE GAME LOGIC
 ═══════════════════════════════════════════════════ */
 function spawnEnemy() {
-  const isFast = Math.random() < (0.2 + (state.wave * 0.05));
+  let fastProb = 0.1;
+  if (state.difficulty === 'mid') fastProb = 0.3;
+  if (state.difficulty === 'hard') fastProb = 0.6;
+  
+  const isFast = Math.random() < fastProb;
   let x = Math.random() * (LOGICAL_WIDTH - 60) + 30; // Keep within horizontal bounds
   let y = -40; // Spawn just above the canvas
 
@@ -581,7 +585,6 @@ function updateHUD() {
   document.getElementById('bdp').textContent = String(state.bestScore).padStart(6, '0');
   document.getElementById('hp-val').textContent = player.hp;
   document.getElementById('multiplier-label').textContent = `x${state.multiplier}`;
-  document.getElementById('wave-num').textContent = state.wave;
   document.getElementById('menu-hi').textContent = state.bestScore;
 }
 
@@ -591,11 +594,14 @@ function startGame() {
   enemies = [];
   particles = [];
   state.score = 0;
-  state.wave = 1;
   state.multiplier = 1;
   state.frames = 0;
-  state.spawnRate = 120;
   state.paused = false;
+  
+  // Set difficulty spawn rate
+  if (state.difficulty === 'easy') state.spawnRate = 100;
+  else if (state.difficulty === 'mid') state.spawnRate = 60;
+  else if (state.difficulty === 'hard') state.spawnRate = 30;
   
   document.getElementById('overlay').classList.add('hidden');
   updateHUD();
@@ -633,6 +639,16 @@ function endGame() {
 ═══════════════════════════════════════════════════ */
 document.getElementById('btn-splash-start').addEventListener('click', () => showScreen('menu'));
 document.getElementById('btn-play').addEventListener('click', startGame);
+
+// Difficulty Selection
+document.querySelectorAll('.setup-btn').forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    document.querySelectorAll('.setup-btn').forEach(b => b.classList.remove('active'));
+    const target = e.currentTarget;
+    target.classList.add('active');
+    state.difficulty = target.dataset.level;
+  });
+});
 
 // How To Play Accordion
 const htpToggle = document.getElementById('htp-toggle');
