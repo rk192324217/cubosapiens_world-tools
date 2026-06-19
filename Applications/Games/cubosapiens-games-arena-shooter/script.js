@@ -70,8 +70,6 @@ if (themeToggle && themeIcon) {
     updateThemeColors();
   });
 }
-updateThemeColors();
-
 let state = {
   screen: 'splash', // splash, menu, controls, game, over
   paused: false,
@@ -740,3 +738,4 @@ document.getElementById('btn-over-menu').addEventListener('click', () => showScr
 
 // Initialize
 loadPrefs();
+updateThemeColors();

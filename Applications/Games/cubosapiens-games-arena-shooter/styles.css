@@ -21,6 +21,9 @@
   --font-base: 'Outfit', sans-serif;
   --font-pixel: 'Press Start 2P', monospace;
   --font-mono: 'VT323', monospace;
+  
+  --neon-title-t1: #fff;
+  --neon-title-glow: rgba(255, 255, 255, 0.5);
 }
 
 *, *::before, *::after {
@@ -142,12 +145,17 @@ body > * {
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  overflow: hidden;
 }
 .screen { display: none; height: 100%; width: 100%; }
 .screen.active { display: flex; flex-direction: column; }
 
+#screen-splash.active, #screen-menu.active, #screen-over.active {
+  overflow-y: auto;
+}
+
 .game-card {
+  margin: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -216,7 +224,7 @@ h1.game-title {
   margin-bottom: 8px;
   text-transform: uppercase;
 }
-.t1 { color: #fff; text-shadow: 0 0 20px rgba(255, 255, 255, 0.5); }
+.t1 { color: var(--neon-title-t1); text-shadow: 0 0 20px var(--neon-title-glow); }
 .t2 { color: var(--neon-cyan); text-shadow: 0 0 20px var(--neon-cyan-glow); }
 
 .subtitle {
@@ -430,6 +438,7 @@ h1.game-title {
 
 /* RESULT CARD */
 .result-card {
+  margin: auto;
   padding: 40px 30px;
   text-align: center;
 }
@@ -567,6 +576,9 @@ h1.game-title {
   --text: #1a1a24;
   --muted: #666677;
   --dim: #888899;
+  
+  --neon-title-t1: #1a1a24;
+  --neon-title-glow: rgba(0, 0, 0, 0.2);
 }
 
 :root.light-theme body::before {
