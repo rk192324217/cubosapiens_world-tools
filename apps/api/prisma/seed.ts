@@ -355,11 +355,22 @@ async function main()
             isLive: false,
             isFeatured: false,
             order: 6
+      },
+      {
+            name: "Connect Four",
+            slug: "connect-four",
+            description: "Drop tokens, connect 4 in a row to win",
+            genre: "strategy",
+            icon: "🔴",
+            url: "https://connect-four.cubosapiens.world",
+            isLive: true,
+            isFeatured: false,
+            order: 7
       }
 ]
   })
 
-  console.log("✅ 12 games seeded")
+  console.log("✅ 13 games seeded")
 }
 
 main()
