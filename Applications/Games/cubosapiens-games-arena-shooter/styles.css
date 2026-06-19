@@ -546,3 +546,85 @@ h1.game-title {
   h1.game-title { font-size: 1.5rem; }
   .score-val { font-size: 1rem; }
 }
+
+/* Light Theme Variables */
+:root.light-theme {
+  --bg0: #f0f2f5;
+  --bg1: #ffffff;
+  --glass: rgba(0, 0, 0, 0.03);
+  --glass-border: rgba(0, 0, 0, 0.08);
+  --glass-hover: rgba(0, 0, 0, 0.06);
+  
+  --neon-cyan: #0088aa; 
+  --neon-cyan-glow: rgba(0, 136, 170, 0.4);
+  
+  --neon-pink: #cc0044;
+  --neon-pink-glow: rgba(204, 0, 68, 0.4);
+  
+  --neon-green: #00a859;
+  --neon-orange: #d95a00;
+  
+  --text: #1a1a24;
+  --muted: #666677;
+  --dim: #888899;
+}
+
+:root.light-theme body::before {
+  background:
+    radial-gradient(circle at 15% 15%, rgba(0, 136, 170, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 85% 85%, rgba(204, 0, 68, 0.06) 0%, transparent 40%);
+}
+
+.theme-btn {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: color 0.3s, transform 0.2s;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.theme-btn:hover {
+  color: var(--neon-cyan);
+  transform: scale(1.1);
+}
+
+:root.light-theme .setup-row {
+  background: rgba(0,0,0,0.05);
+}
+
+:root.light-theme .htp-body {
+  background: rgba(0,0,0,0.05);
+}
+
+:root.light-theme .btn {
+  background: var(--glass);
+  color: var(--text);
+}
+
+:root.light-theme .btn:hover {
+  background: var(--glass-hover);
+}
+
+:root.light-theme .btn.btn-primary {
+  background: var(--neon-cyan);
+  color: #fff;
+}
+
+:root.light-theme .res-btn.secondary {
+  background: var(--glass);
+  color: var(--text);
+}
+
+:root.light-theme .act-btn {
+  background: var(--glass);
+  color: var(--text);
+}
+
+:root.light-theme #overlay {
+  background: rgba(255, 255, 255, 0.85);
+}

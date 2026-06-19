@@ -13,15 +13,64 @@ const LOGICAL_HEIGHT = 800;
 canvas.width = LOGICAL_WIDTH;
 canvas.height = LOGICAL_HEIGHT;
 
-const COLORS = {
-  bg: '#0a0c10',
-  player: '#00cfff', // Neon Cyan
-  enemyBasic: '#ff2d78', // Neon Pink
-  enemyFast: '#ff6b00', // Neon Orange
-  projectile: '#00ff88', // Neon Green
+const THEME = {
+  bgClear: 'rgba(10, 12, 16, 0.3)',
+  grid: 'rgba(0, 207, 255, 0.05)',
+  player: '#00cfff',
+  enemyBasic: '#ff2d78',
+  enemyFast: '#ff6b00',
+  projectile: '#00ff88',
   particle: '#ffffff',
-  trail: 'rgba(0, 207, 255, 0.2)'
+  enemyBasicFillRGB: '255,45,120',
+  enemyFastFillRGB: '255,107,0'
 };
+
+function updateThemeColors() {
+  const isLight = document.documentElement.classList.contains('light-theme');
+  if (isLight) {
+    THEME.bgClear = 'rgba(240, 242, 245, 0.3)';
+    THEME.grid = 'rgba(0, 136, 170, 0.05)';
+    THEME.player = '#0088aa';
+    THEME.enemyBasic = '#cc0044';
+    THEME.enemyFast = '#d95a00';
+    THEME.projectile = '#00a859';
+    THEME.particle = '#333333';
+    THEME.enemyBasicFillRGB = '204,0,68';
+    THEME.enemyFastFillRGB = '217,90,0';
+  } else {
+    THEME.bgClear = 'rgba(10, 12, 16, 0.3)';
+    THEME.grid = 'rgba(0, 207, 255, 0.05)';
+    THEME.player = '#00cfff';
+    THEME.enemyBasic = '#ff2d78';
+    THEME.enemyFast = '#ff6b00';
+    THEME.projectile = '#00ff88';
+    THEME.particle = '#ffffff';
+    THEME.enemyBasicFillRGB = '255,45,120';
+    THEME.enemyFastFillRGB = '255,107,0';
+  }
+  
+  if (typeof player !== 'undefined' && player) player.color = THEME.player;
+  if (typeof enemies !== 'undefined') enemies.forEach(e => e.color = e.type === 'basic' ? THEME.enemyBasic : THEME.enemyFast);
+  if (typeof projectiles !== 'undefined') projectiles.forEach(p => p.color = THEME.projectile);
+}
+
+// Theme Toggle Logic
+const themeToggle = document.getElementById('theme-toggle');
+const themeIcon = document.getElementById('theme-icon');
+if (themeToggle && themeIcon) {
+  themeToggle.addEventListener('click', () => {
+    document.documentElement.classList.toggle('light-theme');
+    if (document.documentElement.classList.contains('light-theme')) {
+      themeIcon.classList.remove('fa-sun');
+      themeIcon.classList.add('fa-moon');
+    } else {
+      themeIcon.classList.remove('fa-moon');
+      themeIcon.classList.add('fa-sun');
+    }
+    updateThemeColors();
+  });
+}
+updateThemeColors();
 
 let state = {
   screen: 'splash', // splash, menu, controls, game, over
@@ -192,7 +241,7 @@ class Player {
     this.y = LOGICAL_HEIGHT - this.radius - 20;
     this.speed = 8;
     this.hp = 3;
-    this.color = COLORS.player;
+    this.color = THEME.player;
     this.angle = -Math.PI / 2; // Always facing up
     this.cooldown = 0;
     this.fireRate = 12; // Frames between shots
@@ -257,7 +306,7 @@ class Player {
     this.cooldown = this.fireRate;
     
     // Recoil effect (subtle particle)
-    createParticles(spawnX, spawnY, 2, COLORS.projectile, 3);
+    createParticles(spawnX, spawnY, 2, THEME.projectile, 3);
   }
 
   draw() {
@@ -312,7 +361,7 @@ class Projectile {
     this.y = y;
     this.velocity = velocity;
     this.radius = 4;
-    this.color = COLORS.projectile;
+    this.color = THEME.projectile;
     this.life = 100;
   }
 
@@ -340,12 +389,12 @@ class Enemy {
     
     if (type === 'basic') {
       this.radius = 18;
-      this.color = COLORS.enemyBasic;
+      this.color = THEME.enemyBasic;
       this.speed = 2.5 + Math.random() * 1;
       this.hp = 2;
     } else if (type === 'fast') {
       this.radius = 12;
-      this.color = COLORS.enemyFast;
+      this.color = THEME.enemyFast;
       this.speed = 4.5 + Math.random() * 1.5;
       this.hp = 1;
     }
@@ -381,7 +430,7 @@ class Enemy {
     ctx.stroke();
     
     // Fill slightly based on HP
-    ctx.fillStyle = `rgba(${this.type==='basic'?'255,45,120':'255,107,0'}, ${this.hp > 1 ? 0.3 : 0.1})`;
+    ctx.fillStyle = `rgba(${this.type==='basic' ? THEME.enemyBasicFillRGB : THEME.enemyFastFillRGB}, ${this.hp > 1 ? 0.3 : 0.1})`;
     ctx.fill();
 
     ctx.restore();
@@ -538,12 +587,12 @@ function update() {
 
 function draw() {
   // Clear with a slight trailing effect
-  ctx.fillStyle = 'rgba(10, 12, 16, 0.3)';
+  ctx.fillStyle = THEME.bgClear;
   ctx.fillRect(0, 0, LOGICAL_WIDTH, LOGICAL_HEIGHT);
 
   if (state.screen === 'game') {
     // Draw Grid
-    ctx.strokeStyle = 'rgba(0, 207, 255, 0.05)';
+    ctx.strokeStyle = THEME.grid;
     ctx.lineWidth = 1;
     ctx.beginPath();
     for(let i=0; i<LOGICAL_WIDTH; i+=50) {
