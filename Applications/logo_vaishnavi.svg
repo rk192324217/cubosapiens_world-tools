@@ -1,0 +1,11 @@
+echo '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8b5cf6"/>
+      <stop offset="100%" stop-color="#ec4899"/>
+    </linearGradient>
+  </defs>
+  <polygon points="100,30 170,70 170,130 100,170 30,130 30,70" fill="url(#grad)" stroke="#fff" stroke-width="3"/>
+  <polygon points="100,170 170,130 170,70" fill="#6d28d9" opacity="0.6"/>
+  <text x="100" y="118" font-family="Arial" font-size="36" fill="#fff" text-anchor="middle" font-weight="bold">CG</text>
+</svg>' > logo_vaishnavi.svg
