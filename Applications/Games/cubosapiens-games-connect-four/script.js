@@ -15,11 +15,7 @@ const cardP2 = document.getElementById('card-p2');
 const scoreP1El = document.getElementById('score-p1');
 const scoreP2El = document.getElementById('score-p2');
 
-// Load scores
-if (localStorage.getItem('c4_scores')) {
-  scores = JSON.parse(localStorage.getItem('c4_scores'));
-  updateScoreDisplay();
-}
+// Local storage tracking removed as score now represents in-game count.
 
 // Mode Buttons
 document.querySelectorAll('.setup-btn[data-mode]').forEach(btn => {
@@ -39,9 +35,6 @@ document.querySelectorAll('.setup-btn[data-mode]').forEach(btn => {
 // Action Buttons
 document.getElementById('btn-reset').addEventListener('click', initGame);
 document.getElementById('btn-new').addEventListener('click', () => {
-  scores = { p1: 0, p2: 0 };
-  saveScores();
-  updateScoreDisplay();
   initGame();
 });
 
@@ -52,9 +45,6 @@ document.getElementById('res-play').addEventListener('click', () => {
 });
 document.getElementById('res-reset').addEventListener('click', () => {
   document.getElementById('overlay').classList.remove('show');
-  scores = { p1: 0, p2: 0 };
-  saveScores();
-  updateScoreDisplay();
   initGame();
 });
 
@@ -80,6 +70,8 @@ function initGame() {
   isGameOver = false;
   isAnimating = false;
   
+  scores = { p1: 0, p2: 0 };
+  updateScoreDisplay();
   updateTurnDisplay();
   statusText.textContent = "CLICK A COLUMN TO DROP A TOKEN!";
   statusText.style.color = "inherit";
@@ -164,12 +156,29 @@ function dropToken(row, col, player) {
 }
 
 function checkGameState(row, col, player) {
-  const winLine = getWinLine(row, col, player);
+  // Update scores by counting all 4s on the board
+  const p1Lines = findAllFours(1);
+  const p2Lines = findAllFours(2);
   
-  if (winLine) {
-    handleWin(player, winLine);
-  } else if (isBoardFull()) {
-    handleDraw();
+  scores.p1 = p1Lines.length;
+  scores.p2 = p2Lines.length;
+  updateScoreDisplay();
+  
+  // Highlight winning tokens
+  document.querySelectorAll('.token').forEach(t => t.classList.remove('win-highlight'));
+  
+  const allLines = [...p1Lines, ...p2Lines];
+  allLines.forEach(line => {
+    line.forEach(([r, c]) => {
+      const cell = document.getElementById(`cell-${r}-${c}`);
+      if (cell && cell.firstChild) {
+        cell.firstChild.classList.add('win-highlight');
+      }
+    });
+  });
+
+  if (isBoardFull()) {
+    handleGameOver();
   } else {
     // Next turn
     currentPlayer = currentPlayer === 1 ? 2 : 1;
@@ -184,28 +193,41 @@ function checkGameState(row, col, player) {
   }
 }
 
-function getWinLine(row, col, player) {
-  const directions = [
-    [[0, 1], [0, -1]], // Horizontal
-    [[1, 0], [-1, 0]], // Vertical
-    [[1, 1], [-1, -1]],// Diagonal /
-    [[1, -1], [-1, 1]] // Diagonal \
-  ];
-
-  for (let dir of directions) {
-    let line = [[row, col]];
-    for (let vec of dir) {
-      let r = row + vec[0];
-      let c = col + vec[1];
-      while (r >= 0 && r < ROWS && c >= 0 && c < COLS && board[r][c] === player) {
-        line.push([r, c]);
-        r += vec[0];
-        c += vec[1];
+function findAllFours(player) {
+  const lines = [];
+  // Horizontal
+  for(let r=0; r<ROWS; r++) {
+    for(let c=0; c<=COLS-4; c++) {
+      if(board[r][c]===player && board[r][c+1]===player && board[r][c+2]===player && board[r][c+3]===player) {
+        lines.push([[r,c], [r,c+1], [r,c+2], [r,c+3]]);
       }
     }
-    if (line.length >= 4) return line;
   }
-  return null;
+  // Vertical
+  for(let c=0; c<COLS; c++) {
+    for(let r=0; r<=ROWS-4; r++) {
+      if(board[r][c]===player && board[r+1][c]===player && board[r+2][c]===player && board[r+3][c]===player) {
+        lines.push([[r,c], [r+1,c], [r+2,c], [r+3,c]]);
+      }
+    }
+  }
+  // Diagonal /
+  for(let r=3; r<ROWS; r++) {
+    for(let c=0; c<=COLS-4; c++) {
+      if(board[r][c]===player && board[r-1][c+1]===player && board[r-2][c+2]===player && board[r-3][c+3]===player) {
+        lines.push([[r,c], [r-1,c+1], [r-2,c+2], [r-3,c+3]]);
+      }
+    }
+  }
+  // Diagonal \
+  for(let r=0; r<=ROWS-4; r++) {
+    for(let c=0; c<=COLS-4; c++) {
+      if(board[r][c]===player && board[r+1][c+1]===player && board[r+2][c+2]===player && board[r+3][c+3]===player) {
+        lines.push([[r,c], [r+1,c+1], [r+2,c+2], [r+3,c+3]]);
+      }
+    }
+  }
+  return lines;
 }
 
 function isBoardFull() {
@@ -215,77 +237,69 @@ function isBoardFull() {
   return true;
 }
 
-function handleWin(player, winLine) {
+function handleGameOver() {
   isGameOver = true;
   
-  // Highlight winning tokens
-  winLine.forEach(([r, c]) => {
-    const cell = document.getElementById(`cell-${r}-${c}`);
-    if (cell && cell.firstChild) {
-      cell.firstChild.classList.add('win-highlight');
-    }
-  });
-
-  const pName = player === 1 ? "PLAYER 1" : (mode === 'solo' ? "AI" : "PLAYER 2");
-  statusText.textContent = `${pName} WINS!`;
-  statusText.style.color = player === 1 ? "var(--p1c)" : "var(--p2c)";
-  
-  if (player === 1) scores.p1++;
-  else scores.p2++;
-  
-  saveScores();
-  updateScoreDisplay();
-  
-  setTimeout(() => showResultOverlay(player, false), 1500);
-}
-
-function handleDraw() {
-  isGameOver = true;
-  statusText.textContent = "IT'S A DRAW!";
-  setTimeout(() => showResultOverlay(0, true), 1500);
+  if (scores.p1 > scores.p2) {
+    statusText.textContent = "PLAYER 1 WINS!";
+    statusText.style.color = "var(--p1c)";
+    setTimeout(() => showResultOverlay(1, false), 1500);
+  } else if (scores.p2 > scores.p1) {
+    const p2Name = mode === 'solo' ? "AI" : "PLAYER 2";
+    statusText.textContent = `${p2Name} WINS!`;
+    statusText.style.color = "var(--p2c)";
+    setTimeout(() => showResultOverlay(2, false), 1500);
+  } else {
+    statusText.textContent = "IT'S A DRAW!";
+    statusText.style.color = "var(--gold)";
+    setTimeout(() => showResultOverlay(0, true), 1500);
+  }
 }
 
 function makeAIMove() {
   if (isGameOver) return;
   
-  // 1. Can AI Win?
+  let bestCol = -1;
+  let bestScoreDiff = -Infinity;
+  let validCols = [];
+  
   for (let c = 0; c < COLS; c++) {
     let r = getAvailableRow(c);
     if (r !== -1) {
+      validCols.push(c);
+      
+      // simulate AI move
       board[r][c] = 2;
-      if (getWinLine(r, c, 2)) {
-        board[r][c] = 0;
-        dropToken(r, c, 2);
-        return;
-      }
-      board[r][c] = 0;
-    }
-  }
-
-  // 2. Can Player Win? Block them.
-  for (let c = 0; c < COLS; c++) {
-    let r = getAvailableRow(c);
-    if (r !== -1) {
+      let aiScoreAfter = findAllFours(2).length;
+      
+      // simulate Player move in that same spot to see if it blocks them
       board[r][c] = 1;
-      if (getWinLine(r, c, 1)) {
-        board[r][c] = 0;
-        dropToken(r, c, 2);
-        return;
+      let p1ScoreIfTheyMoved = findAllFours(1).length;
+      
+      let currentAiScore = scores.p2;
+      let currentP1Score = scores.p1;
+      
+      let aiGain = aiScoreAfter - currentAiScore;
+      let p1GainIfTheyMoved = p1ScoreIfTheyMoved - currentP1Score;
+      
+      // Evaluate move: our gain + blocking their gain
+      let moveValue = aiGain + (p1GainIfTheyMoved * 0.9);
+      
+      // Add a tiny random jitter to make the AI unpredictable
+      moveValue += Math.random() * 0.1;
+      
+      if (moveValue > bestScoreDiff) {
+        bestScoreDiff = moveValue;
+        bestCol = c;
       }
-      board[r][c] = 0;
+      
+      board[r][c] = 0; // undo
     }
-  }
-
-  // 3. Random valid move
-  const validCols = [];
-  for (let c = 0; c < COLS; c++) {
-    if (getAvailableRow(c) !== -1) validCols.push(c);
   }
   
-  if (validCols.length > 0) {
-    const randomCol = validCols[Math.floor(Math.random() * validCols.length)];
-    const r = getAvailableRow(randomCol);
-    dropToken(r, randomCol, 2);
+  if (bestCol !== -1) {
+    let r = getAvailableRow(bestCol);
+    dropToken(r, bestCol, 2);
   }
 }
 
@@ -314,7 +328,7 @@ function updateScoreDisplay() {
 }
 
 function saveScores() {
-  localStorage.setItem('c4_scores', JSON.stringify(scores));
+  // Removed localStorage saves since score represents in-game count
 }
 
 function showResultOverlay(winner, isDraw) {
