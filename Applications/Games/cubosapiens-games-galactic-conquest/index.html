@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Galactic Conquest - Cubosapiens</title>
+
+<style>
+:root{
+  --bg:#0a0c10;
+  --card:#141820;
+  --border:#1e2530;
+  --green:#00ff88;
+  --blue:#00cfff;
+  --orange:#ff6b00;
+  --pink:#ff2d78;
+  --text:#c8d0e0;
+}
+
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Courier New, monospace;
+  text-align:center;
+  min-height:100vh;
+}
+
+header{
+  padding:20px;
+}
+
+h1{
+  color:var(--green);
+  text-shadow:0 0 10px var(--green);
+}
+
+.scoreboard{
+  display:flex;
+  justify-content:center;
+  gap:20px;
+  flex-wrap:wrap;
+}
+
+.box{
+  border:1px solid var(--border);
+  padding:10px 20px;
+  border-radius:8px;
+}
+
+#galaxy{
+  width:90%;
+  max-width:900px;
+  margin:20px auto;
+  min-height:500px;
+  position:relative;
+  border:1px solid var(--border);
+  background:#10151d;
+  border-radius:10px;
+}
+
+.planet{
+  width:70px;
+  height:70px;
+  border-radius:50%;
+  position:absolute;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:12px;
+  font-weight:bold;
+}
+
+.neutral{
+  background:#666;
+}
+
+.player{
+  background:var(--green);
+  box-shadow:0 0 15px var(--green);
+  color:black;
+}
+
+.enemy{
+  background:var(--pink);
+  box-shadow:0 0 15px var(--pink);
+}
+
+button{
+  padding:10px 20px;
+  margin:10px;
+  cursor:pointer;
+  border:none;
+  border-radius:6px;
+  font-weight:bold;
+}
+
+#message{
+  margin-top:15px;
+  font-size:18px;
+  color:var(--orange);
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>🚀 Galactic Conquest</h1>
+
+<div class="scoreboard">
+<div class="box">Score: <span id="score">0</span></div>
+<div class="box">High Score: <span id="highscore">0</span></div>
+</div>
+
+<button onclick="restartGame()">Restart Game</button>
+</header>
+
+<div id="galaxy"></div>
+
+<div id="message"></div>
+
+<script>
+const galaxy=document.getElementById("galaxy");
+const scoreEl=document.getElementById("score");
+const highEl=document.getElementById("highscore");
+const msg=document.getElementById("message");
+
+let score=0;
+let high=localStorage.getItem("galactic-high")||0;
+
+highEl.innerText=high;
+
+let planets=[];
+
+function createPlanets(){
+
+galaxy.innerHTML="";
+planets=[];
+
+for(let i=0;i<10;i++){
+
+const p=document.createElement("div");
+
+p.className="planet neutral";
+
+p.innerText="P"+(i+1);
+
+p.style.left=Math.random()*80+"%";
+p.style.top=Math.random()*80+"%";
+
+p.dataset.owner="neutral";
+
+p.onclick=()=>capturePlanet(p);
+
+galaxy.appendChild(p);
+
+planets.push(p);
+}
+
+enemyAttack();
+}
+    function capturePlanet(planet){
+
+if(planet.dataset.owner==="player") return;
+
+planet.dataset.owner="player";
+planet.className="planet player";
+
+score+=100;
+scoreEl.innerText=score;
+
+if(score>high){
+high=score;
+localStorage.setItem("galactic-high",high);
+highEl.innerText=high;
+}
+
+checkWin();
+}
+
+function enemyAttack(){
+
+setInterval(()=>{
+
+let available=planets.filter(
+p=>p.dataset.owner!=="enemy"
+);
+
+if(available.length===0) return;
+
+let target=
+available[Math.floor(Math.random()*available.length)];
+
+target.dataset.owner="enemy";
+target.className="planet enemy";
+
+checkLose();
+
+},4000);
+
+}
+
+function checkWin(){
+
+let playerPlanets=
+planets.filter(
+p=>p.dataset.owner==="player"
+).length;
+
+if(playerPlanets===10){
+
+msg.innerHTML="🎉 YOU CONQUERED THE GALAXY!";
+setTimeout(()=>{
+alert("Victory! Galaxy Conquered!");
+},300);
+
+}
+}
+
+function checkLose(){
+
+let enemyPlanets=
+planets.filter(
+p=>p.dataset.owner==="enemy"
+).length;
+
+if(enemyPlanets>=8){
+
+msg.innerHTML="💀 ENEMY DOMINATION!";
+setTimeout(()=>{
+alert("Game Over!");
+},300);
+
+}
+}
+
+function restartGame(){
+
+score=0;
+scoreEl.innerText=0;
+msg.innerHTML="";
+
+createPlanets();
+}
+
+createPlanets();
+
+</script>
+
+</body>
+</html>
