@@ -1,0 +1,273 @@
+/* ============================================================
+   CONNECT DOTS — CuboSapiens
+   Standalone Game Stylesheet
+   ============================================================ */
+
+/* ---- CSS Variables (Themes) ---- */
+:root {
+    --font: 'Outfit', sans-serif;
+    --radius: 12px;
+    --radius-sm: 8px;
+    --transition: 0.25s ease;
+}
+
+[data-theme="dark"] {
+    --bg: #0d1117;
+    --bg-2: #161b22;
+    --bg-3: #21262d;
+    --border: rgba(255,255,255,0.08);
+    --text: #e6edf3;
+    --text-muted: #8b949e;
+    --p1: #58a6ff;
+    --p1-bg: rgba(88,166,255,0.15);
+    --p2: #f78166;
+    --p2-bg: rgba(247,129,102,0.15);
+    --dot: #e6edf3;
+    --line-hover: rgba(88,166,255,0.4);
+    --line-empty: rgba(255,255,255,0.07);
+    --shadow: 0 8px 32px rgba(0,0,0,0.4);
+    --modal-bg: rgba(0,0,0,0.8);
+}
+
+[data-theme="light"] {
+    --bg: #f0f4f8;
+    --bg-2: #ffffff;
+    --bg-3: #e8ecf0;
+    --border: rgba(0,0,0,0.08);
+    --text: #1a1f2e;
+    --text-muted: #6b7a8d;
+    --p1: #2563eb;
+    --p1-bg: rgba(37,99,235,0.1);
+    --p2: #dc2626;
+    --p2-bg: rgba(220,38,38,0.1);
+    --dot: #1a1f2e;
+    --line-hover: rgba(37,99,235,0.35);
+    --line-empty: rgba(0,0,0,0.08);
+    --shadow: 0 8px 32px rgba(0,0,0,0.12);
+    --modal-bg: rgba(0,0,0,0.6);
+}
+
+/* ---- Reset ---- */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: var(--font); background: var(--bg); color: var(--text); min-height: 100vh; transition: background var(--transition), color var(--transition); }
+
+/* ---- App Layout ---- */
+.app { display: flex; flex-direction: column; min-height: 100vh; }
+
+/* ---- Header ---- */
+.header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1rem 1.5rem;
+    background: var(--bg-2);
+    border-bottom: 1px solid var(--border);
+    position: sticky; top: 0; z-index: 100;
+}
+.logo { display: flex; align-items: center; gap: 0.5rem; font-weight: 700; font-size: 1.1rem; }
+.logo-icon { font-size: 1.4rem; }
+.game-title { font-size: 1.4rem; font-weight: 700; background: linear-gradient(135deg, var(--p1), var(--p2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.header-right { display: flex; gap: 0.5rem; }
+.icon-btn { background: var(--bg-3); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 0.4rem 0.6rem; cursor: pointer; font-size: 1.1rem; transition: all var(--transition); color: var(--text); }
+.icon-btn:hover { background: var(--border); transform: scale(1.05); }
+
+/* ---- Main ---- */
+.main { display: flex; flex-direction: column; align-items: center; gap: 1.25rem; padding: 1.5rem 1rem; flex: 1; }
+
+/* ---- Scoreboard ---- */
+.scoreboard {
+    display: flex; align-items: center; justify-content: space-between;
+    width: 100%; max-width: 580px;
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1rem 1.25rem;
+    box-shadow: var(--shadow);
+}
+.player-score { display: flex; align-items: center; gap: 0.75rem; }
+.player-avatar {
+    width: 48px; height: 48px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 0.95rem;
+    flex-shrink: 0;
+}
+.p1-avatar { background: var(--p1-bg); color: var(--p1); border: 2px solid var(--p1); }
+.p2-avatar { background: var(--p2-bg); color: var(--p2); border: 2px solid var(--p2); }
+.player-info { display: flex; flex-direction: column; gap: 0.2rem; }
+.right-align { align-items: flex-end; }
+.player-name { font-size: 0.85rem; color: var(--text-muted); font-weight: 500; }
+.player-score-val { font-size: 1.8rem; font-weight: 700; line-height: 1; }
+#p1-score { color: var(--p1); }
+#p2-score { color: var(--p2); }
+.game-status-center { text-align: center; }
+.turn-indicator {
+    font-size: 0.9rem; font-weight: 600;
+    padding: 0.3rem 0.9rem; border-radius: 20px;
+    background: var(--p1-bg); color: var(--p1);
+    transition: all 0.3s ease;
+    margin-bottom: 0.3rem;
+}
+.turn-indicator.p2-turn { background: var(--p2-bg); color: var(--p2); }
+.boxes-left { font-size: 0.75rem; color: var(--text-muted); }
+
+/* Active player highlight */
+.player-score.active-player .player-avatar { box-shadow: 0 0 0 3px currentColor, 0 0 15px currentColor; }
+#score-p1.active-player .player-avatar { box-shadow: 0 0 0 3px var(--p1), 0 0 15px rgba(88,166,255,0.4); }
+#score-p2.active-player .player-avatar { box-shadow: 0 0 0 3px var(--p2), 0 0 15px rgba(247,129,102,0.4); }
+
+/* ---- Board ---- */
+.board-wrapper {
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+    max-width: 580px; width: 100%;
+}
+.game-board {
+    display: grid;
+    position: relative;
+    margin: 0 auto;
+    user-select: none;
+}
+
+/* Dots */
+.dot {
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: var(--dot);
+    position: absolute;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    transition: transform 0.15s ease;
+}
+.dot:hover { transform: translate(-50%, -50%) scale(1.3); }
+
+/* Lines (edges) */
+.line {
+    position: absolute;
+    cursor: pointer;
+    background: var(--line-empty);
+    border-radius: 4px;
+    transition: background 0.2s ease, transform 0.15s ease;
+    z-index: 5;
+}
+.line:hover:not(.taken) { background: var(--line-hover); transform-origin: center; }
+.line.horizontal:hover:not(.taken) { transform: scaleY(1.5); }
+.line.vertical:hover:not(.taken) { transform: scaleX(1.5); }
+.line.p1 { background: var(--p1); }
+.line.p2 { background: var(--p2); }
+.line.taken { cursor: default; }
+.line.highlight { animation: linePulse 0.4s ease; }
+
+@keyframes linePulse {
+    0% { filter: brightness(1); }
+    50% { filter: brightness(2); }
+    100% { filter: brightness(1); }
+}
+
+/* Boxes */
+.box {
+    position: absolute;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem; font-weight: 700;
+    border-radius: 6px;
+    opacity: 0;
+    transition: opacity 0.35s ease, background 0.35s ease;
+    z-index: 1;
+}
+.box.filled-p1 { background: var(--p1-bg); color: var(--p1); opacity: 1; animation: boxFill 0.4s ease; }
+.box.filled-p2 { background: var(--p2-bg); color: var(--p2); opacity: 1; animation: boxFill 0.4s ease; }
+
+@keyframes boxFill {
+    0% { transform: scale(0.5); opacity: 0; }
+    60% { transform: scale(1.1); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* ---- Controls ---- */
+.controls {
+    display: flex; flex-direction: column; gap: 0.75rem;
+    width: 100%; max-width: 580px;
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1rem 1.25rem;
+    box-shadow: var(--shadow);
+}
+.controls-row { display: flex; gap: 0.75rem; align-items: flex-end; flex-wrap: wrap; }
+.control-group { display: flex; flex-direction: column; gap: 0.3rem; flex: 1; min-width: 100px; }
+.control-label { font-size: 0.75rem; color: var(--text-muted); font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; }
+.control-select {
+    background: var(--bg-3); color: var(--text);
+    border: 1px solid var(--border); border-radius: var(--radius-sm);
+    padding: 0.5rem 0.75rem; font-family: var(--font); font-size: 0.9rem;
+    cursor: pointer; outline: none; transition: border-color var(--transition);
+}
+.control-select:focus { border-color: var(--p1); }
+
+/* Buttons */
+.btn {
+    padding: 0.6rem 1.4rem; border: none; border-radius: var(--radius-sm);
+    font-family: var(--font); font-size: 0.95rem; font-weight: 600;
+    cursor: pointer; transition: all var(--transition); outline: none;
+}
+.btn:focus-visible { outline: 2px solid var(--p1); outline-offset: 2px; }
+.btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.btn-primary { background: var(--p1); color: #fff; }
+.btn-primary:hover:not(:disabled) { filter: brightness(1.15); transform: translateY(-1px); }
+.btn-secondary { background: var(--bg-3); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover:not(:disabled) { background: var(--border); transform: translateY(-1px); }
+
+/* ---- Modal ---- */
+.modal-overlay {
+    position: fixed; inset: 0;
+    background: var(--modal-bg);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 1000;
+    backdrop-filter: blur(6px);
+    animation: fadeIn 0.3s ease;
+}
+.modal-overlay[hidden] { display: none; }
+.modal {
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 2.5rem 2rem;
+    max-width: 380px; width: 90%;
+    text-align: center;
+    box-shadow: var(--shadow);
+    animation: slideUp 0.35s ease;
+}
+.modal-emoji { font-size: 3.5rem; margin-bottom: 0.5rem; }
+.modal-title { font-size: 1.8rem; font-weight: 700; margin-bottom: 0.3rem; }
+.modal-subtitle { color: var(--text-muted); font-size: 1.1rem; margin-bottom: 1.5rem; }
+.modal-scores { display: flex; align-items: center; justify-content: center; gap: 1rem; margin-bottom: 1rem; }
+.modal-score-item { display: flex; flex-direction: column; align-items: center; gap: 0.25rem; }
+.modal-score-name { font-size: 0.85rem; color: var(--text-muted); }
+.modal-score-val { font-size: 2.2rem; font-weight: 700; }
+.modal-score-sep { font-size: 1.2rem; color: var(--text-muted); font-weight: 300; }
+.modal-stats { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem; }
+.modal-buttons { display: flex; gap: 0.75rem; justify-content: center; }
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+/* ---- AI Thinking Indicator ---- */
+.ai-thinking .turn-indicator::after {
+    content: ' ●●●';
+    animation: dots 1s steps(3, end) infinite;
+}
+@keyframes dots { 0%,20% { content: ' ●'; } 40% { content: ' ●●'; } 60%,100% { content: ' ●●●'; } }
+
+/* ---- Responsive ---- */
+@media (max-width: 600px) {
+    .header { padding: 0.75rem 1rem; }
+    .logo-text { display: none; }
+    .game-title { font-size: 1.2rem; }
+    .board-wrapper { padding: 1rem 0.75rem; }
+    .scoreboard { padding: 0.75rem 1rem; }
+    .player-avatar { width: 40px; height: 40px; font-size: 0.8rem; }
+    .player-score-val { font-size: 1.5rem; }
+    .controls { padding: 0.75rem 1rem; }
+    .controls-row { gap: 0.5rem; }
+    .btn { padding: 0.55rem 1rem; font-size: 0.875rem; }
+}
