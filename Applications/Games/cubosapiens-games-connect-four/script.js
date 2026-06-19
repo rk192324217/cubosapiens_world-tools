@@ -353,3 +353,20 @@ function showResultOverlay(winner, isDraw) {
 
 // Start initial game
 initGame();
+
+// Theme Toggle Logic
+const themeToggle = document.getElementById('theme-toggle');
+const themeIcon = document.getElementById('theme-icon');
+
+if (themeToggle && themeIcon) {
+  themeToggle.addEventListener('click', () => {
+    document.documentElement.classList.toggle('light-theme');
+    if (document.documentElement.classList.contains('light-theme')) {
+      themeIcon.classList.remove('fa-sun');
+      themeIcon.classList.add('fa-moon');
+    } else {
+      themeIcon.classList.remove('fa-moon');
+      themeIcon.classList.add('fa-sun');
+    }
+  });
+}

@@ -597,3 +597,94 @@ footer a:hover { color: var(--gold); }
   .p-score { font-size: 1.5rem; }
   .action-row { flex-direction: column; }
 }
+
+/* Light Theme Variables */
+:root.light-theme {
+  --bg0: #f4f4f8;
+  --bg1: #ffffff;
+  --glass: rgba(0, 0, 0, 0.04);
+  --glass-border: rgba(0, 0, 0, 0.08);
+  --glass-hover: rgba(0, 0, 0, 0.08);
+  
+  --p1c: #e60036; 
+  --p1c-glow: rgba(230, 0, 54, 0.3);
+  
+  --p2c: #e0ac00; 
+  --p2c-glow: rgba(224, 172, 0, 0.3);
+  
+  --board-color: #e3f2fd; 
+  --board-glow: rgba(25, 118, 210, 0.2);
+  
+  --gold: #d4af37;
+  --gold-glow: rgba(212, 175, 55, 0.4);
+  
+  --text: #1a1a24;
+  --muted: #666677;
+  --dim: #888899;
+}
+
+:root.light-theme body::before {
+  background:
+    radial-gradient(circle at 15% 15%, rgba(230, 0, 54, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 85% 85%, rgba(224, 172, 0, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(25, 118, 210, 0.05) 0%, transparent 50%);
+}
+
+:root.light-theme .board-wrap {
+  box-shadow: 0 0 30px var(--board-glow), inset 0 0 20px rgba(0, 0, 0, 0.1);
+  border: 2px solid rgba(0,0,0,0.08);
+}
+
+:root.light-theme .cell {
+  box-shadow: inset 0 4px 8px rgba(0,0,0,0.15);
+}
+
+:root.light-theme .cell::before {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+:root.light-theme .setup-row {
+  background: rgba(0,0,0,0.03);
+}
+
+:root.light-theme .htp-body {
+  background: rgba(0,0,0,0.03);
+}
+
+:root.light-theme .act-btn {
+  background: var(--glass);
+}
+
+:root.light-theme #btn-reset:hover {
+  background: var(--glass-hover);
+}
+
+:root.light-theme .token {
+  box-shadow: inset -4px -4px 10px rgba(0,0,0,0.2), inset 4px 4px 10px rgba(255,255,255,0.7);
+}
+
+:root.light-theme .token.p1 {
+  box-shadow: 0 0 15px var(--p1c-glow), inset -4px -4px 10px rgba(0,0,0,0.2), inset 4px 4px 10px rgba(255,255,255,0.8);
+}
+
+:root.light-theme .token.p2 {
+  box-shadow: 0 0 15px var(--p2c-glow), inset -4px -4px 10px rgba(0,0,0,0.2), inset 4px 4px 10px rgba(255,255,255,0.8);
+}
+
+.theme-btn {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: color 0.3s, transform 0.2s;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.theme-btn:hover {
+  color: var(--gold);
+  transform: scale(1.1);
+}
