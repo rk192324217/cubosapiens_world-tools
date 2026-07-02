@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="favGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2563eb"/>
+      <stop offset="100%" stop-color="#7c3aed"/>
+    </linearGradient>
+  </defs>
+  <rect x="4" y="4" width="56" height="56" rx="14" fill="url(#favGrad)"/>
+  <text x="28" y="44" text-anchor="middle" font-family="Arial" font-size="32" font-weight="800" fill="white">I</text>
+  <text x="48" y="44" text-anchor="middle" font-family="Arial" font-size="32" font-weight="800" fill="white">C</text>
+</svg>

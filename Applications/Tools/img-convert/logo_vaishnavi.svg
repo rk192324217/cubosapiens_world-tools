@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <defs>
+    <linearGradient id="mainGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2563eb"/>
+      <stop offset="100%" stop-color="#7c3aed"/>
+    </linearGradient>
+  </defs>
+  <circle cx="100" cy="100" r="92" fill="url(#mainGrad)"/>
+  <rect x="48" y="58" width="80" height="62" rx="4" fill="none" stroke="white" stroke-width="3.5"/>
+  <polyline points="55,115 72,90 88,108 100,95 120,115" fill="none" stroke="white" stroke-width="2.5" opacity="0.6"/>
+  <circle cx="112" cy="82" r="6" fill="white" opacity="0.4"/>
+  <path d="M145 70 C160 55, 160 135, 145 150" stroke="white" stroke-width="3.5" fill="none"/>
+  <polygon points="145,58 152,72 138,72" fill="white"/>
+  <text x="100" y="185" text-anchor="middle" font-family="Arial" font-size="20" font-weight="700" fill="white" letter-spacing="4">IMG</text>
+</svg>
