@@ -5,6 +5,7 @@ import AiAccessButton from "@/components/ui/AIAccessButton"
 // import ColorBends from "@/components/colorbends"
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 // import AdUnit from "@/components/ui/AdUnit"
+import OnboardingGreeting from "@/components/ui/OnboardingGreeting"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
@@ -74,6 +75,8 @@ export default async function HomePage() {
           Free · No signup · Works in browser
         </div> */}
 
+        <OnboardingGreeting />
+        
         <h1 className="hero-title">
           Everything you need.<br />
           <span className="hero-title-accent">All in One place.</span>
