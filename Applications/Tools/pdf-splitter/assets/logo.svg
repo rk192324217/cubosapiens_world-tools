@@ -1,0 +1,22 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background Circle -->
+  <circle cx="100" cy="100" r="90" fill="#1A1A1A" />
+  
+  <!-- PDF Document Shape -->
+  <rect x="45" y="35" width="110" height="130" rx="6" fill="#E53935" stroke="#FFFFFF" stroke-width="3"/>
+  
+  <!-- Document Lines -->
+  <line x1="65" y1="60" x2="135" y2="60" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round"/>
+  <line x1="65" y1="80" x2="125" y2="80" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round"/>
+  <line x1="65" y1="100" x2="135" y2="100" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round"/>
+  
+  <!-- Split Arrows -->
+  <path d="M60 150 L45 175 L85 175" stroke="#FF6B6B" stroke-width="5" fill="none" stroke-linecap="round"/>
+  <path d="M140 150 L155 175 L115 175" stroke="#FF6B6B" stroke-width="5" fill="none" stroke-linecap="round"/>
+  
+  <!-- Split Line -->
+  <line x1="100" y1="35" x2="100" y2="165" stroke="#FFFFFF" stroke-width="2" stroke-dasharray="4,4" opacity="0.5"/>
+  
+  <!-- Text -->
+  <text x="100" y="190" font-family="Arial, sans-serif" font-size="12" fill="#FFFFFF" text-anchor="middle" font-weight="bold" letter-spacing="2">PDF SPLITTER</text>
+</svg>
