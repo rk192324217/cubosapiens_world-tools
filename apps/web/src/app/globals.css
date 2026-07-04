@@ -455,6 +455,15 @@ a {
   line-height: 1.3;
   word-wrap: break-word;
   font-family: var(--font-body);
+
+  /* Fix #336: reserve a fixed 2-line block regardless of description
+     length, so cards with short vs. long descriptions render at the
+     same height instead of wrapping to a variable number of lines. */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  min-height: calc(1.3em * 2); /* fallback for non-webkit engines */
 }
 
 /* Game icon */
@@ -696,8 +705,8 @@ a {
 
   .tool-card-desc {
     font-size: 8px;
+    min-height: calc(1.3em * 2);
   }
-
   .badge-live {
     font-size: 7px;
     padding: 1px 3px;
