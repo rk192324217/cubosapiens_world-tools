@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react"
 import Link                                 from "next/link"
 import type { Tool }                        from "@/types"
 import Image from"next/image"
+import { recordRecentlyUsedTool }           from "@/hooks/useRecentlyUsedTools"
 interface Props {
   tool:        Tool
   recommended: Tool[]
@@ -12,6 +13,18 @@ interface Props {
 export default function ToolPageClient({ tool, recommended }: Props)
 {
   const [isFullscreen, setIsFullscreen] = useState(false)
+
+  // Record this tool as recently used (issue #333). Runs once per mount —
+  // every entry point (homepage, /tools listing, direct link, search)
+  // lands here, so this single effect covers them all.
+  useEffect(() => {
+    recordRecentlyUsedTool({
+      id:   tool.id,
+      slug: tool.slug,
+      name: tool.name,
+      icon: tool.icon,
+    })
+  }, [tool.id, tool.slug, tool.name, tool.icon])
 
   // ESC key exits fullscreen
   const handleKey = useCallback((e: KeyboardEvent) => {
