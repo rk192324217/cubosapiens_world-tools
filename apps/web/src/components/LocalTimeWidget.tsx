@@ -44,7 +44,7 @@ export default function LocalTimeWidget() {
   }, [])
 
   useEffect(() => {
-    function handlePointerDown(event: MouseEvent) {
+    function handleDocumentPointerDown(event: PointerEvent) {
       if (!widgetRef.current?.contains(event.target as Node)) {
         setIsOpen(false)
       }
@@ -56,11 +56,11 @@ export default function LocalTimeWidget() {
       }
     }
 
-    document.addEventListener("mousedown", handlePointerDown)
+    document.addEventListener("pointerdown", handleDocumentPointerDown)
     document.addEventListener("keydown", handleEscape)
 
     return () => {
-      document.removeEventListener("mousedown", handlePointerDown)
+      document.removeEventListener("pointerdown", handleDocumentPointerDown)
       document.removeEventListener("keydown", handleEscape)
     }
   }, [])
