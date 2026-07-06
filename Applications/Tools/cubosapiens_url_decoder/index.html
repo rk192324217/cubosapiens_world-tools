@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>URL Decoder - Packet Inspection</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="terminal-container">
+      <header class="terminal-header">
+        <h1>> SYSTEM.PACKET_INSPECTION // URL_DECODER</h1>
+        <p id="system-status" class="status-ok">[STATUS: AWAITING PAYLOAD]</p>
+      </header>
+
+      <main class="terminal-workspace">
+        <div class="panel">
+          <div class="panel-header">
+            <span>> RAW_PAYLOAD (INPUT)</span>
+          </div>
+          <textarea
+            id="raw-url"
+            placeholder="Enter encoded URL string here... (e.g., https%3A%2F%2Fexample.com%2Fsearch%3Fq%3Dcyber)"
+          ></textarea>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <span>> DECODED_PACKET (OUTPUT)</span>
+            <button id="copy-btn" class="terminal-btn">[COPY PAYLOAD]</button>
+          </div>
+          <textarea
+            id="decoded-url"
+            readonly
+            placeholder="Decoded packet output will appear here..."
+          ></textarea>
+        </div>
+      </main>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
