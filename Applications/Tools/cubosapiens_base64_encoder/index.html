@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Base64 Encoder - Data Transformation Lab</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="lab-container">
+      <header class="lab-header">
+        <h1 class="glow-text">DATA TRANSFORMATION LABORATORY</h1>
+        <p class="sub-text">Secure & Instant Base64 String Encoding</p>
+      </header>
+
+      <main class="lab-workspace">
+        <div class="lab-panel input-panel">
+          <div class="panel-header">
+            <span>[ INPUT STREAM ]</span>
+            <span id="char-count" class="counter">0 characters</span>
+          </div>
+          <textarea
+            id="raw-input"
+            placeholder="Type or paste your plain text here..."
+          ></textarea>
+        </div>
+
+        <div class="stream-connector">
+          <div class="stream-line"></div>
+        </div>
+
+        <div class="lab-panel output-panel">
+          <div class="panel-header">
+            <span>[ ENCODED OUTPUT ]</span>
+            <button id="copy-btn" class="btn-copy">Copy Output</button>
+          </div>
+          <textarea
+            id="base64-output"
+            readonly
+            placeholder="Encoded Base64 output will appear here..."
+          ></textarea>
+        </div>
+      </main>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
