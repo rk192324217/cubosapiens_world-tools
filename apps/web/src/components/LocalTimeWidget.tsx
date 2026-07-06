@@ -82,7 +82,7 @@ export default function LocalTimeWidget() {
         className="local-time-toggle"
         aria-expanded={isOpen}
         aria-controls="local-time-panel"
-        aria-label="Show local time details"
+        aria-label={isOpen ? "Hide local time details" : "Show local time details"}
         onClick={() => setIsOpen(open => !open)}
       >
         <i className="fa-regular fa-clock" aria-hidden="true" />
