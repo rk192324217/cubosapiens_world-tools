@@ -164,7 +164,7 @@ a {
 .local-time-widget {
   position: absolute;
   top: 96px;
-  right: clamp(24px, 5vw, 96px);
+  left: clamp(24px, 5vw, 96px);
   z-index: 120;
 }
 
@@ -221,7 +221,7 @@ a {
 .local-time-panel {
   position: absolute;
   top: calc(100% + 10px);
-  right: 0;
+  left: 0;
   width: min(260px, calc(100vw - 32px));
   padding: 14px;
   border-radius: var(--radius-lg);
@@ -807,7 +807,7 @@ a {
 
   .local-time-widget {
     top: 88px;
-    right: 14px;
+    left: 14px;
   }
 
   .tool-card-icon-img {
