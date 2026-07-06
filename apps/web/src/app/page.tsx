@@ -2,6 +2,7 @@ import { fetchTools, fetchGames } from "@/lib/api"
 import ToolGrid from "@/components/ui/ToolGrid"
 import GameGrid from "@/components/ui/GameGrid"
 import AiAccessButton from "@/components/ui/AIAccessButton"
+import LocalTimeWidget from "@/components/LocalTimeWidget"
 // import ColorBends from "@/components/colorbends"
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 // import AdUnit from "@/components/ui/AdUnit"
@@ -63,6 +64,7 @@ export default async function HomePage() {
 
   return (
     <div>
+      <LocalTimeWidget />
 
       {/* ── HERO GLOW — subtle top radial ── */}
       <div className="hero-glow" />
