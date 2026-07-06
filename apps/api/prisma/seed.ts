@@ -215,15 +215,37 @@ async function main()
             isLive: true,
             isFeatured: false,
             order: 15
+      },
+      {
+            name: "HTML Formatter",
+            slug: "html-formatter",
+            description: "Format beautify and validate HTML instantly",
+            category: "text",
+            icon: "html-formatter.png",
+            url: "https://htmlformat.cubosapiens.world",
+            isLive: false,
+            isFeatured: false,
+            order: 16
       }
 ]
   })
 
-  console.log("✅ 19 tools seeded")
+  console.log("✅ 20 tools seeded")
 
   await prisma.game.createMany({
     skipDuplicates: true,
     data: [
+      {
+            name: "Neon Arena Shooter",
+            slug: "arena-shooter",
+            description: "Survive endless waves of neon enemies in this retro arcade shooter.",
+            genre: "Arcade",
+            icon: "🔫",
+            url: "https://arena-shooter.cubosapiens.world",
+            isLive: true,
+            isFeatured: true,
+            order: 0
+      },
       {
             name: "Tic Tac Toe",
             slug: "xo",
@@ -355,11 +377,22 @@ async function main()
             isLive: false,
             isFeatured: false,
             order: 6
+      },
+      {
+            name: "Connect Four",
+            slug: "connect-four",
+            description: "Drop tokens, connect 4 in a row to win",
+            genre: "strategy",
+            icon: "🔴",
+            url: "https://connect-four.cubosapiens.world",
+            isLive: true,
+            isFeatured: false,
+            order: 7
       }
 ]
   })
 
-  console.log("✅ 12 games seeded")
+  console.log("✅ 13 games seeded")
 }
 
 main()

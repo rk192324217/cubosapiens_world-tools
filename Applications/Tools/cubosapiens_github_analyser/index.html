@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="GitHub Profile Analyzer — Visualize any GitHub user's profile, repository analytics, language distribution, open source score, and developer insights.">
+  <title>GitHub Profile Analyzer — Cubosapiens</title>
+
+  <!-- Favicon (inline SVG) -->
+  <link rel="icon" type="image/png" href="assets/logo.png">
+
+  <!-- Google Fonts: Fira Code + Fira Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Fira+Sans:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+
+  <!-- Chart.js 4.x -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+
+  <!-- Skip Link (Accessibility) -->
+  <a href="#main-content" class="skip-link" id="skip-link">Skip to main content</a>
+
+  <!-- ===== HEADER ===== -->
+  <header class="site-header" role="banner">
+    <div class="header-container">
+      <div class="header-brand">
+        <div class="brand-icon" aria-hidden="true">
+          <img src="assets/logo.png" alt="GitHub Profile Analyzer logo" class="brand-logo-img">
+        </div>
+        <div class="brand-text">
+          <h1 class="brand-title">GitHub Profile Analyzer</h1>
+          <p class="brand-subtitle">by Cubosapiens</p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== HERO / SEARCH SECTION ===== -->
+  <section class="hero-section" aria-label="Search for a GitHub user">
+    <div class="hero-bg-glow" aria-hidden="true"></div>
+    <div class="hero-container">
+      <h2 class="hero-title">GitHub Profile Analyzer</h2>
+      <p class="hero-subtitle">Analyze any GitHub developer with advanced repository analytics, language insights, open
+        source scoring, and technology focus.</p>
+      <form id="search-form" class="search-form" role="search" aria-label="GitHub username search">
+        <div class="search-input-wrapper">
+          <i data-lucide="search" class="search-icon" aria-hidden="true"></i>
+          <input type="text" id="search-input" class="search-input" placeholder="Enter GitHub username..."
+            autocomplete="off" autocapitalize="none" spellcheck="false" aria-label="GitHub username"
+            aria-describedby="search-hint">
+          <button type="submit" id="search-button" class="search-button" aria-label="Analyze profile">
+            <span class="search-button-text">Analyze</span>
+            <span class="search-button-spinner" aria-hidden="true" style="display: none;">
+              <i data-lucide="loader-2" class="spinner-icon"></i>
+            </span>
+          </button>
+        </div>
+        <p id="search-hint" class="search-hint">Try: torvalds, octocat, addyosmani</p>
+        <p id="search-error" class="search-error" role="alert" aria-live="assertive"></p>
+      </form>
+      <div class="hero-badges" aria-hidden="true">
+        <span class="hero-badge"><i data-lucide="code-2" class="hero-badge-icon"></i>Language Analytics</span>
+        <span class="hero-badge-separator">•</span>
+        <span class="hero-badge"><i data-lucide="award" class="hero-badge-icon"></i>Open Source Score</span>
+        <span class="hero-badge-separator">•</span>
+        <span class="hero-badge"><i data-lucide="git-branch" class="hero-badge-icon"></i>Repository Insights</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <main id="main-content" class="main-content">
+    <div class="dashboard-container">
+
+      <!-- Status Messages Area -->
+      <div id="status-area" class="status-area" role="status" aria-live="polite"></div>
+
+      <!-- Error Display Area -->
+      <div id="error-area" class="error-area" role="alert" aria-live="assertive" style="display: none;"></div>
+
+      <!-- Rate Limit Display Area -->
+      <div id="rate-limit-area" class="rate-limit-area" role="alert" aria-live="assertive" style="display: none;"></div>
+
+      <!-- Info Notice Area (for capped repos, etc.) -->
+      <div id="info-notice-area" class="info-notice-area" role="status" aria-live="polite" style="display: none;"></div>
+
+      <!-- Loading Skeleton -->
+      <div id="loading-skeleton" class="loading-skeleton" style="display: none;" aria-label="Loading profile data">
+        <!-- Profile skeleton -->
+        <div class="skeleton-section skeleton-profile">
+          <div class="skeleton-avatar"></div>
+          <div class="skeleton-lines">
+            <div class="skeleton-line skeleton-line-lg"></div>
+            <div class="skeleton-line skeleton-line-md"></div>
+            <div class="skeleton-line skeleton-line-sm"></div>
+          </div>
+        </div>
+        <!-- Stats skeleton -->
+        <div class="skeleton-section skeleton-stats">
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+        </div>
+        <!-- Chart skeleton -->
+        <div class="skeleton-section skeleton-charts">
+          <div class="skeleton-chart"></div>
+          <div class="skeleton-chart"></div>
+        </div>
+        <!-- Cards skeleton -->
+        <div class="skeleton-section skeleton-repos">
+          <div class="skeleton-repo-card"></div>
+          <div class="skeleton-repo-card"></div>
+          <div class="skeleton-repo-card"></div>
+        </div>
+      </div>
+
+      <!-- ===== DASHBOARD (hidden until data loads) ===== -->
+      <div id="dashboard" class="dashboard" style="display: none;">
+
+        <!-- SECTION A: Profile Overview -->
+        <section id="section-profile" class="dashboard-section section-profile" aria-label="Profile Overview">
+          <div class="profile-card">
+            <div class="profile-header">
+              <div class="profile-avatar-wrapper">
+                <img id="profile-avatar" class="profile-avatar" src="" alt="" width="96" height="96">
+              </div>
+              <div class="profile-info">
+                <h2 id="profile-name" class="profile-name"></h2>
+                <p id="profile-username" class="profile-username"></p>
+                <p id="profile-bio" class="profile-bio"></p>
+              </div>
+            </div>
+            <div id="profile-meta" class="profile-meta">
+              <!-- Dynamically populated: company, location, blog, twitter -->
+            </div>
+            <div class="profile-stats-row">
+              <div class="profile-stat" id="stat-followers">
+                <i data-lucide="users" aria-hidden="true"></i>
+                <span class="stat-value" id="stat-followers-value">0</span>
+                <span class="stat-label">Followers</span>
+              </div>
+              <div class="profile-stat" id="stat-following">
+                <i data-lucide="user-plus" aria-hidden="true"></i>
+                <span class="stat-value" id="stat-following-value">0</span>
+                <span class="stat-label">Following</span>
+              </div>
+              <div class="profile-stat" id="stat-repos">
+                <i data-lucide="book-open" aria-hidden="true"></i>
+                <span class="stat-value" id="stat-repos-value">0</span>
+                <span class="stat-label">Public Repos</span>
+              </div>
+              <div class="profile-stat" id="stat-gists">
+                <i data-lucide="file-code-2" aria-hidden="true"></i>
+                <span class="stat-value" id="stat-gists-value">0</span>
+                <span class="stat-label">Public Gists</span>
+              </div>
+            </div>
+            <div class="profile-account-info">
+              <div class="account-created">
+                <i data-lucide="calendar" aria-hidden="true"></i>
+                <span>Joined <span id="profile-created"></span></span>
+              </div>
+              <span id="profile-account-age" class="account-age-badge"></span>
+            </div>
+          </div>
+        </section>
+
+        <!-- SECTION B: Repository Analytics -->
+        <section id="section-repo-analytics" class="dashboard-section section-repo-analytics"
+          aria-label="Repository Analytics">
+          <div class="section-header">
+            <h2 class="section-title">
+              <i data-lucide="git-branch" aria-hidden="true"></i>
+              Repository Analytics
+            </h2>
+          </div>
+          <div class="analytics-grid" id="analytics-grid">
+            <!-- 4 stat cards + 2 highlight cards rendered dynamically -->
+          </div>
+        </section>
+
+        <!-- SECTION C: Language Distribution -->
+        <section id="section-languages" class="dashboard-section section-languages" aria-label="Language Distribution">
+          <div class="section-header">
+            <h2 class="section-title">
+              <i data-lucide="code-2" aria-hidden="true"></i>
+              Language Distribution
+            </h2>
+          </div>
+          <div class="language-layout">
+            <div class="chart-wrapper">
+              <canvas id="language-chart" aria-label="Doughnut chart showing language distribution"></canvas>
+              <div id="language-chart-empty" class="chart-empty-state" style="display: none;">
+                <i data-lucide="code-2" aria-hidden="true"></i>
+                <p>No language data available</p>
+              </div>
+            </div>
+            <div class="language-list-wrapper">
+              <ul id="language-list" class="language-list" aria-label="Language ranking">
+                <!-- Dynamically populated -->
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- SECTION D: Open Source Score -->
+        <section id="section-score" class="dashboard-section section-score" aria-label="Open Source Score">
+          <div class="section-header">
+            <h2 class="section-title">
+              <i data-lucide="award" aria-hidden="true"></i>
+              Open Source Score
+            </h2>
+          </div>
+          <div class="score-layout">
+            <div class="score-ring-wrapper">
+              <svg class="score-ring" viewBox="0 0 200 200" aria-label="Open source score visualization">
+                <defs>
+                  <filter id="score-glow" x="-20%" y="-20%" width="140%" height="140%">
+                    <feGaussianBlur stdDeviation="6" result="blur" />
+                    <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                  </filter>
+                </defs>
+                <circle class="score-ring-bg" cx="100" cy="100" r="85" />
+                <circle id="score-ring-fill" class="score-ring-fill" cx="100" cy="100" r="85"
+                  filter="url(#score-glow)" />
+                <text id="score-ring-value" class="score-ring-value" x="100" y="92" text-anchor="middle"
+                  dominant-baseline="central"></text>
+                <text id="score-ring-label" class="score-ring-label" x="100" y="122" text-anchor="middle"></text>
+              </svg>
+              <div id="score-grade-badge" class="grade-badge"></div>
+            </div>
+            <div class="score-breakdown" id="score-breakdown">
+              <!-- 6 sub-score bars rendered dynamically -->
+            </div>
+          </div>
+          <p class="score-disclaimer">
+            <i data-lucide="info" aria-hidden="true"></i>
+            Open Source Score is a custom Cubosapiens metric and is not affiliated with GitHub.
+          </p>
+        </section>
+
+        <!-- SECTION E: Developer Insights -->
+        <section id="section-insights" class="dashboard-section section-insights" aria-label="Developer Insights">
+          <div class="section-header">
+            <h2 class="section-title">
+              <i data-lucide="lightbulb" aria-hidden="true"></i>
+              Developer Insights
+            </h2>
+          </div>
+          <div class="insights-grid" id="insights-grid">
+            <!-- 10 insight cards rendered dynamically -->
+          </div>
+        </section>
+
+        <!-- SECTION F: Repository Creation Trend -->
+        <section id="section-trend" class="dashboard-section section-trend" aria-label="Repository Creation Trend">
+          <div class="section-header">
+            <h2 class="section-title">
+              <i data-lucide="trending-up" aria-hidden="true"></i>
+              Repository Creation Trend
+            </h2>
+            <span id="trend-indicator" class="trend-badge"></span>
+          </div>
+          <div class="chart-wrapper chart-wrapper-bar">
+            <canvas id="trend-chart" aria-label="Bar chart showing repository creation by year"></canvas>
+            <div id="trend-chart-empty" class="chart-empty-state" style="display: none;">
+              <i data-lucide="bar-chart-3" aria-hidden="true"></i>
+              <p>No repository trend data available</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- SECTION G: Estimated Technology Focus -->
+        <section id="section-tech" class="dashboard-section section-tech" aria-label="Estimated Technology Focus">
+          <div class="section-header">
+            <h2 class="section-title">
+              <i data-lucide="radar" aria-hidden="true"></i>
+              Estimated Technology Focus
+            </h2>
+          </div>
+          <div class="tech-layout">
+            <div class="chart-wrapper chart-wrapper-radar">
+              <canvas id="tech-chart" aria-label="Radar chart showing estimated technology focus areas"></canvas>
+              <div id="tech-chart-empty" class="chart-empty-state" style="display: none;">
+                <i data-lucide="radar" aria-hidden="true"></i>
+                <p>No technology data available</p>
+              </div>
+            </div>
+            <div class="tech-categories" id="tech-categories">
+              <!-- Category list rendered dynamically -->
+            </div>
+          </div>
+          <p class="tech-disclaimer">
+            <i data-lucide="info" aria-hidden="true"></i>
+            Technology categories are estimated from repository primary languages.
+          </p>
+        </section>
+
+        <!-- SECTION H: Top Repositories -->
+        <section id="section-top-repos" class="dashboard-section section-top-repos" aria-label="Top Repositories">
+          <div class="section-header">
+            <h2 class="section-title">
+              <i data-lucide="star" aria-hidden="true"></i>
+              Top Repositories
+            </h2>
+          </div>
+          <div id="top-repos-grid" class="top-repos-grid">
+            <!-- Repo cards rendered dynamically -->
+          </div>
+          <div id="top-repos-empty" class="repos-empty-state" style="display: none;">
+            <i data-lucide="inbox" aria-hidden="true"></i>
+            <p>No repositories to display</p>
+          </div>
+          <div id="top-repos-actions" class="top-repos-actions" style="display: none;">
+            <button id="show-more-repos" class="btn-show-more" aria-label="Show more repositories">
+              <i data-lucide="chevron-down" aria-hidden="true"></i>
+              <span>Show More</span>
+            </button>
+          </div>
+        </section>
+
+        <!-- SECTION I: Account Age Analytics -->
+        <section id="section-account-age" class="dashboard-section section-account-age"
+          aria-label="Account Age Analytics">
+          <div class="section-header">
+            <h2 class="section-title">
+              <i data-lucide="clock" aria-hidden="true"></i>
+              Account Age Analytics
+            </h2>
+          </div>
+          <div class="age-analytics-grid" id="age-analytics-grid">
+            <!-- 6 age analytics items rendered dynamically -->
+          </div>
+        </section>
+
+      </div><!-- /#dashboard -->
+
+    </div><!-- /.dashboard-container -->
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer-container">
+      <p class="footer-text">
+        Built with <i data-lucide="heart" class="footer-heart" aria-hidden="true"></i> by
+        <a href="https://github.com/cubosapiens" target="_blank" rel="noopener noreferrer"
+          class="footer-link">Cubosapiens</a>
+      </p>
+      <p class="footer-disclaimer">
+        Uses GitHub REST API v3. Not affiliated with GitHub, Inc.
+      </p>
+    </div>
+  </footer>
+
+  <!-- ===== SCRIPTS (order matters) ===== -->
+  <script src="js/api.js"></script>
+  <script src="js/compute.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/render.js"></script>
+  <script src="js/app.js"></script>
+
+</body>
+
+</html>
