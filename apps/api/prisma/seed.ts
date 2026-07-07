@@ -236,6 +236,17 @@ async function main()
             order: 0
       },
       {
+            name: "Cyber Runner",
+            slug: "cyber-runner",
+            description: "Endless cyberpunk runner — jump, slide, and hack your way through the grid.",
+            genre: "arcade",
+            icon: "cyber-runner.png",
+            url: "https://cyber-runner.cubosapiens.world",
+            isLive: true,
+            isFeatured: true,
+            order: 0
+      },
+      {
             name: "Da Vinci Fly ",
             slug: "da-vinci-fly",
             description: "Da Vinci has made a flying machine to explore dangerous dungeon, but no one is willing to be the test pilot.",
