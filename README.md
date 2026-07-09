@@ -168,6 +168,7 @@ The platform focuses on:
 
 # Browser Tools & Games Ecosystem
 
+```text
 Applications/
  ├── Tools/
  ├── Games/
