@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trading Empire – Space Merchant Simulation | CuboSapiens</title>
+  <meta name="description" content="Build your financial empire in the stars. Trade cosmic goods, manage banking & debt, upgrade your cargo ship, and survive pirate threats in this retro-cyberpunk simulation.">
+  <meta name="keywords" content="trading game, space tycoon, browser game, cyberpunk, merchant simulation, free online game, cubosapiens">
+  <meta name="author" content="CuboSapiens">
+  
+  <!-- Canonical & OG Tags -->
+  <link rel="canonical" href="https://cubosapiens.world/games/trading-empire">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://cubosapiens.world/games/trading-empire">
+  <meta property="og:title" content="Trading Empire – Free Browser Strategy Game | CuboSapiens">
+  <meta property="og:description" content="Trade commodities across the galaxy, dodge space pirates, and grow your fortune in this cyberpunk merchant game. No downloads needed.">
+  <meta property="og:site_name" content="CuboSapiens">
+  <meta name="twitter:card" content="summary_large_image">
+  
+  <!-- Fonts & Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Game Styling -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark-theme">
+
+  <div class="stars-bg"></div>
+
+  <div class="game-wrapper">
+    <!-- ── HEADER ── -->
+    <header class="game-header">
+      <div class="logo-area">
+        <div class="logo-icon"><i class="fa-solid fa-briefcase"></i></div>
+        <div class="logo-text">
+          <h1>Trading Empire</h1>
+          <span class="logo-sub">Galaxy Merchant v1.0</span>
+        </div>
+      </div>
+      
+      <div class="status-indicator">
+        <div class="indicator-item" id="day-counter">
+          <span class="label">Time Remaining</span>
+          <span class="value">Day 1 <span class="muted">/ 30</span></span>
+        </div>
+        <div class="indicator-item" id="location-counter">
+          <span class="label">Current System</span>
+          <span class="value text-accent">Terra Prime</span>
+        </div>
+      </div>
+
+      <div class="header-controls">
+        <button id="btn-help" class="control-btn" aria-label="How to play" title="Instructions"><i class="fa-solid fa-circle-question"></i></button>
+        <button id="btn-sound" class="control-btn" aria-label="Toggle Sound" title="Toggle Sound"><i class="fa-solid fa-volume-high"></i></button>
+        <button id="btn-theme" class="control-btn" aria-label="Toggle Theme" title="Toggle Theme"><i class="fa-solid fa-sun"></i></button>
+      </div>
+    </header>
+
+    <!-- ── MAIN PANEL ── -->
+    <main class="game-grid">
+      
+      <!-- LEFT SECTION: Stats & Market -->
+      <section class="main-left">
+        <!-- ── STATS DASHBOARD ── -->
+        <div class="card stats-card">
+          <div class="card-header">
+            <h3><i class="fa-solid fa-chart-simple"></i> Ship Dashboard</h3>
+          </div>
+          <div class="stats-grid">
+            <div class="stat-box" id="stat-cash">
+              <span class="stat-lbl"><i class="fa-solid fa-wallet text-green"></i> Cash Credits</span>
+              <span class="stat-val text-green">10,000</span>
+            </div>
+            <div class="stat-box" id="stat-debt">
+              <span class="stat-lbl"><i class="fa-solid fa-skull-crossbones text-red"></i> Syndicate Debt</span>
+              <span class="stat-val text-red">5,000</span>
+            </div>
+            <div class="stat-box" id="stat-bank">
+              <span class="stat-lbl"><i class="fa-solid fa-building-columns text-cyan"></i> Bank Balance</span>
+              <span class="stat-val text-cyan">0</span>
+            </div>
+            <div class="stat-box" id="stat-cargo">
+              <span class="stat-lbl"><i class="fa-solid fa-box text-orange"></i> Cargo Hold</span>
+              <span class="stat-val text-orange">0 <span class="muted">/ 30</span></span>
+            </div>
+            <div class="stat-box full-width" id="stat-hull">
+              <div class="hull-text">
+                <span class="stat-lbl"><i class="fa-solid fa-shield-halved text-blue"></i> Hull Integrity</span>
+                <span class="stat-val text-blue">100%</span>
+              </div>
+              <div class="progress-bar-wrap">
+                <div class="progress-bar-fill" style="width: 100%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── COMMODITIES MARKET ── -->
+        <div class="card market-card">
+          <div class="card-header">
+            <h3><i class="fa-solid fa-shop"></i> Commodities Market</h3>
+            <span class="header-note">Buy low, sell high</span>
+          </div>
+          <div class="table-container">
+            <table id="market-table">
+              <thead>
+                <tr>
+                  <th>Commodity</th>
+                  <th>Price</th>
+                  <th>Trend</th>
+                  <th>Cargo</th>
+                  <th class="actions-header">Trade</th>
+                </tr>
+              </thead>
+              <tbody id="market-body">
+                <!-- Javascript will populate this -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- RIGHT SECTION: Upgrades, Bank, Travel -->
+      <section class="main-right">
+        
+        <!-- ── TRAVEL PORTAL / MAP ── -->
+        <div class="card travel-card">
+          <div class="card-header">
+            <h3><i class="fa-solid fa-compass"></i> Warp Travel Portal</h3>
+          </div>
+          <div class="travel-interface">
+            <p class="travel-desc">Select a destination to warp. Traveling takes 1 day and shifts market prices.</p>
+            <div class="planets-list" id="planets-container">
+              <!-- JS generated planet buttons -->
+            </div>
+          </div>
+        </div>
+
+        <!-- ── SYNDICATE BANK & SHIPYARD ── -->
+        <div class="tabs-card card">
+          <div class="tabs-header">
+            <button class="tab-link active" data-tab="tab-bank"><i class="fa-solid fa-vault"></i> Syndicate Bank</button>
+            <button class="tab-link" data-tab="tab-shipyard"><i class="fa-solid fa-screwdriver-wrench"></i> Shipyard Upgrades</button>
+          </div>
+          
+          <div class="tab-contents">
+            <!-- BANK TAB -->
+            <div class="tab-content active" id="tab-bank">
+              <div class="bank-section">
+                <div class="bank-block debt-block">
+                  <h4>Syndicate Loan Shark</h4>
+                  <p class="sub-text">Interest rate: <span class="text-red">10% / day</span>. Pay off your debt to avoid compounding interest.</p>
+                  <div class="bank-controls">
+                    <button class="action-btn red-btn" id="btn-pay-debt-1000">Pay 1K Credits</button>
+                    <button class="action-btn red-btn" id="btn-pay-debt-all">Pay Max Debt</button>
+                  </div>
+                </div>
+                
+                <div class="bank-block deposit-block">
+                  <h4>Galactic Credit Union</h4>
+                  <p class="sub-text">Interest rate: <span class="text-cyan">3% / day</span>. Store money safely away from space pirates.</p>
+                  <div class="bank-controls">
+                    <button class="action-btn cyan-btn" id="btn-deposit-1000">Deposit 1K</button>
+                    <button class="action-btn cyan-btn" id="btn-deposit-all">Deposit Max</button>
+                  </div>
+                  <div class="bank-controls deposit-withdraw">
+                    <button class="action-btn outline-btn" id="btn-withdraw-1000">Withdraw 1K</button>
+                    <button class="action-btn outline-btn" id="btn-withdraw-all">Withdraw Max</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- SHIPYARD TAB -->
+            <div class="tab-content" id="tab-shipyard">
+              <div class="shipyard-grid">
+                <div class="upgrade-item" id="upg-cargo">
+                  <div class="upg-details">
+                    <h5>Cargo Hold Expansion</h5>
+                    <p class="upg-desc">Increases total cargo slots by 10.</p>
+                    <span class="upg-level">Lv 1 (30 Slots)</span>
+                  </div>
+                  <button class="upgrade-btn" id="btn-upg-cargo">Upgrade<br><span class="price-tag">2,000 Credits</span></button>
+                </div>
+                
+                <div class="upgrade-item" id="upg-shields">
+                  <div class="upg-details">
+                    <h5>Deflector Shields</h5>
+                    <p class="upg-desc">Reduces damage from solar flares & pirates by 25%.</p>
+                    <span class="upg-level">Lv 0 (No Shields)</span>
+                  </div>
+                  <button class="upgrade-btn" id="btn-upg-shields">Upgrade<br><span class="price-tag">3,500 Credits</span></button>
+                </div>
+
+                <div class="upgrade-item" id="upg-warp">
+                  <div class="upg-details">
+                    <h5>Hyperdrive Warp Engine</h5>
+                    <p class="upg-desc">Reduces travel hazard/pirate encounter rates by 20%.</p>
+                    <span class="upg-level">Lv 0 (Standard Warp)</span>
+                  </div>
+                  <button class="upgrade-btn" id="btn-upg-warp">Upgrade<br><span class="price-tag">4,000 Credits</span></button>
+                </div>
+
+                <div class="upgrade-item" id="upg-repair">
+                  <div class="upg-details">
+                    <h5>Hull Nanobot Repairs</h5>
+                    <p class="upg-desc">Fixes all hull damage back to 100%.</p>
+                  </div>
+                  <button class="upgrade-btn green-btn" id="btn-upg-repair">Repair Hull<br><span class="price-tag">500 Credits</span></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ── LOGS PANEL ── -->
+    <footer class="logs-panel card">
+      <div class="card-header">
+        <h3><i class="fa-solid fa-list-ul"></i> Voyage Log</h3>
+        <button id="btn-clear-logs" class="clear-logs-btn" title="Clear logs">Clear</button>
+      </div>
+      <div class="logs-container" id="logs-list">
+        <!-- Log entries will appear here -->
+      </div>
+    </footer>
+  </div>
+
+  <!-- ── MODAL: INSTRUCTIONS ── -->
+  <div class="modal-overlay" id="help-modal">
+    <div class="modal-card">
+      <button class="close-modal" id="btn-close-help" aria-label="Close modal">&times;</button>
+      <h2><i class="fa-solid fa-circle-info text-accent"></i> Captain's Operations Manual</h2>
+      <div class="modal-body scrollable">
+        <p>Welcome, Commander. You have been granted a basic starship and a 10,000 credit loan. Your objective is simple: <strong>trade, build, and pay off your debt to become a Trading Tycoon.</strong></p>
+        
+        <h3>1. The Trading Loop</h3>
+        <ul>
+          <li>Buy commodities cheap where supply is high, warp to other systems, and sell them high.</li>
+          <li>Commodity values fluctuate based on location demands and unexpected market shocks.</li>
+        </ul>
+
+        <h3>2. Debt and Banking</h3>
+        <ul>
+          <li>You owe <strong>5,000 Credits</strong> to the Syndicate. They charge a steep <strong>10% interest rate per day</strong>. Pay this off quickly!</li>
+          <li>Store extra credits in the Galactic Credit Union to earn <strong>3% interest per day</strong>. Banks also protect your money from pirates.</li>
+        </ul>
+
+        <h3>3. Ship Upgrades</h3>
+        <ul>
+          <li><strong>Cargo expansion:</strong> Carry more units of commodities to scale your gains.</li>
+          <li><strong>Deflector Shields:</strong> Safeguards your ship's hull from cosmic hazards and pirate damage.</li>
+          <li><strong>Hyperdrive engines:</strong> Lowers the chance of intercepting pirate fleets.</li>
+          <li>Keep your hull repaired. If your ship's hull integrity hits <strong>0%</strong>, it is game over.</li>
+        </ul>
+
+        <h3>4. Warp and Events</h3>
+        <ul>
+          <li>Traveling between planets takes exactly 1 day.</li>
+          <li>During warp, you may encounter solar flares, space debris, or <strong>Space Pirates</strong>!</li>
+          <li>If pirates intercept you, you can try to Flee, Pay Bribe, or Fight. Fight success rates depend on your deflector shields.</li>
+        </ul>
+      </div>
+      <div class="modal-actions">
+        <button class="modal-btn" id="btn-start-playing">Acknowledge</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── MODAL: RANDOM EVENT ── -->
+  <div class="modal-overlay" id="event-modal">
+    <div class="modal-card event-card">
+      <h2 id="event-title">Incoming Transmission</h2>
+      <div class="event-image-box" id="event-img">
+        <i class="fa-solid fa-triangle-exclamation" id="event-icon-graphic"></i>
+      </div>
+      <p id="event-description">Event description text goes here.</p>
+      
+      <!-- Event action container -->
+      <div class="event-actions" id="event-buttons">
+        <!-- JS generated buttons depending on event type -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ── MODAL: GAME OVER / SUCCESS ── -->
+  <div class="modal-overlay" id="end-modal">
+    <div class="modal-card end-card">
+      <h2 id="end-title">Mission Complete</h2>
+      
+      <div class="rank-badge" id="end-rank">
+        <span class="label">COMMERCIAL RANK</span>
+        <span class="value text-accent" id="rank-name">Space Cadet</span>
+      </div>
+
+      <div class="end-stats">
+        <div class="end-stat-row">
+          <span>Final Cash Credits:</span>
+          <span class="text-green" id="end-val-cash">10,000</span>
+        </div>
+        <div class="end-stat-row">
+          <span>Bank Savings:</span>
+          <span class="text-cyan" id="end-val-bank">0</span>
+        </div>
+        <div class="end-stat-row">
+          <span>Remaining Debt:</span>
+          <span class="text-red" id="end-val-debt">0</span>
+        </div>
+        <div class="divider"></div>
+        <div class="end-stat-row total-row">
+          <span>Final Net Worth:</span>
+          <span class="text-accent" id="end-val-networth">10,000</span>
+        </div>
+      </div>
+
+      <div class="lifetime-stats card">
+        <h4>All-Time Record</h4>
+        <div class="stat-row">
+          <span>Highest Net Worth:</span>
+          <strong id="high-score-val" class="text-green">10,000</strong>
+        </div>
+        <div class="stat-row">
+          <span>Total Runs Completed:</span>
+          <strong id="total-games-val">1</strong>
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="modal-btn" id="btn-restart-game"><i class="fa-solid fa-rotate-right"></i> Launch New Campaign</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sound Toast -->
+  <div id="sound-toast" class="sound-toast">
+    Sound system initialized.
+  </div>
+
+  <!-- Main Game Logic -->
+  <script src="script.js"></script>
+</body>
+</html>

@@ -22,6 +22,17 @@ let qrInstance  = null;   // holds the QRCode object
 let currentEC   = 'M';    // error-correction level: L | M | Q | H
 let hasGenerated = false;  // whether a QR has been drawn at least once
 let customLogoSrc = 'assets/logo.png';
+let bgColor = '#ffffff';
+
+const backgroundColorOptions = [
+  { name: 'Pure White', value: '#ffffff' },
+  { name: 'Soft Cream', value: '#fdfbf7' },
+  { name: 'Pastel Mint', value: '#e6f7ed' },
+  { name: 'Pastel Blue', value: '#e6f0fa' },
+  { name: 'Pastel Pink', value: '#fce4ec' },
+  { name: 'Light Lavender', value: '#f3e5f5' },
+  { name: 'Soft Yellow', value: '#fffde7' },
+];
 
 /* ── 2. Element References ── */
 const htmlEl       = document.documentElement;
@@ -35,7 +46,7 @@ const qrLogo       = document.getElementById('qrLogo');
 const qrActions    = document.getElementById('qrActions');
 const sizeSlider   = document.getElementById('sizeSlider');
 const sizeVal      = document.getElementById('sizeVal');
-const colorLight    = document.getElementById('colorLight');
+const bgPalette      = document.getElementById('bgPalette');
 const lightColorHint= document.getElementById('lightColorHint');
 const logoUpload    = document.getElementById('logoUpload');
 const logoUploadText= document.getElementById('logoUploadText');
@@ -74,23 +85,43 @@ sizeSlider.addEventListener('input', () => {
 });
 
 
-/* ── 6. Colour Pickers ── */
-/* ── 6. Colour Picker (light/background only) ── */
-colorLight.addEventListener('input', () => {
-  const hex = colorLight.value;
-
-  // Block pure black — would make QR unreadable
-  if (hex === '#000000') {
-    colorLight.value = '#ffffff';
-    showToast('Background can\'t be black — reset to white');
-    return;
-  }
-
-  // Update the hint label next to the setting title
-  lightColorHint.textContent = hex;
+/* ── 6. Curated Background Palette ── */
+function setBgColor(nextColor) {
+  bgColor = nextColor;
+  lightColorHint.textContent = nextColor;
+  renderBackgroundPalette();
 
   if (hasGenerated) generateQR();
-});
+}
+
+function renderBackgroundPalette() {
+  bgPalette.innerHTML = '';
+
+  backgroundColorOptions.forEach(color => {
+    const isSelected = bgColor === color.value;
+    const swatch = document.createElement('button');
+
+    swatch.type = 'button';
+    swatch.className = `bg-swatch${isSelected ? ' selected' : ''}`;
+    swatch.style.backgroundColor = color.value;
+    swatch.title = color.name;
+    swatch.setAttribute('aria-label', `Use ${color.name} background`);
+    swatch.setAttribute('aria-pressed', String(isSelected));
+
+    if (isSelected) {
+      swatch.innerHTML = `
+        <svg viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+          <path d="M7.6 13.4 3.9 9.7l1.4-1.4 2.3 2.3 7.1-7.1 1.4 1.4-8.5 8.5z"></path>
+        </svg>
+      `;
+    }
+
+    swatch.addEventListener('click', () => setBgColor(color.value));
+    bgPalette.appendChild(swatch);
+  });
+}
+
+renderBackgroundPalette();
 
 /* ── 6b. Logo Upload ── */
 logoUpload.addEventListener('change', () => {
@@ -155,7 +186,7 @@ function generateQR() {
 
 const size  = parseInt(sizeSlider.value);
   const dark  = '#000000';       // always black — only background is user-editable
-  const light = colorLight.value;
+  const light = bgColor;
 
   // Clear previous QR canvas / image
   qrRender.innerHTML = '';

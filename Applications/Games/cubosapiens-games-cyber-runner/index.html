@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cyber Runner – Endless Neon Arcade Game | CuboSapiens</title>
+  <meta name="description" content="Play Cyber Runner, a retro-futuristic cyberpunk endless runner. Jump over laser grids, slide under scanner drones, and dash through firewalls. Play for free!" />
+  <meta name="keywords" content="cyber runner, cyberpunk game, retro game, endless runner, arcade game, browser game, neon runner, free online game, cubosapiens" />
+  <meta name="author" content="CuboSapiens" />
+  <meta name="robots" content="index, follow" />
+  
+  <link rel="canonical" href="https://cubosapiens.world/games/cyber-runner" />
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+  
+  <!-- Local Styles -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="wrapper">
+    <!-- Breadcrumbs and header -->
+    <header class="site-header">
+      <a href="https://cubosapiens.world" class="logo-slot">
+        <div class="logo-box">C</div>
+        <div class="site-name">CUBOSAPIENS<br><span style="font-size:0.25rem;letter-spacing:1px;color:var(--nc)">ARCADE</span></div>
+      </a>
+      <div class="breadcrumb">
+        <a href="https://cubosapiens.world/games"><i class="fa-solid fa-gamepad"></i> Games</a> / Cyber Runner
+      </div>
+    </header>
+
+    <!-- Main Game Board Container -->
+    <main class="game-container" id="gameContainer">
+      <!-- HUD Overlay -->
+      <div class="hud" id="hud">
+        <div class="hud-left">
+          <div class="stat-box">
+            <span class="stat-label">SCORE</span>
+            <span class="stat-val font-neon-cyan" id="hudScore">000000</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-label">MULT</span>
+            <span class="stat-val font-neon-pink" id="hudMultiplier">x1.0</span>
+          </div>
+          <div class="stat-box hidden-mobile">
+            <span class="stat-label">DIST</span>
+            <span class="stat-val font-neon-yellow" id="hudDistance">0m</span>
+          </div>
+        </div>
+        
+        <div class="hud-center">
+          <div class="dash-bar-container">
+            <span class="dash-label">CYBER-DASH</span>
+            <div class="dash-bar">
+              <div class="dash-fill" id="dashFill"></div>
+            </div>
+            <span class="dash-ready-text" id="dashReadyText">READY</span>
+          </div>
+        </div>
+
+        <div class="hud-right">
+          <button class="hud-btn" id="btnPause" title="Pause Game (P)"><i class="fa-solid fa-pause"></i></button>
+          <button class="hud-btn" id="btnMute" title="Mute Audio (M)"><i class="fa-solid fa-volume-high"></i></button>
+        </div>
+      </div>
+
+      <!-- Main Game Canvas -->
+      <canvas id="gameCanvas" width="800" height="450"></canvas>
+
+      <!-- Start Menu Overlay -->
+      <div class="overlay active" id="startMenu">
+        <div class="terminal-header">
+          <span class="terminal-dot red"></span>
+          <span class="terminal-dot yellow"></span>
+          <span class="terminal-dot green"></span>
+          <span class="terminal-title">CYBER_RUNNER.EXE</span>
+        </div>
+        <div class="overlay-content">
+          <h1 class="game-title">
+            <span class="glow-cyan">CYBER</span>
+            <span class="glow-pink">RUNNER</span>
+          </h1>
+          <p class="tagline">HACK THE GRID. EVADE SECURITY. RUN FOREVER.</p>
+          
+          <div class="menu-sections">
+            <div class="setup-section">
+              <div class="form-group">
+                <label><i class="fa-solid fa-gauge-high"></i> Difficulty</label>
+                <div class="btn-group" id="difficultyGroup">
+                  <button class="btn active" data-value="normal">NORMAL</button>
+                  <button class="btn" data-value="hard">HYPER</button>
+                  <button class="btn" data-value="easy">CHILL</button>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label><i class="fa-solid fa-palette"></i> Grid Color</label>
+                <div class="btn-group" id="colorGroup">
+                  <button class="btn active" data-color="neon">SUNSET</button>
+                  <button class="btn" data-color="cyan">GRID</button>
+                  <button class="btn" data-color="matrix">MATRIX</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="tutorial-section">
+              <h3><i class="fa-solid fa-keyboard"></i> Controls</h3>
+              <div class="controls-grid">
+                <div class="control-item">
+                  <span class="key-cap"><i class="fa-solid fa-arrow-up"></i> / Space</span>
+                  <span class="action-desc">Jump over laser grids</span>
+                </div>
+                <div class="control-item">
+                  <span class="key-cap"><i class="fa-solid fa-arrow-down"></i> / S</span>
+                  <span class="action-desc">Slide under drones</span>
+                </div>
+                <div class="control-item">
+                  <span class="key-cap">D / Shift</span>
+                  <span class="action-desc">Dash & smash obstacles</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="score-display">
+            <span>HIGH SCORE: </span>
+            <span class="font-neon-yellow" id="menuHighScore">000000</span>
+          </div>
+
+          <button class="btn-primary" id="btnStartGame">INITIALIZE CONNECTION</button>
+        </div>
+      </div>
+
+      <!-- Pause Menu Overlay -->
+      <div class="overlay" id="pauseMenu">
+        <div class="overlay-content miniature">
+          <h2>CONNECTION PAUSED</h2>
+          <div class="btn-vertical-group">
+            <button class="btn-primary" id="btnResume">RESUME SESSION</button>
+            <button class="btn-secondary" id="btnRestartFromPause">REBOOT GRID</button>
+            <button class="btn-secondary" id="btnQuit">ABORT MISSION</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Game Over Overlay -->
+      <div class="overlay" id="gameOverMenu">
+        <div class="terminal-header red-bar">
+          <span class="terminal-title">ALERT: CONNECTION TERMINATED</span>
+        </div>
+        <div class="overlay-content">
+          <h2 class="alert-title glow-red">SYSTEM OVERLOAD</h2>
+          <p class="game-over-reason" id="gameOverReason">Collision detected. Grid connection lost.</p>
+          
+          <div class="final-stats">
+            <div class="stat-card">
+              <span class="stat-card-label">FINAL SCORE</span>
+              <span class="stat-card-val font-neon-cyan" id="gameOverScore">000000</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-card-label">DISTANCE</span>
+              <span class="stat-card-val font-neon-pink" id="gameOverDistance">0m</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-card-label">HIGH SCORE</span>
+              <span class="stat-card-val font-neon-yellow" id="gameOverHighScore">000000</span>
+            </div>
+          </div>
+
+          <div class="btn-row">
+            <button class="btn-primary" id="btnRestart">RE-INITIALIZE LINK</button>
+            <button class="btn-secondary" id="btnMainMenu">EXIT TO TERMINAL</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Touch Controls for Mobile -->
+      <div class="touch-controls" id="touchControls">
+        <button class="touch-btn" id="touchJump"><i class="fa-solid fa-chevron-up"></i> JUMP</button>
+        <button class="touch-btn" id="touchDash"><i class="fa-solid fa-bolt"></i> DASH</button>
+        <button class="touch-btn" id="touchSlide"><i class="fa-solid fa-chevron-down"></i> SLIDE</button>
+      </div>
+    </main>
+  </div>
+
+  <!-- Local Script -->
+  <script src="script.js"></script>
+</body>
+</html>

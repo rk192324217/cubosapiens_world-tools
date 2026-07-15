@@ -4283,3 +4283,179 @@ a {
     font-size: 2rem;
   }
 }
+
+/* =====================
+   ONBOARDING GREETING
+   ===================== */
+
+.hero-greeting {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-body);
+  font-size: clamp(20px, 3vw, 28px);
+  font-weight: 600;
+  color: var(--brand);
+  margin-bottom: 14px;
+}
+
+.hero-greeting-edit {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 10px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.hero-greeting-edit:hover {
+  border-color: var(--brand);
+  color: var(--brand);
+}
+
+.onboarding-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  animation: fadeIn 0.25s ease;
+  pointer-events: auto;
+}
+
+.onboarding-modal {
+  width: 100%;
+  max-width: 420px;
+  background: rgba(10, 10, 10, 0.98);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius-lg);
+  padding: 36px 28px 28px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+  animation: slideUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+  z-index: 1;
+}
+
+.onboarding-title {
+  font-family: var(--font-heading);
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--text-primary);
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.onboarding-subtitle {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.55);
+  text-align: center;
+  margin-bottom: 22px;
+  line-height: 1.5;
+}
+
+.onboarding-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.onboarding-input {
+  width: 100%;
+  padding: 16px 18px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-size: 17px;
+  font-weight: 600;
+  font-family: var(--font-body);
+  outline: none;
+  transition: border-color 0.15s;
+  position: relative;
+  z-index: 2;
+}
+
+.onboarding-input:focus {
+  border-color: var(--brand);
+}
+
+.onboarding-input::placeholder {
+  color: var(--text-muted);
+}
+
+.onboarding-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.onboarding-submit {
+  flex: 1;
+  padding: 13px;
+  background: var(--brand);
+  color: #000;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 15px;
+  font-weight: 700;
+  font-family: var(--font-body);
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.onboarding-submit:hover {
+  opacity: 0.85;
+}
+
+.onboarding-cancel {
+  padding: 13px 18px;
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-md);
+  font-size: 15px;
+  font-family: var(--font-body);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.onboarding-cancel:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+  color: var(--text-primary);
+}
+
+.onboarding-reset {
+  width: 100%;
+  margin-top: 14px;
+  padding: 10px;
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.35);
+  font-size: 12px;
+  font-family: var(--font-body);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.15s;
+}
+
+.onboarding-reset:hover {
+  color: #f87171;
+}
+
+.onboarding-submit,
+.onboarding-cancel,
+.onboarding-reset,
+.hero-greeting-edit {
+  cursor: pointer;
+}
