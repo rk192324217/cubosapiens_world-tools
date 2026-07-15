@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minesweeper</title>
+    <link rel="stylesheet" href="styles.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500;700&family=Inter:wght@400;600;800&display=swap"
+        rel="stylesheet">
+</head>
+
+<body class="dark-mode">
+    <div id="replay-banner" class="replay-banner">🔴 REPLAY IN PROGRESS</div>
+    <div class="game-container">
+        <header class="game-header">
+            <div class="logo-area">
+                <span class="logo-sub">CLASSIC GAME</span>
+                <h1 class="logo">MINESWEEPER</h1>
+            </div>
+            <div class="controls">
+                <select id="difficulty-select">
+                    <option value="easy">Easy (9x9, 10 Mines)</option>
+                    <option value="medium">Medium (16x16, 40 Mines)</option>
+                    <option value="hard">Hard (30x16, 99 Mines)</option>
+                </select>
+                <button id="theme-toggle">☀️</button>
+                <button id="how-to-play-btn" title="How to Play">❓</button>
+            </div>
+        </header>
+
+        <div class="board-wrapper">
+            <div class="hud">
+                <div class="hud-item">
+                    <span class="hud-label">MINES</span>
+                    <div class="counter" id="mine-counter">010</div>
+                </div>
+                <div class="hud-item status-item">
+                    <span class="hud-label">STATUS</span>
+                    <div id="system-status" class="status-text state-secure">READY</div>
+                </div>
+                <div class="hud-item">
+                    <span class="hud-label">TIMER</span>
+                    <div class="counter" id="timer">000</div>
+                </div>
+            </div>
+
+            <div id="board" class="board"></div>
+
+            <button id="reset-btn" class="tactical-btn">
+                <span class="icon">🔄</span> REFRESH
+            </button>
+        </div>
+    </div>
+
+    <!-- Game Over / Win Modal -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-decor"></div>
+            <h2 id="modal-title">Game Over</h2>
+            <p id="game-message">You hit a mine.</p>
+            <div class="modal-buttons">
+                <button id="modal-restart-btn" class="tactical-btn">RETRY</button>
+                <button id="modal-replay-btn" class="tactical-btn replay-action-btn"
+                    style="display: none;">REPLAY</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- How to Play Modal -->
+    <div id="help-modal" class="modal">
+        <div class="modal-content help-content">
+            <div class="modal-decor"></div>
+            <h2>How to Play</h2>
+            <div class="help-body">
+                <h3>Objective</h3>
+                <p>Clear the board without clicking on any hidden mines. Use flags to mark suspected mine locations.</p>
+                
+                <h3>Controls</h3>
+                <ul>
+                    <li><strong>Left Click / Tap:</strong> Reveal a cell.</li>
+                    <li><strong>Right Click / Long Press:</strong> Toggle flag (🚩) on a cell.</li>
+                    <li><strong>Double Click:</strong> Chord (if surrounding flags match the cell's number, all other adjacent unflagged cells are revealed).</li>
+                    <li><strong>Hovering:</strong> Hovering over a revealed number highlights its unrevealed neighbors to help you plan chords.</li>
+                </ul>
+                
+                <h3>Replay System</h3>
+                <p>After a game ends (win or lose), click the <strong>REPLAY</strong> button in the game over modal to watch your entire play sequence step-by-step in real-time!</p>
+            </div>
+            <div class="modal-buttons">
+                <button id="help-close-btn" class="tactical-btn">GOT IT</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

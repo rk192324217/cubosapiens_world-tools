@@ -258,6 +258,17 @@ async function main()
             order: 0
       },
       {
+            name: "Cyber Runner",
+            slug: "cyber-runner",
+            description: "Endless cyberpunk runner — jump, slide, and hack your way through the grid.",
+            genre: "arcade",
+            icon: "cyber-runner.png",
+            url: "https://cyber-runner.cubosapiens.world",
+            isLive: true,
+            isFeatured: true,
+            order: 0
+      },
+      {
             name: "Da Vinci Fly ",
             slug: "da-vinci-fly",
             description: "Da Vinci has made a flying machine to explore dangerous dungeon, but no one is willing to be the test pilot.",
@@ -379,6 +390,26 @@ async function main()
             order: 6
       },
       {
+            name: "Hacker Simulator",
+            slug: "hacker-simulator",
+            description: "Retro terminal hacker simulator with encryption puzzles, hardware upgrades, and cybersecurity missions.",
+            genre: "strategy",
+            icon: "💻",
+            url: "https://hacker-simulator.cubosapiens.world",
+            isLive: true,
+            isFeatured: true,
+            order: 7
+      },
+      {
+            name: "Trading Empire",
+            slug: "trading-empire",
+            description: "Build your financial empire — trade goods, buy properties, upgrade your ship, and dominate the cosmic market.",
+            genre: "strategy",
+            icon: "trading-empire.png",
+            url: "https://trading-empire.cubosapiens.world",
+            isLive: true,
+            isFeatured: true,},
+      {
             name: "Connect Four",
             slug: "connect-four",
             description: "Drop tokens, connect 4 in a row to win",
@@ -403,7 +434,7 @@ async function main()
 ]
   })
 
-  console.log("✅ 14 games seeded")
+  console.log("✅ 17 games seeded")
 }
 
 main()
