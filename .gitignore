@@ -9,9 +9,3 @@ dist
 .dev.vars
 .open-next
 sw.js
-workbox-*
-.DS_Store
-**/.DS_Store
-
-.DS_Store
-**/.DS_Store
