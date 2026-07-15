@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cubo HTML Formatter — CuboSapiens</title>
+  <meta name="description"
+    content="Format, beautify, minify and preview HTML instantly. Free browser-based HTML formatter by CuboSapiens." />
+  <meta name="keywords"
+    content="HTML formatter, HTML beautifier, HTML minifier, code formatter, developer tools, CuboSapiens" />
+  <meta name="author" content="CuboSapiens" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Cubo HTML Formatter — CuboSapiens" />
+  <meta property="og:description"
+    content="Format, beautify, minify and preview HTML instantly. Free browser-based developer tool." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://htmlformat.cubosapiens.world" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/logo.png" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=DM+Mono:wght@400;500&display=swap"
+    rel="stylesheet" />
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- Background orbs -->
+  <div class="bg-orbs" aria-hidden="true">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+  </div>
+
+  <!-- Drag overlay -->
+  <div class="drag-overlay" id="dragOverlay" aria-hidden="true">
+    <div class="drag-overlay-content">
+      <i class="fa-solid fa-cloud-arrow-up"></i>
+      <span>Drop HTML file here</span>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <div class="logo-wrap">
+      <div class="logo-icon">
+        <img src="assets/logo.png" alt="Cubo HTML Formatter Logo" class="logo-img" />
+      </div>
+      <span class="logo-name">Cubo <span>HTML</span></span>
+    </div>
+    <div class="header-actions">
+      <button class="icon-btn" id="btnFullscreen" aria-label="Toggle fullscreen" title="Toggle fullscreen">
+        <i class="fa-solid fa-expand"></i>
+      </button>
+      <button class="icon-btn theme-toggle" id="themeToggle" aria-label="Toggle theme">
+        <span class="toggle-icons">
+          <i class="fa-solid fa-sun"></i>
+          <i class="fa-solid fa-moon"></i>
+        </span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- Hero -->
+    <div class="hero">
+      <h1>Format <em>HTML</em> instantly</h1>
+      <p>Beautify · Minify · Preview · Download</p>
+    </div>
+
+    <!-- Action toolbar -->
+    <div class="toolbar">
+      <div class="toolbar-left">
+        <button class="btn-action primary" id="btnFormat" title="Ctrl+Shift+F">
+          <i class="fa-solid fa-wand-magic-sparkles"></i> Format
+        </button>
+        <button class="btn-action" id="btnMinify">
+          <i class="fa-solid fa-compress"></i> Minify
+        </button>
+        <button class="btn-action" id="btnClear" title="Ctrl+L">
+          <i class="fa-solid fa-trash"></i> Clear
+        </button>
+      </div>
+      <div class="toolbar-right">
+        <button class="btn-action" id="btnUpload" title="Ctrl+O">
+          <i class="fa-solid fa-upload"></i> Upload
+        </button>
+        <button class="btn-action" id="btnCopy">
+          <i class="fa-regular fa-copy"></i> Copy
+        </button>
+        <button class="btn-action" id="btnDownload">
+          <i class="fa-solid fa-download"></i> Download
+        </button>
+        <!-- Indent selector -->
+        <div class="indent-wrap">
+          <span class="control-label">Indent</span>
+          <div class="seg-control">
+            <button class="seg-btn" data-indent="2">2</button>
+            <button class="seg-btn active" data-indent="4">4</button>
+            <button class="seg-btn" data-indent="tab">Tab</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Status bar -->
+    <div class="status-bar" id="statusBar">
+      <span class="status-dot" id="statusDot"></span>
+      <span id="statusText">Paste HTML to get started</span>
+      <span class="status-meta" id="statusMeta"></span>
+    </div>
+
+    <!-- Main editor grid -->
+    <div class="editor-grid" id="editorGrid">
+
+      <!-- Input panel -->
+      <div class="panel card" id="inputPanel">
+        <div class="panel-header">
+          <span class="card-label"><i class="fa-solid fa-pen-to-square"></i> Input</span>
+          <span class="panel-hint">Paste or drop your HTML here</span>
+        </div>
+        <div class="editor-wrap" id="inputWrap">
+          <div class="line-numbers" id="inputLineNums" aria-hidden="true"></div>
+          <textarea id="htmlInput" class="editor-textarea" placeholder="<div>
+  <h1>Hello World</h1>
+  <p>Paste your HTML here...</p>
+</div>" spellcheck="false" autocomplete="off" autocorrect="off" aria-label="HTML Input"></textarea>
+        </div>
+      </div>
+
+      <!-- Output panel -->
+      <div class="panel card" id="outputPanel">
+        <div class="panel-header">
+          <span class="card-label"><i class="fa-solid fa-code"></i> Output</span>
+          <!-- Search -->
+          <div class="search-wrap" id="searchWrap">
+            <button class="icon-btn search-toggle" id="btnSearchToggle" aria-label="Toggle search"
+              title="Search output">
+              <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+            <div class="search-input-wrap" id="searchInputWrap">
+              <input type="text" id="searchInput" class="search-input" placeholder="Search..."
+                aria-label="Search within output" />
+              <span class="search-count" id="searchCount"></span>
+              <button class="icon-btn" id="btnSearchPrev" aria-label="Previous match" title="Previous match">
+                <i class="fa-solid fa-chevron-up"></i>
+              </button>
+              <button class="icon-btn" id="btnSearchNext" aria-label="Next match" title="Next match">
+                <i class="fa-solid fa-chevron-down"></i>
+              </button>
+              <button class="icon-btn" id="btnSearchClose" aria-label="Close search">
+                <i class="fa-solid fa-xmark"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="editor-wrap" id="outputWrap">
+          <div class="line-numbers" id="outputLineNums" aria-hidden="true"></div>
+          <pre id="htmlOutput" class="editor-pre" tabindex="0" aria-label="Formatted HTML Output"></pre>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Options bar -->
+    <div class="options-bar">
+      <label class="option-check" title="Auto copy output after formatting">
+        <input type="checkbox" id="optAutoCopy" />
+        <span class="checkmark"></span>
+        Auto Copy
+      </label>
+      <label class="option-check" title="Wrap long lines in output">
+        <input type="checkbox" id="optWrapLines" />
+        <span class="checkmark"></span>
+        Wrap Lines
+      </label>
+    </div>
+
+    <!-- Statistics -->
+    <div class="stats-grid" id="statsGrid">
+      <div class="stat-card">
+        <i class="fa-solid fa-bars"></i>
+        <div class="stat-body">
+          <span class="stat-value" id="statLines">0</span>
+          <span class="stat-label">Lines</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <i class="fa-solid fa-font"></i>
+        <div class="stat-body">
+          <span class="stat-value" id="statChars">0</span>
+          <span class="stat-label">Characters</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <i class="fa-solid fa-tags"></i>
+        <div class="stat-body">
+          <span class="stat-value" id="statTags">0</span>
+          <span class="stat-label">Tags</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <i class="fa-solid fa-weight-hanging"></i>
+        <div class="stat-body">
+          <span class="stat-value" id="statSize">0 B</span>
+          <span class="stat-label">Size</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <i class="fa-solid fa-bolt"></i>
+        <div class="stat-body">
+          <span class="stat-value" id="statTime">0 ms</span>
+          <span class="stat-label">Format Time</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Live Preview -->
+    <div class="preview-section card" id="previewSection">
+      <div class="panel-header">
+        <span class="card-label"><i class="fa-solid fa-eye"></i> Live Preview</span>
+        <button class="icon-btn" id="btnRefreshPreview" aria-label="Refresh preview" title="Refresh preview">
+          <i class="fa-solid fa-rotate-right"></i>
+        </button>
+      </div>
+      <div class="preview-frame-wrap">
+        <iframe id="previewFrame" class="preview-frame" sandbox="allow-same-origin" title="HTML Preview"></iframe>
+      </div>
+    </div>
+
+    <!-- Keyboard Shortcuts Reference -->
+    <div class="shortcuts-bar">
+      <span class="shortcut-item"><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>F</kbd> Format</span>
+      <span class="shortcut-item"><kbd>Ctrl</kbd>+<kbd>L</kbd> Clear</span>
+      <span class="shortcut-item"><kbd>Ctrl</kbd>+<kbd>O</kbd> Upload</span>
+      <span class="shortcut-item"><kbd>Esc</kbd> Exit fullscreen</span>
+    </div>
+
+    <!-- Ad slots placeholder -->
+    <div class="ads-row" aria-hidden="true">
+      <div class="ad-slot">Advertisement</div>
+      <div class="ad-slot">Advertisement</div>
+    </div>
+
+  </main>
+
+  <!-- Hidden file input -->
+  <input type="file" id="fileInput" accept=".html,.htm" hidden aria-hidden="true" />
+
+  <!-- Toast -->
+  <div class="toast" id="toast" role="alert" aria-live="polite"></div>
+
+  <!-- Analytics placeholder -->
+  <!-- CuboSapiens analytics integration point -->
+  <!-- window.__CUBO_ANALYTICS && window.__CUBO_ANALYTICS.trackEvent('html-formatter', 'page_view'); -->
+
+  <script src="script.js"></script>
+</body>
+
+</html>
