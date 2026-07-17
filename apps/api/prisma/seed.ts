@@ -258,6 +258,17 @@ async function main()
             order: 0
       },
       {
+            name: "Flappy Bird Clone",
+            slug: "flappy-bird-clone",
+            description: "Navigate through pipes in this addictive retro arcade bird game with smooth controls.",
+            genre: "Arcade",
+            icon: "🐦",
+            url: "/Applications/Games/cubosapiens-games-flappy-bird/index.html",
+            isLive: true,
+            isFeatured: true,
+            order: 3
+      },
+      {
             name: "Cyber Runner",
             slug: "cyber-runner",
             description: "Endless cyberpunk runner — jump, slide, and hack your way through the grid.",
