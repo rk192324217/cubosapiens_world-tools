@@ -13,6 +13,8 @@ export default function ToolCard({ tool }: ToolCardProps)
   const card = (
     <div className={`tool-card ${tool.isLive ? "tool-card-live" : "tool-card-soon"}`}>
 
+      {tool.isLive && <div className="tool-card-scan" aria-hidden="true" />}
+
       <div className="tool-card-badge">
         <span className={tool.isLive ? "badge-live" : "badge-soon"}>
           {tool.isLive ? "LIVE" : "SOON"}

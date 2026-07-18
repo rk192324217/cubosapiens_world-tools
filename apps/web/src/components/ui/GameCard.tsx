@@ -1,6 +1,15 @@
 "use client"
 import Link        from "next/link"
-import type { Game } from "@/lib/api"
+// The shared API types don't export a Game type. Define a minimal local type
+// matching the fields used by this component.
+type Game = {
+  isLive: boolean
+  icon: string
+  name: string
+  description: string
+  genre: string
+  slug: string
+}
 import Image from "next/image"
 
 interface GameCardProps {
@@ -12,6 +21,8 @@ export default function GameCard({ game, index }: GameCardProps)
 {
   const card = (
     <div className={`game-card ${game.isLive ? "game-card-live" : "game-card-soon"}`}>
+
+      {game.isLive && <div className="game-card-scan" aria-hidden="true" />}
 
       <div className="game-card-badge">
         <span className={game.isLive ? "badge-live" : "badge-soon"}>

@@ -69,37 +69,45 @@ export default async function HomePage() {
 
       <section className="hero">
 
-        {/* <div className="hero-eyebrow">
-          <span className="hero-dot" />
-          Free · No signup · Works in browser
-        </div> */}
+        <div className="hero-aurora" aria-hidden="true" />
+        <div className="hero-circuit" aria-hidden="true" />
 
-        <h1 className="hero-title">
-          Everything you need.<br />
-          <span className="hero-title-accent">All in One place.</span>
-        </h1>
+        <div className="hero-content">
+          <div className="hero-scanline" aria-hidden="true" />
 
-        <p className="hero-subtitle">
-          Free tools, games and AI - built for everyone.
-          No accounts. No cost. Just open and use.
-        </p>
+          {/* <div className="hero-eyebrow">
+            <span className="hero-dot" />
+            Free · No signup · Works in browser
+          </div> */}
 
-        <div className="hero-pills">
-          <a href="./tools"><span className="hero-pill"><i className="fas fa-tools"></i> Tools</span></a>
-          <a href="./games"><span className="hero-pill"><i className="fas fa-gamepad"></i> Games</span></a>
-          <AiAccessButton
-            href="/ai"
-            label="AI"
-            icon={<i className="fas fa-robot"></i>}
-            className="hero-pill"
-            hasLive={aiHasLive}
-          />
-          {/* <span className="hero-pill"><i className="fas fa-user"></i> {counters.visits > 0 ? counters.visits.toLocaleString() : "0"}</span> */}
+          <h1 className="hero-title hero-anim hero-anim-1">
+            Everything you need.<br />
+            <span className="hero-title-accent">All in One place.</span>
+          </h1>
 
-          {/* <span className="hero-pill hero-pill-live">
-            <span className="games-live-dot" style={{ width: 6, height: 6 }} />
-            Always Free
-          </span> */}
+          <p className="hero-subtitle hero-anim hero-anim-2">
+            Free tools, games and AI - built for everyone.
+            No accounts. No cost. Just open and use.
+          </p>
+
+          <div className="hero-pills hero-anim hero-anim-3">
+            <a href="./tools"><span className="hero-pill"><i className="fas fa-tools"></i> Tools</span></a>
+            <a href="./games"><span className="hero-pill"><i className="fas fa-gamepad"></i> Games</span></a>
+            <AiAccessButton
+              href="/ai"
+              label="AI"
+              icon={<i className="fas fa-robot"></i>}
+              className="hero-pill"
+              hasLive={aiHasLive}
+            />
+            {/* <span className="hero-pill"><i className="fas fa-user"></i> {counters.visits > 0 ? counters.visits.toLocaleString() : "0"}</span> */}
+
+            {/* <span className="hero-pill hero-pill-live">
+              <span className="games-live-dot" style={{ width: 6, height: 6 }} />
+              Always Free
+            </span> */}
+          </div>
+
         </div>
 
       </section>
