@@ -54,3 +54,14 @@ export interface CounterResponse {
   visits:    number
   downloads: number
 }
+
+// ── Recently Accessed ──────────────────────────────────────────
+export interface RecentItem {
+  id:           string       // "<type>-<slug>", e.g. "tool-qr-code-generator"
+  name:         string
+  slug:         string
+  icon:         string
+  category:     ToolCategory // same union defined above in this file
+  type:         "tool" | "game"
+  lastAccessed: number       // Date.now() timestamp
+}

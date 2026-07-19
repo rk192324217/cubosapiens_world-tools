@@ -5,6 +5,9 @@
 
 import type { Tool, ApiResponse, CounterResponse , Games} from "@/types"
 
+export type Game = Games
+
+
 // Base URL of your Hono API
 // process.env.NEXT_PUBLIC_API_URL lets you change this
 // in different environments (local vs production)

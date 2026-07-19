@@ -4,6 +4,8 @@ import { useState, useEffect, useCallback } from "react"
 import Link                                 from "next/link"
 import type { Game }                        from "@/lib/api"
 import Image from "next/image"
+import { useRecentItemsContext } from "@/components/RecentItemsProvider"
+
 interface Props {
   game:        Game
   recommended: Game[]
@@ -13,6 +15,20 @@ export default function GamePageClient({ game, recommended }: Props)
 {
   const [isFullscreen, setIsFullscreen] = useState(false)
   const [isMobilePanelOpen, setMobilePanelOpen] = useState(false)
+  const { addItem } = useRecentItemsContext()
+
+  useEffect(() => {
+    if(game.isLive) {
+      addItem({
+        id: `game-${game.slug}`,
+        name: game.name,
+        slug: game.slug,
+        icon: game.icon,
+        category: game.genre,
+        type: "game"
+      })
+    }
+  }, [game, addItem])
 
   // ESC exits fullscreen
   const handleKey = useCallback((e: KeyboardEvent) => {

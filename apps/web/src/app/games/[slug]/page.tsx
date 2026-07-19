@@ -4,7 +4,7 @@ import GamePageClient from "@/components/ui/GamePageClient"
 import type { Metadata } from "next"
 
 interface Props {
-  params: { slug: string }
+  params: Promise<{ slug: string }>
 }
 
 // ── Metadata ──

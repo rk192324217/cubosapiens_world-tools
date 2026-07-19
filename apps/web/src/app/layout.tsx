@@ -9,6 +9,8 @@ import { cn } from "@/lib/utils"
 import PWAInstallPrompt from "@/components/PWAInstallPrompt"
 import CookieBanner from "@/components/CookieBanner"
 import { fetchTools } from "@/lib/api"
+import RecentItemsProvider from "@/components/RecentItemsProvider"
+
 const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 
@@ -88,13 +90,15 @@ export default function RootLayout({
     crossOrigin="anonymous"></script>
 </head>
       <body className={`${alfaSlabOne.variable} ${syne.variable} ${dmSans.variable}`}>
-        <TrackVisit />
-        <Header hasLiveAi={false} />
-        <main>{children}</main>
-        <Footer />
-        <PWAInstallPrompt />
-        <CookieBanner />
-        <BackToTop />
+        <RecentItemsProvider>
+          <TrackVisit />
+          <Header hasLiveAi={false} />
+          <main>{children}</main>
+          <Footer />
+          <PWAInstallPrompt />
+          <CookieBanner />
+          <BackToTop />
+        </RecentItemsProvider>
       </body>
     </html>
   )

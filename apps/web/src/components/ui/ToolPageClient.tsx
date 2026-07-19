@@ -4,6 +4,8 @@ import { useState, useEffect, useCallback } from "react"
 import Link                                 from "next/link"
 import type { Tool }                        from "@/types"
 import Image from"next/image"
+import { useRecentItemsContext } from "@/components/RecentItemsProvider"
+
 interface Props {
   tool:        Tool
   recommended: Tool[]
@@ -12,6 +14,20 @@ interface Props {
 export default function ToolPageClient({ tool, recommended }: Props)
 {
   const [isFullscreen, setIsFullscreen] = useState(false)
+  const { addItem } = useRecentItemsContext()
+
+  useEffect(() => {
+    if(tool.isLive) {
+      addItem({
+        id: `tool-${tool.slug}`,
+        name: tool.name,
+        slug: tool.slug,
+        icon: tool.icon,
+        category: tool.category,
+        type: "tool"
+      })
+    }
+  }, [tool, addItem])
 
   // ESC key exits fullscreen
   const handleKey = useCallback((e: KeyboardEvent) => {

@@ -7,6 +7,7 @@ import LocalTimeWidget from "@/components/LocalTimeWidget"
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 // import AdUnit from "@/components/ui/AdUnit"
 import OnboardingGreeting from "@/components/ui/OnboardingGreeting"
+import RecentlyAccessed from "@/components/ui/RecentlyAccessed"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
@@ -108,6 +109,9 @@ export default async function HomePage() {
         </div>
 
       </section>
+
+      <RecentlyAccessed />
+
       <section className="section">
         <div className="section-header">
           <div>
