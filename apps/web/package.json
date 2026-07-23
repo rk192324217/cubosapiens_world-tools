@@ -3,9 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "generate:blogs": "node scripts/generate-blog-data.mjs",
-    "dev": "npm run generate:blogs && next dev",
-    "build": "npm run generate:blogs && next build",
+    "dev": "next dev",
+    "build": "next build",
     "start": "next start",
     "lint": "eslint"
   },

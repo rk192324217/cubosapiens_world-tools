@@ -1,11 +1,13 @@
 // apps/web/src/app/blog/page.tsx
 // Server component — reads all blog posts from the filesystem at
-// build time (static generation).  Passes the list to BlogFilter
+// request time (ISR every hour).  Passes the list to BlogFilter
 // as a prop; no client-side API fetch needed.
 
 import type { Metadata } from "next"
 import { getAllBlogs }    from "@/lib/blogLoader"
 import BlogFilter        from "@/components/blog/BlogFilter"
+
+export const revalidate = 3600   // rebuild at most once per hour
 
 export const metadata: Metadata = {
   title:       "Blog - Cubosapiens",
