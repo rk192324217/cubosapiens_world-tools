@@ -3,6 +3,7 @@
     let enemyUnits = [3, 5, 7];
     let selectedUnit = null;
     let selectedEnemy = null;
+    let keyboardSelection = playerUnits[0];
     let score = 0;
     let difficulty = "medium";
     let moves = 0;
@@ -33,7 +34,7 @@
     // Draw player units
     playerUnits.forEach(index => {
     cells[index].textContent = "🪖";
-    if (index === selectedUnit) {
+    if (index === selectedUnit || index === keyboardSelection) {
         cells[index].style.background = "#2ecc71";
         cells[index].style.border = "3px solid yellow";
     } else {
@@ -93,6 +94,7 @@
     function handleCellClick(index) {
     if (playerUnits.includes(index)) {
         selectedUnit = index;
+        keyboardSelection = index;
         selectedEnemy = null;
         drawBoard();
         return;
@@ -192,6 +194,7 @@ function enemyTurn() {
 }
 function restartGame() {
     playerUnits = [56, 58, 60];
+    keyboardSelection = playerUnits[0];
     enemyUnits = [3, 5, 7];
     selectedUnit = null;
     selectedEnemy = null;
@@ -232,13 +235,53 @@ if (savedTheme === "light") {
     document.body.classList.add("light");
 }
 document.addEventListener("keydown", (event) => {
-    // Restart game
     if (event.key === "r" || event.key === "R") {
         restartGame();
+        return;
     }
-    // Toggle theme
+
     if (event.key === "t" || event.key === "T") {
         themeBtn.click();
+        return;
+    }
+
+    if (selectedUnit === null){
+        selectedUnit = keyboardSelection;
+    };
+
+    let target = selectedUnit;
+
+    if (event.key === "ArrowUp") target -= 8;
+    else if (event.key === "ArrowDown") target += 8;
+    else if (event.key === "ArrowLeft") target -= 1;
+    else if (event.key === "ArrowRight") target += 1;
+    else return;
+
+    if (
+        target >= 0 &&
+        target < 64 &&
+        !playerUnits.includes(target) &&
+        !enemyUnits.includes(target) &&
+        !obstacles.includes(target) &&
+        isAdjacent(selectedUnit, target)
+    ) {
+        const unitIndex = playerUnits.indexOf(selectedUnit);
+        playerUnits[unitIndex] = target;
+        selectedUnit = null;
+
+        moves++;
+        document.getElementById("moves").textContent = moves;
+
+        currentPlayer = "Enemy";
+        document.getElementById("turn").textContent = currentPlayer;
+
+        drawBoard();
+
+        let delay = 500;
+        if (difficulty === "easy") delay = 800;
+        else if (difficulty === "hard") delay = 250;
+
+        setTimeout(enemyTurn, delay);
     }
 });
 document.getElementById("difficulty").addEventListener("change", function () {
