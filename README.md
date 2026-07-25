@@ -172,7 +172,7 @@ The platform focuses on:
 Applications/
  ├── Tools/
  ├── Games/
-
+```
 Example:
 
 Applications/Games/cubosapiens-games-snake  
