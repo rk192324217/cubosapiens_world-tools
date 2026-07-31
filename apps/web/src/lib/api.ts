@@ -179,3 +179,37 @@ export async function trackDownload(): Promise<void>
   }
 
 }
+export async function searchAll(query: string) {
+  const [tools, games] = await Promise.all([
+    fetchTools(),
+    fetchGames(),
+  ]);
+
+  const q = query.toLowerCase();
+
+  return [
+    ...tools
+      .filter(
+        t =>
+          t.name.toLowerCase().includes(q) ||
+          t.description.toLowerCase().includes(q)
+      )
+      .map(t => ({
+        type: "tool",
+        name: t.name,
+        slug: t.slug,
+      })),
+
+    ...games
+      .filter(
+        g =>
+          g.name.toLowerCase().includes(q) ||
+          g.description.toLowerCase().includes(q)
+      )
+      .map(g => ({
+        type: "game",
+        name: g.name,
+        slug: g.slug,
+      })),
+  ];
+}
