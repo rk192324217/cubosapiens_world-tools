@@ -90,6 +90,7 @@ const ringLabel     = document.getElementById('ringLabel');
 const btnExportJSON = document.getElementById('btnExportJSON');
 const btnExportPDF  = document.getElementById('btnExportPDF');
 const btnCalcTarget = document.getElementById('btnCalcTarget');
+const btnResetTarget= document.getElementById('btnResetTarget');
 const targetResult  = document.getElementById('targetResult');
 const toastEl       = document.getElementById('toast');
 
@@ -467,57 +468,36 @@ function updateRing(pct) {
 }
 
 
-/* ── 14. Target CGPA Calculator (With Validation & Reset) ── */
-
-// Reference for the clear/reset target button if added to HTML
-const btnResetTarget = document.getElementById('btnResetTarget');
-
-// Helper to clear error highlights
-function clearTargetErrors() {
-  const inputs = ['tCurrentCGPA', 'tDoneCredits', 'tTargetCGPA', 'tRemainingCredits'];
-  inputs.forEach(id => {
-    const input = document.getElementById(id);
-    if (input) input.classList.remove('invalid');
-  });
-}
-
+/* ── 14. Target CGPA Calculator ── */
 btnCalcTarget.addEventListener('click', () => {
-  clearTargetErrors();
+  const current   = parseFloat(document.getElementById('tCurrentCGPA').value);
+  const done      = parseFloat(document.getElementById('tDoneCredits').value);
+  const target    = parseFloat(document.getElementById('tTargetCGPA').value);
+  const remaining = parseFloat(document.getElementById('tRemainingCredits').value);
 
-  const currentInput = document.getElementById('tCurrentCGPA');
-  const doneInput = document.getElementById('tDoneCredits');
-  const targetInput = document.getElementById('tTargetCGPA');
-  const remainingInput = document.getElementById('tRemainingCredits');
+  if ([current, done, target, remaining].some(isNaN)) {
+    showToast('Fill in all four fields');
+    return;
+  }
 
-  const current   = parseFloat(currentInput.value);
-  const done      = parseFloat(doneInput.value);
-  const target    = parseFloat(targetInput.value);
-  const remaining = parseFloat(remainingInput.value);
+  if ([current, done, target, remaining].some(v => v < 0)) {
+    showToast('Values cannot be negative');
+    return;
+  }
 
-  let hasError = false;
-
-  // Real-time Validation Rules
-  if (isNaN(current) || current < 0) { currentInput.classList.add('invalid'); hasError = true; }
-  if (isNaN(done) || done < 0) { doneInput.classList.add('invalid'); hasError = true; }
-  if (isNaN(target) || target < 0) { targetInput.classList.add('invalid'); hasError = true; }
-  if (isNaN(remaining) || remaining <= 0) { remainingInput.classList.add('invalid'); hasError = true; }
-
-  if (hasError) {
-    showToast('Please enter valid, non-negative numbers in all fields.');
+  if (remaining <= 0) {
+    showToast('Remaining credits must be greater than 0');
     return;
   }
 
   const scale = currentScale === 'custom' ? 10 : currentScale;
-
-  if (current > scale) {
-    currentInput.classList.add('invalid');
-    showToast(`Current CGPA cannot exceed scale limit (${scale})`);
+  if (target > scale) {
+    showToast(`Target CGPA can't exceed scale (${scale})`);
     return;
   }
 
-  if (target > scale) {
-    targetInput.classList.add('invalid');
-    showToast(`Target CGPA cannot exceed scale limit (${scale})`);
+  if (current > scale) {
+    showToast(`Current CGPA can't exceed scale (${scale})`);
     return;
   }
 
@@ -551,35 +531,13 @@ btnCalcTarget.addEventListener('click', () => {
     `;
   }
 });
-
-// Real-time error removal as user types
-['tCurrentCGPA', 'tDoneCredits', 'tTargetCGPA', 'tRemainingCredits'].forEach(id => {
-  const input = document.getElementById(id);
-  if (input) {
-    input.addEventListener('input', () => {
-      if (input.classList.contains('invalid')) {
-        input.classList.remove('invalid');
-      }
-    });
-  }
-});
-
-// Clear / Reset Target Calculator Form
-if (btnResetTarget) {
-  btnResetTarget.addEventListener('click', () => {
-    ['tCurrentCGPA', 'tDoneCredits', 'tTargetCGPA', 'tRemainingCredits'].forEach(id => {
-      const input = document.getElementById(id);
-      if (input) {
-        input.value = '';
-        input.classList.remove('invalid');
-      }
-    });
-    targetResult.style.display = 'none';
-    targetResult.innerHTML = '';
-    showToast('Target calculator reset.');
+btnResetTarget.addEventListener('click', () => {
+  ['tCurrentCGPA', 'tDoneCredits', 'tTargetCGPA', 'tRemainingCredits'].forEach(id => {
+    document.getElementById(id).value = '';
   });
-}
-
+  targetResult.style.display = 'none';
+  targetResult.innerHTML = '';
+});
 
 /* ── 15. Export JSON ── */
 btnExportJSON.addEventListener('click', () => {
