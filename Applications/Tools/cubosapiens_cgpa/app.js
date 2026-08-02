@@ -184,7 +184,7 @@ document.querySelectorAll('[data-preset]').forEach(btn => {
   btn.addEventListener('click', () => {
     const preset = PRESETS[btn.dataset.preset];
     if (!preset) return;
-    gradeMap = preset.map((g, i) => ({ id: i, letter: g.letter, points: g.points }));
+    gradeMap = (preset ?? []).map((g, i) => ({ id: i, letter: g.letter, points: g.points }));
     subNextId = gradeMap.length;
     renderGradeMap();
     rebuildAllGradeSelects();
