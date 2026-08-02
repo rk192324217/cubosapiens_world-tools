@@ -44,7 +44,7 @@ export default {
       try
       {
         const raw   = await env.COUNTER_KV.get("photo_count")
-        const count = raw ? parseInt(raw) : 0
+        const count = raw ? parseInt(raw, 10) : 0
 
         return new Response(
           JSON.stringify({ count }),
@@ -76,7 +76,7 @@ export default {
       {
         // Read → increment → write atomically enough for a counter
         const raw      = await env.COUNTER_KV.get("photo_count")
-        const newCount = (raw ? parseInt(raw) : 0) + 1
+        const newCount = (raw ? parseInt(raw, 10) : 0) + 1
 
         await env.COUNTER_KV.put("photo_count", String(newCount))
 

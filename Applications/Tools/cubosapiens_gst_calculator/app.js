@@ -250,7 +250,7 @@ function buildItemCard(item) {
   qtyInput.min = 1; qtyInput.step = 1;
   qtyInput.value = item.qty;
   qtyInput.addEventListener('input', () => {
-    item.qty = parseInt(qtyInput.value) || 1;
+    item.qty = parseInt(qtyInput.value, 10) || 1;
     updateItemTotal(card, item);
     renderBulkSummary();
   });

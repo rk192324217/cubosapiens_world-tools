@@ -102,8 +102,8 @@ generatePasswords();
 
 /* ── 8. generatePasswords ── */
 function generatePasswords() {
-  const length = parseInt(lengthSlider.value);
-  const count  = parseInt(bulkSlider.value);
+  const length = parseInt(lengthSlider.value, 10);
+  const count  = parseInt(bulkSlider.value, 10);
 
   // Build charset from active toggles
   let charset = '';
