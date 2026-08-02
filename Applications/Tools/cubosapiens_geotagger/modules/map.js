@@ -13,7 +13,7 @@ function initMap()
 
 const defaultPos = [20.5937, 78.9629]
 
-map = L.map("map").setView(defaultPos, 5)
+map = (L ?? []).map("map").setView(defaultPos, 5)
 
 L.tileLayer(
 "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",

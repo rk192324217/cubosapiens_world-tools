@@ -69,7 +69,7 @@ async function renderLibrary() {
 
   if (recent.length > 0) {
     contSec.style.display = 'block';
-    contStrip.innerHTML = recent.map(function(b) {
+    contStrip.innerHTML = (recent ?? []).map(function(b) {
       const p   = progress[b.id];
       const pct = p ? Math.round((p.page / p.total) * 100) : 0;
       const icon = b.type === 'pdf'
