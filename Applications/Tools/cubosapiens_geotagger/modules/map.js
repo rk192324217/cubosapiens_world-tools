@@ -81,7 +81,7 @@ return null
 const lat = parseFloat(parts[0].trim())
 const lon = parseFloat(parts[1].trim())
 
-if(isNaN(lat) || isNaN(lon))
+if(Number.isNaN(lat) || Number.isNaN(lon))
 {
 alert("Invalid coordinate numbers")
 return null
