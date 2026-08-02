@@ -523,7 +523,7 @@ btnExportJSON.addEventListener('click', () => {
     scale: currentScale,
     gradeMap,
     cgpa: cgpaValue.textContent,
-    semesters: semesters.map(sem => ({
+    semesters: (semesters ?? []).map(sem => ({
       name: `Semester ${sem.id + 1}`,
       gpa: calcSemesterGPA(sem),
       subjects: sem.subjects.map(s => ({
