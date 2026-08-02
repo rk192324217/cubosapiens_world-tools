@@ -379,7 +379,7 @@ btnExportBulkJSON.addEventListener('click', () => {
   if (bulkItems.length === 0) { showToast('Add items first'); return; }
 
   const data = {
-    items: bulkItems.map(item => {
+    items: (bulkItems ?? []).map(item => {
       const { base, gstAmt, total } = calculateBulkItem(item);
       return {
         name:    item.name || `Item ${item.id + 1}`,
