@@ -337,7 +337,7 @@ function applyAction(action) {
 
     // Toggle: if all lines already have the prefix, remove it; otherwise add
     const allPrefixed = lines.every(l => l.startsWith(def.prefix));
-    const toggled = lines.map(l =>
+    const toggled = (lines ?? []).map(l =>
       allPrefixed ? l.slice(def.prefix.length) : def.prefix + l
     ).join('\n');
 

@@ -279,7 +279,7 @@ async function _openEPUB(book, saved) {
     });
   }
 
-  epubChapters = epubChapters.map(function(c, i) {
+  epubChapters = (epubChapters ?? []).map(function(c, i) {
     return Object.assign({}, c, { name: tocNames[c.href] || ('Chapter ' + (i + 1)) });
   });
 
