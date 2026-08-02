@@ -62,7 +62,7 @@ document.querySelectorAll('.seg-btn[data-indent]').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.seg-btn[data-indent]').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-    currentIndent = btn.dataset.indent === 'tab' ? '\t' : parseInt(btn.dataset.indent);
+    currentIndent = btn.dataset.indent === 'tab' ? '\t' : parseInt(btn.dataset.indent, 10);
     // Re-format if we already have valid JSON
     if (lastValidJSON !== null) formatJSON();
   });
@@ -239,7 +239,7 @@ function validateJSON(str) {
     // Try to extract position info
     const posMatch = msg.match(/position (\d+)/i);
     if (posMatch) {
-      const pos    = parseInt(posMatch[1]);
+      const pos    = parseInt(posMatch[1], 10);
       const before = str.substring(Math.max(0, pos - 20), pos);
       const after  = str.substring(pos, pos + 20);
       msg = `${e.message.split(' at ')[0]} near: …${before}↑${after}…`;

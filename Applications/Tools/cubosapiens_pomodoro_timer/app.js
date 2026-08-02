@@ -120,10 +120,10 @@ function applyConfigToInputs() {
 }
 
 btnSaveSettings.addEventListener('click', () => {
-  config.workMins        = Math.max(1, parseInt(setFocus.value)          || 25);
-  config.shortMins       = Math.max(1, parseInt(setShort.value)          || 5);
-  config.longMins        = Math.max(1, parseInt(setLong.value)           || 15);
-  config.pomosUntilLong  = Math.max(1, parseInt(setPomosUntilLong.value) || 4);
+  config.workMins        = Math.max(1, parseInt(setFocus.value, 10)          || 25);
+  config.shortMins       = Math.max(1, parseInt(setShort.value, 10)          || 5);
+  config.longMins        = Math.max(1, parseInt(setLong.value, 10)           || 15);
+  config.pomosUntilLong  = Math.max(1, parseInt(setPomosUntilLong.value, 10) || 4);
   config.autoBreak       = setAutoBreak.checked;
   config.autoFocus       = setAutoFocus.checked;
   config.soundAlert      = setSoundAlert.checked;
