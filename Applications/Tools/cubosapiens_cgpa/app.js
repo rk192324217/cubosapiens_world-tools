@@ -117,7 +117,7 @@ document.querySelectorAll('.seg-btn[data-scale]').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.seg-btn[data-scale]').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-    currentScale = btn.dataset.scale === 'custom' ? 'custom' : parseInt(btn.dataset.scale);
+    currentScale = btn.dataset.scale === 'custom' ? 'custom' : parseInt(btn.dataset.scale, 10);
     recalcAll();
   });
 });
