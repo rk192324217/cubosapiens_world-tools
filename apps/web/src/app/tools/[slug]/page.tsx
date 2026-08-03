@@ -28,3 +28,4 @@ export default async function ToolPage({ params }: Props)
 
   return <ToolPageClient tool={tool} recommended={recommended} />
 }
+.catch(err => console.error("Promise.all failed:", err));
