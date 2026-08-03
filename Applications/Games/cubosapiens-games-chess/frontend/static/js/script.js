@@ -178,7 +178,7 @@ let legalTargets    = [];
 let isDragging      = false;  // true between dragStart and snapEnd/drop
 
 const SYMS = {p:'♟',n:'♞',b:'♝',r:'♜',q:'♛',k:'♚'};
-let elo      = parseInt(localStorage.getItem('cubo_elo')||'1200');
+let elo      = parseInt(localStorage.getItem('cubo_elo', 10)||'1200');
 let achieved = JSON.parse(localStorage.getItem('cubo_ach')||'[]');
 let session  = {wins:0,losses:0,draws:0,moves:0,puzzlesSolved:0,lastGameMoves:0,enPassant:false,promoted:false,hardWin:false,winsNoUndo:0,elo:1200};
 function saveState() { localStorage.setItem('cubo_elo',elo); localStorage.setItem('cubo_ach',JSON.stringify(achieved)); }
