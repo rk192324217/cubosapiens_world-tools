@@ -287,7 +287,7 @@ document.getElementById('canvasWrap').addEventListener('touchmove', function(e) 
     const dy   = e.touches[0].clientY - e.touches[1].clientY;
     const dist = Math.sqrt(dx*dx + dy*dy);
     const newZ = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, _pinchStart.zoom * (dist / _pinchStart.dist)));
-    currentZoom = Math.round(newZ * 100) / 100;
+    currentZoom = Math.round(newZ * 100 + Number.EPSILON) / 100;
     _updateZoomBadge();
     // Live-update CBZ and EPUB without re-render for performance
     if (currentBook?.type === 'cbz') {
