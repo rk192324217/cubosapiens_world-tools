@@ -123,7 +123,7 @@ const counterEl = document.getElementById("headerCounter")
 if(counterEl && data.downloads)
 {
 const visits = parseInt(
-document.getElementById("counterValue").textContent.replace(/,/g, "")
+document.getElementById("counterValue", 10).textContent.replace(/,/g, "")
 ) || 0
 counterEl.title =
 "👁 " + visits.toLocaleString()         + " visits\n" +
