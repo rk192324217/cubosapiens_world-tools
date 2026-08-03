@@ -418,7 +418,7 @@ mdEditor.addEventListener('keydown', e => {
       insertAt(start, '\n' + ulMatch[1] + ulMatch[2] + ' ');
     } else if (olMatch) {
       e.preventDefault();
-      const next = parseInt(olMatch[2]) + 1;
+      const next = parseInt(olMatch[2], 10) + 1;
       insertAt(start, '\n' + olMatch[1] + next + '. ');
     }
 
