@@ -1182,3 +1182,4 @@ function showToast(msg) {
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => toastEl.classList.remove('show'), 3000);
 }
+.catch(err => console.error("Promise.all failed:", err));
