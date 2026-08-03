@@ -157,7 +157,7 @@ document.querySelectorAll('.qc-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.qc-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-    selectedCount = parseInt(btn.dataset.count) || 0;
+    selectedCount = parseInt(btn.dataset.count, 10) || 0;
   });
 });
 
