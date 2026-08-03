@@ -65,3 +65,4 @@ export default async function GamePage({ params }: Props) {
     />
   )
 }
+.catch(err => console.error("Promise.all failed:", err));
