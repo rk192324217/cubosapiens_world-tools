@@ -153,7 +153,7 @@ function generateQR() {
     return;
   }
 
-const size  = parseInt(sizeSlider.value);
+const size  = parseInt(sizeSlider.value, 10);
   const dark  = '#000000';       // always black — only background is user-editable
   const light = colorLight.value;
 
