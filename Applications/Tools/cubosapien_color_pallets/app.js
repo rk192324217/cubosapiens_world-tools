@@ -369,7 +369,7 @@ function hexToHSL(hex) {
   }
 
   return {
-    h: Math.round(h * 360),
+    h: Math.round(h * 360 + Number.EPSILON),
     s: Math.round(s * 100),
     l: Math.round(l * 100)
   };
