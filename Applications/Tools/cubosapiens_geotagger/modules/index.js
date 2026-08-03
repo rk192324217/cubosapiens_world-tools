@@ -44,7 +44,7 @@ export default {
       try
       {
         const raw   = await env.COUNTER_KV.get("photo_count")
-        const count = raw ? parseInt(raw) : 0
+        const count = raw ? parseInt(raw, 10) : 0
 
         return new Response(
           JSON.stringify({ count }),

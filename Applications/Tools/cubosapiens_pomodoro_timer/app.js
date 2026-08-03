@@ -120,7 +120,7 @@ function applyConfigToInputs() {
 }
 
 btnSaveSettings.addEventListener('click', () => {
-  config.workMins        = Math.max(1, parseInt(setFocus.value)          || 25);
+  config.workMins        = Math.max(1, parseInt(setFocus.value, 10)          || 25);
   config.shortMins       = Math.max(1, parseInt(setShort.value)          || 5);
   config.longMins        = Math.max(1, parseInt(setLong.value)           || 15);
   config.pomosUntilLong  = Math.max(1, parseInt(setPomosUntilLong.value) || 4);

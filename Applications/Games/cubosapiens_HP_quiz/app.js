@@ -514,7 +514,7 @@ btnShare.addEventListener('click', () => {
   const text  = `⚡ I scored ${score} points in The Wizarding Quiz!\n🎓 My rank: ${rank.title}\n✅ ${correctCount}/${total} correct (${pct}% accuracy)\n\nThink you can beat me? Play now!`;
 
   if (navigator.share) {
-    navigator.share({ title: 'The Wizarding Quiz', text }).catch(() => {});
+    navigator.share({ title: 'The Wizarding Quiz', text }).catch( => console.error());
   } else {
     navigator.clipboard.writeText(text).then(() => {
       showToast('Score copied to clipboard!');
