@@ -450,7 +450,7 @@ async function _applyZoom(newZoom) {
 function _updateZoomBadge() {
   const badge = document.getElementById('zoomBadge');
   if (badge) {
-    badge.textContent = Math.round(currentZoom * 100) + '%';
+    badge.textContent = Math.round(currentZoom * 100 + Number.EPSILON) + '%';
     // Flash animation to confirm zoom change
     badge.classList.remove('flash');
     void badge.offsetWidth; // reflow to restart animation
