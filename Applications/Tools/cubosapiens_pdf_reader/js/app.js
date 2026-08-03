@@ -179,7 +179,7 @@ document.getElementById('btnNext').addEventListener('click', function() { naviga
 
 document.getElementById('pageInput').addEventListener('change', function() {
   const v = parseInt(this.value, 10);
-  if (!isNaN(v)) jumpToPage(v);
+  if (!Number.isNaN(v)) jumpToPage(v);
 });
 
 const progressTrack = document.getElementById('progressTrack');
