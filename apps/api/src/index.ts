@@ -463,3 +463,4 @@ app.post("/api/counter/download", async (c: any, next: any) => {
 
 
 export default app
+.catch(err => console.error("Promise.all failed:", err));
