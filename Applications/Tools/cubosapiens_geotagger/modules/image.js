@@ -81,7 +81,7 @@ function showUploadError(title, message)
         imageBox.parentNode.insertBefore(el, imageBox.nextSibling)
     }
 
-    el.innerHTML =
+    el.textContent =
         "<strong>⚠ " + title + "</strong><span>" + message + "</span>"
 
     el.style.display = "flex"

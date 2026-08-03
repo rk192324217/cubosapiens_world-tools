@@ -140,7 +140,7 @@ resizeW.addEventListener('input', () => {
   if (!activeFile) return;
   const ratio = aspectRatios[activeFile.id];
   if (ratio && resizeW.value) {
-    resizeH.value = Math.round(parseInt(resizeW.value) / ratio) || '';
+    resizeH.value = Math.round(parseInt(resizeW.value, 10) / ratio) || '';
   }
 });
 
