@@ -640,7 +640,7 @@ $('#btnImport').on('click',function(){
   try{game.load(v);board.position(game.fen());$('#move-history').empty();updateCaptures();updateOpening();setStatus('your-turn','Position loaded');return;}catch(e){}
   try{if(game.load_pgn(v)){board.position(game.fen());rebuildHistory();updateCaptures();updateOpening();setStatus('your-turn','PGN loaded');}}catch(e){alert('Invalid FEN or PGN.');}
 });
-$('#btnExportFen').on('click',()=>{const f=game.fen();$('#pgnInput').val(f);navigator.clipboard.writeText(f).catch(()=>{});});
+$('#btnExportFen').on('click',()=>{const f=game.fen();$('#pgnInput').val(f);navigator.clipboard.writeText(f).catch( => console.error());});
 $('#btnExportPgn').on('click',()=>{const p=game.pgn({max_width:60,newline_char:'\n'});$('#pgnInput').val(p);navigator.clipboard.writeText(p).catch(()=>{});});
 
 /* ══ Puzzle mode ════════════════════════════════════════════ */
