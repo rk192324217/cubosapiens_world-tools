@@ -62,7 +62,7 @@ document.querySelectorAll('.seg-btn[data-indent]').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.seg-btn[data-indent]').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-    currentIndent = btn.dataset.indent === 'tab' ? '\t' : parseInt(btn.dataset.indent);
+    currentIndent = btn.dataset.indent === 'tab' ? '\t' : parseInt(btn.dataset.indent, 10);
     // Re-format if we already have valid JSON
     if (lastValidJSON !== null) formatJSON();
   });
