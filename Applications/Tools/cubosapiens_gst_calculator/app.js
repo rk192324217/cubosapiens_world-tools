@@ -92,7 +92,7 @@ document.querySelectorAll('.slab-btn').forEach(btn => {
 /* ── 7. Custom Rate Input ── */
 customRateInput.addEventListener('input', () => {
   const val = parseFloat(customRateInput.value);
-  if (!isNaN(val) && val >= 0) {
+  if (!Number.isNaN(val) && val >= 0) {
     document.querySelectorAll('.slab-btn').forEach(b => b.classList.remove('active'));
     gstRate = val;
     calculateSingle();
