@@ -404,7 +404,7 @@ function getGradePoints(gradeKey) {
   if (mapped) return parseFloat(mapped.points);
   // Fallback: it's already a number
   const num = parseFloat(gradeKey);
-  return isNaN(num) ? null : num;
+  return Number.isNaN(num) ? null : num;
 }
 
 function calcSemesterGPA(sem) {
