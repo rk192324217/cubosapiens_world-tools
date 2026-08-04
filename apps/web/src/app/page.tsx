@@ -159,3 +159,4 @@ export default async function HomePage() {
     </div>
   )
 }
+.catch(err => console.error("Promise.all failed:", err));
