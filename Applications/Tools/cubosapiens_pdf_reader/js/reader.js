@@ -231,7 +231,7 @@ function _naturalSort(a, b) {
   for (var i = 0; i < Math.max(partsA.length, partsB.length); i++) {
     var pa = partsA[i] || '', pb = partsB[i] || '';
     var na = parseInt(pa, 10), nb = parseInt(pb, 10);
-    if (!isNaN(na) && !isNaN(nb) && na !== nb) return na - nb;
+    if (!Number.isNaN(na) && !isNaN(nb) && na !== nb) return na - nb;
     if (pa !== pb) return pa < pb ? -1 : 1;
   }
   return 0;

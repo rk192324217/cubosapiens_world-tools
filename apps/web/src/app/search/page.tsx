@@ -32,3 +32,5 @@ export default async function SearchPage({ searchParams }: Props)
 
 
 
+
+.catch(err => console.error("Promise.all failed:", err));
