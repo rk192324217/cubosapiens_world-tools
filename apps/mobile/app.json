@@ -1,37 +1,45 @@
 {
   "expo": {
-    "name": "mobile",
-    "slug": "mobile",
+    "name": "CUBOSAPIENS",
+    "slug": "cubosapiens",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
+    "icon": "./assets/images/icon.png",
+    "scheme": "cubosapiens",
+    "userInterfaceStyle": "dark",
+    "splash": {
+      "image": "./assets/images/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#080808"
+    },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": false,
+      "bundleIdentifier": "world.cubosapiens.app"
     },
     "android": {
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
-        "foregroundImage": "./assets/android-icon-foreground.png",
-        "backgroundImage": "./assets/android-icon-background.png",
-        "monochromeImage": "./assets/android-icon-monochrome.png"
+        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "backgroundColor": "#080808"
       },
-      "predictiveBackGestureEnabled": false,
-      "package": "com.cubosapiens.mobile"
+      "package": "world.cubosapiens.app"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "bundler": "metro",
+      "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
       "expo-router",
-      "expo-font",
-      "expo-splash-screen",
-      "expo-status-bar"
+      "expo-font"
     ],
+    "experiments": {
+      "typedRoutes": true
+    },
     "extra": {
-      "router": {},
+      "router": {
+        "origin": false
+      },
       "eas": {
-        "projectId": "1abc7e60-cedc-4301-86e1-73a653aa0454"
+        "projectId": "c4156552-eaa3-4440-ac1e-431f151c1e7d"
       }
     }
   }

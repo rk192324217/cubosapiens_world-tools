@@ -1,36 +1,34 @@
 {
-  "name": "mobile",
+  "name": "cubosapiens-mobile",
   "version": "1.0.0",
   "main": "expo-router/entry",
-  "dependencies": {
-    "@expo-google-fonts/alfa-slab-one": "^0.4.1",
-    "@expo-google-fonts/dm-sans": "^0.4.2",
-    "@expo-google-fonts/syne": "^0.4.2",
-    "@expo/metro-runtime": "~56.0.18",
-    "@expo/vector-icons": "^15.0.2",
-    "expo": "~56.0.0",
-    "expo-dev-client": "~56.0.24",
-    "expo-font": "~56.0.7",
-    "expo-router": "~56.2.17",
-    "expo-splash-screen": "~56.0.14",
-    "expo-status-bar": "~56.0.4",
-    "react": "19.2.3",
-    "react-dom": "19.2.3",
-    "react-native": "0.85.3",
-    "react-native-safe-area-context": "~5.7.0",
-    "react-native-screens": "~4.26.0",
-    "react-native-web": "^0.21.2",
-    "react-native-webview": "13.16.1"
-  },
-  "devDependencies": {
-    "@types/react": "~19.2.2",
-    "typescript": "~6.0.3"
-  },
   "scripts": {
     "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
     "web": "expo start --web"
   },
-  "private": true
+  "dependencies": {
+    "@expo/vector-icons": "~14.0.4",
+    "@expo-google-fonts/syne": "*",
+    "@expo-google-fonts/dm-sans": "*",
+    "@expo-google-fonts/alfa-slab-one": "*",
+    "expo": "~54.0.0",
+    "expo-font": "~13.0.4",
+    "expo-router": "~4.0.22",
+    "expo-splash-screen": "~0.29.24",
+    "expo-status-bar": "~2.0.1",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "react-native": "0.76.9",
+    "react-native-safe-area-context": "4.12.0",
+    "react-native-screens": "~4.4.0",
+    "react-native-web": "~0.19.13",
+    "react-native-webview": "13.12.5"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.24.0",
+    "@types/react": "~18.3.12",
+    "typescript": "^5.3.3"
+  }
 }
