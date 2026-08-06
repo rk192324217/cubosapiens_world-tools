@@ -11,8 +11,6 @@ dist
 sw.js
 workbox-*
 
-# Lock files (optional but cleaner for open source)
-package-lock.json
 
 # Editor
 .vscode/
