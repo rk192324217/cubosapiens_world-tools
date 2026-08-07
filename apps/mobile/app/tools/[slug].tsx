@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import {
   View, Text, StyleSheet, TouchableOpacity,
-  ScrollView, ActivityIndicator, Dimensions
+  ScrollView, ActivityIndicator, Dimensions, Image
 } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useLocalSearchParams, useRouter } from 'expo-router'
@@ -89,10 +89,18 @@ export default function ToolScreen()
           geolocationEnabled
           javaScriptEnabled
           domStorageEnabled
+          originWhitelist={['*']}
+          mixedContentMode="always"
+          allowFileAccess={true}
+          allowUniversalAccessFromFileURLs={true}
         />
       ) : (
         <View style={s.soon}>
-          <Text style={s.soonEmoji}>{tool.icon}</Text>
+          {tool.icon?.endsWith('.png') || tool.icon?.endsWith('.svg') ? (
+            <Image source={{ uri: `https://cubosapiens.world/icons/${tool.icon}` }} style={s.soonImg} resizeMode="contain" />
+          ) : (
+            <Text style={s.soonEmoji}>{tool.icon}</Text>
+          )}
           <Text style={s.soonTitle}>Coming Soon</Text>
           <Text style={s.soonDesc}>{tool.description}</Text>
         </View>
@@ -109,7 +117,11 @@ export default function ToolScreen()
                 style={s.recCard}
                 onPress={() => router.push(`/tools/${rec.slug}` as any)}
               >
-                <Text style={s.recIcon}>{rec.icon}</Text>
+                {rec.icon?.endsWith('.png') || rec.icon?.endsWith('.svg') ? (
+                  <Image source={{ uri: `https://cubosapiens.world/icons/${rec.icon}` }} style={s.recImg} resizeMode="contain" />
+                ) : (
+                  <Text style={s.recIcon}>{rec.icon}</Text>
+                )}
                 <Text style={s.recName} numberOfLines={1}>{rec.name}</Text>
               </TouchableOpacity>
             ))}
@@ -135,11 +147,13 @@ const s = StyleSheet.create({
   webview:     { flex: 1, backgroundColor: theme.colors.bg },
   soon:        { flex: 1, alignItems: 'center', justifyContent: 'center', padding: 40, gap: 12 },
   soonEmoji:   { fontSize: 52 },
+  soonImg:     { width: 64, height: 64, borderRadius: 12 },
   soonTitle:   { fontFamily: theme.fonts.heading, fontSize: 22, fontWeight: '800', color: theme.colors.textPrimary },
   soonDesc:    { fontFamily: theme.fonts.body, fontSize: 14, color: theme.colors.textSecondary, textAlign: 'center', lineHeight: 22 },
   recsWrap:    { backgroundColor: theme.colors.surface, borderTopWidth: 1, borderTopColor: theme.colors.border, padding: 14 },
   recsTitle:   { fontFamily: theme.fonts.heading, fontSize: 11, fontWeight: '700', color: theme.colors.textSecondary, textTransform: 'uppercase', letterSpacing: 1, marginBottom: 10 },
-  recCard:     { backgroundColor: theme.colors.surface2, borderWidth: 1, borderColor: theme.colors.border, borderRadius: 12, padding: 10, marginRight: 10, alignItems: 'center', width: 72 },
-  recIcon:     { fontSize: 22, marginBottom: 4 },
-  recName:     { fontFamily: theme.fonts.body, fontSize: 10, color: theme.colors.textSecondary, textAlign: 'center' },
+  recCard:     { backgroundColor: theme.colors.surface2, borderWidth: 1, borderColor: theme.colors.border, borderRadius: 12, padding: 12, marginRight: 12, alignItems: 'center', width: 100 },
+  recIcon:     { fontSize: 28, marginBottom: 6 },
+  recImg:      { width: 36, height: 36, borderRadius: 8, marginBottom: 6 },
+  recName:     { fontFamily: theme.fonts.body, fontSize: 11, color: theme.colors.textSecondary, textAlign: 'center', width: '100%' },
 })

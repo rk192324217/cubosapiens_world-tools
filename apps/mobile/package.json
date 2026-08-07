@@ -14,6 +14,7 @@
     "@expo-google-fonts/syne": "*",
     "@expo/vector-icons": "^15.0.3",
     "expo": "~54.0.0",
+    "expo-constants": "~18.0.13",
     "expo-font": "~14.0.12",
     "expo-linking": "~8.0.12",
     "expo-router": "~6.0.24",

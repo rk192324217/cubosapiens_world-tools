@@ -11,33 +11,22 @@ import Header from '../../components/Header'
 import ToolGrid from '../../components/ToolGrid'
 import { fetchTools, Tool } from '../../lib/api'
 
-const CATS = [
-  { key: "all",       label: "All"       },
-  { key: "image",     label: "Image"     },
-  { key: "pdf",       label: "PDF"       },
-  { key: "generator", label: "Generator" },
-  { key: "text",      label: "Text"      },
-  { key: "converter", label: "Converter" },
-]
-
-export default function ToolsScreen()
+export default function AIScreen()
 {
   const router               = useRouter()
   const [tools,   setTools]  = useState<Tool[]>([])
-  const [cat,     setCat]    = useState("all")
   const [search,  setSearch] = useState("")
   const [loading, setLoading]= useState(true)
 
   useEffect(() => {
-    fetchTools().then(t => { setTools(t); setLoading(false) })
+    fetchTools({ category: 'ai' }).then(t => { setTools(t); setLoading(false) })
   }, [])
 
   const filtered = tools.filter(t => {
-    const matchCat = cat === "all" || t.category === cat
-    const matchQ   = !search ||
+    const matchQ = !search ||
       t.name.toLowerCase().includes(search.toLowerCase()) ||
       t.description.toLowerCase().includes(search.toLowerCase())
-    return matchCat && matchQ
+    return matchQ
   })
 
   return (
@@ -49,7 +38,7 @@ export default function ToolsScreen()
         <TouchableOpacity onPress={() => router.back()} style={s.back}>
           <FontAwesome5 name="arrow-left" size={16} color={theme.colors.textPrimary} />
         </TouchableOpacity>
-        <Text style={s.title}>All Tools</Text>
+        <Text style={s.title}>AI Tools</Text>
         <Text style={s.count}>{filtered.length}</Text>
       </View>
 
@@ -58,32 +47,12 @@ export default function ToolsScreen()
         <FontAwesome5 name="search" size={13} color={theme.colors.textMuted} style={s.searchIcon} />
         <TextInput
           style={s.search}
-          placeholder="Search tools..."
+          placeholder="Search AI tools..."
           placeholderTextColor={theme.colors.textMuted}
           value={search}
           onChangeText={setSearch}
         />
       </View>
-
-      {/* Category tabs */}
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        style={s.tabs}
-        contentContainerStyle={{ paddingHorizontal: 20, gap: 8 }}
-      >
-        {CATS.map(c => (
-          <TouchableOpacity
-            key={c.key}
-            style={[s.tab, cat === c.key && s.tabActive]}
-            onPress={() => setCat(c.key)}
-          >
-            <Text style={[s.tabText, cat === c.key && s.tabTextActive]}>
-              {c.label}
-            </Text>
-          </TouchableOpacity>
-        ))}
-      </ScrollView>
 
       {loading ? (
         <ActivityIndicator size="large" color={theme.colors.brand} style={{ marginTop: 40 }} />
@@ -91,14 +60,14 @@ export default function ToolsScreen()
         <ScrollView contentContainerStyle={s.content}>
           <ToolGrid
             tools={filtered}
-            seeMoreHref="/tools"
+            seeMoreHref="/ai"
             seeMoreLabel="More"
             maxItems={filtered.length}
           />
           {filtered.length === 0 && (
             <View style={s.empty}>
-              <Text style={s.emptyText}>No tools found</Text>
-              <Text style={s.emptySub}>Try a different search or category</Text>
+              <Text style={s.emptyText}>No AI tools found</Text>
+              <Text style={s.emptySub}>Try a different search</Text>
             </View>
           )}
         </ScrollView>
@@ -117,11 +86,6 @@ const s = StyleSheet.create({
   searchWrap:  { marginHorizontal: 20, marginBottom: 12, flexDirection: 'row', alignItems: 'center', backgroundColor: theme.colors.surface, borderWidth: 1, borderColor: theme.colors.border, borderRadius: 12, paddingHorizontal: 14 },
   searchIcon:  { marginRight: 8 },
   search:      { flex: 1, paddingVertical: 12, fontFamily: theme.fonts.body, fontSize: 14, color: theme.colors.textPrimary },
-  tabs:        { marginBottom: 16, flexGrow: 0 },
-  tab:         { paddingHorizontal: 16, paddingVertical: 7, borderRadius: 20, borderWidth: 1, borderColor: theme.colors.border },
-  tabActive:   { backgroundColor: theme.colors.brand, borderColor: theme.colors.brand },
-  tabText:     { fontFamily: theme.fonts.heading, fontSize: 12, fontWeight: '600', color: theme.colors.textSecondary },
-  tabTextActive: { color: theme.colors.bg },
   content:     { paddingHorizontal: 20, paddingBottom: 40 },
   empty:       { alignItems: 'center', paddingTop: 60 },
   emptyText:   { fontFamily: theme.fonts.heading, fontSize: 18, color: theme.colors.textPrimary, marginBottom: 8 },

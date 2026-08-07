@@ -1,14 +1,22 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, TextInput, Image } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, Image, Alert } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { theme } from '../constants/theme';
 import { useRouter } from 'expo-router';
+import { fetchTools } from '../lib/api';
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [search, setSearch] = useState('');
+  const [hasLiveAi, setHasLiveAi] = useState(false);
   const router = useRouter();
+
+  useEffect(() => {
+    fetchTools({ category: 'ai' }).then(ai => {
+      setHasLiveAi(ai.some(t => t.isLive));
+    }).catch(() => { });
+  }, []);
 
   const handleSearch = () => {
     if (search.trim()) {
@@ -20,6 +28,13 @@ export default function Header() {
 
   const handleNav = (route: string) => {
     setMenuOpen(false);
+    if (route === '/ai' && !hasLiveAi) {
+      Alert.alert(
+        "AI Unavailable",
+        "Our AI servers are currently resting. Please check back later!"
+      );
+      return;
+    }
     router.push(route as any);
   };
 
@@ -29,9 +44,9 @@ export default function Header() {
         {/* LOGO */}
         <TouchableOpacity style={styles.logoContainer} onPress={() => handleNav('/')}>
           {/* Defaulting to a network image since local assets aren't migrated yet */}
-          <Image 
-            source={{ uri: 'https://cubosapiens.world/logo.png' }} 
-            style={styles.logoIcon} 
+          <Image
+            source={{ uri: 'https://cubosapiens.world/logo.png' }}
+            style={styles.logoIcon}
           />
           <Text style={styles.logoText}>CUBOSAPIENS</Text>
         </TouchableOpacity>
@@ -67,23 +82,23 @@ export default function Header() {
       {menuOpen && (
         <View style={styles.dropdown}>
           <Text style={styles.dropdownLabel}>NAVIGATE</Text>
-          
+
           <TouchableOpacity style={styles.dropdownLink} onPress={() => handleNav('/')}>
             <FontAwesome5 name="home" size={16} color="rgba(255,255,255,0.6)" style={styles.dropdownIcon} />
             <Text style={styles.dropdownLinkText}>Home</Text>
           </TouchableOpacity>
-          
+
           <TouchableOpacity style={styles.dropdownLink} onPress={() => handleNav('/tools')}>
             <FontAwesome5 name="tools" size={16} color="rgba(255,255,255,0.6)" style={styles.dropdownIcon} />
             <Text style={styles.dropdownLinkText}>Tools</Text>
           </TouchableOpacity>
-          
+
           <TouchableOpacity style={styles.dropdownLink} onPress={() => handleNav('/games')}>
             <FontAwesome5 name="gamepad" size={16} color="rgba(255,255,255,0.6)" style={styles.dropdownIcon} />
             <Text style={styles.dropdownLinkText}>Games</Text>
             <View style={styles.badgeLive}><Text style={styles.badgeLiveText}>LIVE</Text></View>
           </TouchableOpacity>
-          
+
           <TouchableOpacity style={styles.dropdownLink} onPress={() => handleNav('/ai')}>
             <FontAwesome5 name="robot" size={16} color="rgba(255,255,255,0.6)" style={styles.dropdownIcon} />
             <Text style={styles.dropdownLinkText}>AI</Text>

@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native'
 import { useRouter } from 'expo-router'
 import { theme } from '../constants/theme'
 import { Game } from '../lib/api'
+import { IconMap } from '../assets/icons'
 
 export default function GameCard({ game }: { game: Game })
 {
@@ -13,6 +14,7 @@ export default function GameCard({ game }: { game: Game })
   }
 
   const isImage = game.icon?.endsWith(".png") || game.icon?.endsWith(".svg")
+  const localIcon = isImage ? IconMap[game.icon] : null
 
   return (
     <TouchableOpacity
@@ -31,7 +33,7 @@ export default function GameCard({ game }: { game: Game })
       <View style={s.iconWrap}>
         {isImage ? (
           <Image
-            source={{ uri: `https://cubosapiens.world/icons/${game.icon}` }}
+            source={localIcon || { uri: `https://cubosapiens.world/icons/${game.icon}` }}
             style={s.iconImg}
             resizeMode="contain"
           />

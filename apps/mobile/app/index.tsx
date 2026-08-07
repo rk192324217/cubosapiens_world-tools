@@ -2,12 +2,15 @@ import { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { FontAwesome5 } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 import { theme } from '../constants/theme';
 import Header from '../components/Header';
 import ToolGrid from '../components/ToolGrid';
+import GameGrid from '../components/GameGrid';
 import { fetchTools, fetchGames, Tool, Game } from '../lib/api'; 
 
 export default function HomePage() {
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState<{ tools: Tool[], games: Game[], aiTools: Tool[] }>({ 
     tools: [], 
@@ -44,7 +47,7 @@ export default function HomePage() {
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
       <Header />
-      <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
+      <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false} removeClippedSubviews={true}>
         
         {/* ── HERO SECTION ── */}
         <View style={styles.hero}>
@@ -58,17 +61,17 @@ export default function HomePage() {
           </Text>
 
           <View style={styles.heroPills}>
-            <TouchableOpacity style={styles.pill}>
+            <TouchableOpacity style={styles.pill} onPress={() => router.push('/tools')}>
               <FontAwesome5 name="tools" size={12} color={theme.colors.textSecondary} />
               <Text style={styles.pillText}>Tools</Text>
             </TouchableOpacity>
             
-            <TouchableOpacity style={styles.pill}>
+            <TouchableOpacity style={styles.pill} onPress={() => router.push('/games')}>
               <FontAwesome5 name="gamepad" size={12} color={theme.colors.textSecondary} />
               <Text style={styles.pillText}>Games</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={[styles.pill, styles.pillLive]}>
+            <TouchableOpacity style={[styles.pill, styles.pillLive]} onPress={() => router.push('/ai' as any)}>
               <FontAwesome5 name="robot" size={12} color={theme.colors.brand} />
               <Text style={styles.pillTextLive}>AI</Text>
             </TouchableOpacity>
@@ -95,9 +98,8 @@ export default function HomePage() {
             <View style={styles.sectionHeader}>
               <Text style={styles.sectionTitle}>Games</Text>
             </View>
-            {/* Note: Reusing ToolGrid temporarily. We will replace this with GameGrid! */}
-            <ToolGrid 
-              tools={data.games} 
+            <GameGrid 
+              games={data.games} 
               seeMoreHref="/games" 
               seeMoreLabel="All Games" 
               maxItems={11} 

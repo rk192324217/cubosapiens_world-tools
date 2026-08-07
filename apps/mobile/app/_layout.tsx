@@ -32,7 +32,7 @@ export default function RootLayout() {
       <StatusBar style="light" />
       <Stack
         screenOptions={{
-          headerShown: false, // We will build a custom header later
+          headerShown: false,
           contentStyle: { backgroundColor: theme.colors.bg },
         }}
       />

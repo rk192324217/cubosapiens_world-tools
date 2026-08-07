@@ -7,6 +7,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { useRouter } from 'expo-router'
 import { FontAwesome5 } from '@expo/vector-icons'
 import { theme } from '../../constants/theme'
+import Header from '../../components/Header'
 import GameGrid from '../../components/GameGrid'
 import { fetchGames, Game } from '../../lib/api'
 
@@ -36,6 +37,7 @@ export default function GamesScreen()
 
   return (
     <SafeAreaView style={s.container} edges={['top']}>
+      <Header />
 
       <View style={s.header}>
         <TouchableOpacity onPress={() => router.back()} style={s.back}>

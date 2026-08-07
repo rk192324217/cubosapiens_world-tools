@@ -1,8 +1,8 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { FontAwesome5 } from '@expo/vector-icons';
+import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { theme } from '../constants/theme';
 import { useRouter } from 'expo-router';
+import { IconMap } from '../assets/icons';
 
 export default function ToolCard({ tool }: { tool: any }) {
   const router = useRouter();
@@ -12,6 +12,9 @@ export default function ToolCard({ tool }: { tool: any }) {
       router.push(`/tools/${tool.slug}` as any);
     }
   };
+
+  const isImage = tool.icon?.endsWith('.png') || tool.icon?.endsWith('.svg');
+  const localIcon = isImage ? IconMap[tool.icon] : null;
 
   return (
     <TouchableOpacity
@@ -33,12 +36,16 @@ export default function ToolCard({ tool }: { tool: any }) {
       </View>
 
       {/* ── ICON ── */}
-      <View style={styles.iconContainer}>
-        <FontAwesome5 
-          name={tool.icon?.replace('fa-', '') || 'tools'} 
-          size={36} 
-          color={theme.colors.textPrimary} 
-        />
+      <View style={styles.iconWrap}>
+        {isImage ? (
+          <Image
+            source={localIcon || { uri: `https://cubosapiens.world/icons/${tool.icon}` }}
+            style={styles.iconImg}
+            resizeMode="contain"
+          />
+        ) : (
+          <Text style={styles.iconEmoji}>{tool.icon}</Text>
+        )}
       </View>
 
       {/* ── INFO ── */}
@@ -100,6 +107,15 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  iconWrap: { flex: 1, alignItems: 'center', justifyContent: 'center' },
+  iconImg: {
+    width: 48,
+    height: 48,
+    borderRadius: 8,
+  },
+  iconEmoji: {
+    fontSize: 36,
   },
   infoContainer: {
     alignItems: 'center',
