@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - dev
+      - android-development
   pull_request:
     branches:
       - main
