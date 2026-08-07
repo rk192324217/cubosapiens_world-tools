@@ -60,6 +60,7 @@
 - [Future Roadmap](#future-roadmap)
 - [Support the Project](#support-the-project)
 - [Maintainer](#maintainer)
+- [Repository Badges](#repository-badges)
 - [License](#license)
 
 ---
