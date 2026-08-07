@@ -278,11 +278,30 @@ a {
   font-family: var(--font-body);
 }
 
+.recently-used-clear {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  color: var(--text-muted);
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 6px 12px;
+  cursor: pointer;
+  font-family: var(--font-body);
+  transition: color 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.recently-used-clear:hover {
+  color: var(--brand);
+  border-color: rgba(0, 255, 38, 0.25);
+  background: var(--brand-glow);
+}
+
 
 /* =====================
    TOOL / GAME GRID
    ===================== */
-
 .tool-grid {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
