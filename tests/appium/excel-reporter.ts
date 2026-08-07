@@ -29,12 +29,19 @@ export class AppiumExcelReporter {
       { header: 'Value', key: 'value', width: 20 }
     ];
 
+    this.detailsSheet.name = 'Appium Mobile Tests';
     this.detailsSheet.columns = [
-      { header: 'Suite', key: 'suite', width: 20 },
-      { header: 'Test Name', key: 'testName', width: 30 },
-      { header: 'Status', key: 'status', width: 10 },
-      { header: 'Execution Time (ms)', key: 'duration', width: 20 },
-      { header: 'Error Trace', key: 'errorTrace', width: 50 }
+      { header: '', key: 'empty', width: 5 },
+      { header: 'Test Case ID', key: 'testId', width: 15 },
+      { header: 'Module / Feature', key: 'module', width: 20 },
+      { header: 'Test Title', key: 'title', width: 40 },
+      { header: 'Description', key: 'desc', width: 40 },
+      { header: 'Pre-Conditions', key: 'precond', width: 30 },
+      { header: 'Test Steps', key: 'steps', width: 40 },
+      { header: 'Expected Result', key: 'expected', width: 40 },
+      { header: 'Priority', key: 'priority', width: 10 },
+      { header: 'Execution Type', key: 'execType', width: 15 },
+      { header: 'Status', key: 'status', width: 10 }
     ];
 
     this.deviceInfoSheet.columns = [
@@ -57,11 +64,17 @@ export class AppiumExcelReporter {
     else this.failedTests++;
 
     this.detailsSheet.addRow({
-      suite,
-      testName,
-      status,
-      duration,
-      errorTrace: errorTrace || ''
+      empty: '',
+      testId: `TC-${String(this.totalTests).padStart(4, '0')}`,
+      module: suite,
+      title: testName,
+      desc: `Automated verification of ${testName} in ${suite}`,
+      precond: 'App loaded successfully',
+      steps: '1. Launch app\n2. Navigate to component\n3. Assert property',
+      expected: 'Assertion evaluates to true',
+      priority: 'High',
+      execType: 'Automated',
+      status: status.toUpperCase()
     });
   }
 
