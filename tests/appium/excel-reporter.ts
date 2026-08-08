@@ -13,13 +13,16 @@ export class AppiumExcelReporter {
   private failedTests = 0;
   private startTime: number;
 
-  constructor() {
+  private outputFileName: string;
+
+  constructor(suiteName: string = 'appium') {
     this.workbook = new ExcelJS.Workbook();
     this.summarySheet = this.workbook.addWorksheet('Summary');
     this.detailsSheet = this.workbook.addWorksheet('Detailed Results');
     this.deviceInfoSheet = this.workbook.addWorksheet('Device Info');
     this.startTime = Date.now();
-    
+    // Unique filename per suite — prevents overwriting between parallel test files
+    this.outputFileName = `appium-${suiteName.toLowerCase().replace(/\s+/g, '-')}.xlsx`;
     this.initSheets();
   }
 
@@ -94,6 +97,7 @@ export class AppiumExcelReporter {
     if (!fs.existsSync(reportDir)) {
       fs.mkdirSync(reportDir, { recursive: true });
     }
-    await this.workbook.xlsx.writeFile(path.join(reportDir, 'appium-report.xlsx'));
+    await this.workbook.xlsx.writeFile(path.join(reportDir, this.outputFileName));
+    console.log(`  → Suite report written: ${this.outputFileName} (${this.totalTests} rows)`);
   }
 }

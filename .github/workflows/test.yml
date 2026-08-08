@@ -31,6 +31,9 @@ jobs:
           mkdir -p tests/selenium/reports
           npm run test:selenium || npx jest tests/selenium/tests/ --runInBand
         continue-on-error: true
+      - name: Merge per-suite reports into master 300-row report
+        run: node tests/selenium/merge-reports.js
+        continue-on-error: true
       - name: Upload Selenium Report
         uses: actions/upload-artifact@v4
         with:
@@ -80,6 +83,9 @@ jobs:
         run: |
           mkdir -p tests/appium/reports
           npm run test:appium || npx jest tests/appium/tests/ --runInBand
+        continue-on-error: true
+      - name: Merge per-suite reports into master 300-row report
+        run: node tests/appium/merge-reports.js
         continue-on-error: true
       - name: Upload Appium Report
         uses: actions/upload-artifact@v4

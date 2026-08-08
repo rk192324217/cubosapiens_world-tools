@@ -7,7 +7,7 @@ export const options = {
         { duration: '1m', target: 100 }, // 100 VUs over 1 minute
     ],
     thresholds: {
-        http_req_duration: ['p(95)<5000'], // relaxed threshold
+        http_req_duration: ['p(95)<1000'], // relaxed threshold
     },
 };
 
