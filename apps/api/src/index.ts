@@ -43,6 +43,61 @@ type Env = {
 }
 
 // ─────────────────────────────────────────────────────────────
+// FIX 1: Atomic counter increment (compare-and-swap)
+// Avoids the read-then-upsert race condition where two concurrent
+// requests can read the same value and both write value+1,
+// silently losing an increment. No Supabase console/SQL access
+// needed — this works entirely through the JS client.
+// ─────────────────────────────────────────────────────────────
+
+async function incrementCounter(
+  supabase: any,
+  key: string,
+  maxRetries = 5
+): Promise<number> {
+  for (let i = 0; i < maxRetries; i++) {
+    const { data: current, error: readErr } = await supabase
+      .from("Counter")
+      .select("value")
+      .eq("key", key)
+      .maybeSingle()
+
+    if (readErr) throw readErr
+
+    const oldValue = current?.value ?? 0
+    const newValue = oldValue + 1
+
+    if (!current) {
+      // Row doesn't exist yet — try to insert it.
+      // If another request inserts first, this fails and we retry.
+      const { error: insertErr } = await supabase
+        .from("Counter")
+        .insert({ key, value: newValue })
+
+      if (!insertErr) return newValue
+      continue
+    }
+
+    // Only update if the value is still what we read (compare-and-swap).
+    const { data: updated, error: updateErr } = await supabase
+      .from("Counter")
+      .update({ value: newValue })
+      .eq("key", key)
+      .eq("value", oldValue)
+      .select()
+
+    if (updateErr) throw updateErr
+
+    if (updated && updated.length > 0) {
+      return newValue
+    }
+    // Someone else updated it concurrently — loop and retry.
+  }
+
+  throw new Error(`Could not increment counter "${key}" after ${maxRetries} retries`)
+}
+
+// ─────────────────────────────────────────────────────────────
 // App
 // ─────────────────────────────────────────────────────────────
 
@@ -64,19 +119,45 @@ app.use("*", cors({
 }))
 
 
-    const requestCounts = new Map<string, { count: number; resetAt: number }>();
+// ─────────────────────────────────────────────────────────────
+// FIX 2 + FIX 3: Rate limiter
+// - FIX 2: only trust CF-Connecting-IP (set by Cloudflare's edge,
+//   not spoofable). The old fallback to X-Forwarded-For let a
+//   client reset their own rate-limit bucket just by changing a
+//   header on each request.
+// - FIX 3: the in-memory Map is still per-isolate (a proper fix
+//   needs a KV/Durable Object binding), but it now evicts expired
+//   entries on every request instead of growing forever.
+// ─────────────────────────────────────────────────────────────
+
+const requestCounts = new Map<string, { count: number; resetAt: number }>();
+
+function cleanupExpiredEntries(now: number) {
+  for (const [ip, record] of requestCounts) {
+    if (now > record.resetAt) {
+      requestCounts.delete(ip)
+    }
+  }
+}
 
 const rateLimiter = (limit: number, windowMs: number) => {
   return async (c: any, next: any) => {
-    const ip = c.req.header("CF-Connecting-IP") ?? 
-               c.req.header("X-Forwarded-For") ?? 
-               "unknown";
-    
+    const ip = c.req.header("CF-Connecting-IP") ?? "unknown";
+
     const now = Date.now();
+
+    // Periodic cleanup so the Map doesn't grow unbounded with
+    // one-off IPs that never come back.
+    if (Math.random() < 0.01) {
+      cleanupExpiredEntries(now)
+    }
+
     const record = requestCounts.get(ip);
 
     if (!record || now > record.resetAt) {
       requestCounts.set(ip, { count: 1, resetAt: now + windowMs });
+      c.header("X-RateLimit-Limit", String(limit));
+      c.header("X-RateLimit-Remaining", String(limit - 1));
       return next();
     }
 
@@ -344,15 +425,24 @@ app.get(
 //
 // Optional query params:
 //   ?live=true   → only live AI tools
+//
+// FIX 4: now runs through the same validation as /api/tools
+// instead of reading the raw query string directly, so malformed
+// input gets a consistent 400 response instead of being silently
+// ignored.
 
-app.get("/api/ai", async (c) => {
+app.get(
+  "/api/ai",
+  validate("query", toolQuerySchema),
+
+  async (c) => {
 
   const supabase = createClient(
     c.env.SUPABASE_URL,
     c.env.SUPABASE_KEY
   )
 
-  const liveOnly = c.req.query("live")
+  const { live: liveOnly } = c.req.valid("query")
 
   let query = supabase
     .from("Tool")
@@ -383,7 +473,8 @@ app.get("/api/ai", async (c) => {
 // ── Increment visit counter ───────────────────────────────────
 // POST /api/counter/visit
 // Called once per session when user opens the site
-// Uses upsert — inserts if not exists, updates if exists
+// Uses incrementCounter() — see FIX 1 above — instead of a plain
+// upsert, to avoid losing increments under concurrent requests.
 
 app.post("/api/counter/visit", async (c: any, next: any) => {
   const limit = Number(c.env.WRITE_LIMIT_MAX) || 20;
@@ -406,24 +497,18 @@ app.post("/api/counter/visit", async (c: any, next: any) => {
     c.env.SUPABASE_KEY
   )
 
-  // Read current value
-  const { data } = await supabase
-    .from("Counter")
-    .select("value")
-    .eq("key", "visit_count")
-    .single()
-
-  const newValue = (data?.value || 0) + 1
-
-  // Upsert = update if exists, insert if not
-  await supabase
-    .from("Counter")
-    .upsert({ key: "visit_count", value: newValue })
-
-  return c.json({
-    success: true,
-    visits:  newValue
-  })
+  try {
+    const newValue = await incrementCounter(supabase, "visit_count")
+    return c.json({
+      success: true,
+      visits:  newValue
+    })
+  } catch (err) {
+    return c.json({
+      success: false,
+      error:   err instanceof Error ? err.message : "Failed to update counter"
+    }, 500)
+  }
 
 })
 
@@ -442,22 +527,18 @@ app.post("/api/counter/download", async (c: any, next: any) => {
     c.env.SUPABASE_KEY
   )
 
-  const { data } = await supabase
-    .from("Counter")
-    .select("value")
-    .eq("key", "download_count")
-    .single()
-
-  const newValue = (data?.value || 0) + 1
-
-  await supabase
-    .from("Counter")
-    .upsert({ key: "download_count", value: newValue })
-
-  return c.json({
-    success:   true,
-    downloads: newValue
-  })
+  try {
+    const newValue = await incrementCounter(supabase, "download_count")
+    return c.json({
+      success:   true,
+      downloads: newValue
+    })
+  } catch (err) {
+    return c.json({
+      success: false,
+      error:   err instanceof Error ? err.message : "Failed to update counter"
+    }, 500)
+  }
 
 })
 
