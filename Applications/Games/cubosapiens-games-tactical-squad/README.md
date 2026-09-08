@@ -1,1 +1,0 @@
-# cubosapiens-games-tactical-squad
