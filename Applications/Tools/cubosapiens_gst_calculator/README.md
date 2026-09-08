@@ -1,1 +1,0 @@
-# cubosapiens_gst_calculator

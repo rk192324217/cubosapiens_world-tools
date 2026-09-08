@@ -1,1 +1,0 @@
-# cubosapien_image_converter
