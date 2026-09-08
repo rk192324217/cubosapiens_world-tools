@@ -17,7 +17,7 @@ const socials = [
   },
   {
     name: "LinkedIn",
-    url: "https://www.linkedin.com/in/cubosapiens/",
+    url: "https://www.linkedin.com/company/cubosapiens",
     icon: "fa-brands fa-linkedin",
     color: "#0A66C2",
   },

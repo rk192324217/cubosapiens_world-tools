@@ -148,7 +148,7 @@ export default function AboutPage()
           or find us on{" "}
           <a href="https://www.instagram.com/cubosapiens/" target="_blank" rel="noopener noreferrer" className="about-link">Instagram</a>,{" "}
           <a href="https://www.youtube.com/channel/UCsG60rRXZ302vmYDYg4j97g" target="_blank" rel="noopener noreferrer" className="about-link">YouTube</a>, and{" "}
-          <a href="https://www.linkedin.com/in/cubosapiens/" target="_blank" rel="noopener noreferrer" className="about-link">LinkedIn</a>.
+          <a href="https://www.linkedin.com/company/cubosapiens" target="_blank" rel="noopener noreferrer" className="about-link">LinkedIn</a>.
         </p>
 
       </div>
