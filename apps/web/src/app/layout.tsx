@@ -8,8 +8,8 @@ import TrackVisit from "@/components/TrackVisit"
 import { cn } from "@/lib/utils"
 import PWAInstallPrompt from "@/components/PWAInstallPrompt"
 import CookieBanner from "@/components/CookieBanner"
-import { fetchTools } from "@/lib/api"
-const geist = Geist({subsets:["latin"],variable:"--font-sans"});
+import { fetchTools, fetchGames } from "@/lib/api"
+const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 
 // ── Fonts loaded via next/font/google ─────────────────────────
@@ -80,8 +80,11 @@ export default async function RootLayout({
   children: React.ReactNode
 })
 {
-  const aiTools = await fetchTools({ category: "ai" })
-  const hasLiveAi = aiTools.length > 0
+const aiTools = await fetchTools({ category: "ai" })
+const hasLiveAi = aiTools.length > 0
+
+const tools = await fetchTools()
+const games = await fetchGames()
 
   return (
     <html lang="en" suppressHydrationWarning className={cn("font-sans", geist.variable)}>
@@ -92,7 +95,11 @@ export default async function RootLayout({
 </head>
       <body className={`${sora.variable} ${space.variable} ${inter.variable}`}>
         <TrackVisit />
-        <Header hasLiveAi={hasLiveAi} />
+        <Header
+    hasLiveAi={hasLiveAi}
+    tools={tools}
+    games={games}
+/>
         <main>{children}</main>
         <Footer />
         <PWAInstallPrompt />

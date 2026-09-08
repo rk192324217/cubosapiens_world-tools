@@ -1,10 +1,10 @@
 "use client"
 import Link        from "next/link"
-import type { Game } from "@/lib/api"
+import type { Games } from "@/types"
 import Image from "next/image"
 
 interface GameCardProps {
-  game:  Game
+  game: Games
   index: number
 }
 

@@ -33,7 +33,11 @@ export default function SearchResults({ tools, games, initialQuery }: Props)
 
   const allItems: SearchItem[] = [
     ...tools.map((t): SearchItem => ({ ...t, itemType: "tool", unifiedCategory: t.category })),
-    ...games.map((g): SearchItem => ({ ...g, itemType: "game", unifiedCategory: g.genre || "game" }))
+    ...games.map((g): SearchItem => ({
+  ...g,
+  itemType: "game",
+  unifiedCategory: "game"
+}))
   ]
 
   const results = allItems.filter(item => {
@@ -47,7 +51,6 @@ export default function SearchResults({ tools, games, initialQuery }: Props)
       
     return matchCat && matchSearch
   })
-
   return (
     <>
       <div className="tools-search-wrap">
@@ -79,15 +82,26 @@ export default function SearchResults({ tools, games, initialQuery }: Props)
       {results.length > 0 ? (
         <div className="tool-grid">
           {results.map((item, i) => {
-            // By explicitly casting `as Tool` and `as Games`, 
-            // we stop TypeScript from complaining about the extra properties 
-            // we added during the merge.
-            if (item.itemType === "tool") {
-              return <ToolCard key={`tool-${item.id}`} tool={item as Tool} index={i} />
-            } else {
-              return <GameCard key={`game-${item.id}`} game={item as Games} index={i} />
-            }
-          })}
+  
+
+  if (item.itemType === "tool") {
+    return (
+      <ToolCard
+        key={`tool-${item.id}`}
+        tool={item as Tool}
+        index={i}
+      />
+    )
+  }
+
+  return (
+    <GameCard
+      key={`game-${item.id}`}
+      game={item as Games}
+      index={i}
+    />
+  )
+})}
         </div>
       ) : (
         <div className="empty-state">

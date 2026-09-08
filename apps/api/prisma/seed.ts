@@ -496,11 +496,45 @@ async function main()
             isLive: true,
             isFeatured: true,
             order: 12
-       }
+       },
+       {
+            name: "Tunnel Escape",
+            slug: "tunnel-escape",
+            description: "Navigate a collapsing tunnel while dodging falling debris and closing hazards.",
+            genre: "arcade",
+            icon: "🚀",
+            url: "https://tunnel-escape.cubosapiens.world",
+            isLive: true,
+            isFeatured: true,
+            order: 13
+         },
+         {     
+            name: "Pattern Match",
+            slug: "pattern-match",
+            description: "Observe the pattern and reproduce it",
+            genre: "puzzle",
+            icon: "🎰",
+            url: "https://pattern-match.cubosapiens.world",
+            isLive: true,
+            isFeatured: true,
+            order: 13
+          },
+          {
+             name: "Brick Breaker",
+             slug: "brick-breaker",
+             description: "Break the bricks, keep the ball alive, and clear every level.",
+             genre: "arcade",
+             icon: "🧱",
+             url: "https://brick-breaker.cubosapiens.world",
+             isLive: true,
+             isFeatured: false,
+             order: 14
+},
+        
 ]
   })
 
-  console.log("✅ 17 games seeded")
+  console.log("✅ 19 games seeded")
 }
 
 main()

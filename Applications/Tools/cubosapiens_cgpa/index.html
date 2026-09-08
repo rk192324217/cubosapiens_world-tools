@@ -153,11 +153,16 @@
           </div>
         </div>
 
-        <button class="btn-action primary" id="btnCalcTarget" style="margin-top:16px; width:100%;">
+       <div style="display:flex; gap:12px; margin-top:16px;">
+        <button class="btn-action primary" id="btnCalcTarget" style="width:100%;">
           <i class="fa-solid fa-calculator"></i> Calculate required GPA
         </button>
+        <button class="btn-action" id="btnResetTarget" type="button" style="white-space:nowrap;">
+          <i class="fa-solid fa-rotate-left"></i> Reset
+        </button>
+      </div>
 
-        <div class="target-result" id="targetResult" style="display:none;"></div>
+      <div class="target-result" id="targetResult" style="display:none;"></div>
       </div>
     </div>
 
