@@ -90,6 +90,7 @@ const ringLabel     = document.getElementById('ringLabel');
 const btnExportJSON = document.getElementById('btnExportJSON');
 const btnExportPDF  = document.getElementById('btnExportPDF');
 const btnCalcTarget = document.getElementById('btnCalcTarget');
+const btnResetTarget= document.getElementById('btnResetTarget');
 const targetResult  = document.getElementById('targetResult');
 const toastEl       = document.getElementById('toast');
 
@@ -479,9 +480,24 @@ btnCalcTarget.addEventListener('click', () => {
     return;
   }
 
+  if ([current, done, target, remaining].some(v => v < 0)) {
+    showToast('Values cannot be negative');
+    return;
+  }
+
+  if (remaining <= 0) {
+    showToast('Remaining credits must be greater than 0');
+    return;
+  }
+
   const scale = currentScale === 'custom' ? 10 : currentScale;
   if (target > scale) {
     showToast(`Target CGPA can't exceed scale (${scale})`);
+    return;
+  }
+
+  if (current > scale) {
+    showToast(`Current CGPA can't exceed scale (${scale})`);
     return;
   }
 
@@ -515,7 +531,13 @@ btnCalcTarget.addEventListener('click', () => {
     `;
   }
 });
-
+btnResetTarget.addEventListener('click', () => {
+  ['tCurrentCGPA', 'tDoneCredits', 'tTargetCGPA', 'tRemainingCredits'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
+  targetResult.style.display = 'none';
+  targetResult.innerHTML = '';
+});
 
 /* ── 15. Export JSON ── */
 btnExportJSON.addEventListener('click', () => {

@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Generated at build time from content/blogs/*.md — see scripts/generate-blog-data.mjs
+src/lib/blogData.generated.ts

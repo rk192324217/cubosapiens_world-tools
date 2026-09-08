@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Connect Dots - A classic Dots and Boxes game. Connect dots to form boxes and score points. Play against AI or a friend!">
+    <meta name="keywords" content="connect dots, dots and boxes, browser game, puzzle game, strategy game">
+    <meta name="author" content="CuboSapiens">
+    <meta property="og:title" content="Connect Dots | CuboSapiens">
+    <meta property="og:description"
+        content="A classic Dots and Boxes game. Connect dots to form boxes and outsmart your opponent!">
+    <title>Connect Dots | CuboSapiens</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="app" id="app">
+
+
+        <header class="header" role="banner">
+            <div class="header-left">
+                <div class="logo">
+                    <span class="logo-icon">⬡</span>
+                    <span class="logo-text">CuboSapiens</span>
+                </div>
+            </div>
+            <div class="header-center">
+                <h1 class="game-title">Connect Dots</h1>
+            </div>
+            <div class="header-right">
+                <button class="icon-btn" id="theme-toggle" aria-label="Toggle dark/light mode" title="Toggle Theme">
+                    <span id="theme-icon">☀️</span>
+                </button>
+                <button class="icon-btn" id="sound-toggle" aria-label="Toggle sound" title="Toggle Sound">
+                    <span id="sound-icon">🔊</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main" role="main">
+
+            <!-- Score Board -->
+            <div class="scoreboard" aria-label="Scoreboard">
+                <div class="player-score" id="score-p1" aria-label="Player 1 Score">
+                    <div class="player-avatar p1-avatar">P1</div>
+                    <div class="player-info">
+                        <span class="player-name" id="p1-name">Player 1</span>
+                        <span class="player-score-val" id="p1-score">0</span>
+                    </div>
+                </div>
+
+                <div class="game-status-center">
+                    <div class="turn-indicator" id="turn-indicator" aria-live="polite">Your Turn</div>
+                    <div class="boxes-left" id="boxes-left">24 boxes left</div>
+                </div>
+
+                <div class="player-score" id="score-p2" aria-label="Player 2 Score">
+                    <div class="player-info right-align">
+                        <span class="player-name" id="p2-name">AI</span>
+                        <span class="player-score-val" id="p2-score">0</span>
+                    </div>
+                    <div class="player-avatar p2-avatar">AI</div>
+                </div>
+            </div>
+
+            <!-- Game Board -->
+            <div class="board-wrapper">
+                <div class="game-board" id="game-board" role="grid" aria-label="Game Board"></div>
+            </div>
+
+            <!-- Controls -->
+            <div class="controls">
+                <div class="controls-row">
+                    <div class="control-group">
+                        <label for="grid-size" class="control-label">Grid Size</label>
+                        <select id="grid-size" class="control-select" aria-label="Select grid size">
+                            <option value="4">4×4 (Easy)</option>
+                            <option value="5" selected>5×5 (Medium)</option>
+                            <option value="6">6×6 (Hard)</option>
+                            <option value="7">7×7 (Expert)</option>
+                        </select>
+                    </div>
+                    <div class="control-group">
+                        <label for="game-mode" class="control-label">Mode</label>
+                        <select id="game-mode" class="control-select" aria-label="Select game mode">
+                            <option value="ai" selected>vs AI</option>
+                            <option value="pvp">2 Players</option>
+                        </select>
+                    </div>
+                    <div class="control-group">
+                        <label for="ai-difficulty" class="control-label">AI Level</label>
+                        <select id="ai-difficulty" class="control-select" aria-label="Select AI difficulty">
+                            <option value="easy">Easy</option>
+                            <option value="medium" selected>Medium</option>
+                            <option value="hard">Hard</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="controls-row">
+                    <button class="btn btn-primary" id="new-game-btn" aria-label="Start new game">New Game</button>
+                    <button class="btn btn-secondary" id="undo-btn" aria-label="Undo last move" disabled>Undo</button>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- Win Modal -->
+        <div class="modal-overlay" id="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title"
+            hidden>
+            <div class="modal">
+                <div class="modal-emoji" id="modal-emoji">🏆</div>
+                <h2 class="modal-title" id="modal-title">Game Over!</h2>
+                <p class="modal-subtitle" id="modal-subtitle">Player 1 Wins!</p>
+                <div class="modal-scores">
+                    <div class="modal-score-item">
+                        <span class="modal-score-name" id="modal-p1-name">Player 1</span>
+                        <span class="modal-score-val" id="modal-p1-score">0</span>
+                    </div>
+                    <div class="modal-score-sep">vs</div>
+                    <div class="modal-score-item">
+                        <span class="modal-score-name" id="modal-p2-name">AI</span>
+                        <span class="modal-score-val" id="modal-p2-score">0</span>
+                    </div>
+                </div>
+                <div class="modal-stats" id="modal-stats"></div>
+                <div class="modal-buttons">
+                    <button class="btn btn-primary" id="play-again-btn">Play Again</button>
+                    <button class="btn btn-secondary" id="close-modal-btn">Close</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>

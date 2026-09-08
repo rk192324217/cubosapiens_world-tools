@@ -168,10 +168,11 @@ The platform focuses on:
 
 # Browser Tools & Games Ecosystem
 
+```text
 Applications/
  ├── Tools/
  ├── Games/
-
+```
 Example:
 
 Applications/Games/cubosapiens-games-snake  

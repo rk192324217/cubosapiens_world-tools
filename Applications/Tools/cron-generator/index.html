@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Visual Cron Schedule Builder</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="control-room">
+      <header>
+        <h1>🎛️ Scheduler Control Room</h1>
+        <p>
+          Generate valid cron expressions without memorizing complex syntax.
+        </p>
+      </header>
+
+      <section class="panel preset-panel">
+        <h3>⚡ Quick Presets</h3>
+        <select id="preset-select">
+          <option value="">-- Choose a Quick Schedule --</option>
+          <option value="* * * * *">Every Minute</option>
+          <option value="0 * * * *">Every Hour</option>
+          <option value="0 0 * * *">Every Day at Midnight</option>
+          <option value="0 0 * * 1-5">
+            Every Weekday (Mon-Fri) at Midnight
+          </option>
+          <option value="0 0 1 * *">First Day of Every Month</option>
+        </select>
+      </section>
+
+      <main class="config-grid">
+        <section class="panel">
+          <h3>⏰ Minutes</h3>
+          <select id="cron-minutes">
+            <option value="*">Every Minute (*)</option>
+            <option value="0">At Minute 00</option>
+            <option value="*/5">Every 5 Minutes (*/5)</option>
+            <option value="*/15">Every 15 Minutes (*/15)</option>
+            <option value="*/30">Every 30 Minutes (*/30)</option>
+          </select>
+        </section>
+
+        <section class="panel">
+          <h3>⏳ Hours</h3>
+          <select id="cron-hours">
+            <option value="*">Every Hour (*)</option>
+            <option value="0">Midnight (00:00)</option>
+            <option value="12">Noon (12:00)</option>
+            <option value="*/2">Every 2 Hours</option>
+            <option value="*/6">Every 6 Hours</option>
+          </select>
+        </section>
+
+        <section class="panel">
+          <h3>📅 Day of Month</h3>
+          <select id="cron-dom">
+            <option value="*">Every Day (*)</option>
+            <option value="1">1st of the month</option>
+            <option value="15">15th of the month</option>
+            <option value="L">Last day of the month</option>
+          </select>
+        </section>
+
+        <section class="panel">
+          <h3>🗓️ Month</h3>
+          <select id="cron-month">
+            <option value="*">Every Month (*)</option>
+            <option value="1">January</option>
+            <option value="6">June</option>
+            <option value="12">December</option>
+          </select>
+        </section>
+
+        <section class="panel">
+          <h3>🧭 Day of Week</h3>
+          <select id="cron-dow">
+            <option value="*">Every Day of Week (*)</option>
+            <option value="1-5">Weekdays (Mon-Fri)</option>
+            <option value="0,6">Weekends (Sat-Sun)</option>
+            <option value="1">Monday</option>
+            <option value="5">Friday</option>
+          </select>
+        </section>
+      </main>
+
+      <footer class="panel output-panel">
+        <div class="output-group">
+          <label for="cron-output">Generated Cron Expression</label>
+          <div class="input-wrapper">
+            <input type="text" id="cron-output" value="* * * * *" readonly />
+            <button id="copy-btn">📋 Copy</button>
+          </div>
+        </div>
+        <div class="explanation-group">
+          <h4>🗣️ Human-Readable Explanation:</h4>
+          <p id="cron-explanation">
+            Runs every minute of every hour, every day.
+          </p>
+        </div>
+      </footer>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>

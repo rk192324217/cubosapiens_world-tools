@@ -1,16 +1,14 @@
 // ─────────────────────────────────────────────────────────────
 // blogLoader.ts
-// Server-only utility.  Reads .md files from content/blogs/,
-// parses gray-matter frontmatter, and returns typed BlogPost
-// objects.  Never import this in a client component.
+// Reads blog posts from blogData.generated.ts, a build-time
+// snapshot of content/blogs/*.md produced by
+// scripts/generate-blog-data.mjs. No `fs` access here — the
+// Cloudflare Worker runtime can't read bundled project files
+// off disk, so content must be baked into the JS bundle instead.
 // ─────────────────────────────────────────────────────────────
 
-import fs     from "fs"
-import path   from "path"
-import matter from "gray-matter"
+import { generatedBlogPosts } from "./blogData.generated"
 import type { BlogTag } from "@/types"
-
-const BLOGS_DIR = path.join(process.cwd(), "content", "blogs")
 
 // ── Public type ───────────────────────────────────────────────
 // Use this everywhere instead of the old API-backed Blog type.
@@ -27,51 +25,21 @@ export interface BlogPost {
   readingTimeMin: number
 }
 
-// ── Helpers ───────────────────────────────────────────────────
-
-function calcReadingTime(markdown: string): number {
-  const words = markdown.trim().split(/\s+/).filter(Boolean).length
-  return Math.max(1, Math.ceil(words / 200))
-}
-
 // ── Public API ────────────────────────────────────────────────
 
 /** Returns every slug (filename minus .md) in the blogs directory. */
 export function getAllBlogSlugs(): string[] {
-  if (!fs.existsSync(BLOGS_DIR)) return []
-  return fs
-    .readdirSync(BLOGS_DIR)
-    .filter(f => f.endsWith(".md"))
-    .map(f => f.replace(/\.md$/, ""))
+  return generatedBlogPosts.map(post => post.slug)
 }
 
-/** Reads and parses a single blog file.  Returns null if not found. */
+/** Returns a single post by slug. Returns null if not found. */
 export function getBlogBySlug(slug: string): BlogPost | null {
-  const filePath = path.join(BLOGS_DIR, `${slug}.md`)
-  if (!fs.existsSync(filePath)) return null
-
-  const raw               = fs.readFileSync(filePath, "utf-8")
-  const { data, content } = matter(raw)
-
-  return {
-    slug,
-    title:          data.title          ?? "Untitled",
-    description:    data.description    ?? "",
-    author:         data.author         ?? "Anonymous",
-    authorGithub:   data.authorGithub   ?? null,
-    date:           data.date           ? String(data.date) : "",
-    tags:           (data.tags          ?? []) as BlogTag[],
-    content,
-    readingTimeMin: calcReadingTime(content),
-  }
+  return generatedBlogPosts.find(post => post.slug === slug) ?? null
 }
 
 /** Returns all posts sorted newest-first. */
 export function getAllBlogs(): BlogPost[] {
-  return getAllBlogSlugs()
-    .map(getBlogBySlug)
-    .filter((b): b is BlogPost => b !== null)
-    .sort((a, b) => (a.date < b.date ? 1 : -1))
+  return [...generatedBlogPosts].sort((a, b) => (a.date < b.date ? 1 : -1))
 }
 
 /** Returns posts that include a given tag, newest-first. */

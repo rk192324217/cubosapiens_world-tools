@@ -1,0 +1,10 @@
+echo '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8b5cf6"/>
+      <stop offset="100%" stop-color="#ec4899"/>
+    </linearGradient>
+  </defs>
+  <polygon points="32,12 52,28 52,44 32,60 12,44 12,28" fill="url(#grad)" stroke="#fff" stroke-width="2"/>
+  <text x="32" y="40" font-family="Arial" font-size="16" fill="#fff" text-anchor="middle" font-weight="bold">CG</text>
+</svg>' > favicon_vaishnavi.svg

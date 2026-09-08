@@ -215,15 +215,48 @@ async function main()
             isLive: true,
             isFeatured: false,
             order: 15
+      },
+      {
+            name: "HTML Formatter",
+            slug: "html-formatter",
+            description: "Format beautify and validate HTML instantly",
+            category: "text",
+            icon: "html-formatter.png",
+            url: "https://htmlformat.cubosapiens.world",
+            isLive: false,
+            isFeatured: false,
+            order: 16
+      },
+      {
+            name: "Random Text Gen",
+            slug: "random-text-generator",
+            description: "Generate Lorem Ipsum, sentences, words, secure passwords, and mock data instantly.",
+            category: "generator",
+            icon: "📝",
+            url: "https://randomtext.cubosapiens.world",
+            isLive: true,
+            isFeatured: false,
+            order: 17
       }
 ]
   })
 
-  console.log("✅ 19 tools seeded")
+  console.log("✅ 21 tools seeded")
 
   await prisma.game.createMany({
     skipDuplicates: true,
     data: [
+      {
+            name: "Neon Arena Shooter",
+            slug: "arena-shooter",
+            description: "Survive endless waves of neon enemies in this retro arcade shooter.",
+            genre: "Arcade",
+            icon: "🔫",
+            url: "https://arena-shooter.cubosapiens.world",
+            isLive: true,
+            isFeatured: true,
+            order: 0
+      },
       {
             name: "Tic Tac Toe",
             slug: "xo",
@@ -233,6 +266,28 @@ async function main()
             url: "https://xo.cubosapiens.world",
             isLive: true,
             isFeatured: false,
+            order: 0
+      },
+      {
+            name: "Flappy Bird Clone",
+            slug: "flappy-bird-clone",
+            description: "Navigate through pipes in this addictive retro arcade bird game with smooth controls.",
+            genre: "Arcade",
+            icon: "🐦",
+            url: "/Applications/Games/cubosapiens-games-flappy-bird/index.html",
+            isLive: true,
+            isFeatured: true,
+            order: 3
+      },
+      {
+            name: "Cyber Runner",
+            slug: "cyber-runner",
+            description: "Endless cyberpunk runner — jump, slide, and hack your way through the grid.",
+            genre: "arcade",
+            icon: "cyber-runner.png",
+            url: "https://cyber-runner.cubosapiens.world",
+            isLive: true,
+            isFeatured: true,
             order: 0
       },
       {
@@ -355,11 +410,131 @@ async function main()
             isLive: false,
             isFeatured: false,
             order: 6
-      }
+      },
+      {
+            name: "Hacker Simulator",
+            slug: "hacker-simulator",
+            description: "Retro terminal hacker simulator with encryption puzzles, hardware upgrades, and cybersecurity missions.",
+            genre: "strategy",
+            icon: "💻",
+            url: "https://hacker-simulator.cubosapiens.world",
+            isLive: true,
+            isFeatured: true,
+            order: 7
+      },
+      {
+            name: "Trading Empire",
+            slug: "trading-empire",
+            description: "Build your financial empire — trade goods, buy properties, upgrade your ship, and dominate the cosmic market.",
+            genre: "strategy",
+            icon: "trading-empire.png",
+            url: "https://trading-empire.cubosapiens.world",
+            isLive: true,
+            isFeatured: true,},
+      {
+            name: "Connect Four",
+            slug: "connect-four",
+            description: "Drop tokens, connect 4 in a row to win",
+            genre: "strategy",
+            icon: "🔴",
+            url: "https://connect-four.cubosapiens.world",
+            isLive: true,
+            isFeatured: false,
+            order: 7
+      },
+      {
+            name: "Hacker Simulator",
+            slug: "hacker-simulator",
+            description: "An immersive browser-based terminal hacker simulator game with realistic hacking missions, upgrades, and retro aesthetics.",
+            genre: "strategy",
+            icon: "💻",
+            url: "https://hacker-simulator.cubosapiens.world",
+            isLive: true,
+            isFeatured: true,
+            order: 8
+      }, 
+      {
+            name: "Cube Hopper",
+            slug: "cube-hopper",
+            description: "Hop across dynamic 3D isometric floating cubes, dodge crumbling platforms, and collect gems!",
+            genre: "arcade",
+            icon: "🧊",
+            url: "https://cube-hopper.cubosapiens.world",
+            isLive: true,
+            isFeatured: true,
+            order: 9
+      }, 
+      {
+            name: "Coin Collector",
+            slug: "coin-collector",
+            description: "Fast-paced arcade coin rush — collect gold, chain combos, unleash magnets, and beat the clock!",
+            genre: "arcade",
+            icon: "🪙",
+            url: "https://coin-collector.cubosapiens.world",
+            isLive: true,
+            isFeatured: true,
+            order: 10
+      },
+      {
+            name: "Word Search",
+            slug: "word-search",
+            description: "Find hidden words in dynamic letter grids with multiple topics and custom word lists",
+            genre: "puzzle",
+            icon: "🔤",
+            url: "https://word-search.cubosapiens.world",
+            isLive: true,
+            isFeatured: true,
+            order: 11
+      },
+      {
+            name: "Number Match",
+            slug: "number-match",
+            description: "Classic logic number pairing puzzle — match pairs of equal numbers or numbers that add up to 10.",
+            genre: "puzzle",
+            icon: "🔢",
+            url: "https://number-match.cubosapiens.world",
+            isLive: true,
+            isFeatured: true,
+            order: 12
+       },
+       {
+            name: "Tunnel Escape",
+            slug: "tunnel-escape",
+            description: "Navigate a collapsing tunnel while dodging falling debris and closing hazards.",
+            genre: "arcade",
+            icon: "🚀",
+            url: "https://tunnel-escape.cubosapiens.world",
+            isLive: true,
+            isFeatured: true,
+            order: 13
+         },
+         {     
+            name: "Pattern Match",
+            slug: "pattern-match",
+            description: "Observe the pattern and reproduce it",
+            genre: "puzzle",
+            icon: "🎰",
+            url: "https://pattern-match.cubosapiens.world",
+            isLive: true,
+            isFeatured: true,
+            order: 13
+          },
+          {
+             name: "Brick Breaker",
+             slug: "brick-breaker",
+             description: "Break the bricks, keep the ball alive, and clear every level.",
+             genre: "arcade",
+             icon: "🧱",
+             url: "https://brick-breaker.cubosapiens.world",
+             isLive: true,
+             isFeatured: false,
+             order: 14
+},
+        
 ]
   })
 
-  console.log("✅ 12 games seeded")
+  console.log("✅ 19 games seeded")
 }
 
 main()

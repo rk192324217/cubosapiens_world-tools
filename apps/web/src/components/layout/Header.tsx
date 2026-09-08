@@ -22,9 +22,24 @@ const moreLinks = [
   { href: "/terms", label: "Terms of Use", icon: <i className="fa-solid fa-file-contract"></i> },
 ]
 
-export default function Header({ hasLiveAi }: { hasLiveAi: boolean }) {
+import type { Tool, Games } from "@/types"
+
+export default function Header({
+  hasLiveAi,
+  tools,
+  games,
+}: {
+  hasLiveAi: boolean
+  tools: Tool[]
+  games: Games[]
+}) {
   const [visitors, setVisitors] = useState<number | null>(null)
   const [search, setSearch] = useState("")
+  const [results, setResults] = useState<any[]>([])
+const [loading, setLoading] = useState(false)
+  const [suggestions, setSuggestions] = useState<
+  { name: string; slug: string; type: "tool" | "game" }[]
+>([])
   const [stars, setStars] = useState<number | null>(null)
   const [menuOpen, setMenuOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
@@ -76,6 +91,36 @@ export default function Header({ hasLiveAi }: { hasLiveAi: boolean }) {
     .then(data => setStars(data.stargazers_count))
     .catch(() => setStars(null))
 }, [])
+useEffect(() => {
+
+  if (!search.trim()) {
+    setSuggestions([])
+    return
+  }
+
+  const query = search.toLowerCase()
+
+  const toolMatches = tools
+    .filter(t => t.name.toLowerCase().includes(query))
+    .slice(0,5)
+    .map(t => ({
+      name: t.name,
+      slug: t.slug,
+      type: "tool" as const,
+    }))
+
+  const gameMatches = games
+    .filter(g => g.name.toLowerCase().includes(query))
+    .slice(0,5)
+    .map(g => ({
+      name: g.name,
+      slug: g.slug,
+      type: "game" as const,
+    }))
+
+  setSuggestions([...toolMatches,...gameMatches])
+
+}, [search, tools, games])
 
   function handleSearch(e: React.FormEvent) {
     e.preventDefault()
@@ -173,15 +218,65 @@ export default function Header({ hasLiveAi }: { hasLiveAi: boolean }) {
            </a>
 
             {/* Desktop search bar */}
-            <form onSubmit={handleSearch} className="header-search-form !hidden lg:!flex items-center">
-              <span className="header-search-icon lg:text-[15px] xl:text-[17px] leading-none">⌕</span>
-              <input
-                className="header-search !w-full max-w-[140px] xl:max-w-[220px]"
-                value={search}
-                onChange={e => setSearch(e.target.value)}
-                placeholder="Search tools & games..."
-              />
-            </form>
+            <div className="relative">
+
+  <form
+    onSubmit={handleSearch}
+    className="header-search-form !hidden lg:!flex items-center"
+  >
+    <span className="header-search-icon lg:text-[15px] xl:text-[17px] leading-none">
+      ⌕
+    </span>
+
+    <input
+      className="header-search !w-full max-w-[140px] xl:max-w-[220px]"
+      value={search}
+      onChange={e => setSearch(e.target.value)}
+      placeholder="Search tools & games..."
+    />
+  </form>
+
+  {search.length >= 2 && (
+    <div className="absolute top-full left-0 mt-2 w-full rounded-lg bg-[#111] border border-gray-700 shadow-xl z-50">
+
+      {loading && (
+        <div className="p-3 text-gray-400">
+          Searching...
+        </div>
+      )}
+
+      {suggestions.length === 0 && (
+        <div className="p-3 text-gray-500">
+          No results
+        </div>
+      )}
+
+      {!loading &&
+        suggestions.map(item => (
+          <Link
+            key={`${item.type}-${item.slug}`}
+            href={`/${item.type === "tool" ? "tools" : "games"}/${item.slug}`}
+            className="block px-4 py-3 hover:bg-gray-800 border-b border-gray-800"
+            onClick={() => {
+            setSearch("")
+            setSuggestions([])
+}}
+          >
+            <div className="font-medium">
+              {item.name}
+            </div>
+
+            <div className="text-xs text-gray-400 capitalize">
+              {item.type}
+            </div>
+          </Link>
+        ))
+      }
+
+    </div>
+  )}
+
+</div>
 
             {/* Mobile search toggle */}
             <button

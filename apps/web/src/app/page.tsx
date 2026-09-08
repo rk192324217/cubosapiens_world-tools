@@ -2,13 +2,15 @@ import { fetchTools, fetchGames } from "@/lib/api"
 import ToolGrid from "@/components/ui/ToolGrid"
 import GameGrid from "@/components/ui/GameGrid"
 import AiAccessButton from "@/components/ui/AIAccessButton"
+import LocalTimeWidget from "@/components/LocalTimeWidget"
 // import ColorBends from "@/components/colorbends"
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 // import AdUnit from "@/components/ui/AdUnit"
+import OnboardingGreeting from "@/components/ui/OnboardingGreeting"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "CUBOSAPIENS",
+  title: "CUBOSAPIENS - DEV",
   description: "Free browser-based tools, games and AI for everyone. No signup, no cost, simply works in your browser.",
   keywords: ["free online tools", "browser tools", "GPS photo stamp", "QR code generator", "image compressor", "PDF merger", "word counter", "free games", "AI tools", "cubosapiens", "AI Games", "Virtual Games"],
   authors: [{ name: "CUBOSAPIENS", url: "https://cubosapiens.world" }],
@@ -63,6 +65,7 @@ export default async function HomePage() {
 
   return (
     <div>
+      <LocalTimeWidget />
 
       {/* ── HERO GLOW — subtle top radial ── */}
       <div className="hero-glow" />
@@ -74,6 +77,8 @@ export default async function HomePage() {
           Free · No signup · Works in browser
         </div> */}
 
+        <OnboardingGreeting />
+        
         <h1 className="hero-title">
           Everything you need.<br />
           <span className="hero-title-accent">All in One place.</span>

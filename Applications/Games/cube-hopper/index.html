@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cube Hopper — Retro Arcade Edition</title>
+  <meta name="description" content="Hop across dynamic 3D floating cubes in full retro 8-bit arcade style!" />
+  <link rel="icon" type="image/png" href="assets/favicon.png" />
+  <link rel="apple-touch-icon" href="assets/logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app-wrap">
+    <header class="navbar">
+      <div class="brand">
+        <img src="assets/logo.png" alt="Cube Hopper" class="brand-logo" />
+        <div class="brand-text">
+          <span class="brand-title">CUBE HOPPER</span>
+          <span class="brand-sub">★ RETRO ARCADE EDITION ★</span>
+        </div>
+      </div>
+
+      <div class="nav-actions">
+        <button id="audioToggle" class="icon-btn" title="Toggle Sound"><i class="fa-solid fa-volume-high"></i></button>
+        <button id="themeToggle" class="icon-btn" title="Toggle Theme"><i class="fa-solid fa-moon"></i></button>
+        <button id="menuBtn" class="icon-btn menu-btn" title="Arcade Hub"><i class="fa-solid fa-gamepad"></i> MENU</button>
+      </div>
+    </header>
+
+    <div class="hud">
+      <div class="hud-chip">
+        <span class="hud-label">1UP SCORE</span>
+        <span id="scoreVal" class="hud-val highlight-cyan">00000</span>
+      </div>
+      <div class="hud-chip">
+        <span class="hud-label">HIGH SCORE</span>
+        <span id="bestVal" class="hud-val highlight-gold">00000</span>
+      </div>
+      <div class="hud-chip">
+        <span class="hud-label">GEMS</span>
+        <span id="gemsVal" class="hud-val highlight-pink">💎 00</span>
+      </div>
+      <div class="hud-chip">
+        <span class="hud-label">COMBO</span>
+        <span id="comboVal" class="hud-val highlight-green">x1</span>
+      </div>
+    </div>
+
+    <div id="srAnnounce" class="sr-only" aria-live="polite"></div>
+
+    <main class="viewport">
+      <div id="crtOverlay" class="crt-scanlines"></div>
+
+      <div class="canvas-frame">
+        <canvas id="gameCanvas" width="800" height="520"></canvas>
+      </div>
+
+      <div id="startOverlay" class="screen-overlay">
+        <div class="glass-card">
+          <img src="assets/logo.png" alt="Cube Hopper" class="hero-logo" />
+          <h2 class="card-title">CUBE HOPPER</h2>
+          <div class="insert-coin-banner"><span class="blink-text">★ INSERT COIN TO PLAY ★</span></div>
+          <p class="card-desc">Hop across floating isometric cubes. Collect gems, build combos & reach the top score!</p>
+
+          <div class="controls-guide">
+            <div class="guide-row">
+              <span class="guide-keys"><kbd>SPACE</kbd> <kbd>W</kbd> <kbd>↑</kbd></span>
+              <span class="guide-action">HOP FORWARD</span>
+            </div>
+            <div class="guide-row">
+              <span class="guide-keys"><kbd>A</kbd> <kbd>←</kbd> & <kbd>D</kbd> <kbd>→</kbd></span>
+              <span class="guide-action">HOP DIAGONAL</span>
+            </div>
+            <div class="guide-row">
+              <span class="guide-keys"><kbd>P</kbd></span>
+              <span class="guide-action">PAUSE GAME</span>
+            </div>
+          </div>
+
+          <button id="startBtn" class="primary-btn btn-lg">PRESS START <i class="fa-solid fa-play"></i></button>
+        </div>
+      </div>
+
+      <div id="gameOverOverlay" class="screen-overlay hidden">
+        <div class="glass-card gameover-card">
+          <div class="badge-danger">GAME OVER</div>
+          <p id="overReason" class="over-msg">YOU FELL INTO THE VOID!</p>
+
+          <div class="results-table">
+            <div class="res-row"><span>FINAL SCORE</span><strong id="finalScore">00000</strong></div>
+            <div class="res-row"><span>HIGH SCORE</span><strong id="finalBest">00000</strong></div>
+            <div class="res-row"><span>GEMS COLLECTED</span><strong id="finalGems">0</strong></div>
+            <div class="res-row"><span>MAX COMBO</span><strong id="finalCombo">x1</strong></div>
+          </div>
+
+          <div id="initialsContainer" class="initials-entry hidden">
+            <label for="playerInitials" class="retro-label">NEW HIGH SCORE! ENTER INITIALS:</label>
+            <div class="initials-input-wrap">
+              <input type="text" id="playerInitials" maxlength="3" value="AAA" class="retro-input" />
+              <button id="saveScoreBtn" class="retro-btn-sm">SAVE</button>
+            </div>
+          </div>
+
+          <button id="restartBtn" class="primary-btn btn-lg">TRY AGAIN <i class="fa-solid fa-rotate-right"></i></button>
+        </div>
+      </div>
+
+      <div id="pauseOverlay" class="screen-overlay hidden">
+        <div class="glass-card">
+          <h2 class="card-title">PAUSED</h2>
+          <p class="card-desc">PRESS P OR CLICK RESUME TO CONTINUE</p>
+          <button id="resumeBtn" class="primary-btn btn-lg">RESUME <i class="fa-solid fa-play"></i></button>
+        </div>
+      </div>
+    </main>
+
+    <div class="touch-bar">
+      <div class="touch-dpad">
+        <button id="mLeftBtn" class="touch-btn" aria-label="Hop Left"><i class="fa-solid fa-arrow-left"></i></button>
+        <button id="mRightBtn" class="touch-btn" aria-label="Hop Right"><i class="fa-solid fa-arrow-right"></i></button>
+      </div>
+      <button id="mJumpBtn" class="touch-btn touch-jump" aria-label="Hop Forward">HOP <i class="fa-solid fa-arrow-up"></i></button>
+    </div>
+  </div>
+
+  <div id="arcadeModal" class="popup-modal hidden" role="dialog" aria-modal="true">
+    <div class="popup-box">
+      <div class="popup-head">
+        <h3 class="modal-title"><i class="fa-solid fa-gamepad"></i> ARCADE HUB</h3>
+        <button id="closeArcadeModal" class="close-btn">&times;</button>
+      </div>
+
+      <div class="tabs-bar" role="tablist">
+        <button class="tab-btn active" data-tab="leaderboard" role="tab"><i class="fa-solid fa-trophy"></i> SCORES</button>
+        <button class="tab-btn" data-tab="stats" role="tab"><i class="fa-solid fa-chart-line"></i> STATS</button>
+        <button class="tab-btn" data-tab="skins" role="tab"><i class="fa-solid fa-palette"></i> SKINS</button>
+        <button class="tab-btn" data-tab="achievements" role="tab"><i class="fa-solid fa-medal"></i> BADGES</button>
+        <button class="tab-btn" data-tab="settings" role="tab"><i class="fa-solid fa-gear"></i> SETUP</button>
+      </div>
+
+      <div class="tab-content">
+        <div id="tab-leaderboard" class="tab-panel active" role="tabpanel">
+          <div class="panel-header">HIGH SCORES HALL OF FAME</div>
+          <div class="table-wrap">
+            <table class="retro-table">
+              <thead>
+                <tr>
+                  <th>RANK</th>
+                  <th>NAME</th>
+                  <th>SCORE</th>
+                  <th>GEMS</th>
+                </tr>
+              </thead>
+              <tbody id="leaderboardRows"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div id="tab-stats" class="tab-panel" role="tabpanel">
+          <div class="panel-header">LIFETIME ARCADE RECORDS</div>
+          <div class="stats-grid">
+            <div class="stat-card"><span class="stat-label">GAMES PLAYED</span><strong id="statGames" class="stat-val">0</strong></div>
+            <div class="stat-card"><span class="stat-label">HIGHEST SCORE</span><strong id="statBest" class="stat-val highlight-gold">00000</strong></div>
+            <div class="stat-card"><span class="stat-label">TOTAL GEMS</span><strong id="statGems" class="stat-val highlight-pink">0</strong></div>
+            <div class="stat-card"><span class="stat-label">TOTAL HOPS</span><strong id="statHops" class="stat-val highlight-cyan">0</strong></div>
+            <div class="stat-card"><span class="stat-label">HIGHEST COMBO</span><strong id="statMaxCombo" class="stat-val highlight-green">x1</strong></div>
+            <div class="stat-card"><span class="stat-label">AVG SCORE/GAME</span><strong id="statAvgScore" class="stat-val">0</strong></div>
+          </div>
+        </div>
+
+        <div id="tab-skins" class="tab-panel" role="tabpanel">
+          <div class="panel-header">CUBE AVATAR SELECTOR</div>
+          <div id="skinGrid" class="skin-selector"></div>
+        </div>
+
+        <div id="tab-achievements" class="tab-panel" role="tabpanel">
+          <div class="panel-header">ARCADE BADGES & TROPHIES</div>
+          <div id="achievementsGrid" class="achievements-grid"></div>
+        </div>
+
+        <div id="tab-settings" class="tab-panel" role="tabpanel">
+          <div class="panel-header">ARCADE CABINET OPTIONS</div>
+          <div class="settings-list">
+            <div class="setting-item">
+              <div class="setting-info">
+                <strong>CRT Scanlines Effect</strong>
+                <small>Simulate authentic CRT arcade monitor</small>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox" id="crtToggle" checked />
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+
+            <div class="setting-item">
+              <div class="setting-info">
+                <strong>Chiptune Sound FX</strong>
+                <small>Procedural 8-bit sound synthesizer</small>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox" id="settingAudioToggle" checked />
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+
+            <div class="setting-item">
+              <div class="setting-info">
+                <strong>Clear Saved Data</strong>
+                <small>Reset high scores, stats and achievements</small>
+              </div>
+              <button id="resetDataBtn" class="danger-btn">RESET ALL</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
+
+  <script src="script.js"></script>
+</body>
+</html>

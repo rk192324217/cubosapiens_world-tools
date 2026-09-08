@@ -1,5 +1,5 @@
 import type { Metadata }                    from "next"
-import { Alfa_Slab_One, Syne, DM_Sans, Geist }    from "next/font/google"
+import { Sora, Space_Grotesk, Inter,Geist  } from "next/font/google"
 import "./globals.css"
 import BackToTop from "@/components/BackToTop";
 import Header from "@/components/layout/Header"
@@ -8,29 +8,29 @@ import TrackVisit from "@/components/TrackVisit"
 import { cn } from "@/lib/utils"
 import PWAInstallPrompt from "@/components/PWAInstallPrompt"
 import CookieBanner from "@/components/CookieBanner"
-import { fetchTools } from "@/lib/api"
+import { fetchTools, fetchGames } from "@/lib/api"
 const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 
 // ── Fonts loaded via next/font/google ─────────────────────────
-// Next.js downloads these at build time
+// Next.js downloads these at build time  
 // No external requests at runtime — fast + no layout shift
 
-const alfaSlabOne = Alfa_Slab_One({
+const sora = Sora({
   subsets:  ["latin"],
   weight:   "400",
   variable: "--font-display",
   display:  "swap",
 })
 
-const syne = Syne({
+const space = Space_Grotesk({
   subsets:  ["latin"],
-  weight:   ["400", "600", "700", "800"],
+  weight:   ["300","400", "600", "700", ],
   variable: "--font-heading",
   display:  "swap",
 })
 
-const dmSans = DM_Sans({
+const inter = Inter({
   subsets:  ["latin"],
   variable: "--font-body",
   display:  "swap",
@@ -74,12 +74,18 @@ export const metadata: Metadata = {
 export const viewport = {
   themeColor: "#000000",
 }
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
 })
 {
+const aiTools = await fetchTools({ category: "ai" })
+const hasLiveAi = aiTools.length > 0
+
+const tools = await fetchTools()
+const games = await fetchGames()
+
   return (
     <html lang="en" suppressHydrationWarning className={cn("font-sans", geist.variable)}>
      <head>
@@ -87,9 +93,13 @@ export default function RootLayout({
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2633780400369885"
     crossOrigin="anonymous"></script>
 </head>
-      <body className={`${alfaSlabOne.variable} ${syne.variable} ${dmSans.variable}`}>
+      <body className={`${sora.variable} ${space.variable} ${inter.variable}`}>
         <TrackVisit />
-        <Header hasLiveAi={false} />
+        <Header
+    hasLiveAi={hasLiveAi}
+    tools={tools}
+    games={games}
+/>
         <main>{children}</main>
         <Footer />
         <PWAInstallPrompt />

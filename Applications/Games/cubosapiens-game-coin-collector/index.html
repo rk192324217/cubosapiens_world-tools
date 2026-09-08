@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <title>Coin Collector | CuboSapiens Games</title>
+  <meta name="description"
+    content="Fast-paced arcade coin collector game. Dash, collect gold coins, chain combos, unleash power-ups, and beat your high score in 60 seconds!">
+  <meta name="theme-color" content="#121026">
+
+  <link rel="canonical" href="https://cubosapiens.world/games/coin-collector">
+  <meta property="og:title" content="Coin Collector | CuboSapiens Games">
+  <meta property="og:description"
+    content="Fast-paced arcade coin collector game. Collect coins, build combos, beat the clock!">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://cubosapiens.world/games/coin-collector">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Coin Collector | CuboSapiens Games">
+  <meta name="twitter:description"
+    content="Fast-paced arcade coin collector game. Collect coins, build combos, beat the clock!">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Outfit:wght@400;600;800&family=Chakra+Petch:wght@500;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+
+
+</head>
+
+<body class="theme-dark">
+  <div id="game-container" class="game-container">
+
+    <header class="hud-bar hidden" id="hudBar">
+      <div class="hud-group left">
+        <div class="hud-card score-card primary-hud" title="Current Score">
+          <span class="hud-label"><i class="fa-solid fa-coins gold-icon"></i> SCORE</span>
+          <span class="hud-value" id="hudScore">0</span>
+        </div>
+
+        <div class="hud-card combo-card" id="comboCard" title="Combo Multiplier">
+          <span class="hud-label"><i class="fa-solid fa-bolt"></i> COMBO</span>
+          <span class="hud-value" id="hudCombo">x1</span>
+        </div>
+
+        <div id="activePowerupHUD" class="active-powerup-hud hidden" title="Active Power-up">
+          <i class="fa-solid fa-magnet" id="powerupIcon"></i>
+          <span id="powerupName">MAGNET</span>
+          <span id="powerupTimer">5.0s</span>
+        </div>
+      </div>
+
+      <div class="hud-group center">
+        <div class="hud-card timer-card primary-hud" id="timerCard" title="Time Remaining">
+          <span class="hud-label"><i class="fa-solid fa-stopwatch"></i> TIME</span>
+          <span class="hud-value" id="hudTimer">60s</span>
+        </div>
+      </div>
+
+      <div class="hud-group right">
+        <div class="hud-card best-card secondary-hud" title="High Score">
+          <span class="hud-label"><i class="fa-solid fa-trophy trophy-icon"></i> BEST</span>
+          <span class="hud-value" id="hudBest">0</span>
+        </div>
+
+        <div class="hud-controls">
+          <button id="btnSound" class="hud-btn" aria-label="Toggle Sound" title="Toggle Sound">
+            <i class="fa-solid fa-volume-high" id="soundIcon"></i>
+          </button>
+          <button id="btnTheme" class="hud-btn" aria-label="Toggle Theme" title="Toggle Theme">
+            <i class="fa-solid fa-moon" id="themeIcon"></i>
+          </button>
+          <button id="btnPause" class="hud-btn" aria-label="Pause Game" title="Pause Game (P)">
+            <i class="fa-solid fa-pause"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="canvas-wrapper">
+      <canvas id="gameCanvas" width="800" height="600" tabindex="0" aria-label="Coin Collector Playable Arena"></canvas>
+
+      <div id="countdownOverlay" class="countdown-overlay hidden">
+        <span id="countdownText" class="countdown-text">3</span>
+      </div>
+    </main>
+
+    <div id="startScreen" class="screen-overlay active">
+      <div class="title-container">
+        <div class="arcade-badge">
+          <i class="fa-solid fa-gamepad"></i> ARCADE CLASSIC
+        </div>
+        <h1 class="arcade-title">COIN<br><span class="highlight-gold">COLLECTOR</span></h1>
+        <p class="arcade-subtitle">Collect gold. Dash fast. Beat the clock!</p>
+
+        <div class="preview-stage" id="previewStage">
+          <div class="preview-item preview-coin-wrap" id="previewCoin" title="Gold Coin (+10)">
+            <div class="preview-coin-pixel">
+              <span class="coin-emblem">★</span>
+            </div>
+          </div>
+          <div class="preview-item preview-hero" id="previewHero" title="Explorer Hero"></div>
+          <div class="preview-item preview-gem" id="previewGem" title="Cyan Gem (+25)">◆</div>
+          <div id="previewPopup" class="preview-popup hidden">+100</div>
+        </div>
+
+        <div class="controls-simple">
+          <div class="keys-line">
+            <span class="key-box">W A S D</span> / <span class="key-box">ARROWS</span> <span
+              class="key-label">MOVE</span>
+            <span class="key-sep">•</span>
+            <span class="key-box">P</span> <span class="key-label">PAUSE</span>
+          </div>
+          <div class="tips-line">
+            <span><i class="fa-solid fa-star gold-icon"></i> Chain coins for <strong>x2 - x5 Combos</strong></span>
+            <span class="tip-sep">•</span>
+            <span><i class="fa-solid fa-gem cyan-icon"></i> Grab <strong>Gems &amp; Magnets</strong></span>
+          </div>
+        </div>
+
+        <div class="high-score-line">
+          <i class="fa-solid fa-trophy trophy-icon"></i> CURRENT BEST: <strong id="startBestScore">0</strong>
+        </div>
+
+        <button id="btnStart" class="btn-arcade btn-primary">
+          <i class="fa-solid fa-play"></i> START COIN RUSH
+        </button>
+      </div>
+    </div>
+
+    <div id="pauseScreen" class="screen-overlay">
+      <div class="arcade-card pause-card">
+        <h2 class="arcade-title-sm"><i class="fa-solid fa-pause"></i> GAME PAUSED</h2>
+        <div class="pause-actions">
+          <button id="btnResume" class="btn-arcade btn-primary">
+            <i class="fa-solid fa-play"></i> RESUME
+          </button>
+          <button id="btnRestartPause" class="btn-arcade btn-secondary">
+            <i class="fa-solid fa-rotate-left"></i> RESTART
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div id="gameOverScreen" class="screen-overlay">
+      <div class="arcade-card results-card">
+        <div class="results-header">
+          <div id="newHighBadge" class="new-high-badge hidden">
+            <i class="fa-solid fa-crown"></i> NEW HIGH SCORE!
+          </div>
+          <h2 class="arcade-title-sm">TIME'S UP!</h2>
+          <p class="results-subtitle">Great run, Explorer!</p>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-box primary-stat">
+            <span class="stat-label">FINAL SCORE</span>
+            <span class="stat-value highlight-gold" id="finalScore">0</span>
+          </div>
+
+          <div class="stat-box">
+            <span class="stat-label">BEST SCORE</span>
+            <span class="stat-value" id="finalBest">0</span>
+          </div>
+
+          <div class="stat-box">
+            <span class="stat-label">COINS COLLECTED</span>
+            <span class="stat-value" id="finalCoins">0</span>
+          </div>
+
+          <div class="stat-box">
+            <span class="stat-label">MAX COMBO</span>
+            <span class="stat-value" id="finalCombo">x1</span>
+          </div>
+        </div>
+
+        <div class="results-actions">
+          <button id="btnPlayAgain" class="btn-arcade btn-primary">
+            <i class="fa-solid fa-rotate-left"></i> PLAY AGAIN
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div id="mobileController" class="mobile-controller">
+      <div class="dpad">
+        <button id="dpadUp" class="dpad-btn dpad-up" aria-label="Move Up"><i
+            class="fa-solid fa-chevron-up"></i></button>
+        <button id="dpadLeft" class="dpad-btn dpad-left" aria-label="Move Left"><i
+            class="fa-solid fa-chevron-left"></i></button>
+        <div class="dpad-center"></div>
+        <button id="dpadRight" class="dpad-btn dpad-right" aria-label="Move Right"><i
+            class="fa-solid fa-chevron-right"></i></button>
+        <button id="dpadDown" class="dpad-btn dpad-down" aria-label="Move Down"><i
+            class="fa-solid fa-chevron-down"></i></button>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>

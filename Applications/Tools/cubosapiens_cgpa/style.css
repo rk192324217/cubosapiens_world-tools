@@ -540,3 +540,31 @@ main {
   .toast { font-size: 0.7rem; padding: 8px 12px; white-space: normal; text-align: center; max-width: 90vw; }
   .ad-slot { display: none; }
 }
+
+/* ── 20. Input Validation & Reset Button Styles ── */
+
+/* Highlight invalid inputs with a red border and subtle red background */
+.field-input.invalid,
+.target-field input.invalid {
+  border-color: var(--red) !important;
+  background-color: rgba(227, 73, 73, 0.06) !important;
+  box-shadow: 0 0 0 3px var(--red-glow) !important;
+}
+
+/* Inline error messages below input fields */
+.error-message {
+  color: var(--red);
+  font-size: 0.72rem;
+  font-weight: 500;
+  margin-top: 4px;
+  display: block;
+  min-height: 16px;
+  transition: opacity 0.2s ease;
+}
+
+/* Ensure smooth layout for target buttons */
+.target-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+}
