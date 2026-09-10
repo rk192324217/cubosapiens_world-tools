@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Tic Tac Toe – Free Online Game vs AI | CuboSapiens</title>
+<meta name="description" content="Play Tic Tac Toe free online at CuboSapiens. Challenge the unbeatable Minimax AI or play with a friend locally. Score tracking, retro arcade style. No download needed."/>
+<meta name="keywords" content="tic tac toe, noughts and crosses, free online game, vs ai game, two player, cubosapiens"/>
+<meta name="author" content="CuboSapiens"/>
+<meta name="robots" content="index, follow"/>
+<link rel="canonical" href="https://cubosapiens.world/games/tic-tac-toe"/>
+<meta property="og:type" content="website"/>
+<meta property="og:url" content="https://cubosapiens.world/games/tic-tac-toe"/>
+<meta property="og:title" content="Tic Tac Toe – Free Online Game | CuboSapiens"/>
+<meta property="og:description" content="Classic Tic Tac Toe vs unbeatable AI or a friend. Retro arcade style, free forever."/>
+<meta property="og:image" content="https://cubosapiens.world/games/tic-tac-toe/og-image.png"/>
+<meta property="og:site_name" content="CuboSapiens"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="Tic Tac Toe – Free Online | CuboSapiens"/>
+<meta name="twitter:description" content="Play Tic Tac Toe vs AI or a friend. Retro arcade, free forever."/>
+<meta name="twitter:image" content="https://cubosapiens.world/games/tic-tac-toe/og-image.png"/>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Game","name":"Tic Tac Toe","description":"Classic 3x3 Tic Tac Toe with Minimax AI and 2-player mode.","url":"https://cubosapiens.world/games/tic-tac-toe","publisher":{"@type":"Organization","name":"CuboSapiens","url":"https://cubosapiens.world"},"genre":"Strategy","playMode":["SinglePlayer","MultiPlayer"]}</script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --bg0:#08080f;--bg1:#0f0f1a;--bg2:#141428;--bg3:#1a1a38;
+  --ny:#ffe600;--np:#ff2d78;--nc:#00f5ff;--ng:#39ff14;--nv:#bf00ff;--no:#ff6a00;
+  --xc:#ff6a00;--xg:rgba(255,106,0,0.55);
+  --oc:#00f5ff;--og:rgba(0,245,255,0.55);
+  --text:#f0f0ff;--muted:#555588;--dim:#2a2a50;--b1:#2a2a50;--b2:#44449a;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px}
+body{
+  background:var(--bg0);color:var(--text);
+  font-family:'VT323',monospace;font-size:1.1rem;
+  min-height:100vh;display:flex;flex-direction:column;align-items:center;
+  padding:0 0 60px;
+  background-image:radial-gradient(circle,rgba(255,255,255,0.025) 1px,transparent 1px);
+  background-size:24px 24px;background-attachment:fixed;
+}
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(ellipse at 50% 0%,rgba(255,106,0,0.07) 0%,transparent 50%),
+    radial-gradient(ellipse at 0% 100%,rgba(0,245,255,0.05) 0%,transparent 50%),
+    radial-gradient(ellipse at 100% 50%,rgba(191,0,255,0.04) 0%,transparent 50%);
+}
+body::after{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:2;
+  background:repeating-linear-gradient(0deg,rgba(0,0,0,0.15) 0px,rgba(0,0,0,0.15) 1px,transparent 1px,transparent 4px);
+}
+body>*{position:relative;z-index:1}
+
+.wrapper{width:100%;max-width:540px;display:flex;flex-direction:column;align-items:stretch;gap:10px;padding:14px 12px}
+
+/* HEADER */
+.site-header{display:flex;align-items:center;justify-content:space-between;padding-bottom:12px;border-bottom:2px solid var(--b1)}
+.logo-slot{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0}
+.logo-box{width:42px;height:42px;background:linear-gradient(135deg,var(--ny),var(--no));display:flex;align-items:center;justify-content:center;font-family:'Press Start 2P',monospace;font-size:0.45rem;color:#000;border:3px solid #000;box-shadow:3px 3px 0 #000,0 0 14px rgba(255,230,0,0.45);flex-shrink:0}
+.site-name{font-family:'Press Start 2P',monospace;font-size:0.38rem;line-height:1.8;background:linear-gradient(90deg,var(--ny),var(--nc));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.breadcrumb{font-size:0.9rem;color:var(--muted);letter-spacing:1px;text-align:right}
+.breadcrumb a{color:var(--muted);text-decoration:none}
+.breadcrumb a:hover{color:var(--ny)}
+
+/* TITLE */
+.title-block{text-align:center;padding:16px 12px 12px;background:var(--bg2);border:2px solid var(--b1);border-top:4px solid var(--no);box-shadow:0 4px 0 #000,0 0 30px rgba(255,106,0,0.08);position:relative;overflow:hidden}
+.title-block::before,.title-block::after{content:'';position:absolute;width:12px;height:12px;background:var(--no);top:0}
+.title-block::before{left:0}.title-block::after{right:0}
+h1.game-title{font-family:'Press Start 2P',monospace;font-size:clamp(0.72rem,3.5vw,1.3rem);letter-spacing:3px;margin-bottom:6px;line-height:1.5}
+.t1{color:var(--no);text-shadow:0 0 14px rgba(255,106,0,0.8),3px 3px 0 #000}
+.t2{color:var(--np);text-shadow:0 0 14px rgba(255,45,120,0.8),3px 3px 0 #000}
+.t3{color:var(--nc);text-shadow:0 0 14px rgba(0,245,255,0.8),3px 3px 0 #000}
+.game-sub{font-size:1rem;color:var(--muted);letter-spacing:3px}
+
+/* MODE */
+.mode-row{display:flex;gap:6px}
+.mode-btn{flex:1;padding:10px 4px;background:var(--bg2);border:2px solid var(--b1);box-shadow:2px 2px 0 #000;color:var(--muted);font-family:'Press Start 2P',monospace;font-size:0.32rem;cursor:pointer;letter-spacing:1px;display:flex;align-items:center;justify-content:center;gap:6px;transition:all 0.12s}
+.mode-btn i{font-size:0.85rem}
+.mode-btn[data-mode="ai"]:hover,.mode-btn[data-mode="ai"].active{border-color:var(--no);color:var(--no)}
+.mode-btn[data-mode="ai"].active{background:rgba(255,106,0,0.12);box-shadow:2px 2px 0 #000,0 0 12px rgba(255,106,0,0.3)}
+.mode-btn[data-mode="friend"]:hover,.mode-btn[data-mode="friend"].active{border-color:var(--nc);color:var(--nc)}
+.mode-btn[data-mode="friend"].active{background:rgba(0,245,255,0.09);box-shadow:2px 2px 0 #000,0 0 12px rgba(0,245,255,0.25)}
+
+/* DIFFICULTY */
+.diff-row{display:flex;gap:6px;transition:opacity 0.2s}
+.diff-row.hidden{opacity:0;pointer-events:none}
+.diff-btn{flex:1;padding:8px 2px;background:var(--bg2);border:2px solid var(--b1);box-shadow:2px 2px 0 #000;color:var(--muted);font-family:'Press Start 2P',monospace;font-size:0.3rem;cursor:pointer;letter-spacing:1px;transition:all 0.12s}
+.diff-btn[data-ai="easy"]:hover,.diff-btn[data-ai="easy"].active{border-color:var(--ng);color:var(--ng)}
+.diff-btn[data-ai="easy"].active{background:var(--ng);color:#000;box-shadow:0 0 10px rgba(57,255,20,0.5),2px 2px 0 #000}
+.diff-btn[data-ai="hard"]:hover,.diff-btn[data-ai="hard"].active{border-color:var(--np);color:var(--np)}
+.diff-btn[data-ai="hard"].active{background:var(--np);color:#000;box-shadow:0 0 10px rgba(255,45,120,0.5),2px 2px 0 #000}
+
+/* SCOREBOARD */
+.scoreboard{display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:stretch}
+.player-card{background:var(--bg2);border:2px solid var(--b1);box-shadow:2px 2px 0 #000;padding:14px 8px;text-align:center;position:relative;overflow:hidden;transition:border-color 0.2s,box-shadow 0.2s}
+.player-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px}
+#card-x::after{background:var(--xc)}
+#card-o::after{background:var(--oc)}
+.player-card.turn-x{border-color:var(--xc);box-shadow:2px 2px 0 #000,0 0 18px var(--xg),inset 0 0 20px rgba(255,106,0,0.05)}
+.player-card.turn-o{border-color:var(--oc);box-shadow:2px 2px 0 #000,0 0 18px var(--og),inset 0 0 20px rgba(0,245,255,0.05)}
+.player-card.turn-x::before,.player-card.turn-o::before{content:'▶';position:absolute;top:6px;right:8px;font-size:0.65rem;animation:blink 0.9s step-end infinite}
+.player-card.turn-x::before{color:var(--xc)}
+.player-card.turn-o::before{color:var(--oc)}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+
+/* X symbol in scoreboard — two CSS bars */
+.sym-wrap{width:56px;height:56px;margin:0 auto 10px;display:flex;align-items:center;justify-content:center;position:relative}
+.sym-x{width:72%;height:72%;position:relative;display:flex;align-items:center;justify-content:center}
+.sym-x::before,.sym-x::after{content:'';position:absolute;width:100%;height:10px;background:var(--xc);border-radius:4px;box-shadow:0 0 12px var(--xg),0 0 24px var(--xg);top:50%;left:50%}
+.sym-x::before{transform:translate(-50%,-50%) rotate(45deg)}
+.sym-x::after{transform:translate(-50%,-50%) rotate(-45deg)}
+/* O symbol */
+.sym-o{width:72%;height:72%;border:10px solid var(--oc);border-radius:50%;box-shadow:0 0 12px var(--og),0 0 24px var(--og)}
+.p-label{font-family:'Press Start 2P',monospace;font-size:0.3rem;color:var(--muted);letter-spacing:1px;margin-bottom:8px}
+.p-score{font-family:'Press Start 2P',monospace;font-size:1.1rem}
+#score-x{color:var(--xc);text-shadow:0 0 8px var(--xg)}
+#score-o{color:var(--oc);text-shadow:0 0 8px var(--og)}
+.vs-col{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px}
+.vs-text{font-family:'Press Start 2P',monospace;font-size:0.55rem;color:var(--muted)}
+.draw-num{font-family:'Press Start 2P',monospace;font-size:0.75rem;color:var(--muted)}
+.draw-lbl{font-size:0.8rem;color:var(--dim)}
+
+/* STATUS */
+.status-bar{text-align:center;padding:10px;background:var(--bg2);border:2px solid var(--b1);box-shadow:2px 2px 0 #000;min-height:46px;display:flex;align-items:center;justify-content:center}
+#status-text{font-family:'Press Start 2P',monospace;font-size:clamp(0.38rem,2vw,0.6rem);letter-spacing:2px;transition:color 0.2s,text-shadow 0.2s}
+
+/* BOARD */
+.board-wrap{background:var(--bg1);border:3px solid var(--b2);box-shadow:5px 5px 0 #000,0 0 24px rgba(68,68,160,0.35);padding:14px;position:relative}
+#board{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;aspect-ratio:1;width:100%}
+.cell{background:var(--bg2);border:2px solid var(--b1);border-radius:4px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background 0.12s,border-color 0.12s,transform 0.1s,box-shadow 0.12s;aspect-ratio:1;position:relative;overflow:hidden}
+.cell:hover:not(.taken){background:rgba(255,230,0,0.06);border-color:rgba(255,230,0,0.4);transform:scale(1.04);box-shadow:0 0 14px rgba(255,230,0,0.15)}
+.cell.taken{cursor:default}
+
+/* X mark inside cell — DOM div with two CSS bars */
+.mark{position:absolute;inset:18%;display:flex;align-items:center;justify-content:center}
+.mark.x::before,.mark.x::after{content:'';position:absolute;width:100%;height:clamp(5px,1.8vw,10px);background:var(--xc);border-radius:3px;box-shadow:0 0 10px var(--xg),0 0 20px var(--xg);top:50%;left:50%}
+.mark.x::before{transform:translate(-50%,-50%) rotate(45deg)}
+.mark.x::after{transform:translate(-50%,-50%) rotate(-45deg)}
+/* O mark */
+.mark.o{border-radius:50%;border:clamp(5px,1.6vw,9px) solid var(--oc);box-shadow:0 0 10px var(--og),0 0 20px var(--og)}
+
+/* Draw animations */
+@keyframes xIn1{from{transform:translate(-50%,-50%) rotate(45deg) scaleX(0)}to{transform:translate(-50%,-50%) rotate(45deg) scaleX(1)}}
+@keyframes xIn2{from{transform:translate(-50%,-50%) rotate(-45deg) scaleX(0)}to{transform:translate(-50%,-50%) rotate(-45deg) scaleX(1)}}
+@keyframes oIn{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+.mark.x.placed::before{animation:xIn1 0.18s ease forwards}
+.mark.x.placed::after{animation:xIn2 0.18s ease 0.06s forwards}
+.mark.o.placed{animation:oIn 0.22s ease forwards}
+
+/* Win flash */
+.cell.win{background:rgba(255,230,0,0.12)!important;border-color:var(--ny)!important;animation:winPulse 0.6s ease infinite alternate}
+@keyframes winPulse{from{box-shadow:inset 0 0 10px rgba(255,230,0,0.15),0 0 10px rgba(255,230,0,0.15)}to{box-shadow:inset 0 0 24px rgba(255,230,0,0.35),0 0 24px rgba(255,230,0,0.3)}}
+
+/* ACTIONS */
+.action-row{display:flex;gap:6px}
+.act-btn{flex:1;padding:10px 4px;background:var(--bg2);border:2px solid var(--b1);box-shadow:2px 2px 0 #000;color:var(--muted);font-family:'Press Start 2P',monospace;font-size:0.3rem;cursor:pointer;letter-spacing:1px;display:flex;align-items:center;justify-content:center;gap:5px;transition:all 0.12s}
+.act-btn i{font-size:0.9rem}
+#btn-reset:hover{border-color:var(--nc);color:var(--nc);transform:translateY(-2px);box-shadow:2px 4px 0 #000,0 0 10px rgba(0,245,255,0.2)}
+#btn-new:hover{border-color:var(--ny);color:var(--ny);transform:translateY(-2px);box-shadow:2px 4px 0 #000,0 0 10px rgba(255,230,0,0.2)}
+
+/* HOW TO PLAY */
+.htp-wrap{background:var(--bg2);border:2px solid var(--b1);box-shadow:3px 3px 0 #000;overflow:hidden}
+.htp-header{display:flex;align-items:center;gap:8px;padding:11px 14px;cursor:pointer;user-select:none;background:var(--bg3);border-bottom:2px solid var(--b1)}
+.htp-header:hover .htp-label{color:var(--no)}
+.htp-label{font-family:'Press Start 2P',monospace;font-size:0.38rem;color:var(--no);letter-spacing:2px;flex:1;transition:color 0.15s}
+.htp-icon{color:var(--no);font-size:1rem}
+.htp-chev{color:var(--muted);transition:transform 0.2s}
+.htp-chev.open{transform:rotate(180deg)}
+.htp-body{display:none;padding:14px 16px;font-size:1.05rem;line-height:2.1}
+.htp-body.open{display:block}
+.htp-body ul{list-style:none}
+.htp-body li::before{content:'► ';color:var(--no)}
+.htp-body strong{color:var(--ny)}
+.key{display:inline-block;background:var(--bg3);border:1px solid var(--b2);padding:0 5px;color:var(--nc);box-shadow:1px 1px 0 #000;font-size:0.95rem}
+
+/* OVERLAY */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:200;align-items:center;justify-content:center;padding:16px}
+.overlay.show{display:flex}
+.result-card{background:var(--bg2);border:4px solid var(--ny);box-shadow:7px 7px 0 #000,0 0 50px rgba(255,230,0,0.2),0 0 0 1px var(--no);padding:28px 24px;text-align:center;max-width:360px;width:100%;position:relative;overflow:hidden}
+@keyframes cardPop{from{transform:scale(0.7);opacity:0}to{transform:scale(1);opacity:1}}
+.result-card{animation:cardPop 0.3s cubic-bezier(0.175,0.885,0.32,1.275)}
+.result-card::before{content:'';position:absolute;top:0;left:0;width:16px;height:16px;background:var(--ny)}
+.result-card::after{content:'';position:absolute;bottom:0;right:0;width:16px;height:16px;background:var(--np)}
+.res-emoji{font-size:3rem;display:block;margin-bottom:10px;line-height:1}
+.res-title{font-family:'Press Start 2P',monospace;font-size:clamp(0.65rem,3vw,1rem);margin-bottom:5px}
+.res-sub{color:var(--muted);font-size:1.05rem;margin-bottom:22px}
+.res-btns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.res-btn{padding:11px 18px;font-family:'Press Start 2P',monospace;font-size:0.35rem;cursor:pointer;letter-spacing:1px;border:3px solid #000;box-shadow:3px 3px 0 #000;transition:all 0.1s}
+.res-btn:hover{transform:translate(-2px,-2px);box-shadow:5px 5px 0 #000}
+.res-btn.primary{background:linear-gradient(135deg,var(--ny),var(--no));color:#000}
+.res-btn.secondary{background:var(--bg3);color:var(--muted);border-color:var(--b2);box-shadow:3px 3px 0 #000}
+
+/* TOAST */
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--bg2);border:2px solid var(--b2);box-shadow:3px 3px 0 #000;padding:9px 20px;font-family:'Press Start 2P',monospace;font-size:0.35rem;color:var(--text);letter-spacing:1px;transition:transform 0.28s ease;z-index:300;white-space:nowrap}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.toast.success{border-color:var(--ng);color:var(--ng);box-shadow:3px 3px 0 #000,0 0 12px rgba(57,255,20,0.4)}
+.toast.error{border-color:var(--np);color:var(--np);box-shadow:3px 3px 0 #000,0 0 12px rgba(255,45,120,0.4)}
+.toast.info{border-color:var(--nc);color:var(--nc);box-shadow:3px 3px 0 #000,0 0 12px rgba(0,245,255,0.4)}
+
+footer{text-align:center;font-size:0.9rem;color:var(--dim);letter-spacing:1px}
+footer a{color:var(--muted);text-decoration:none}
+footer a:hover{color:var(--ny)}
+
+@media(max-width:440px){
+  .sym-wrap{width:44px;height:44px}
+  .sym-x::before,.sym-x::after{height:8px}
+  .sym-o{border-width:7px}
+  .p-score{font-size:0.85rem}
+  .p-label{font-size:0.25rem}
+  #board{gap:7px}
+}
+@media(max-width:360px){
+  h1.game-title{font-size:0.65rem}
+  .mode-btn,.diff-btn,.act-btn{font-size:0.26rem}
+}
+</style>
+</head>
+<body>
+<div class="wrapper">
+<header class="site-header">
+  <a href="https://cubosapiens.world" class="logo-slot" aria-label="CuboSapiens Home">
+    <img src="/assets/logo.png" alt="CuboSapiens" style="height:32px; border-radius:100%; border:rgb(179, 255, 72) 1px solid;">
+    <div class="site-name">CUBO<br>SAPIENS</div>
+  </a>
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="https://cubosapiens.world">HOME</a> &rsaquo;
+    <a href="https://cubosapiens.world/games">GAMES</a> &rsaquo; TTT
+  </nav>
+</header>
+
+<div class="title-block">
+  <h1 class="game-title"><span class="t1">TIC</span> <span class="t2">TAC</span> <span class="t3">TOE</span></h1>
+  <p class="game-sub">THREE IN A ROW WINS</p>
+</div>
+
+<div class="mode-row" role="group" aria-label="Game mode">
+  <button class="mode-btn active" data-mode="ai" aria-pressed="true"><i class="fa-solid fa-robot"></i> VS AI</button>
+  <button class="mode-btn" data-mode="friend" aria-pressed="false"><i class="fa-solid fa-user-group"></i> VS FRIEND</button>
+</div>
+
+<div class="diff-row" id="diff-row" role="group" aria-label="AI Difficulty">
+  <button class="diff-btn" data-ai="easy">EASY AI</button>
+  <button class="diff-btn active" data-ai="hard">HARD AI (MINIMAX)</button>
+</div>
+
+<div class="scoreboard" role="region" aria-label="Scoreboard">
+  <div class="player-card turn-x" id="card-x">
+    <div class="sym-wrap" aria-hidden="true"><div class="sym-x"></div></div>
+    <div class="p-label" id="name-x">PLAYER</div>
+    <div class="p-score" id="score-x">0</div>
+  </div>
+  <div class="vs-col">
+    <span class="vs-text">VS</span>
+    <span class="draw-num" id="draws">0</span>
+    <span class="draw-lbl">DRAWS</span>
+  </div>
+  <div class="player-card" id="card-o">
+    <div class="sym-wrap" aria-hidden="true"><div class="sym-o"></div></div>
+    <div class="p-label" id="name-o">AI</div>
+    <div class="p-score" id="score-o">0</div>
+  </div>
+</div>
+
+<div class="status-bar" role="status" aria-live="polite">
+  <span id="status-text">PLAYER'S TURN</span>
+</div>
+
+<div class="board-wrap">
+  <div id="board" role="grid" aria-label="Tic Tac Toe board"></div>
+</div>
+
+<div class="action-row">
+  <button class="act-btn" id="btn-reset"><i class="fa-solid fa-rotate-left"></i> RESET ROUND</button>
+  <button class="act-btn" id="btn-new"><i class="fa-solid fa-shuffle"></i> NEW SERIES</button>
+</div>
+
+<section class="htp-wrap" aria-label="How to play Tic Tac Toe">
+  <div class="htp-header" id="htp-toggle" role="button" tabindex="0" aria-expanded="false">
+    <i class="fa-solid fa-gamepad htp-icon"></i>
+    <span class="htp-label">HOW TO PLAY</span>
+    <i class="fa-solid fa-chevron-down htp-chev" id="htp-chev"></i>
+  </div>
+  <div class="htp-body" id="htp-body">
+    <ul>
+      <li>Take turns placing your mark <strong>(X or O)</strong> on the 3x3 grid.</li>
+      <li>First to get <strong>3 in a row</strong> — horizontally, vertically or diagonally — wins!</li>
+      <li>Click any empty square to make your move.</li>
+      <li>Keyboard: <span class="key">7</span><span class="key">8</span><span class="key">9</span> / <span class="key">4</span><span class="key">5</span><span class="key">6</span> / <span class="key">1</span><span class="key">2</span><span class="key">3</span> matches the numpad grid layout.</li>
+      <li>Press <span class="key">R</span> to reset the current round quickly.</li>
+      <li><strong>Hard AI</strong> uses Minimax — plays perfectly. Best case is a draw!</li>
+      <li><strong>Easy AI</strong> plays randomly — beat it every time!</li>
+      <li>Switch to <strong>VS FRIEND</strong> for local two-player on the same device.</li>
+      <li>Scores carry across rounds. Hit <strong>NEW SERIES</strong> to reset everything.</li>
+    </ul>
+  </div>
+</section>
+
+<footer><p>&copy; 2025 <a href="https://cubosapiens.world">CuboSapiens</a> &middot; <a href="https://cubosapiens.world/games">All Games</a></p></footer>
+</div>
+
+<div class="overlay" id="overlay" role="dialog" aria-modal="true">
+  <div class="result-card">
+    <span class="res-emoji" id="res-emoji">&#127942;</span>
+    <div class="res-title" id="res-title">X WINS!</div>
+    <div class="res-sub" id="res-sub">Incredible!</div>
+    <div class="res-btns">
+      <button class="res-btn primary" id="res-next">&#9654; NEXT ROUND</button>
+      <button class="res-btn secondary" id="res-reset">RESET SCORES</button>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast" role="alert" aria-live="assertive"></div>
+
+<script>
+'use strict';
+let cells=Array(9).fill(null),current='X',scores={X:0,O:0,D:0};
+let gameActive=true,vsMode='ai',aiDiff='hard',aiPending=false;
+const WINS=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+
+function renderBoard(winLine){
+  const el=document.getElementById('board');el.innerHTML='';
+  for(let i=0;i<9;i++){
+    const cell=document.createElement('div');
+    cell.className='cell';
+    cell.setAttribute('role','gridcell');
+    cell.setAttribute('aria-label','Cell '+(i+1)+(cells[i]?', '+cells[i]:', empty'));
+    if(cells[i]){
+      cell.classList.add('taken');
+      const mark=document.createElement('div');
+      mark.className='mark '+(cells[i]==='X'?'x':'o')+' placed';
+      cell.appendChild(mark);
+    }
+    if(winLine&&winLine.includes(i))cell.classList.add('win');
+    cell.addEventListener('click',()=>handleClick(i));
+    el.appendChild(cell);
+  }
+  const cx=document.getElementById('card-x'),co=document.getElementById('card-o');
+  cx.className='player-card'+(current==='X'&&gameActive?' turn-x':'');
+  co.className='player-card'+(current==='O'&&gameActive?' turn-o':'');
+}
+
+function handleClick(i){
+  if(!gameActive||cells[i]||aiPending)return;
+  if(vsMode==='ai'&&current==='O')return;
+  makeMove(i);
+}
+
+function makeMove(i){
+  cells[i]=current;
+  const line=getWinLine();
+  if(line){renderBoard(line);endRound(current);return}
+  if(cells.every(Boolean)){renderBoard();endRound(null);return}
+  current=current==='X'?'O':'X';
+  renderBoard();updateStatus();
+  if(vsMode==='ai'&&current==='O'&&gameActive){aiPending=true;setTimeout(runAI,500)}
+}
+
+function updateStatus(){
+  const el=document.getElementById('status-text');
+  if(!gameActive)return;
+  const nx=document.getElementById('name-x').textContent;
+  const no=document.getElementById('name-o').textContent;
+  if(current==='X'){el.textContent=nx+"'S TURN";el.style.color='var(--xc)';el.style.textShadow='0 0 10px var(--xg)'}
+  else{el.textContent=vsMode==='ai'?'AI IS THINKING...':no+"'S TURN";el.style.color='var(--oc)';el.style.textShadow='0 0 10px var(--og)'}
+}
+
+function getWinLine(){
+  for(const[a,b,c]of WINS)if(cells[a]&&cells[a]===cells[b]&&cells[b]===cells[c])return[a,b,c];
+  return null;
+}
+function winnerOf(b){
+  for(const[a,x,c]of WINS)if(b[a]&&b[a]===b[x]&&b[x]===b[c])return b[a];
+  return null;
+}
+
+function endRound(winner){
+  gameActive=false;aiPending=false;
+  const el=document.getElementById('status-text');
+  const nx=document.getElementById('name-x').textContent;
+  const no=document.getElementById('name-o').textContent;
+  if(winner){
+    scores[winner]++;
+    document.getElementById('score-'+winner.toLowerCase()).textContent=scores[winner];
+    const isAI=vsMode==='ai'&&winner==='O';
+    el.textContent=winner+' WINS!';
+    el.style.color=winner==='X'?'var(--xc)':'var(--oc)';
+    el.style.textShadow=winner==='X'?'0 0 10px var(--xg)':'0 0 10px var(--og)';
+    setTimeout(()=>showResult(isAI?'🤖':'🏆',winner+' WINS!',isAI?'The AI nailed it. Try Easy mode!':(winner==='X'?nx:no)+' takes the round!',winner==='X'?'var(--xc)':'var(--oc)'),450);
+  }else{
+    scores.D++;document.getElementById('draws').textContent=scores.D;
+    el.textContent="IT'S A DRAW!";el.style.color='var(--muted)';el.style.textShadow='none';
+    setTimeout(()=>showResult('🤝',"IT'S A DRAW!",'Neither player wins this round.','#aaaaff'),450);
+  }
+}
+
+function showResult(emoji,title,sub,color){
+  document.getElementById('res-emoji').textContent=emoji;
+  const t=document.getElementById('res-title');t.textContent=title;t.style.color=color;
+  document.getElementById('res-sub').textContent=sub;
+  document.getElementById('overlay').classList.add('show');
+}
+
+function runAI(){
+  aiPending=false;if(!gameActive)return;
+  const i=aiDiff==='easy'?randomMove():bestMove();
+  if(i!==null)makeMove(i);
+}
+function randomMove(){
+  const e=cells.map((v,i)=>v===null?i:-1).filter(i=>i>=0);
+  return e.length?e[Math.floor(Math.random()*e.length)]:null;
+}
+function bestMove(){
+  let best=-Infinity,move=null;
+  for(let i=0;i<9;i++){if(cells[i]===null){cells[i]='O';const s=minimax(cells,0,false);cells[i]=null;if(s>best){best=s;move=i}}}
+  return move;
+}
+function minimax(board,depth,max){
+  const w=winnerOf(board);
+  if(w==='O')return 10-depth;if(w==='X')return depth-10;if(board.every(Boolean))return 0;
+  if(max){let b=-Infinity;for(let i=0;i<9;i++){if(!board[i]){board[i]='O';b=Math.max(b,minimax(board,depth+1,false));board[i]=null}}return b}
+  else{let b=Infinity;for(let i=0;i<9;i++){if(!board[i]){board[i]='X';b=Math.min(b,minimax(board,depth+1,true));board[i]=null}}return b}
+}
+
+function resetRound(keep){
+  document.getElementById('overlay').classList.remove('show');
+  cells=Array(9).fill(null);current='X';gameActive=true;aiPending=false;
+  if(!keep){
+    scores={X:0,O:0,D:0};
+    document.getElementById('score-x').textContent='0';
+    document.getElementById('score-o').textContent='0';
+    document.getElementById('draws').textContent='0';
+  }
+  updateStatus();renderBoard();
+}
+
+function switchMode(mode){
+  vsMode=mode;
+  document.getElementById('diff-row').classList.toggle('hidden',mode!=='ai');
+  document.querySelectorAll('.mode-btn').forEach(b=>{const on=b.dataset.mode===mode;b.classList.toggle('active',on);b.setAttribute('aria-pressed',on)});
+  document.getElementById('name-o').textContent=mode==='ai'?'AI':'PLAYER 2';
+  resetRound(false);
+}
+
+let toastTmr=null;
+function showToast(msg,type){
+  const t=document.getElementById('toast');t.textContent=msg;t.className='toast '+(type||'info')+' show';
+  clearTimeout(toastTmr);toastTmr=setTimeout(()=>t.classList.remove('show'),2400);
+}
+
+document.getElementById('htp-toggle').addEventListener('click',()=>{
+  const body=document.getElementById('htp-body'),chev=document.getElementById('htp-chev');
+  const open=body.classList.toggle('open');chev.classList.toggle('open',open);
+  document.getElementById('htp-toggle').setAttribute('aria-expanded',open);
+});
+
+const KEYMAP={'7':0,'8':1,'9':2,'4':3,'5':4,'6':5,'1':6,'2':7,'3':8};
+document.addEventListener('keydown',e=>{
+  if(e.key in KEYMAP){handleClick(KEYMAP[e.key]);return}
+  if(e.key==='r'||e.key==='R')resetRound(true);
+});
+
+document.querySelectorAll('.mode-btn').forEach(b=>b.addEventListener('click',()=>switchMode(b.dataset.mode)));
+document.querySelectorAll('.diff-btn').forEach(b=>b.addEventListener('click',()=>{
+  aiDiff=b.dataset.ai;
+  document.querySelectorAll('.diff-btn').forEach(x=>x.classList.toggle('active',x===b));
+  resetRound(false);
+}));
+document.getElementById('btn-reset').addEventListener('click',()=>resetRound(true));
+document.getElementById('btn-new').addEventListener('click',()=>resetRound(false));
+document.getElementById('res-next').addEventListener('click',()=>resetRound(true));
+document.getElementById('res-reset').addEventListener('click',()=>resetRound(false));
+
+updateStatus();
+renderBoard();
+</script>
+</body>
+</html>

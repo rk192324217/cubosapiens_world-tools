@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="100%" height="100%">
+  <defs>
+    <!-- Vibrant Cyan and Violet Gradients for the Cubo Space Shooter Aesthetic -->
+    <linearGradient id="topFaceGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00f2fe" />
+      <stop offset="100%" stop-color="#4facfe" />
+    </linearGradient>
+    
+    <linearGradient id="leftFaceGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#7f00ff" />
+      <stop offset="100%" stop-color="#e100ff" />
+    </linearGradient>
+    
+    <linearGradient id="rightFaceGrad" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#180054" />
+      <stop offset="100%" stop-color="#7f00ff" />
+    </linearGradient>
+
+    <linearGradient id="glowGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00f2fe" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#7f00ff" stop-opacity="0"/>
+    </linearGradient>
+
+    <!-- Neon Glow Filter -->
+    <filter id="neonGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="14" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Background Space Grid Effect (Transparent Compatible) -->
+  <g opacity="0.15">
+    <path d="M 0,100 L 800,100 M 0,200 L 800,200 M 0,300 L 800,300 M 0,400 L 800,400 M 0,500 L 800,500 M 0,600 L 800,600 M 0,700 L 800,700" stroke="#00f2fe" stroke-width="2"/>
+    <path d="M 100,0 L 100,800 M 200,0 L 200,800 M 300,0 L 300,800 M 400,0 L 400,800 M 500,0 L 500,800 M 600,0 L 600,800 M 700,0 L 700,800" stroke="#00f2fe" stroke-width="2"/>
+  </g>
+
+  <!-- Cosmic Thruster Trails / Laser Lines -->
+  <g filter="url(#neonGlow)">
+    <path d="M 150,650 L 400,450 M 650,650 L 400,450 M 400,750 L 400,450" stroke="#e100ff" stroke-width="8" stroke-dasharray="15,10" opacity="0.6"/>
+  </g>
+
+  <!-- Main Isometric Geometric Cubo Ship -->
+  <g transform="translate(0, -30)">
+    <!-- Outer Shield / Aura -->
+    <polygon points="400,120 680,280 680,600 400,760 120,600 120,280" fill="url(#glowGrad)" opacity="0.1" filter="url(#neonGlow)"/>
+
+    <!-- Left Isometric Face -->
+    <polygon points="400,450 150,310 150,590 400,730" fill="url(#leftFaceGrad)" stroke="#e100ff" stroke-width="3"/>
+
+    <!-- Right Isometric Face -->
+    <polygon points="400,450 650,310 650,590 400,730" fill="url(#rightFaceGrad)" stroke="#7f00ff" stroke-width="3"/>
+
+    <!-- Top Isometric Face -->
+    <polygon points="400,170 650,310 400,450 150,310" fill="url(#topFaceGrad)" stroke="#00f2fe" stroke-width="3"/>
+
+    <!-- Sci-Fi Core / Laser Cannon details on top face -->
+    <polygon points="400,240 530,310 400,380 270,310" fill="none" stroke="#ffffff" stroke-width="4" filter="url(#neonGlow)"/>
+    <circle cx="400" cy="310" r="15" fill="#ffffff" filter="url(#neonGlow)"/>
+    
+    <!-- Cyber Grid Accent Lines on Side Panels -->
+    <line x1="200" y1="365" x2="200" y2="565" stroke="#00f2fe" stroke-width="2" opacity="0.5"/>
+    <line x1="600" y1="365" x2="600" y2="565" stroke="#00f2fe" stroke-width="2" opacity="0.5"/>
+  </g>
+</svg>

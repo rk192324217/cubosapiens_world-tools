@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GST Calculator</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="bg-orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+  </div>
+
+  <header>
+    <div class="logo-wrap">
+      <div class="logo-icon">
+        <img src="assets/logo.png" alt="Logo" />
+      </div>
+      <span class="logo-name">CUBO<span>GST</span></span>
+    </div>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+      <span class="toggle-icons">
+        <i class="fa-solid fa-sun"></i>
+        <i class="fa-solid fa-moon"></i>
+      </span>
+    </button>
+  </header>
+
+  <main>
+    <div class="hero">
+      <h1>Calculate <em>GST</em> instantly</h1>
+      <p>Inclusive · Exclusive · CGST/SGST/IGST · Bulk items</p>
+    </div>
+
+    <!-- Tab bar -->
+    <div class="tab-bar">
+      <button class="tab-btn active" data-tab="single">
+        <i class="fa-solid fa-calculator"></i> Single
+      </button>
+      <button class="tab-btn" data-tab="bulk">
+        <i class="fa-solid fa-list"></i> Bulk Items
+      </button>
+    </div>
+
+    <!-- ── TAB: Single ── -->
+    <div class="tab-content active" id="tab-single">
+      <div class="card main-calc-card">
+
+        <!-- Mode toggle -->
+        <div class="mode-row">
+          <div class="card-label">Mode</div>
+          <div class="seg-control">
+            <button class="seg-btn active" data-mode="exclusive">
+              Exclusive <span class="mode-hint">(add GST)</span>
+            </button>
+            <button class="seg-btn" data-mode="inclusive">
+              Inclusive <span class="mode-hint">(extract GST)</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="calc-divider"></div>
+
+        <!-- Inputs -->
+        <div class="input-grid">
+          <div class="input-group">
+            <label class="input-label">Amount (₹)</label>
+            <div class="input-wrap">
+              <span class="input-prefix">₹</span>
+              <input type="number" id="amountInput" class="calc-input"
+                placeholder="0.00" min="0" step="0.01" />
+            </div>
+          </div>
+
+          <div class="input-group">
+            <label class="input-label">GST Rate</label>
+            <div class="slab-grid">
+              <button class="slab-btn" data-rate="0">0%</button>
+              <button class="slab-btn active" data-rate="5">5%</button>
+              <button class="slab-btn" data-rate="12">12%</button>
+              <button class="slab-btn" data-rate="18">18%</button>
+              <button class="slab-btn" data-rate="28">28%</button>
+              <div class="custom-rate-wrap">
+                <input type="number" id="customRate" class="calc-input"
+                  placeholder="Custom %" min="0" max="100" step="0.1" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="calc-divider"></div>
+
+        <!-- Tax type: Inter-state vs Intra-state -->
+        <div class="tax-type-row">
+          <div class="card-label">Tax type</div>
+          <div class="seg-control">
+            <button class="seg-btn active" data-taxtype="intra">
+              Intra-state (CGST + SGST)
+            </button>
+            <button class="seg-btn" data-taxtype="inter">
+              Inter-state (IGST)
+            </button>
+          </div>
+        </div>
+
+        <div class="calc-divider"></div>
+
+        <!-- Result breakdown -->
+        <div class="result-breakdown" id="resultBreakdown">
+          <div class="breakdown-row">
+            <span class="bk-label" id="baseLabel">Base amount</span>
+            <span class="bk-value mono" id="baseVal">₹ 0.00</span>
+          </div>
+          <div class="breakdown-row tax-row" id="taxRows">
+            <!-- Injected by JS based on tax type -->
+          </div>
+          <div class="breakdown-divider"></div>
+          <div class="breakdown-row total-row">
+            <span class="bk-label">Total amount</span>
+            <span class="bk-value total-val mono" id="totalVal">₹ 0.00</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── TAB: Bulk ── -->
+    <div class="tab-content" id="tab-bulk">
+
+      <!-- Bulk item list -->
+      <div id="bulkList"></div>
+
+      <button class="btn-add-item" id="btnAddItem">
+        <i class="fa-solid fa-plus"></i> Add item
+      </button>
+
+      <!-- Bulk summary -->
+      <div class="card bulk-summary" id="bulkSummary">
+        <div class="card-label" style="margin-bottom:14px;">Bill summary</div>
+        <div class="summary-rows" id="summaryRows">
+          <p class="empty-hint">Add items above to see the bill</p>
+        </div>
+        <div class="summary-total" id="summaryTotal" style="display:none;">
+          <div class="breakdown-divider"></div>
+          <div class="breakdown-row total-row">
+            <span class="bk-label">Grand total</span>
+            <span class="bk-value total-val mono" id="grandTotal">₹ 0.00</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Export row -->
+      <div class="export-row">
+        <button class="btn-action" id="btnExportBulkJSON">
+          <i class="fa-solid fa-code"></i> Export JSON
+        </button>
+        <button class="btn-action primary" id="btnExportBulkPDF">
+          <i class="fa-solid fa-file-pdf"></i> Export PDF
+        </button>
+      </div>
+    </div>
+
+    <div class="ads-row">
+      <div class="ad-slot">Advertisement</div>
+      <div class="ad-slot">Advertisement</div>
+    </div>
+  </main>
+
+  <div class="toast" id="toast"></div>
+  <script src="app.js"></script>
+</body>
+</html>

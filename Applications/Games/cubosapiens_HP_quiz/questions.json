@@ -1,0 +1,1562 @@
+[
+  {
+    "id": 1,
+    "q": "What is the full name of Harry Potter's owl?",
+    "o": [
+      "Hedwig",
+      "Errol",
+      "Pigwidgeon",
+      "Crookshanks"
+    ],
+    "a": 0,
+    "pts": 10,
+    "time": 15
+  },
+  {
+    "id": 2,
+    "q": "Which house does the Sorting Hat initially consider placing Harry in?",
+    "o": [
+      "Gryffindor",
+      "Ravenclaw",
+      "Slytherin",
+      "Hufflepuff"
+    ],
+    "a": 2,
+    "pts": 15,
+    "time": 20
+  },
+  {
+    "id": 3,
+    "q": "What is the name of Harry Potter's wand's core?",
+    "o": [
+      "Dragon heartstring",
+      "Unicorn hair",
+      "Veela hair",
+      "Phoenix feather"
+    ],
+    "a": 3,
+    "pts": 10,
+    "time": 15
+  },
+  {
+    "id": 4,
+    "q": "Who is the Half-Blood Prince?",
+    "o": [
+      "Tom Riddle",
+      "Albus Dumbledore",
+      "Severus Snape",
+      "Sirius Black"
+    ],
+    "a": 2,
+    "pts": 15,
+    "time": 20
+  },
+  {
+    "id": 5,
+    "q": "What does 'Expecto Patronum' produce for Harry?",
+    "o": [
+      "A stag",
+      "A doe",
+      "A wolf",
+      "An otter"
+    ],
+    "a": 0,
+    "pts": 10,
+    "time": 15
+  },
+  {
+    "id": 6,
+    "q": "Which magical creature guards the entrance to Dumbledore's office?",
+    "o": [
+      "A phoenix",
+      "A hippogriff",
+      "A gargoyle",
+      "A basilisk"
+    ],
+    "a": 2,
+    "pts": 10,
+    "time": 15
+  },
+  {
+    "id": 7,
+    "q": "What position does Harry play on the Quidditch team?",
+    "o": [
+      "Keeper",
+      "Beater",
+      "Chaser",
+      "Seeker"
+    ],
+    "a": 3,
+    "pts": 10,
+    "time": 15
+  },
+  {
+    "id": 8,
+    "q": "What is the address of the Dursleys' home?",
+    "o": [
+      "4 Privet Drive",
+      "12 Grimmauld Place",
+      "10 Downing Street",
+      "4 Privet Lane"
+    ],
+    "a": 0,
+    "pts": 10,
+    "time": 15
+  },
+  {
+    "id": 9,
+    "q": "What is Dumbledore's full name?",
+    "o": [
+      "Aldus Percimon Dumbledore",
+      "Albus Percival Wulfric Brian Dumbledore",
+      "Albus Brian Percival Dumbledore",
+      "Albus Percival Wulfric Dumbledore"
+    ],
+    "a": 1,
+    "pts": 20,
+    "time": 25
+  },
+  {
+    "id": 10,
+    "q": "Which Deathly Hallow did Harry use to come back from death?",
+    "o": [
+      "Elder Wand",
+      "Cloak of Invisibility",
+      "Resurrection Stone",
+      "None — he chose to live"
+    ],
+    "a": 1,
+    "pts": 20,
+    "time": 25
+  },
+  {
+    "id": 11,
+    "q": "Who first tells Harry he is a wizard?",
+    "o": [
+      "Dumbledore",
+      "Professor McGonagall",
+      "Hagrid",
+      "Sirius Black"
+    ],
+    "a": 2,
+    "pts": 10,
+    "time": 15
+  },
+  {
+    "id": 12,
+    "q": "What is the name of the bank run by goblins in Diagon Alley?",
+    "o": [
+      "Gringotts",
+      "Goblins & Co.",
+      "Nagnott's",
+      "Florean's"
+    ],
+    "a": 0,
+    "pts": 10,
+    "time": 15
+  },
+  {
+    "id": 13,
+    "q": "What spell is used to disarm an opponent?",
+    "o": [
+      "Stupefy",
+      "Avada Kedavra",
+      "Expelliarmus",
+      "Impedimenta"
+    ],
+    "a": 2,
+    "pts": 10,
+    "time": 15
+  },
+  {
+    "id": 14,
+    "q": "What creature is Scabbers revealed to be?",
+    "o": [
+      "A kneazle",
+      "A rat animagus named Peter Pettigrew",
+      "A spy gnome",
+      "A regular rat"
+    ],
+    "a": 1,
+    "pts": 15,
+    "time": 20
+  },
+  {
+    "id": 15,
+    "q": "What is the name of the Weasley family's home?",
+    "o": [
+      "Azkaban",
+      "The Burrow",
+      "Shell Cottage",
+      "Ottery St Catchpole Manor"
+    ],
+    "a": 1,
+    "pts": 10,
+    "time": 15
+  },
+  {
+    "id": 16,
+    "q": "Which subject does Severus Snape actually want to teach?",
+    "o": [
+      "Dark Arts",
+      "Transfiguration",
+      "Defense Against the Dark Arts",
+      "Potions"
+    ],
+    "a": 2,
+    "pts": 10,
+    "time": 15
+  },
+  {
+    "id": 17,
+    "q": "What is the name of Voldemort's snake?",
+    "o": [
+      "Salazar",
+      "Medusa",
+      "Nagini",
+      "Basilisk"
+    ],
+    "a": 2,
+    "pts": 10,
+    "time": 15
+  },
+  {
+    "id": 18,
+    "q": "In which vault at Gringotts is the Sorcerer's Stone kept?",
+    "o": [
+      "Vault 713",
+      "Vault 317",
+      "Vault 7",
+      "Vault 666"
+    ],
+    "a": 0,
+    "pts": 15,
+    "time": 20
+  },
+  {
+    "id": 19,
+    "q": "What form does Hermione's Patronus take?",
+    "o": [
+      "A cat",
+      "An otter",
+      "A heron",
+      "A rabbit"
+    ],
+    "a": 1,
+    "pts": 15,
+    "time": 20
+  },
+  {
+    "id": 20,
+    "q": "Who is the true owner of the Elder Wand at the end of the series?",
+    "o": [
+      "Voldemort",
+      "Draco Malfoy",
+      "Harry Potter",
+      "Dumbledore"
+    ],
+    "a": 2,
+    "pts": 20,
+    "time": 25
+  },
+  {
+    "id": 21,
+    "q": "What is the incantation to produce light from a wand?",
+    "o": [
+      "Lumos",
+      "Nox",
+      "Alohomora",
+      "Luminara"
+    ],
+    "a": 0,
+    "pts": 10,
+    "time": 10
+  },
+  {
+    "id": 22,
+    "q": "Who killed Albus Dumbledore?",
+    "o": [
+      "Bellatrix Lestrange",
+      "Lucius Malfoy",
+      "Draco Malfoy",
+      "Severus Snape"
+    ],
+    "a": 3,
+    "pts": 15,
+    "time": 15
+  },
+  {
+    "id": 23,
+    "q": "What is the name of Harry's Godfather?",
+    "o": [
+      "Remus Lupin",
+      "James Potter",
+      "Sirius Black",
+      "Arthur Weasley"
+    ],
+    "a": 2,
+    "pts": 10,
+    "time": 15
+  },
+  {
+    "id": 24,
+    "q": "Which Hogwarts professor is a werewolf?",
+    "o": [
+      "Severus Snape",
+      "Remus Lupin",
+      "Quirinus Quirrell",
+      "Gilderoy Lockhart"
+    ],
+    "a": 1,
+    "pts": 10,
+    "time": 15
+  },
+  {
+    "id": 25,
+    "q": "What does the spell 'Alohomora' do?",
+    "o": [
+      "Levitates objects",
+      "Unlocks doors",
+      "Disarms opponents",
+      "Creates fire"
+    ],
+    "a": 1,
+    "pts": 10,
+    "time": 10
+  },
+  {
+    "id": 26,
+    "q": "What is the name of the pub in Hogsmeade that Harry and his friends frequently visit?",
+    "o": [
+      "The Leaky Cauldron",
+      "Three Broomsticks",
+      "Hog's Head",
+      "Madam Malkin's"
+    ],
+    "a": 1,
+    "pts": 10,
+    "time": 15
+  },
+  {
+    "id": 27,
+    "q": "Who is the Heir of Slytherin in Chamber of Secrets?",
+    "o": [
+      "Draco Malfoy",
+      "Ginny Weasley (possessed by Tom Riddle)",
+      "Harry Potter",
+      "Lucius Malfoy"
+    ],
+    "a": 1,
+    "pts": 15,
+    "time": 20
+  },
+  {
+    "id": 28,
+    "q": "What animal can Professor McGonagall transform into?",
+    "o": [
+      "A lion",
+      "A tabby cat",
+      "An eagle",
+      "A mouse"
+    ],
+    "a": 1,
+    "pts": 10,
+    "time": 15
+  },
+  {
+    "id": 29,
+    "q": "What are Voldemort's followers called?",
+    "o": [
+      "Dark Wizards",
+      "Death Eaters",
+      "Shadow Walkers",
+      "Slytherin Guard"
+    ],
+    "a": 1,
+    "pts": 10,
+    "time": 10
+  },
+  {
+    "id": 30,
+    "q": "Where is Azkaban located?",
+    "o": [
+      "Scotland Highlands",
+      "The North Sea",
+      "Somewhere in Norway",
+      "Ireland"
+    ],
+    "a": 1,
+    "pts": 15,
+    "time": 20
+  },
+  {
+    "id": 31,
+    "q": "What does the Mirror of Erised show?",
+    "o": [
+      "The future",
+      "The truth",
+      "The heart's deepest desire",
+      "The past"
+    ],
+    "a": 2,
+    "pts": 10,
+    "time": 15
+  },
+  {
+    "id": 32,
+    "q": "What is Harry Potter's mother's name?",
+    "o": [
+      "Emma",
+      "Lily",
+      "Rose",
+      "June"
+    ],
+    "a": 1,
+    "pts": 10,
+    "time": 10
+  },
+  {
+    "id": 33,
+    "q": "What is the name of the ghost of Gryffindor Tower?",
+    "o": [
+      "Moaning Myrtle",
+      "Peeves",
+      "Nearly Headless Nick",
+      "The Bloody Baron"
+    ],
+    "a": 2,
+    "pts": 10,
+    "time": 15
+  },
+  {
+    "id": 34,
+    "q": "How many Weasley children are there?",
+    "o": [
+      "5",
+      "6",
+      "7",
+      "8"
+    ],
+    "a": 2,
+    "pts": 10,
+    "time": 15
+  },
+  {
+    "id": 35,
+    "q": "What is the magical word used to open the Marauder's Map?",
+    "o": [
+      "I solemnly swear I'm up to no good",
+      "Mischief Managed",
+      "Marauders Unite",
+      "Open Sesame"
+    ],
+    "a": 0,
+    "pts": 15,
+    "time": 20
+  },
+  {
+    "id": 36,
+    "q": "Who created the Marauder's Map?",
+    "o": [
+      "Dumbledore and the four founders",
+      "Moony, Wormtail, Padfoot and Prongs",
+      "Harry's father alone",
+      "Fred and George Weasley"
+    ],
+    "a": 1,
+    "pts": 15,
+    "time": 20
+  },
+  {
+    "id": 37,
+    "q": "What is the name of the magical train that takes students to Hogwarts?",
+    "o": [
+      "The Beauxbatons Express",
+      "The Hogwarts Express",
+      "The Magic Railway",
+      "The Wizard Train"
+    ],
+    "a": 1,
+    "pts": 10,
+    "time": 10
+  },
+  {
+    "id": 38,
+    "q": "What core material is in Voldemort's wand?",
+    "o": [
+      "Phoenix feather",
+      "Dragon heartstring",
+      "Unicorn hair",
+      "Basilisk venom"
+    ],
+    "a": 0,
+    "pts": 15,
+    "time": 20
+  },
+  {
+    "id": 39,
+    "q": "Where does Harry first encounter Voldemort face-to-face?",
+    "o": [
+      "The Forbidden Forest",
+      "The Chamber of Secrets",
+      "The Graveyard",
+      "Hogwarts Great Hall"
+    ],
+    "a": 0,
+    "pts": 15,
+    "time": 20
+  },
+  {
+    "id": 40,
+    "q": "What creature does Hagrid raise in Prisoner of Azkaban that gets Draco into trouble?",
+    "o": [
+      "Norbert the dragon",
+      "Fluffy the three-headed dog",
+      "Buckbeak the Hippogriff",
+      "Fang the boarhound"
+    ],
+    "a": 2,
+    "pts": 10,
+    "time": 15
+  },
+  {
+    "id": 41,
+    "q": "Which Hogwarts teacher collects 'unusual' memories in a Pensieve?",
+    "o": [
+      "Dumbledore",
+      "Horace Slughorn",
+      "Sybill Trelawney",
+      "Pomona Sprout"
+    ],
+    "a": 1,
+    "pts": 15,
+    "time": 20
+  },
+  {
+    "id": 42,
+    "q": "What is the number of the vault Hagrid visits at Gringotts for the Philosopher's Stone?",
+    "o": [
+      "Vault 713",
+      "Vault 717",
+      "Vault 711",
+      "Vault 731"
+    ],
+    "a": 0,
+    "pts": 15,
+    "time": 20
+  },
+  {
+    "id": 43,
+    "q": "What is the term used for non-magical people?",
+    "o": [
+      "Squibs",
+      "Mudbloods",
+      "Muggles",
+      "Nomags"
+    ],
+    "a": 2,
+    "pts": 10,
+    "time": 10
+  },
+  {
+    "id": 44,
+    "q": "Which Horcrux is destroyed first?",
+    "o": [
+      "Nagini",
+      "Tom Riddle's Diary",
+      "Marvolo Gaunt's Ring",
+      "Salazar Slytherin's Locket"
+    ],
+    "a": 1,
+    "pts": 20,
+    "time": 25
+  },
+  {
+    "id": 45,
+    "q": "What is Dumbledore's phoenix's name?",
+    "o": [
+      "Phoenix",
+      "Fawkes",
+      "Ember",
+      "Blaze"
+    ],
+    "a": 1,
+    "pts": 10,
+    "time": 15
+  },
+  {
+    "id": 46,
+    "q": "In which book does Harry learn about Horcruxes?",
+    "o": [
+      "Goblet of Fire",
+      "Order of the Phoenix",
+      "Half-Blood Prince",
+      "Deathly Hallows"
+    ],
+    "a": 2,
+    "pts": 15,
+    "time": 20
+  },
+  {
+    "id": 47,
+    "q": "What shape is the scar on Harry's forehead?",
+    "o": [
+      "A bolt of lightning",
+      "A crescent moon",
+      "A serpent",
+      "A star"
+    ],
+    "a": 0,
+    "pts": 10,
+    "time": 10
+  },
+  {
+    "id": 48,
+    "q": "Who is Ron Weasley's rat, and what was his owner before Ron?",
+    "o": [
+      "Scabbers, belonging to Percy",
+      "Scabbers, belonging to Charlie",
+      "Scabbers, belonging to Bill",
+      "Crookshanks, belonging to Hermione"
+    ],
+    "a": 0,
+    "pts": 15,
+    "time": 20
+  },
+  {
+    "id": 49,
+    "q": "What is the spell that causes excruciating pain?",
+    "o": [
+      "Avada Kedavra",
+      "Crucio",
+      "Imperius",
+      "Sectumsempra"
+    ],
+    "a": 1,
+    "pts": 10,
+    "time": 15
+  },
+  {
+    "id": 50,
+    "q": "Which tournament did Harry compete in during his fourth year?",
+    "o": [
+      "The Sorcerer's Challenge",
+      "The Triwizard Tournament",
+      "The Goblet Championship",
+      "The Wizarding Games"
+    ],
+    "a": 1,
+    "pts": 10,
+    "time": 15
+  },
+  {
+    "id": 51,
+    "q": "What does S.P.E.W. stand for?",
+    "o": [
+      "Society for the Protection of Elfish Welfare",
+      "Society Promoting Equal Wizarding",
+      "Special Powers for Elves Worldwide",
+      "Society for the Preservation of Elvish Wisdom"
+    ],
+    "a": 0,
+    "pts": 15,
+    "time": 20
+  },
+  {
+    "id": 52,
+    "q": "Who is the ghost of the Slytherin house?",
+    "o": [
+      "Nearly Headless Nick",
+      "The Bloody Baron",
+      "The Grey Lady",
+      "The Fat Friar"
+    ],
+    "a": 1,
+    "pts": 10,
+    "time": 15
+  },
+  {
+    "id": 53,
+    "q": "What is the name of Hermione Granger's cat?",
+    "o": [
+      "Whiskers",
+      "Midnight",
+      "Crookshanks",
+      "Scabbers"
+    ],
+    "a": 2,
+    "pts": 10,
+    "time": 10
+  },
+  {
+    "id": 54,
+    "q": "What spell does Snape teach Harry to use against Quirrell?",
+    "o": [
+      "He teaches none — Harry figures it out",
+      "Expelliarmus",
+      "Wingardium Leviosa",
+      "Protego"
+    ],
+    "a": 0,
+    "pts": 20,
+    "time": 25
+  },
+  {
+    "id": 55,
+    "q": "Who breaks Harry's wand?",
+    "o": [
+      "Voldemort",
+      "Nagini",
+      "Hermione Granger",
+      "Draco Malfoy"
+    ],
+    "a": 2,
+    "pts": 15,
+    "time": 20
+  },
+  {
+    "id": 56,
+    "q": "What does polyjuice potion do?",
+    "o": [
+      "Makes you invisible",
+      "Transforms you into another person",
+      "Grants immortality",
+      "Allows time travel"
+    ],
+    "a": 1,
+    "pts": 10,
+    "time": 15
+  },
+  {
+    "id": 57,
+    "q": "Which Deathly Hallow grants mastery over death?",
+    "o": [
+      "The Elder Wand",
+      "The Resurrection Stone",
+      "The Cloak of Invisibility",
+      "All three together"
+    ],
+    "a": 3,
+    "pts": 20,
+    "time": 25
+  },
+  {
+    "id": 58,
+    "q": "What is the name of the wizarding newspaper?",
+    "o": [
+      "The Daily Owl",
+      "The Magical Times",
+      "The Daily Prophet",
+      "Witch Weekly"
+    ],
+    "a": 2,
+    "pts": 10,
+    "time": 10
+  },
+  {
+    "id": 59,
+    "q": "How does one get onto Platform 9¾?",
+    "o": [
+      "Through a hidden door",
+      "By running through the barrier between platforms 9 and 10",
+      "By using the Floo network",
+      "Through a trapdoor"
+    ],
+    "a": 1,
+    "pts": 10,
+    "time": 15
+  },
+  {
+    "id": 60,
+    "q": "What is the name of the centaur who lives in the Forbidden Forest?",
+    "o": [
+      "Firenze",
+      "Ronan",
+      "Bane",
+      "Magorian"
+    ],
+    "a": 0,
+    "pts": 15,
+    "time": 20
+  },
+  {
+    "id": 61,
+    "q": "What year was Harry Potter born?",
+    "o": [
+      "1979",
+      "1980",
+      "1981",
+      "1982"
+    ],
+    "a": 1,
+    "pts": 15,
+    "time": 20
+  },
+  {
+    "id": 62,
+    "q": "What is the name of the magical sweets shop in Hogsmeade?",
+    "o": [
+      "Honeydukes",
+      "Zonko's",
+      "Weasleys' Wizard Wheezes",
+      "Bertie Bott's"
+    ],
+    "a": 0,
+    "pts": 10,
+    "time": 15
+  },
+  {
+    "id": 63,
+    "q": "What charm is used to clean things?",
+    "o": [
+      "Scourgify",
+      "Evanesco",
+      "Tergeo",
+      "Reparo"
+    ],
+    "a": 0,
+    "pts": 10,
+    "time": 15
+  },
+  {
+    "id": 64,
+    "q": "What object does Harry pull out of the Sorting Hat to defeat the Basilisk?",
+    "o": [
+      "The Elder Wand",
+      "Godric Gryffindor's sword",
+      "A broom",
+      "A magical shield"
+    ],
+    "a": 1,
+    "pts": 10,
+    "time": 15
+  },
+  {
+    "id": 65,
+    "q": "Who teaches Defense Against the Dark Arts in Harry's first year?",
+    "o": [
+      "Lupin",
+      "Umbridge",
+      "Quirrell",
+      "Lockhart"
+    ],
+    "a": 2,
+    "pts": 10,
+    "time": 15
+  },
+  {
+    "id": 66,
+    "q": "What is the name of the Hogwarts poltergeist?",
+    "o": [
+      "Moaning Myrtle",
+      "Peeves",
+      "Nearly Headless Nick",
+      "The Bloody Baron"
+    ],
+    "a": 1,
+    "pts": 10,
+    "time": 15
+  },
+  {
+    "id": 67,
+    "q": "Where is the Chamber of Secrets hidden?",
+    "o": [
+      "Under Hagrid's hut",
+      "In the Forbidden Forest",
+      "Beneath the girls' bathroom",
+      "Inside the Sorting Hat"
+    ],
+    "a": 2,
+    "pts": 10,
+    "time": 15
+  },
+  {
+    "id": 68,
+    "q": "What are the three Unforgivable Curses?",
+    "o": [
+      "Avada Kedavra, Crucio, Expelliarmus",
+      "Avada Kedavra, Crucio, Imperio",
+      "Crucio, Imperio, Sectumsempra",
+      "Avada Kedavra, Sectumsempra, Crucio"
+    ],
+    "a": 1,
+    "pts": 20,
+    "time": 25
+  },
+  {
+    "id": 69,
+    "q": "Who gives Harry the invisibility cloak?",
+    "o": [
+      "Sirius Black",
+      "Hagrid",
+      "Dumbledore (anonymously)",
+      "James Potter's ghost"
+    ],
+    "a": 2,
+    "pts": 15,
+    "time": 20
+  },
+  {
+    "id": 70,
+    "q": "What is the name of the tree that Whomping Willow hides?",
+    "o": [
+      "Nothing — it just whomps",
+      "The passage to the Shrieking Shack",
+      "A portkey to Voldemort",
+      "A hidden treasure"
+    ],
+    "a": 1,
+    "pts": 15,
+    "time": 20
+  },
+  {
+    "id": 71,
+    "q": "What Quidditch position does Ron play?",
+    "o": [
+      "Chaser",
+      "Beater",
+      "Seeker",
+      "Keeper"
+    ],
+    "a": 3,
+    "pts": 10,
+    "time": 15
+  },
+  {
+    "id": 72,
+    "q": "Which class does Professor Sprout teach?",
+    "o": [
+      "Potions",
+      "Herbology",
+      "Transfiguration",
+      "Charms"
+    ],
+    "a": 1,
+    "pts": 10,
+    "time": 15
+  },
+  {
+    "id": 73,
+    "q": "What is the name of the magical map that shows every person in Hogwarts?",
+    "o": [
+      "The Spy Map",
+      "The Marauder's Map",
+      "The Hogwarts Blueprint",
+      "The Wizard Tracker"
+    ],
+    "a": 1,
+    "pts": 10,
+    "time": 10
+  },
+  {
+    "id": 74,
+    "q": "Who wrote 'The Tales of Beedle the Bard'?",
+    "o": [
+      "Albus Dumbledore",
+      "J.K. Rowling (in-universe: Beedle the Bard)",
+      "Bathilda Bagshot",
+      "Xenophilius Lovegood"
+    ],
+    "a": 1,
+    "pts": 20,
+    "time": 25
+  },
+  {
+    "id": 75,
+    "q": "In which vault does the Longbottom family keep their gold?",
+    "o": [
+      "This is not mentioned in the books",
+      "Vault 990",
+      "Vault 1",
+      "Vault 711"
+    ],
+    "a": 0,
+    "pts": 20,
+    "time": 25
+  },
+  {
+    "id": 76,
+    "q": "What is the name of Neville Longbottom's toad?",
+    "o": [
+      "Stanley",
+      "Trevor",
+      "Goyle",
+      "Bertie"
+    ],
+    "a": 1,
+    "pts": 10,
+    "time": 15
+  },
+  {
+    "id": 77,
+    "q": "Who is 'R.A.B.' who stole the real Horcrux locket?",
+    "o": [
+      "Regulus Arcturus Black",
+      "Remus Alastor Baggins",
+      "Rodolphus Anton Bellatrix",
+      "Rubeus Argus Black"
+    ],
+    "a": 0,
+    "pts": 20,
+    "time": 25
+  },
+  {
+    "id": 78,
+    "q": "What is the name of the Hufflepuff house ghost?",
+    "o": [
+      "The Bloody Baron",
+      "Nearly Headless Nick",
+      "The Fat Friar",
+      "The Grey Lady"
+    ],
+    "a": 2,
+    "pts": 15,
+    "time": 20
+  },
+  {
+    "id": 79,
+    "q": "Which class does Sibyll Trelawney teach?",
+    "o": [
+      "Astronomy",
+      "Arithmancy",
+      "Divination",
+      "Ancient Runes"
+    ],
+    "a": 2,
+    "pts": 10,
+    "time": 15
+  },
+  {
+    "id": 80,
+    "q": "What is the name of the wizarding village near Hogwarts?",
+    "o": [
+      "Diagon Alley",
+      "Hogsmeade",
+      "Godric's Hollow",
+      "Ottery St Catchpole"
+    ],
+    "a": 1,
+    "pts": 10,
+    "time": 10
+  },
+  {
+    "id": 81,
+    "q": "What does Dumbledore leave Ron in his will?",
+    "o": [
+      "The Deluminator",
+      "His broom",
+      "A book of fairy tales",
+      "A golden snitch"
+    ],
+    "a": 0,
+    "pts": 15,
+    "time": 20
+  },
+  {
+    "id": 82,
+    "q": "What is the spell to make objects fly?",
+    "o": [
+      "Accio",
+      "Wingardium Leviosa",
+      "Levioso",
+      "Aloft"
+    ],
+    "a": 1,
+    "pts": 10,
+    "time": 10
+  },
+  {
+    "id": 83,
+    "q": "Who is Voldemort's mother?",
+    "o": [
+      "Bellatrix Lestrange",
+      "Merope Gaunt",
+      "Narcissa Black",
+      "Helena Ravenclaw"
+    ],
+    "a": 1,
+    "pts": 20,
+    "time": 25
+  },
+  {
+    "id": 84,
+    "q": "What is the name of the shop where Harry buys his wand?",
+    "o": [
+      "Knockturn Alley",
+      "Ollivanders",
+      "Weasley's Wizard Wheezes",
+      "Borgin and Burkes"
+    ],
+    "a": 1,
+    "pts": 10,
+    "time": 10
+  },
+  {
+    "id": 85,
+    "q": "Who is Fleur Delacour?",
+    "o": [
+      "A Hogwarts student",
+      "A Beauxbatons champion in the Triwizard Tournament",
+      "A Ministry of Magic official",
+      "A Death Eater"
+    ],
+    "a": 1,
+    "pts": 10,
+    "time": 15
+  },
+  {
+    "id": 86,
+    "q": "What happens when Harry and Voldemort's wands connect in the graveyard?",
+    "o": [
+      "Both wands explode",
+      "Priori Incantatem occurs",
+      "Harry escapes immediately",
+      "Voldemort wins"
+    ],
+    "a": 1,
+    "pts": 20,
+    "time": 25
+  },
+  {
+    "id": 87,
+    "q": "Who does Draco Malfoy marry?",
+    "o": [
+      "Pansy Parkinson",
+      "Astoria Greengrass",
+      "Millicent Bulstrode",
+      "He doesn't marry"
+    ],
+    "a": 1,
+    "pts": 15,
+    "time": 20
+  },
+  {
+    "id": 88,
+    "q": "What is the incantation to end the Lumos spell?",
+    "o": [
+      "Luminos Off",
+      "Nox",
+      "Alohomora",
+      "Finite Incantatem"
+    ],
+    "a": 1,
+    "pts": 10,
+    "time": 10
+  },
+  {
+    "id": 89,
+    "q": "How many staircases does Hogwarts have?",
+    "o": [
+      "142",
+      "182",
+      "100",
+      "200"
+    ],
+    "a": 0,
+    "pts": 20,
+    "time": 25
+  },
+  {
+    "id": 90,
+    "q": "What is the name of Hagrid's baby dragon?",
+    "o": [
+      "Eragon",
+      "Norbert",
+      "Spike",
+      "Charlie"
+    ],
+    "a": 1,
+    "pts": 10,
+    "time": 15
+  },
+  {
+    "id": 91,
+    "q": "Which student is known as 'Nymphadora Tonks' and prefers just 'Tonks'?",
+    "o": [
+      "Tonks is an Auror, not a student",
+      "She's a Hufflepuff student",
+      "She's a Ravenclaw student",
+      "She's a Gryffindor student"
+    ],
+    "a": 0,
+    "pts": 15,
+    "time": 20
+  },
+  {
+    "id": 92,
+    "q": "Who is the founder of Gryffindor?",
+    "o": [
+      "Helga Hufflepuff",
+      "Salazar Slytherin",
+      "Rowena Ravenclaw",
+      "Godric Gryffindor"
+    ],
+    "a": 3,
+    "pts": 10,
+    "time": 15
+  },
+  {
+    "id": 93,
+    "q": "What is Dobby the house elf's most prized possession?",
+    "o": [
+      "A tin of buttons",
+      "His freedom",
+      "Mismatched socks",
+      "A golden thimble"
+    ],
+    "a": 2,
+    "pts": 15,
+    "time": 20
+  },
+  {
+    "id": 94,
+    "q": "Who sends Harry a Firebolt broom anonymously?",
+    "o": [
+      "Dumbledore",
+      "Sirius Black",
+      "The Order of the Phoenix",
+      "James Potter's ghost"
+    ],
+    "a": 1,
+    "pts": 15,
+    "time": 20
+  },
+  {
+    "id": 95,
+    "q": "What magic does Harry use to escape from the Dementors in Book 5?",
+    "o": [
+      "Expecto Patronum",
+      "Expelliarmus",
+      "Stupefy",
+      "Accio Broom"
+    ],
+    "a": 0,
+    "pts": 10,
+    "time": 15
+  },
+  {
+    "id": 96,
+    "q": "In what year was the first Harry Potter book published?",
+    "o": [
+      "1995",
+      "1996",
+      "1997",
+      "1998"
+    ],
+    "a": 2,
+    "pts": 15,
+    "time": 20
+  },
+  {
+    "id": 97,
+    "q": "What is the Hogwarts motto?",
+    "o": [
+      "Never tickle a sleeping dragon",
+      "Draco Dormiens Nunquam Titillandus",
+      "Magic is might",
+      "Courage above all"
+    ],
+    "a": 1,
+    "pts": 20,
+    "time": 25
+  },
+  {
+    "id": 98,
+    "q": "What is Hermione's middle name?",
+    "o": [
+      "Rose",
+      "Jane",
+      "Ann",
+      "Elizabeth"
+    ],
+    "a": 1,
+    "pts": 20,
+    "time": 25
+  },
+  {
+    "id": 99,
+    "q": "Which spell locks a door from the inside?",
+    "o": [
+      "Colloportus",
+      "Alohomora",
+      "Clausus",
+      "Imperturbable"
+    ],
+    "a": 0,
+    "pts": 15,
+    "time": 20
+  },
+  {
+    "id": 100,
+    "q": "Where was Voldemort born?",
+    "o": [
+      "London",
+      "Little Hangleton",
+      "Wool's Orphanage, London",
+      "Godric's Hollow"
+    ],
+    "a": 2,
+    "pts": 20,
+    "time": 25
+  },
+  {
+    "id": 101,
+    "q": "What is the name of the magical creature that only appears to those who have witnessed death?",
+    "o": [
+      "Basilisk",
+      "Dementor",
+      "Thestral",
+      "Hippogriff"
+    ],
+    "a": 2,
+    "pts": 15,
+    "time": 20
+  },
+  {
+    "id": 102,
+    "q": "What form does Lord Voldemort assume at the end of Goblet of Fire?",
+    "o": [
+      "A giant serpent",
+      "A shadow",
+      "A human body restored by dark ritual",
+      "A wraith"
+    ],
+    "a": 2,
+    "pts": 15,
+    "time": 20
+  },
+  {
+    "id": 103,
+    "q": "Who does Luna Lovegood marry?",
+    "o": [
+      "Neville Longbottom",
+      "Rolf Scamander",
+      "Dean Thomas",
+      "Draco Malfoy"
+    ],
+    "a": 1,
+    "pts": 20,
+    "time": 25
+  },
+  {
+    "id": 104,
+    "q": "What is the name of Voldemort's real name before he changed it?",
+    "o": [
+      "Tom Marvolo Riddle",
+      "Tom Mordecai Riddle",
+      "Tom Marvolo Slytherin",
+      "Thomas M. Riddle"
+    ],
+    "a": 0,
+    "pts": 10,
+    "time": 15
+  },
+  {
+    "id": 105,
+    "q": "Which subject does Professor Flitwick teach?",
+    "o": [
+      "Potions",
+      "Defense Against the Dark Arts",
+      "Charms",
+      "Transfiguration"
+    ],
+    "a": 2,
+    "pts": 10,
+    "time": 15
+  },
+  {
+    "id": 106,
+    "q": "What is the core of Hermione's wand?",
+    "o": [
+      "Dragon heartstring",
+      "Phoenix feather",
+      "Unicorn hair",
+      "Thestral tail hair"
+    ],
+    "a": 0,
+    "pts": 20,
+    "time": 25
+  },
+  {
+    "id": 107,
+    "q": "Who inherits the Black family home at 12 Grimmauld Place?",
+    "o": [
+      "Bellatrix Lestrange",
+      "Narcissa Malfoy",
+      "Harry Potter",
+      "Kreacher the house elf"
+    ],
+    "a": 2,
+    "pts": 15,
+    "time": 20
+  },
+  {
+    "id": 108,
+    "q": "Which Weasley twin dies in the Battle of Hogwarts?",
+    "o": [
+      "George",
+      "Fred",
+      "Both survive",
+      "Percy"
+    ],
+    "a": 1,
+    "pts": 15,
+    "time": 20
+  },
+  {
+    "id": 109,
+    "q": "What potion grants the drinker exceptional luck?",
+    "o": [
+      "Amortentia",
+      "Veritaserum",
+      "Felix Felicis",
+      "Polyjuice Potion"
+    ],
+    "a": 2,
+    "pts": 10,
+    "time": 15
+  },
+  {
+    "id": 110,
+    "q": "How many points is the Golden Snitch worth in Quidditch?",
+    "o": [
+      "100",
+      "150",
+      "200",
+      "50"
+    ],
+    "a": 1,
+    "pts": 10,
+    "time": 15
+  },
+  {
+    "id": 111,
+    "q": "What is the name of the spell that Harry uses to defeat Voldemort in the final battle?",
+    "o": [
+      "Avada Kedavra",
+      "Stupefy",
+      "Expelliarmus",
+      "Sectumsempra"
+    ],
+    "a": 2,
+    "pts": 20,
+    "time": 25
+  },
+  {
+    "id": 112,
+    "q": "Who is the Ravenclaw ghost?",
+    "o": [
+      "The Fat Friar",
+      "The Bloody Baron",
+      "The Grey Lady",
+      "Nearly Headless Nick"
+    ],
+    "a": 2,
+    "pts": 10,
+    "time": 15
+  },
+  {
+    "id": 113,
+    "q": "Which Minister for Magic is secretly a Death Eater in Book 7?",
+    "o": [
+      "Cornelius Fudge",
+      "Rufus Scrimgeour",
+      "Pius Thicknesse",
+      "Bartemius Crouch Sr."
+    ],
+    "a": 2,
+    "pts": 20,
+    "time": 25
+  },
+  {
+    "id": 114,
+    "q": "What object does Harry use to breathe underwater in the second Triwizard task?",
+    "o": [
+      "A water-breathing potion",
+      "Gillyweed",
+      "A bubble-head charm",
+      "A mermaid's pendant"
+    ],
+    "a": 1,
+    "pts": 15,
+    "time": 20
+  },
+  {
+    "id": 115,
+    "q": "What is the name of the magical candy that allows communication?",
+    "o": [
+      "Extendable Ears",
+      "Peruvian Instant Darkness Powder",
+      "Skiving Snackboxes",
+      "Ton-Tongue Toffee"
+    ],
+    "a": 0,
+    "pts": 15,
+    "time": 20
+  },
+  {
+    "id": 116,
+    "q": "Who petrified the students and Nearly Headless Nick in Chamber of Secrets?",
+    "o": [
+      "The Basilisk (through reflections)",
+      "Tom Riddle's diary",
+      "Draco Malfoy",
+      "Lucius Malfoy"
+    ],
+    "a": 0,
+    "pts": 15,
+    "time": 20
+  },
+  {
+    "id": 117,
+    "q": "What is the core of Neville Longbottom's first wand?",
+    "o": [
+      "Unicorn hair",
+      "Dragon heartstring",
+      "His father's wand core — also unicorn hair",
+      "Phoenix feather"
+    ],
+    "a": 2,
+    "pts": 20,
+    "time": 25
+  },
+  {
+    "id": 118,
+    "q": "Who confunded the Goblet of Fire to add Harry's name?",
+    "o": [
+      "Bartemius Crouch Jr. disguised as Moody",
+      "Peter Pettigrew",
+      "Lucius Malfoy",
+      "Voldemort himself"
+    ],
+    "a": 0,
+    "pts": 20,
+    "time": 25
+  },
+  {
+    "id": 119,
+    "q": "What is the spell that reveals the last spell cast by a wand?",
+    "o": [
+      "Priori Incantatem",
+      "Revelio",
+      "Prior Incantato",
+      "Specialis Revelio"
+    ],
+    "a": 2,
+    "pts": 20,
+    "time": 25
+  },
+  {
+    "id": 120,
+    "q": "How does Dumbledore's brother Aberforth communicate using the mirror shard?",
+    "o": [
+      "Patronus",
+      "Floo powder",
+      "Through the mirror network in the Hog's Head",
+      "Owl post"
+    ],
+    "a": 2,
+    "pts": 20,
+    "time": 25
+  }
+]

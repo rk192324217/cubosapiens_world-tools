@@ -1,0 +1,1 @@
+# cubosapiens_image_resizer

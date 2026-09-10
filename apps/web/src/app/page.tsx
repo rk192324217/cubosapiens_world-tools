@@ -10,7 +10,7 @@ import OnboardingGreeting from "@/components/ui/OnboardingGreeting"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "CUBOSAPIENS - DEV",
+  title: "CUBOSAPIENS",
   description: "Free browser-based tools, games and AI for everyone. No signup, no cost, simply works in your browser.",
   keywords: ["free online tools", "browser tools", "GPS photo stamp", "QR code generator", "image compressor", "PDF merger", "word counter", "free games", "AI tools", "cubosapiens", "AI Games", "Virtual Games"],
   authors: [{ name: "CUBOSAPIENS", url: "https://cubosapiens.world" }],

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cubo Json</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Background orbs -->
+  <div class="bg-orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <div class="logo-wrap">
+      <div class="logo-icon">
+        <img src="assets/logo.png" alt="Logo" />
+      </div>
+      <span class="logo-name">Cubo <span>Json</span></span>
+    </div>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+      <span class="toggle-icons">
+        <i class="fa-solid fa-sun"></i>
+        <i class="fa-solid fa-moon"></i>
+      </span>
+    </button>
+  </header>
+
+  <main>
+
+    <!-- Hero -->
+    <div class="hero">
+      <h1>Format <em>JSON</em> instantly</h1>
+      <p>Beautify · Minify · Validate · Explore</p>
+    </div>
+
+    <!-- Action toolbar -->
+    <div class="toolbar">
+      <div class="toolbar-left">
+        <button class="btn-action primary" id="btnFormat">
+          <i class="fa-solid fa-wand-magic-sparkles"></i> Format
+        </button>
+        <button class="btn-action" id="btnMinify">
+          <i class="fa-solid fa-compress"></i> Minify
+        </button>
+        <button class="btn-action" id="btnClear">
+          <i class="fa-solid fa-trash"></i> Clear
+        </button>
+      </div>
+      <div class="toolbar-right">
+        <button class="btn-action" id="btnCopy">
+          <i class="fa-regular fa-copy"></i> Copy
+        </button>
+        <button class="btn-action" id="btnDownload">
+          <i class="fa-solid fa-download"></i> Download
+        </button>
+        <!-- Indent selector -->
+        <div class="indent-wrap">
+          <span class="control-label">Indent</span>
+          <div class="seg-control">
+            <button class="seg-btn" data-indent="2">2</button>
+            <button class="seg-btn active" data-indent="4">4</button>
+            <button class="seg-btn" data-indent="tab">Tab</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Status bar -->
+    <div class="status-bar" id="statusBar">
+      <span class="status-dot" id="statusDot"></span>
+      <span id="statusText">Paste JSON to get started</span>
+      <span class="status-meta" id="statusMeta"></span>
+    </div>
+
+    <!-- Main editor grid -->
+    <div class="editor-grid">
+
+      <!-- Input panel -->
+      <div class="panel card">
+        <div class="panel-header">
+          <span class="card-label">Input</span>
+          <span class="panel-hint">Paste your JSON here</span>
+        </div>
+        <div class="editor-wrap" id="inputWrap">
+          <div class="line-numbers" id="inputLineNums"></div>
+          <textarea
+            id="jsonInput"
+            class="editor-textarea"
+            placeholder='{ "key": "value" }'
+            spellcheck="false"
+            autocomplete="off"
+            autocorrect="off"
+          ></textarea>
+        </div>
+      </div>
+
+      <!-- Output panel -->
+      <div class="panel card">
+        <div class="panel-header">
+          <span class="card-label">Output</span>
+          <!-- Tab switcher: Formatted vs Tree -->
+          <div class="view-tabs">
+            <button class="view-tab active" data-view="formatted">Formatted</button>
+            <button class="view-tab" data-view="tree">Tree view</button>
+          </div>
+        </div>
+
+        <!-- Formatted output -->
+        <div class="editor-wrap" id="outputWrap">
+          <div class="line-numbers" id="outputLineNums"></div>
+          <pre id="jsonOutput" class="editor-pre"></pre>
+        </div>
+
+        <!-- Tree view -->
+        <div id="treeView" class="tree-view" style="display:none;"></div>
+      </div>
+
+    </div>
+
+    <!-- Ad slots -->
+    <div class="ads-row">
+      <div class="ad-slot">Advertisement</div>
+      <div class="ad-slot">Advertisement</div>
+    </div>
+
+  </main>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

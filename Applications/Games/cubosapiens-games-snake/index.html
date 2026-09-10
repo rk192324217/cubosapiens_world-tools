@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<title>Snake – Free Retro Arcade Game | CuboSapiens</title>
+<meta name="description" content="Play classic Snake free at CuboSapiens. Six snake types, 10 colour themes, three game modes, emoji food. No download, no login."/>
+<meta name="keywords" content="snake game, classic snake, free snake online, retro arcade, cubosapiens"/>
+<meta name="author" content="CuboSapiens"/>
+<meta name="robots" content="index, follow"/>
+<link rel="canonical" href="https://cubosapiens.world/games/snake"/>
+<meta property="og:type" content="website"/>
+<meta property="og:url" content="https://cubosapiens.world/games/snake"/>
+<meta property="og:title" content="Snake – Free Retro Arcade | CuboSapiens"/>
+<meta property="og:description" content="Classic Snake with 10 themes, 6 snake types, 3 game modes. Free forever."/>
+<meta property="og:image" content="https://cubosapiens.world/games/snake/og-image.png"/>
+<meta property="og:site_name" content="CuboSapiens"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="Snake – Free Retro Arcade | CuboSapiens"/>
+<meta name="twitter:description" content="Classic Snake with themes, custom snake types, emoji food. Free forever."/>
+<meta name="twitter:image" content="https://cubosapiens.world/games/snake/og-image.png"/>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Game","name":"Snake","description":"Classic Snake arcade game with themes and customisation.","url":"https://cubosapiens.world/games/snake","publisher":{"@type":"Organization","name":"CuboSapiens","url":"https://cubosapiens.world"},"genre":"Arcade","playMode":"SinglePlayer"}</script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet"/>
+<style>
+/* ═══════════════════════════════════════════════════
+   RESET
+═══════════════════════════════════════════════════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+html,body{height:100%;overflow-x:hidden;font-family:'Press Start 2P',monospace}
+
+/* ═══════════════════════════════════════════════════
+   THEME VARIABLES (swapped by JS)
+═══════════════════════════════════════════════════ */
+:root{
+  --bg:#0a0a14;--grid:#14141e;
+  --s1:#39FF14;--s2:#2db810;--head:#ffffff;
+  --food:#E24B4A;--facc:#ff8888;
+  --shell:#12121e;--border:#3a3a6a;
+  --ov:rgba(10,10,20,0.93);
+  --btn:#3a3a6a;--btnb:#5a5aaa;
+  --lbl:#7777cc;--slbl:#4a4a8a;--sval:#aaaaff;--ttag:#7777cc;
+}
+
+body{
+  background:var(--bg);
+  display:flex;flex-direction:column;align-items:center;justify-content:flex-start;
+  padding:10px 6px 30px;
+  transition:background 0.35s;
+  min-height:100dvh;
+}
+
+/* ═══════════════════════════════════════════════════
+   BREADCRUMB (top of page, above shell)
+═══════════════════════════════════════════════════ */
+.page-header{
+  width:100%;max-width:480px;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 4px 10px;
+  border-bottom:1px solid rgba(255,255,255,0.06);
+  margin-bottom:10px;
+}
+
+.logo-slot{display:flex;align-items:center;gap:8px;text-decoration:none}
+
+.logo-pill{
+  height:32px;padding:0 10px;
+  background:linear-gradient(135deg,#ffe600,#ff6a00);
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.42rem;color:#000;font-weight:bold;
+  border:2px solid #000;box-shadow:2px 2px 0 #000;
+}
+.site-lbl{
+  font-size:0.32rem;line-height:1.8;
+  background:linear-gradient(90deg,#ffe600,#00f5ff);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.breadcrumb{font-family:'VT323',monospace;font-size:0.9rem;color:var(--lbl);letter-spacing:1px;text-align:right}
+.breadcrumb a{color:var(--lbl);text-decoration:none}
+.breadcrumb a:hover{color:#ffe600}
+
+/* ═══════════════════════════════════════════════════
+   SHELL — the game console body
+═══════════════════════════════════════════════════ */
+#shell{
+  background:var(--shell);
+  border:4px solid var(--border);
+  border-radius:22px;
+  padding:14px 14px 18px;
+  max-width:480px;width:100%;
+  box-shadow:0 0 0 3px rgba(0,0,0,0.5),0 12px 50px rgba(0,0,0,0.85);
+  transition:background 0.35s,border-color 0.35s;
+  position:relative;
+}
+
+/* ═══════════════════════════════════════════════════
+   SCREENS
+═══════════════════════════════════════════════════ */
+.screen{display:none}
+.screen.active{display:block}
+
+.game-card{display:flex;flex-direction:column;align-items:center;gap:12px;padding:4px 2px}
+.title{font-size:20px;color:var(--sval);letter-spacing:2px;text-shadow:0 0 12px var(--s1);text-align:center}
+.title.small{font-size:13px}
+.title.over{color:var(--food);text-shadow:0 0 12px var(--food)}
+.subtitle{font-size:6.5px;color:var(--lbl);letter-spacing:2px;text-align:center}
+.section-title{font-size:5.5px;color:var(--lbl);letter-spacing:2px;align-self:flex-start;margin-top:4px}
+
+/* ═══════════════════════════════════════════════════
+   TOP BAR (score / brand / best — always visible)
+═══════════════════════════════════════════════════ */
+#topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.sbox{background:var(--bg);border:2px solid var(--border);border-radius:6px;padding:5px 9px;min-width:82px;transition:background 0.35s,border-color 0.35s}
+.slbl{font-size:5px;color:var(--slbl);letter-spacing:1px;display:block;margin-bottom:3px}
+.sval-num{font-size:12px;color:var(--sval)}
+#ttag{font-size:6.5px;letter-spacing:2px;color:var(--ttag);text-align:center;line-height:1.8}
+
+/* ═══════════════════════════════════════════════════
+   BUTTONS
+═══════════════════════════════════════════════════ */
+.btn{
+  background:var(--btn);border:3px solid var(--btnb);
+  color:var(--sval);font-family:'Press Start 2P',monospace;
+  font-size:7.5px;padding:11px 20px;border-radius:7px;
+  cursor:pointer;letter-spacing:1px;width:100%;max-width:280px;
+  box-shadow:0 4px 0 rgba(0,0,0,0.5);
+  transition:background 0.15s,border-color 0.15s,transform 0.08s,box-shadow 0.08s;
+}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,0.4)}
+.btn.btn-primary{background:var(--s1);border-color:var(--s2);color:#000}
+.btn-row{display:flex;gap:10px;width:100%;justify-content:center}
+.btn-row .btn{max-width:140px}
+
+/* ═══════════════════════════════════════════════════
+   IN-GAME HUD ROW
+═══════════════════════════════════════════════════ */
+#hud{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-bottom:7px;font-size:6.5px;color:var(--lbl);
+}
+#mode-label{color:var(--ttag);letter-spacing:1px}
+
+/* Pause button — top-right of HUD */
+#pause-btn{
+  background:var(--btn);border:2px solid var(--btnb);
+  color:var(--sval);font-family:'Press Start 2P',monospace;
+  font-size:6px;padding:4px 8px;border-radius:5px;
+  cursor:pointer;letter-spacing:1px;
+  transition:background 0.15s,border-color 0.15s;
+  white-space:nowrap;
+}
+#pause-btn:hover{background:var(--btnb)}
+#pause-btn:active{transform:scale(0.93)}
+
+/* ═══════════════════════════════════════════════════
+   CANVAS + OVERLAY
+═══════════════════════════════════════════════════ */
+#scrwrap{
+  background:var(--bg);border:3px solid var(--border);
+  border-radius:8px;padding:4px;
+  position:relative;overflow:hidden;width:100%;
+  transition:border-color 0.35s;
+}
+/* CRT scanlines */
+#scrwrap::before{
+  content:'';position:absolute;inset:0;
+  background:repeating-linear-gradient(0deg,transparent,transparent 7px,rgba(0,0,0,0.07) 7px,rgba(0,0,0,0.07) 8px);
+  pointer-events:none;z-index:10;border-radius:6px;
+}
+#gc{display:block;width:100%;height:auto;border-radius:4px;image-rendering:pixelated;image-rendering:crisp-edges}
+
+#overlay{
+  position:absolute;inset:4px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  border-radius:6px;z-index:20;gap:12px;
+  background:var(--ov);transition:background 0.35s;
+}
+#overlay.hidden{display:none}
+#ovt{font-size:16px;color:var(--sval);text-align:center;line-height:1.7}
+#ovm{font-size:5.5px;color:var(--lbl);text-align:center;line-height:2.2;letter-spacing:1px}
+#ovsc{font-size:8px;color:var(--sval);text-align:center}
+#sbtn{
+  background:var(--s1);border:3px solid var(--s2);
+  color:#000;font-family:'Press Start 2P',monospace;
+  font-size:8px;padding:10px 22px;border-radius:6px;
+  cursor:pointer;letter-spacing:1px;
+  box-shadow:0 4px 0 rgba(0,0,0,0.4);
+  transition:transform 0.08s,box-shadow 0.08s;
+}
+#sbtn:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,0.4)}
+
+/* ═══════════════════════════════════════════════════
+   D-PAD  — bigger buttons, more space between them
+═══════════════════════════════════════════════════ */
+#dpad{
+  margin-top:14px;
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+}
+/* UP/DOWN rows centred, LEFT·[space]·RIGHT row */
+#dpad-up-row,#dpad-dn-row{display:flex;justify-content:center}
+#dpad-mid-row{display:flex;align-items:center;gap:10px}
+
+.db{
+  width:62px;height:62px;
+  background:var(--shell);
+  border:2px solid rgba(255,255,255,0.18);
+  color:var(--sval);font-size:20px;
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  user-select:none;transition:background 0.08s,color 0.15s;
+  font-family:inherit;
+}
+.db.up{border-radius:12px 12px 0 0}
+.db.dn{border-radius:0 0 12px 12px}
+.db.lt{border-radius:12px 0 0 12px}
+.db.rt{border-radius:0 12px 12px 0}
+.db:active{background:var(--s1)!important;color:#000}
+
+/* Centre gap between LEFT and RIGHT (no button, just space) */
+.dpad-gap{width:62px;height:62px;display:flex;align-items:center;justify-content:center}
+.dpad-dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,0.1)}
+
+/* ═══════════════════════════════════════════════════
+   BOTTOM BAR
+═══════════════════════════════════════════════════ */
+#botbar{
+  display:flex;justify-content:space-between;
+  align-items:center;margin-top:12px;padding:0 2px;
+}
+.leds{display:flex;gap:5px}
+.led{
+  width:9px;height:9px;border-radius:50%;
+  border:1.5px solid rgba(255,255,255,0.18);
+  background:rgba(0,0,0,0.5);
+  transition:background 0.2s,box-shadow 0.2s;
+}
+#lvlnum{font-size:5.5px;color:var(--slbl);letter-spacing:1px}
+#brand{font-size:5px;letter-spacing:2px;opacity:0.28;color:#fff}
+
+/* ═══════════════════════════════════════════════════
+   PALETTE PICKER
+═══════════════════════════════════════════════════ */
+#palettes{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;width:100%}
+.pal-card{border-radius:8px;padding:7px 5px 6px;cursor:pointer;border:3px solid transparent;transition:border-color 0.15s,transform 0.1s;text-align:center}
+.pal-card:active{transform:scale(0.95)}
+.pal-card.active{border-color:#fff!important}
+.pal-swatches{display:flex;gap:3px;justify-content:center;margin-bottom:5px}
+.sw{width:10px;height:10px;border-radius:2px}
+.pal-name{font-size:4.5px;letter-spacing:0.5px}
+
+/* ═══════════════════════════════════════════════════
+   CUSTOMISE SCREEN
+═══════════════════════════════════════════════════ */
+.options-grid{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;width:100%}
+.opt-btn{
+  background:var(--btn);border:2px solid var(--btnb);
+  color:var(--sval);font-family:'Press Start 2P',monospace;
+  font-size:5.5px;padding:7px 9px;border-radius:5px;cursor:pointer;
+  transition:background 0.1s,border-color 0.1s,transform 0.08s;
+}
+.opt-btn:active{transform:scale(0.92)}
+.opt-btn.selected{background:var(--s1);border-color:var(--s2);color:#000}
+
+.color-grid{display:flex;flex-wrap:wrap;gap:7px;justify-content:center}
+.color-dot{width:24px;height:24px;border-radius:50%;cursor:pointer;border:3px solid transparent;transition:border-color 0.12s,transform 0.1s}
+.color-dot:active{transform:scale(0.82)}
+.color-dot.selected{border-color:#fff;box-shadow:0 0 8px rgba(255,255,255,0.5)}
+
+/* ── SNAKE PREVIEW CANVAS ── */
+#snake-preview-wrap{
+  width:100%;
+  background:var(--bg);
+  border:2px solid var(--border);
+  border-radius:8px;
+  padding:8px;
+  display:flex;flex-direction:column;align-items:center;gap:4px;
+}
+#snake-preview-label{font-size:5px;color:var(--lbl);letter-spacing:1.5px}
+#snake-preview{display:block;image-rendering:pixelated}
+
+/* ═══════════════════════════════════════════════════
+   MODE SELECT
+═══════════════════════════════════════════════════ */
+.mode-cards{display:flex;gap:8px;justify-content:center;width:100%}
+.mode-card{
+  background:var(--btn);border:3px solid var(--btnb);
+  border-radius:10px;padding:12px 8px;cursor:pointer;flex:1;text-align:center;
+  transition:background 0.12s,border-color 0.12s,transform 0.1s;
+}
+.mode-card:active{transform:scale(0.95)}
+.mode-card.selected{border-color:var(--s1)}
+.mode-icon{font-size:20px;margin-bottom:7px}
+.mc-title{font-size:6px;color:var(--sval);margin-bottom:4px}
+.mc-desc{font-size:4.5px;color:var(--lbl);line-height:1.7}
+
+.speed-row{display:flex;align-items:center;gap:10px;width:100%;justify-content:center}
+.speed-label{font-size:5.5px;color:var(--lbl)}
+#speed-slider{-webkit-appearance:none;appearance:none;width:100px;height:5px;background:var(--btn);border-radius:3px;outline:none}
+#speed-slider::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--s1);cursor:pointer}
+#speed-label-val{font-size:5.5px;color:var(--sval);min-width:40px}
+
+/* ═══════════════════════════════════════════════════
+   GAME OVER
+═══════════════════════════════════════════════════ */
+#over-score{font-size:28px;color:var(--sval)}
+#over-best{font-size:7.5px;color:var(--lbl)}
+
+/* ═══════════════════════════════════════════════════
+   SPLASH CANVAS
+═══════════════════════════════════════════════════ */
+#splash-canvas{width:100%;max-width:300px;display:block;image-rendering:pixelated;border-radius:6px}
+
+/* ═══════════════════════════════════════════════════
+   SCROLL AREA (customise)
+═══════════════════════════════════════════════════ */
+.scroll-section{
+  width:100%;max-height:56vh;overflow-y:auto;overscroll-behavior:contain;
+  display:flex;flex-direction:column;align-items:center;gap:10px;padding:4px 2px;
+}
+.scroll-section::-webkit-scrollbar{width:4px}
+.scroll-section::-webkit-scrollbar-track{background:var(--bg)}
+.scroll-section::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+
+/* ═══════════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════════ */
+@media(max-width:380px){
+  #shell{padding:10px 10px 14px}
+  .db{width:54px;height:54px;font-size:17px}
+  .title{font-size:16px}
+}
+@media(min-width:500px){
+  #shell{padding:18px 18px 22px}
+  .db{width:68px;height:68px;font-size:22px}
+}
+@media(min-width:768px){
+  body{justify-content:center;padding:20px}
+  #shell{max-width:480px}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════
+     PAGE HEADER — logo + breadcrumb (outside shell)
+═══════════════════════════════════════════════════ -->
+<header class="page-header">
+  <a href="https://cubosapiens.world" class="logo-slot" aria-label="CuboSapiens Home">
+<img src="/assets/logo.png" alt="CuboSapiens" style="height:32px; border-radius:100%; border:rgb(179, 255, 72) 1px solid;">
+    <div class="site-lbl">CUBO<br>SAPIENS</div>
+  </a>
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="https://cubosapiens.world">HOME</a> &rsaquo;
+    <a href="https://cubosapiens.world/games">GAMES</a> &rsaquo; SNAKE
+  </nav>
+</header>
+
+<!-- ═══════════════════════════════════════════════════
+     SHELL
+═══════════════════════════════════════════════════ -->
+<div id="shell">
+
+  <!-- Always-visible top bar -->
+  <div id="topbar">
+    <div class="sbox">
+      <span class="slbl">SCORE</span>
+      <span class="sval-num" id="sdp">000</span>
+    </div>
+    <div id="ttag"><i class="fa-solid fa-worm"></i> SNEK<br>RETRO</div>
+    <div class="sbox" style="text-align:right">
+      <span class="slbl">BEST</span>
+      <span class="sval-num" id="bdp">000</span>
+    </div>
+  </div>
+
+  <!-- ══ SPLASH ══ -->
+  <div id="screen-splash" class="screen active">
+    <div class="game-card">
+      <div class="title"><i class="fa-solid fa-worm"></i> SNEK</div>
+      <div class="subtitle">RETRO ULTIMATE EDITION</div>
+      <canvas id="splash-canvas" width="300" height="100"></canvas>
+      <button class="btn btn-primary" id="btn-splash-start"><i class="fa-solid fa-play"></i> TAP TO START</button>
+    </div>
+  </div>
+
+  <!-- ══ MENU ══ -->
+  <div id="screen-menu" class="screen">
+    <div class="game-card">
+      <div class="title"><i class="fa-solid fa-worm"></i> SNEK</div>
+      <div class="subtitle">RETRO ULTIMATE EDITION</div>
+      <button class="btn btn-primary" id="btn-play"><i class="fa-solid fa-play"></i> PLAY</button>
+      <button class="btn" id="btn-customise"><i class="fa-solid fa-paintbrush"></i> CUSTOMISE SNAKE</button>
+      <button class="btn" id="btn-themes"><i class="fa-solid fa-palette"></i> COLOUR THEMES</button>
+      <button class="btn" id="btn-hiscore"><i class="fa-solid fa-trophy"></i> BEST: <span id="menu-hi">0</span></button>
+    </div>
+  </div>
+
+  <!-- ══ CUSTOMISE ══ -->
+  <div id="screen-custom" class="screen">
+    <div class="game-card">
+      <div class="title small"><i class="fa-solid fa-paintbrush"></i> CUSTOMISE</div>
+
+      <!-- Live preview of selected snake type + colour -->
+      <div id="snake-preview-wrap">
+        <span id="snake-preview-label">PREVIEW</span>
+        <canvas id="snake-preview" width="200" height="44"></canvas>
+      </div>
+
+      <div class="scroll-section">
+        <div class="section-title">SNAKE TYPE</div>
+        <div class="options-grid" id="snake-types"></div>
+
+        <div class="section-title">SNAKE COLOUR</div>
+        <div class="color-grid" id="snake-colors"></div>
+
+        <div class="section-title">FOOD TYPE</div>
+        <div class="options-grid" id="food-types"></div>
+
+        <div class="section-title">FOOD COLOUR</div>
+        <div class="color-grid" id="food-colors"></div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn" id="btn-custom-back"><i class="fa-solid fa-arrow-left"></i> BACK</button>
+        <button class="btn btn-primary" id="btn-custom-play">PLAY <i class="fa-solid fa-play"></i></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ THEMES ══ -->
+  <div id="screen-themes" class="screen">
+    <div class="game-card">
+      <div class="title small"><i class="fa-solid fa-palette"></i> THEMES</div>
+      <span style="font-size:5px;color:var(--lbl);letter-spacing:1.5px">CHOOSE YOUR COLOUR PALETTE</span>
+      <div id="palettes" style="width:100%"></div>
+      <div class="btn-row">
+        <button class="btn" id="btn-themes-back"><i class="fa-solid fa-arrow-left"></i> BACK</button>
+        <button class="btn btn-primary" id="btn-themes-play">PLAY <i class="fa-solid fa-play"></i></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ MODE SELECT ══ -->
+  <div id="screen-mode" class="screen">
+    <div class="game-card">
+      <div class="title small">SELECT MODE</div>
+      <div class="mode-cards">
+        <div class="mode-card selected" id="mc-classic" data-mode="classic">
+          <div class="mode-icon"><i class="fa-solid fa-border-all"></i></div>
+          <div class="mc-title">CLASSIC</div>
+          <div class="mc-desc">Standard walls</div>
+        </div>
+        <div class="mode-card" id="mc-infinity" data-mode="infinity">
+          <div class="mode-icon"><i class="fa-solid fa-infinity"></i></div>
+          <div class="mc-title">INFINITY</div>
+          <div class="mc-desc">Wrap around</div>
+        </div>
+        <div class="mode-card" id="mc-walls" data-mode="walls">
+          <div class="mode-icon"><i class="fa-solid fa-cubes"></i></div>
+          <div class="mc-title">WALLS</div>
+          <div class="mc-desc">Extra obstacles</div>
+        </div>
+      </div>
+      <div class="speed-row">
+        <span class="speed-label">SPEED</span>
+        <input type="range" min="1" max="4" step="1" value="2" id="speed-slider"/>
+        <span id="speed-label-val">Normal</span>
+      </div>
+      <div class="btn-row">
+        <button class="btn" id="btn-mode-back"><i class="fa-solid fa-arrow-left"></i> BACK</button>
+        <button class="btn btn-primary" id="btn-start">START <i class="fa-solid fa-play"></i></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ GAME ══ -->
+  <div id="screen-game" class="screen">
+    <!-- HUD: score | mode | pause button | best -->
+    <div id="hud">
+      <span>SCORE <span id="score-val">0</span></span>
+      <span id="mode-label">CLASSIC</span>
+      <button id="pause-btn" title="Pause (Space)"><i class="fa-solid fa-pause"></i> PAUSE</button>
+      <span>BEST <span id="hi-val">0</span></span>
+    </div>
+
+    <!-- Canvas with overlay -->
+    <div id="scrwrap">
+      <canvas id="gc" width="400" height="400"></canvas>
+      <div id="overlay">
+        <div id="ovt"><i class="fa-solid fa-worm"></i> SNEK<br>RETRO</div>
+        <div id="ovm">PICK THEME &amp; SNAKE<br>THEN PRESS START</div>
+        <div id="ovsc"></div>
+        <button id="sbtn"><i class="fa-solid fa-play"></i> START</button>
+      </div>
+    </div>
+
+    <!-- D-Pad: UP on top, LEFT [gap] RIGHT in middle, DOWN below -->
+    <div id="dpad" aria-label="Directional controls">
+      <div id="dpad-up-row">
+        <button class="db up" data-d="UP" aria-label="Up">&#9650;</button>
+      </div>
+      <div id="dpad-mid-row">
+        <button class="db lt" data-d="LEFT" aria-label="Left">&#9664;</button>
+        <div class="dpad-gap"><div class="dpad-dot"></div></div>
+        <button class="db rt" data-d="RIGHT" aria-label="Right">&#9654;</button>
+      </div>
+      <div id="dpad-dn-row">
+        <button class="db dn" data-d="DOWN" aria-label="Down">&#9660;</button>
+      </div>
+    </div>
+
+    <!-- Bottom bar -->
+    <div id="botbar">
+      <div class="leds">
+        <div class="led" id="l1"></div>
+        <div class="led" id="l2"></div>
+        <div class="led" id="l3"></div>
+      </div>
+      <span id="lvlnum">LVL <span id="ln">1</span></span>
+      <button class="btn" id="btn-game-menu" style="max-width:90px;font-size:5.5px;padding:7px 10px"><i class="fa-solid fa-arrow-left"></i> MENU</button>
+    </div>
+  </div>
+
+  <!-- ══ GAME OVER ══ -->
+  <div id="screen-over" class="screen">
+    <div class="game-card">
+      <div class="title over">GAME OVER</div>
+      <div id="over-score">0</div>
+      <div id="over-best"></div>
+      <button class="btn btn-primary" id="btn-retry"><i class="fa-solid fa-rotate-right"></i> TRY AGAIN</button>
+      <button class="btn" id="btn-over-custom"><i class="fa-solid fa-paintbrush"></i> CUSTOMISE</button>
+      <button class="btn" id="btn-over-themes"><i class="fa-solid fa-palette"></i> THEMES</button>
+      <button class="btn" id="btn-over-menu"><i class="fa-solid fa-arrow-left"></i> MENU</button>
+    </div>
+  </div>
+
+</div><!-- /#shell -->
+
+<script>
+'use strict';
+/* ═══════════════════════════════════════════════════
+   THEMES
+═══════════════════════════════════════════════════ */
+const THEMES=[
+  {name:"NEON",      bg:"#0a0a14",grid:"#1e1e2e",s1:"#39FF14",s2:"#2db810",head:"#ffffff",food:"#E24B4A",facc:"#ff8888",shell:"#12121e",border:"#3a3a6a",ov:"rgba(10,10,20,0.93)",btn:"#3a3a6a",btnb:"#5a5aaa",lbl:"#7777cc",slbl:"#4a4a8a",sval:"#aaaaff",ttag:"#7777cc",swatches:["#39FF14","#E24B4A","#aaaaff","#12121e"]},
+  {name:"GAMEBOY",   bg:"#0f380f",grid:"#1a4e1a",s1:"#306230",s2:"#8bac0f",head:"#9bbc0f",food:"#e0f8d0",facc:"#9bbc0f",shell:"#1a1a1a",border:"#306230",ov:"rgba(15,56,15,0.93)",btn:"#306230",btnb:"#8bac0f",lbl:"#8bac0f",slbl:"#306230",sval:"#9bbc0f",ttag:"#9bbc0f",swatches:["#9bbc0f","#8bac0f","#306230","#0f380f"]},
+  {name:"AMBER CRT", bg:"#120900",grid:"#241200",s1:"#7a4500",s2:"#b36200",head:"#ffaa00",food:"#ff6600",facc:"#ffcc44",shell:"#1a0a00",border:"#7a4500",ov:"rgba(18,9,0,0.93)",btn:"#7a4500",btnb:"#b36200",lbl:"#ffaa00",slbl:"#7a4500",sval:"#ffcc44",ttag:"#b36200",swatches:["#ffaa00","#b36200","#ff6600","#7a4500"]},
+  {name:"C64 BLUE",  bg:"#40318d",grid:"#4a3b99",s1:"#7869c4",s2:"#a094d4",head:"#ffffff",food:"#70a4b2",facc:"#a0d0e0",shell:"#2a1f6b",border:"#7869c4",ov:"rgba(42,31,107,0.93)",btn:"#7869c4",btnb:"#a094d4",lbl:"#a094d4",slbl:"#7869c4",sval:"#ffffff",ttag:"#a094d4",swatches:["#ffffff","#7869c4","#70a4b2","#2a1f6b"]},
+  {name:"BLOOD MOON",bg:"#0d0000",grid:"#200000",s1:"#6b0000",s2:"#a00000",head:"#ff3333",food:"#ff8800",facc:"#ffaa44",shell:"#1a0000",border:"#6b0000",ov:"rgba(13,0,0,0.93)",btn:"#6b0000",btnb:"#a00000",lbl:"#ff3333",slbl:"#6b0000",sval:"#ff6666",ttag:"#a00000",swatches:["#ff3333","#a00000","#ff8800","#1a0000"]},
+  {name:"PHOSPHOR",  bg:"#001200",grid:"#002800",s1:"#004d00",s2:"#008000",head:"#00ff41",food:"#00cc33",facc:"#80ff99",shell:"#001a00",border:"#004d00",ov:"rgba(0,18,0,0.93)",btn:"#004d00",btnb:"#008000",lbl:"#00ff41",slbl:"#004d00",sval:"#80ff99",ttag:"#008000",swatches:["#00ff41","#008000","#00cc33","#001a00"]},
+  {name:"MUSTARD",   bg:"#2A1508",grid:"#3e1e08",s1:"#6B8E23",s2:"#8DB33A",head:"#D4A017",food:"#CC5500",facc:"#E8722A",shell:"#5C3317",border:"#A07810",ov:"rgba(42,21,8,0.93)",btn:"#6B8E23",btnb:"#8DB33A",lbl:"#D4A017",slbl:"#A07810",sval:"#F0C040",ttag:"#8DB33A",swatches:["#D4A017","#6B8E23","#CC5500","#5C3317"]},
+  {name:"SAKURA",    bg:"#1a0010",grid:"#2e0020",s1:"#8b1a4a",s2:"#c4507a",head:"#ffb3c6",food:"#ff6b9d",facc:"#ffd6e0",shell:"#260018",border:"#8b1a4a",ov:"rgba(26,0,16,0.93)",btn:"#8b1a4a",btnb:"#c4507a",lbl:"#ffb3c6",slbl:"#8b1a4a",sval:"#ffd6e0",ttag:"#c4507a",swatches:["#ffb3c6","#c4507a","#ff6b9d","#1a0010"]},
+  {name:"ARCTIC",    bg:"#001428",grid:"#00203e",s1:"#005577",s2:"#0077aa",head:"#00ccff",food:"#ff9900",facc:"#ffbb44",shell:"#001428",border:"#005577",ov:"rgba(0,20,40,0.93)",btn:"#005577",btnb:"#0077aa",lbl:"#00ccff",slbl:"#005577",sval:"#88eeff",ttag:"#0077aa",swatches:["#00ccff","#0077aa","#ff9900","#001428"]},
+  {name:"GRAPE",     bg:"#0e0020",grid:"#1c0038",s1:"#4a0080",s2:"#7700cc",head:"#cc44ff",food:"#ff44aa",facc:"#ff88cc",shell:"#0e0020",border:"#4a0080",ov:"rgba(14,0,32,0.93)",btn:"#4a0080",btnb:"#7700cc",lbl:"#cc44ff",slbl:"#4a0080",sval:"#dd88ff",ttag:"#7700cc",swatches:["#cc44ff","#7700cc","#ff44aa","#0e0020"]},
+];
+
+/* ═══════════════════════════════════════════════════
+   SNAKE / FOOD DATA
+═══════════════════════════════════════════════════ */
+const SNAKE_TYPES  = ['Classic','Neon','Dotted','Scale','Rope','Pixel'];
+const SNAKE_COLORS = ['#39FF14','#00BFFF','#FF4500','#FFD700','#FF69B4','#FFFFFF','#7B2FBE','#FF8C00','#00CED1','#ADFF2F','#E24B4A','#AFA9EC'];
+const FOOD_TYPES   = ['APPLE','STAR','GEM','SHROOM','COIN','FLAME'];
+const FOOD_FA      = ['fa-apple-whole','fa-star','fa-gem','fa-seedling','fa-circle-dollar-to-slot','fa-fire'];
+const FOOD_COLORS  = ['#E24B4A','#FFD700','#00BFFF','#FF69B4','#7B2FBE','#39FF14'];
+const SPEEDS       = [null,180,130,90,55];
+const SPEED_LABELS = ['','Slow','Normal','Fast','Insane'];
+
+/* ═══════════════════════════════════════════════════
+   GRID — bigger canvas = more room to play
+═══════════════════════════════════════════════════ */
+const COLS=22, ROWS=22;
+const canvas=document.getElementById('gc');
+const ctx=canvas.getContext('2d');
+canvas.width=COLS*20; canvas.height=ROWS*20;
+const CELL=canvas.width/COLS; // 20px
+
+/* ═══════════════════════════════════════════════════
+   PERSISTENCE — localStorage save / load
+   Key: 'cubosapiens_snake_v1'
+   Saves: theme index, all cfg settings, hi-score.
+   Returning users skip the splash and load their
+   favourite theme + snake instantly.
+═══════════════════════════════════════════════════ */
+const SAVE_KEY = 'cubosapiens_snake_v1';
+
+function savePrefs() {
+  try {
+    localStorage.setItem(SAVE_KEY, JSON.stringify({
+      themeIdx : activeThemeIdx,
+      cfg      : { ...cfg },
+      hiScore  : hiScore,
+      visited  : true
+    }));
+  } catch(e) { /* storage unavailable — fail silently */ }
+}
+
+function loadPrefs() {
+  try {
+    const raw = localStorage.getItem(SAVE_KEY);
+    return raw ? JSON.parse(raw) : null;
+  } catch(e) { return null; }
+}
+
+/* ═══════════════════════════════════════════════════
+   STATE
+═══════════════════════════════════════════════════ */
+let T=THEMES[0];
+let activeThemeIdx=0;
+const cfg={snakeType:0,snakeColor:'#39FF14',foodType:0,foodColor:'#E24B4A',mode:'classic',speed:2};
+let snake,dir,nextDir,food,walls;
+let score=0,hiScore=0,loopId=null,paused=false,gameState='idle',blink=0;
+
+/* ═══════════════════════════════════════════════════
+   SCREENS
+═══════════════════════════════════════════════════ */
+const SCREENS=['splash','menu','custom','themes','mode','game','over'];
+function showScreen(n){SCREENS.forEach(s=>document.getElementById('screen-'+s).classList.remove('active'));document.getElementById('screen-'+n).classList.add('active')}
+
+/* ═══════════════════════════════════════════════════
+   THEME
+═══════════════════════════════════════════════════ */
+function applyTheme(t){
+  T=t;
+  const r=document.documentElement;
+  ['bg','grid','s1','s2','head','food','facc','shell','border','ov','btn','btnb','lbl','slbl','sval','ttag']
+    .forEach(k=>r.style.setProperty('--'+k,t[k]));
+  document.body.style.background=t.bg;
+  document.querySelectorAll('.db').forEach(b=>b.style.background=t.shell);
+  updateLeds();
+  if(gameState!=='idle')draw();
+}
+
+function buildPalettes(){
+  const c=document.getElementById('palettes');c.innerHTML='';
+  THEMES.forEach((t,i)=>{
+    const el=document.createElement('div');
+    el.className='pal-card'+(i===0?' active':'');
+    el.style.background=t.shell;
+    el.style.borderColor=i===0?t.sval:'transparent';
+    el.innerHTML=`<div class="pal-swatches">${t.swatches.map(s=>`<div class="sw" style="background:${s}"></div>`).join('')}</div><div class="pal-name" style="color:${t.lbl}">${t.name}</div>`;
+    const pick=e=>{e.preventDefault();selectPalette(i)};
+    el.addEventListener('click',pick);el.addEventListener('touchend',pick,{passive:false});
+    c.appendChild(el);
+  });
+}
+
+function selectPalette(i){
+  activeThemeIdx = i;
+  document.querySelectorAll('.pal-card').forEach((c,j)=>{c.classList.toggle('active',j===i);c.style.borderColor=j===i?THEMES[j].sval:'transparent'});
+  applyTheme(THEMES[i]);
+  savePrefs(); // persist theme choice immediately
+}
+
+/* ═══════════════════════════════════════════════════
+   SNAKE PREVIEW — draws a short sample snake on a mini canvas
+═══════════════════════════════════════════════════ */
+function drawPreview(){
+  const pc=document.getElementById('snake-preview');
+  if(!pc)return;
+  const px=pc.getContext('2d');
+  const PW=pc.width,PH=pc.height;
+  const PC=Math.floor(PH*0.9); // cell size
+  const segs=Math.floor(PW/PC);
+  px.fillStyle=T.bg;px.fillRect(0,0,PW,PH);
+  // Draw a horizontal strip of segments
+  for(let i=0;i<segs;i++){
+    const x=i*PC+Math.floor((PW-segs*PC)/2);
+    const y=Math.floor((PH-PC)/2);
+    const alpha=i===0?1:Math.max(0.28,1-(i/segs)*0.55);
+    px.globalAlpha=alpha;
+    drawSegmentOn(px,{x:0,y:0},i,x,y,PC,i===segs-1?{x:1,y:0}:null);
+    px.globalAlpha=1;
+  }
+  // Label under preview
+  document.getElementById('snake-preview-label').textContent=SNAKE_TYPES[cfg.snakeType].toUpperCase()+' · '+cfg.snakeColor;
+}
+
+/* drawSegmentOn — same as drawSegment but uses explicit x,y,cell params */
+function drawSegmentOn(px,s,i,x,y,C,dirForEyes){
+  const col=i===0?T.head:cfg.snakeColor;
+  const isHead=i===0;const pad=1;
+  switch(cfg.snakeType){
+    case 0:px.fillStyle=col;px.beginPath();px.roundRect(x+pad,y+pad,C-pad*2,C-pad*2,2);px.fill();if(isHead)_eyes(px,x,y,C,{x:1,y:0});break;
+    case 1:px.strokeStyle=col;px.lineWidth=2.5;px.shadowColor=col;px.shadowBlur=10;px.beginPath();px.roundRect(x+3,y+3,C-6,C-6,C/2);px.stroke();px.shadowBlur=0;if(isHead)_eyes(px,x,y,C,{x:1,y:0});break;
+    case 2:px.fillStyle=col;px.beginPath();px.arc(x+C/2,y+C/2,C/2-2,0,Math.PI*2);px.fill();break;
+    case 3:px.fillStyle=col;px.beginPath();px.moveTo(x+C/2,y+pad);px.lineTo(x+C-pad,y+C-pad);px.lineTo(x+pad,y+C-pad);px.closePath();px.fill();break;
+    case 4:px.strokeStyle=col;px.lineWidth=4;px.lineCap='round';px.beginPath();px.moveTo(x+3,y+C/2);px.lineTo(x+C-3,y+C/2);px.stroke();px.strokeStyle='rgba(0,0,0,0.3)';px.lineWidth=1;for(let n=0;n<3;n++){px.beginPath();px.moveTo(x+4+n*4,y+C/2-3);px.lineTo(x+6+n*4,y+C/2+3);px.stroke()}break;
+    default:px.fillStyle=col;const pz=Math.max(2,Math.floor(C/5));[[0,0],[pz,0],[0,pz],[pz,pz]].forEach(([ox,oy])=>{px.fillRect(x+Math.floor(C/4)+ox,y+Math.floor(C/4)+oy,pz-1,pz-1)});break;
+  }
+}
+
+/* ═══════════════════════════════════════════════════
+   CUSTOMISE UI
+═══════════════════════════════════════════════════ */
+function buildCustomUI(){
+  const stC=document.getElementById('snake-types');
+  stC.innerHTML=SNAKE_TYPES.map((t,i)=>`<button class="opt-btn${i===cfg.snakeType?' selected':''}" data-idx="${i}">${t}</button>`).join('');
+  stC.querySelectorAll('.opt-btn').forEach(b=>b.addEventListener('click',()=>{cfg.snakeType=+b.dataset.idx;buildCustomUI();savePrefs()}));
+
+  const scC=document.getElementById('snake-colors');
+  scC.innerHTML=SNAKE_COLORS.map(c=>`<div class="color-dot${c===cfg.snakeColor?' selected':''}" style="background:${c}" data-color="${c}"></div>`).join('');
+  scC.querySelectorAll('.color-dot').forEach(d=>d.addEventListener('click',()=>{cfg.snakeColor=d.dataset.color;buildCustomUI();savePrefs()}));
+
+  const ftC=document.getElementById('food-types');
+  ftC.innerHTML=FOOD_TYPES.map((f,i)=>`<button class="opt-btn${i===cfg.foodType?' selected':''}" style="font-size:11px;padding:7px 10px" data-idx="${i}"><i class="fa-solid ${FOOD_FA[i]}"></i><br><span style="font-size:4.5px;display:block;margin-top:3px">${f}</span></button>`).join('');
+  ftC.querySelectorAll('.opt-btn').forEach(b=>b.addEventListener('click',()=>{cfg.foodType=+b.dataset.idx;buildCustomUI();savePrefs()}));
+
+  const fcC=document.getElementById('food-colors');
+  fcC.innerHTML=FOOD_COLORS.map(c=>`<div class="color-dot${c===cfg.foodColor?' selected':''}" style="background:${c}" data-color="${c}"></div>`).join('');
+  fcC.querySelectorAll('.color-dot').forEach(d=>d.addEventListener('click',()=>{cfg.foodColor=d.dataset.color;buildCustomUI();savePrefs()}));
+
+  drawPreview();
+}
+
+function selectMode(m){
+  cfg.mode=m;
+  ['classic','infinity','walls'].forEach(x=>document.getElementById('mc-'+x).classList.toggle('selected',x===m));
+  savePrefs(); // persist mode choice
+}
+
+/* ═══════════════════════════════════════════════════
+   GAME LOGIC
+═══════════════════════════════════════════════════ */
+function placeFood(){
+  let f;
+  do{f={x:Math.floor(Math.random()*COLS),y:Math.floor(Math.random()*ROWS)}}
+  while(snake.some(s=>s.x===f.x&&s.y===f.y)||walls.some(w=>w.x===f.x&&w.y===f.y));
+  food=f;
+}
+
+function getSpeed(){return Math.max(50,SPEEDS[cfg.speed]-Math.floor(score/5)*8)}
+
+function startGame(){
+  snake=[{x:11,y:11},{x:10,y:11},{x:9,y:11}];
+  dir={x:1,y:0};nextDir={x:1,y:0};
+  score=0;paused=false;blink=0;walls=[];gameState='playing';
+  if(cfg.mode==='walls'){
+    for(let i=0;i<12;i++){
+      let wx,wy;
+      do{wx=2+Math.floor(Math.random()*(COLS-4));wy=2+Math.floor(Math.random()*(ROWS-4))}
+      while(snake.some(s=>s.x===wx&&s.y===wy));
+      walls.push({x:wx,y:wy});
+    }
+  }
+  placeFood();updateScoreUI();
+  document.getElementById('mode-label').textContent=cfg.mode.toUpperCase();
+  document.getElementById('overlay').classList.add('hidden');
+  showScreen('game');
+  clearInterval(loopId);loopId=setInterval(tick,getSpeed());
+}
+
+function tick(){
+  if(paused||gameState!=='playing')return;
+  dir=nextDir;
+  let nx=snake[0].x+dir.x,ny=snake[0].y+dir.y;
+  if(cfg.mode==='infinity'){nx=(nx+COLS)%COLS;ny=(ny+ROWS)%ROWS}
+  else if(nx<0||nx>=COLS||ny<0||ny>=ROWS){endGame();return}
+  if(snake.some(s=>s.x===nx&&s.y===ny)){endGame();return}
+  if(walls.some(w=>w.x===nx&&w.y===ny)){endGame();return}
+  snake.unshift({x:nx,y:ny});
+  if(nx===food.x&&ny===food.y){
+    score++;updateScoreUI();placeFood();
+    clearInterval(loopId);loopId=setInterval(tick,getSpeed());
+  }else snake.pop();
+  blink=(blink+1)%20;draw();
+}
+
+function setDir(dx,dy){
+  if(gameState!=='playing')return;
+  if(dx!==0&&dir.x!==0)return;
+  if(dy!==0&&dir.y!==0)return;
+  nextDir={x:dx,y:dy};
+}
+
+function setDirStr(d){const m={UP:[0,-1],DOWN:[0,1],LEFT:[-1,0],RIGHT:[1,0]};const v=m[d];if(v)setDir(v[0],v[1])}
+
+function togglePause(){
+  if(gameState!=='playing')return;
+  paused=!paused;
+  const pb=document.getElementById('pause-btn');
+  pb.innerHTML=paused?'<i class="fa-solid fa-play"></i> RESUME':'<i class="fa-solid fa-pause"></i> PAUSE';
+  if(!paused)draw();
+}
+
+function updateScoreUI(){
+  if(score>hiScore){hiScore=score;savePrefs();} // persist new hi-score immediately
+  document.getElementById('sdp').textContent=String(score).padStart(3,'0');
+  document.getElementById('bdp').textContent=String(hiScore).padStart(3,'0');
+  document.getElementById('score-val').textContent=score;
+  document.getElementById('hi-val').textContent=hiScore;
+  document.getElementById('menu-hi').textContent=hiScore;
+  updateLeds();
+}
+
+function updateLeds(){
+  const lvl=Math.floor(score/5)+1;
+  document.getElementById('ln').textContent=lvl;
+  ['l1','l2','l3'].forEach((id,idx)=>{
+    const on=idx<Math.min(lvl,3);
+    const el=document.getElementById(id);
+    el.style.background=on?T.head:T.bg;
+    el.style.borderColor=T.border;
+    el.style.boxShadow=on?`0 0 6px ${T.head}`:'none';
+  });
+}
+
+function endGame(){
+  clearInterval(loopId);gameState='dead';drawDead();
+  setTimeout(()=>{
+    document.getElementById('over-score').textContent=score;
+    document.getElementById('over-best').textContent=(score>=hiScore&&score>0)?'★ NEW BEST!':'Best: '+hiScore;
+    showScreen('over');
+  },750);
+}
+
+/* ═══════════════════════════════════════════════════
+   DRAWING
+═══════════════════════════════════════════════════ */
+function draw(){
+  ctx.fillStyle=T.bg;ctx.fillRect(0,0,canvas.width,canvas.height);
+
+  /* Grid lines — clearly visible as requested */
+  ctx.strokeStyle=T.grid;ctx.lineWidth=0.8;
+  for(let x=0;x<=COLS;x++){ctx.beginPath();ctx.moveTo(x*CELL,0);ctx.lineTo(x*CELL,canvas.height);ctx.stroke()}
+  for(let y=0;y<=ROWS;y++){ctx.beginPath();ctx.moveTo(0,y*CELL);ctx.lineTo(canvas.width,y*CELL);ctx.stroke()}
+
+  /* Walls */
+  if(cfg.mode==='walls'){
+    walls.forEach(w=>{
+      ctx.fillStyle=T.border;ctx.beginPath();
+      ctx.roundRect(w.x*CELL+1,w.y*CELL+1,CELL-2,CELL-2,2);ctx.fill();
+    });
+  }
+
+  /* Infinity edge glow */
+  if(cfg.mode==='infinity'){
+    const gL=ctx.createLinearGradient(0,0,CELL,0);gL.addColorStop(0,T.s1+'55');gL.addColorStop(1,'transparent');ctx.fillStyle=gL;ctx.fillRect(0,0,CELL,canvas.height);
+    const gR=ctx.createLinearGradient(canvas.width-CELL,0,canvas.width,0);gR.addColorStop(0,'transparent');gR.addColorStop(1,T.s1+'55');ctx.fillStyle=gR;ctx.fillRect(canvas.width-CELL,0,CELL,canvas.height);
+  }
+
+  /* Food — clean canvas shapes, no emoji */
+  const pulse=blink<10?1.0:0.78;
+  const fx=food.x*CELL, fy=food.y*CELL;
+  const fc=cfg.foodColor;
+  ctx.save();
+  ctx.globalAlpha=pulse;
+  ctx.shadowColor=fc; ctx.shadowBlur=12;
+  ctx.fillStyle=fc; ctx.strokeStyle=fc;
+
+  const cx2=fx+CELL/2, cy2=fy+CELL/2, r=CELL/2-3;
+  switch(cfg.foodType){
+    case 0: // Apple — circle with a tiny stem
+      ctx.beginPath(); ctx.arc(cx2,cy2+1,r,0,Math.PI*2); ctx.fill();
+      ctx.strokeStyle=T.head; ctx.lineWidth=1.5;
+      ctx.beginPath(); ctx.moveTo(cx2,fy+3); ctx.lineTo(cx2,fy+6); ctx.stroke();
+      break;
+    case 1: // Star — 5-point
+      ctx.beginPath();
+      for(let p=0;p<5;p++){
+        const a=Math.PI/2+p*Math.PI*2/5;
+        const b=a+Math.PI/5;
+        p===0?ctx.moveTo(cx2+r*Math.cos(a),cy2-r*Math.sin(a)):ctx.lineTo(cx2+r*Math.cos(a),cy2-r*Math.sin(a));
+        ctx.lineTo(cx2+(r*0.42)*Math.cos(b),cy2-(r*0.42)*Math.sin(b));
+      }
+      ctx.closePath(); ctx.fill();
+      break;
+    case 2: // Diamond — rotated square
+      ctx.beginPath();
+      ctx.moveTo(cx2,fy+2); ctx.lineTo(fx+CELL-2,cy2);
+      ctx.lineTo(cx2,fy+CELL-2); ctx.lineTo(fx+2,cy2);
+      ctx.closePath(); ctx.fill();
+      // Shine
+      ctx.fillStyle='rgba(255,255,255,0.35)';
+      ctx.beginPath(); ctx.moveTo(cx2,fy+3); ctx.lineTo(cx2+4,cy2); ctx.lineTo(cx2,cy2-2); ctx.closePath(); ctx.fill();
+      break;
+    case 3: // Mushroom — dome + stalk
+      ctx.beginPath(); ctx.arc(cx2,cy2-1,r,Math.PI,0); ctx.fill(); // cap
+      ctx.fillStyle=T.head;
+      ctx.fillRect(cx2-r*0.4,cy2-1,r*0.8,r*0.75); // stalk
+      ctx.fillStyle=fc;
+      ctx.beginPath(); ctx.arc(cx2-2,cy2-3,1.5,0,Math.PI*2); ctx.fill(); // spot
+      ctx.beginPath(); ctx.arc(cx2+3,cy2-5,1.5,0,Math.PI*2); ctx.fill();
+      break;
+    case 4: // Coin — circle with dollar line
+      ctx.lineWidth=2; ctx.beginPath(); ctx.arc(cx2,cy2,r,0,Math.PI*2); ctx.fill();
+      ctx.strokeStyle=T.bg; ctx.lineWidth=1.5;
+      ctx.beginPath(); ctx.moveTo(cx2,cy2-r*0.45); ctx.lineTo(cx2,cy2+r*0.45); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(cx2-r*0.35,cy2-r*0.15); ctx.lineTo(cx2+r*0.35,cy2-r*0.15); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(cx2-r*0.35,cy2+r*0.15); ctx.lineTo(cx2+r*0.35,cy2+r*0.15); ctx.stroke();
+      break;
+    case 5: // Flame — teardrop shape
+      ctx.beginPath();
+      ctx.moveTo(cx2, fy+2);
+      ctx.bezierCurveTo(fx+CELL-2,cy2-2, fx+CELL-3,fy+CELL-2, cx2,fy+CELL-3);
+      ctx.bezierCurveTo(fx+3,fy+CELL-2, fx+2,cy2-2, cx2,fy+2);
+      ctx.fill();
+      ctx.fillStyle='rgba(255,255,200,0.55)';
+      ctx.beginPath();
+      ctx.moveTo(cx2,fy+5);
+      ctx.bezierCurveTo(cx2+3,cy2, cx2+2,cy2+4, cx2,cy2+5);
+      ctx.bezierCurveTo(cx2-2,cy2+4, cx2-3,cy2, cx2,fy+5);
+      ctx.fill();
+      break;
+  }
+  ctx.restore();
+
+  /* Snake */
+  snake.forEach((s,i)=>{
+    const alpha=i===0?1:Math.max(0.28,1-(i/snake.length)*0.6);
+    ctx.globalAlpha=alpha;drawSegment(ctx,s,i);ctx.globalAlpha=1;
+  });
+}
+
+function drawSegment(px,s,i){
+  const x=s.x*CELL,y=s.y*CELL,col=i===0?T.head:cfg.snakeColor,isHead=i===0,pad=1;
+  switch(cfg.snakeType){
+    case 0:px.fillStyle=col;px.beginPath();px.roundRect(x+pad,y+pad,CELL-pad*2,CELL-pad*2,2);px.fill();if(isHead)_eyes(px,x,y,CELL,dir);break;
+    case 1:px.strokeStyle=col;px.lineWidth=2.5;px.shadowColor=col;px.shadowBlur=12;px.beginPath();px.roundRect(x+3,y+3,CELL-6,CELL-6,CELL/2);px.stroke();px.shadowBlur=0;if(isHead)_eyes(px,x,y,CELL,dir);break;
+    case 2:px.fillStyle=col;px.beginPath();px.arc(x+CELL/2,y+CELL/2,CELL/2-2,0,Math.PI*2);px.fill();if(isHead)_eyes(px,x,y,CELL,dir);break;
+    case 3:px.fillStyle=col;px.beginPath();px.moveTo(x+CELL/2,y+pad);px.lineTo(x+CELL-pad,y+CELL-pad);px.lineTo(x+pad,y+CELL-pad);px.closePath();px.fill();break;
+    case 4:px.strokeStyle=col;px.lineWidth=4;px.lineCap='round';px.beginPath();px.moveTo(x+3,y+CELL/2);px.lineTo(x+CELL-3,y+CELL/2);px.stroke();px.strokeStyle='rgba(0,0,0,0.3)';px.lineWidth=1;for(let n=0;n<3;n++){px.beginPath();px.moveTo(x+4+n*4,y+CELL/2-3);px.lineTo(x+6+n*4,y+CELL/2+3);px.stroke()}break;
+    default:{px.fillStyle=col;const pz=3;[[0,0],[pz,0],[0,pz],[pz,pz]].forEach(([ox,oy])=>{px.fillRect(x+3+ox,y+3+oy,pz-1,pz-1)});break}
+  }
+}
+
+function _eyes(px,x,y,C,d){
+  let ex1,ey1,ex2,ey2;
+  if(d.x===1) {ex1=x+C-5;ey1=y+4;      ex2=x+C-5;ey2=y+C-6}
+  else if(d.x===-1){ex1=x+3;ey1=y+4;   ex2=x+3;  ey2=y+C-6}
+  else if(d.y===-1){ex1=x+4;ey1=y+3;   ex2=x+C-6;ey2=y+3}
+  else             {ex1=x+4;ey1=y+C-5; ex2=x+C-6;ey2=y+C-5}
+  px.fillStyle=T.bg;
+  px.beginPath();px.arc(ex1,ey1,2.5,0,Math.PI*2);px.fill();
+  px.beginPath();px.arc(ex2,ey2,2.5,0,Math.PI*2);px.fill();
+  px.fillStyle=T.grid;
+  px.beginPath();px.arc(ex1-0.5,ey1-0.5,1.2,0,Math.PI*2);px.fill();
+  px.beginPath();px.arc(ex2-0.5,ey2-0.5,1.2,0,Math.PI*2);px.fill();
+}
+
+function drawDead(){
+  ctx.fillStyle='rgba(163,20,20,0.42)';ctx.fillRect(0,0,canvas.width,canvas.height);
+  let fl=0;
+  const fid=setInterval(()=>{
+    snake.forEach(s=>{
+      ctx.fillStyle=fl%2===0?T.food:T.bg;
+      ctx.fillRect(s.x*CELL+2,s.y*CELL+2,CELL-4,CELL-4);
+    });
+    if(++fl>6)clearInterval(fid);
+  },80);
+}
+
+/* ═══════════════════════════════════════════════════
+   SPLASH ANIMATION
+═══════════════════════════════════════════════════ */
+function initSplash(){
+  const sc=document.getElementById('splash-canvas');
+  const sctx=sc.getContext('2d');
+  const SC=16;
+  const SCOLS=Math.floor(sc.width/SC),SROWS=Math.floor(sc.height/SC);
+  let ss=[{x:2,y:Math.floor(SROWS/2)},{x:1,y:Math.floor(SROWS/2)},{x:0,y:Math.floor(SROWS/2)}];
+  let sdx=1,sdy=0,stk=0;
+  function frame(){
+    sctx.fillStyle=T.bg;sctx.fillRect(0,0,sc.width,sc.height);
+    stk++;
+    if(stk%6===0){
+      const h=ss[0];let nx=h.x+sdx,ny=h.y+sdy;
+      if(nx>=SCOLS)nx=0;if(nx<0)nx=SCOLS-1;
+      if(ny>=SROWS)ny=0;if(ny<0)ny=SROWS-1;
+      if(stk%36===0){
+        if(Math.random()<0.5)sdx=sdx===0?(Math.random()<0.5?1:-1):0;
+        else sdy=sdy===0?(Math.random()<0.5?1:-1):0;
+        if(sdx===0&&sdy===0)sdx=1;
+      }
+      ss.unshift({x:nx,y:ny});if(ss.length>16)ss.pop();
+    }
+    ss.forEach((s,i)=>{
+      const a=1-i/ss.length;
+      sctx.fillStyle=i===0?T.head:T.s1;sctx.globalAlpha=a;
+      sctx.beginPath();sctx.roundRect(s.x*SC+1,s.y*SC+1,SC-2,SC-2,3);sctx.fill();
+      sctx.globalAlpha=1;
+    });
+    requestAnimationFrame(frame);
+  }
+  frame();
+}
+
+/* ═══════════════════════════════════════════════════
+   SWIPE ON CANVAS
+═══════════════════════════════════════════════════ */
+let swX=0,swY=0;
+canvas.addEventListener('touchstart',e=>{swX=e.touches[0].clientX;swY=e.touches[0].clientY},{passive:true});
+canvas.addEventListener('touchend',e=>{
+  const dx=e.changedTouches[0].clientX-swX,dy=e.changedTouches[0].clientY-swY;
+  if(Math.abs(dx)<10&&Math.abs(dy)<10)return;
+  if(Math.abs(dx)>Math.abs(dy))setDirStr(dx>0?'RIGHT':'LEFT');
+  else setDirStr(dy>0?'DOWN':'UP');
+},{passive:true});
+
+/* ═══════════════════════════════════════════════════
+   KEYBOARD
+═══════════════════════════════════════════════════ */
+document.addEventListener('keydown',e=>{
+  const map={ArrowUp:[0,-1],ArrowDown:[0,1],ArrowLeft:[-1,0],ArrowRight:[1,0],w:[0,-1],s:[0,1],a:[-1,0],d:[1,0]};
+  const v=map[e.key];
+  if(v){setDir(v[0],v[1]);e.preventDefault()}
+  if(e.key===' '){togglePause();e.preventDefault()}
+  if(e.key==='Enter'&&gameState!=='playing')startGame();
+},{passive:false});
+
+/* ═══════════════════════════════════════════════════
+   EVENTS
+═══════════════════════════════════════════════════ */
+function initEvents(){
+  document.getElementById('btn-splash-start').addEventListener('click',()=>showScreen('menu'));
+  document.getElementById('btn-play').addEventListener('click',()=>showScreen('mode'));
+  document.getElementById('btn-customise').addEventListener('click',()=>{buildCustomUI();showScreen('custom')});
+  document.getElementById('btn-themes').addEventListener('click',()=>showScreen('themes'));
+  document.getElementById('btn-hiscore').addEventListener('click',()=>{});
+  document.getElementById('btn-custom-back').addEventListener('click',()=>showScreen('menu'));
+  document.getElementById('btn-custom-play').addEventListener('click',()=>showScreen('mode'));
+  document.getElementById('btn-themes-back').addEventListener('click',()=>showScreen('menu'));
+  document.getElementById('btn-themes-play').addEventListener('click',()=>showScreen('mode'));
+  document.querySelectorAll('.mode-card').forEach(c=>c.addEventListener('click',()=>selectMode(c.dataset.mode)));
+  const sl=document.getElementById('speed-slider');
+  sl.addEventListener('input',()=>{cfg.speed=+sl.value;document.getElementById('speed-label-val').textContent=SPEED_LABELS[cfg.speed];savePrefs();});
+  document.getElementById('btn-mode-back').addEventListener('click',()=>showScreen('menu'));
+  document.getElementById('btn-start').addEventListener('click',startGame);
+  document.getElementById('sbtn').addEventListener('click',startGame);
+  document.getElementById('pause-btn').addEventListener('click',togglePause);
+  document.getElementById('pause-btn').addEventListener('touchstart',e=>{e.preventDefault();togglePause()},{passive:false});
+
+  /* D-pad — each button press also flashes it */
+  document.querySelectorAll('.db').forEach(btn=>{
+    const onPress=e=>{
+      e.preventDefault();
+      setDirStr(btn.getAttribute('data-d'));
+      btn.style.background=T.head;btn.style.color='#000';
+      setTimeout(()=>{btn.style.background=T.shell;btn.style.color=''}, 140);
+    };
+    btn.addEventListener('touchstart',onPress,{passive:false});
+    btn.addEventListener('mousedown',onPress);
+  });
+
+  document.getElementById('btn-game-menu').addEventListener('click',()=>{clearInterval(loopId);gameState='idle';showScreen('menu')});
+  document.getElementById('btn-retry').addEventListener('click',startGame);
+  document.getElementById('btn-over-custom').addEventListener('click',()=>{buildCustomUI();showScreen('custom')});
+  document.getElementById('btn-over-themes').addEventListener('click',()=>showScreen('themes'));
+  document.getElementById('btn-over-menu').addEventListener('click',()=>showScreen('menu'));
+}
+
+/* ═══════════════════════════════════════════════════
+   BOOT — restore saved preferences then start
+═══════════════════════════════════════════════════ */
+function init(){
+  // 1. Build static UI (palettes grid, customise UI)
+  buildPalettes();
+
+  // 2. Restore saved data from localStorage
+  const saved = loadPrefs();
+  if(saved){
+    // Restore hi-score
+    if(typeof saved.hiScore === 'number') hiScore = saved.hiScore;
+
+    // Restore cfg (snake type, colour, food, mode, speed)
+    if(saved.cfg){
+      Object.assign(cfg, saved.cfg);
+      // Clamp values to safe ranges in case data is stale
+      cfg.snakeType  = Math.min(Math.max(cfg.snakeType,  0), SNAKE_TYPES.length - 1);
+      cfg.foodType   = Math.min(Math.max(cfg.foodType,   0), FOOD_TYPES.length  - 1);
+      cfg.speed      = Math.min(Math.max(cfg.speed,      1), 4);
+      if(!SNAKE_COLORS.includes(cfg.snakeColor)) cfg.snakeColor = SNAKE_COLORS[0];
+      if(!FOOD_COLORS.includes(cfg.foodColor))   cfg.foodColor  = FOOD_COLORS[0];
+      if(!['classic','infinity','walls'].includes(cfg.mode)) cfg.mode = 'classic';
+    }
+
+    // Restore theme
+    const ti = (typeof saved.themeIdx === 'number' && saved.themeIdx >= 0 && saved.themeIdx < THEMES.length)
+      ? saved.themeIdx : 0;
+    activeThemeIdx = ti;
+    applyTheme(THEMES[ti]);
+    // Mark the correct palette card as active
+    document.querySelectorAll('.pal-card').forEach((c,j)=>{
+      c.classList.toggle('active', j===ti);
+      c.style.borderColor = j===ti ? THEMES[j].sval : 'transparent';
+    });
+
+    // Restore speed slider position
+    const sl = document.getElementById('speed-slider');
+    sl.value = cfg.speed;
+    document.getElementById('speed-label-val').textContent = SPEED_LABELS[cfg.speed];
+
+    // Restore mode card highlight
+    ['classic','infinity','walls'].forEach(m=>
+      document.getElementById('mc-'+m).classList.toggle('selected', m===cfg.mode));
+
+  } else {
+    // First visit — defaults
+    activeThemeIdx = 0;
+    applyTheme(THEMES[0]);
+  }
+
+  // 3. Build customise UI with restored cfg
+  buildCustomUI();
+
+  // 4. Wire all events
+  initEvents();
+
+  // 5. Splash animation (always plays, good for brand)
+  initSplash();
+
+  // 6. Update score display (shows restored hi-score)
+  updateScoreUI();
+
+  // 7. Draw blank canvas
+  ctx.fillStyle = T.bg;
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  // 8. Returning users: show a "welcome back" toast and skip splash
+  if(saved && saved.visited){
+    showScreen('menu');
+    showWelcomeBack(saved);
+  }
+}
+
+/* Small welcome-back toast shown to returning users */
+function showWelcomeBack(saved){
+  const toast = document.createElement('div');
+  toast.style.cssText = [
+    'position:fixed','bottom:18px','left:50%',
+    'transform:translateX(-50%)',
+    'background:var(--shell)',
+    'border:2px solid var(--btnb)',
+    'color:var(--sval)',
+    'font-family:"Press Start 2P",monospace',
+    'font-size:6px',
+    'padding:10px 18px',
+    'border-radius:8px',
+    'box-shadow:3px 3px 0 #000',
+    'z-index:9999',
+    'letter-spacing:1px',
+    'text-align:center',
+    'line-height:1.9',
+    'max-width:90vw',
+    'pointer-events:none',
+    'opacity:0',
+    'transition:opacity 0.3s'
+  ].join(';');
+
+  const themeName = THEMES[activeThemeIdx] ? THEMES[activeThemeIdx].name : 'NEON';
+  const snakeName = SNAKE_TYPES[cfg.snakeType] || 'Classic';
+  toast.innerHTML =
+    '<i class="fa-solid fa-circle-check" style="color:var(--s1);margin-right:6px"></i>' +
+    'WELCOME BACK!<br>' +
+    '<span style="color:var(--lbl)">' + themeName + ' THEME &middot; ' + snakeName.toUpperCase() + ' SNAKE</span>' +
+    (saved.hiScore > 0 ? '<br><span style="color:var(--sval)">BEST: ' + saved.hiScore + '</span>' : '');
+
+  document.body.appendChild(toast);
+  requestAnimationFrame(()=>{
+    toast.style.opacity='1';
+    setTimeout(()=>{
+      toast.style.opacity='0';
+      setTimeout(()=>toast.remove(), 350);
+    }, 3200);
+  });
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>

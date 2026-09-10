@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Diff Checker | CuboSapiens</title>
+  <meta
+    name="description"
+    content="Compare two pieces of text line by line and identify additions, removals, and unchanged content."
+  />
+  <meta name="theme-color" content="#080808" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap"
+    rel="stylesheet"
+  />
+
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <div class="background-orbs" aria-hidden="true">
+    <div class="orb orb-one"></div>
+    <div class="orb orb-two"></div>
+  </div>
+
+  <header class="site-header">
+    <a class="brand" href="#" aria-label="Diff Checker home">
+      <span class="brand-icon">
+        <i class="fa-solid fa-code-compare" aria-hidden="true"></i>
+      </span>
+      <span class="brand-name">Diff<span>Checker</span></span>
+    </a>
+
+    <nav class="header-actions" aria-label="Page actions">
+      <button
+        id="themeBtn"
+        class="theme-toggle"
+        type="button"
+        aria-pressed="true"
+        title="Switch theme"
+      >
+        <span class="toggle-track" aria-hidden="true">
+          <i class="fa-solid fa-sun"></i>
+          <i class="fa-solid fa-moon"></i>
+        </span>
+      </button>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" aria-labelledby="pageTitle">
+      <div class="hero-badge">
+        <i class="fa-solid fa-terminal" aria-hidden="true"></i>
+        Developer Utility
+      </div>
+
+      <h1 id="pageTitle">
+        Compare text.<br />
+        <span>Spot every change.</span>
+      </h1>
+
+      <p>
+        A fast, line-by-line diff checker for finding additions,
+        removals, and unchanged content.
+      </p>
+
+      <div class="shortcut-row" aria-label="Keyboard shortcuts">
+        <span><kbd>Ctrl</kbd> + <kbd>Enter</kbd> Compare</span>
+        <span><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>X</kbd> Swap</span>
+        <span><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>C</kbd> Copy</span>
+      </div>
+    </section>
+
+    <section class="tool-shell" aria-labelledby="workspaceTitle">
+      <div class="section-header">
+        <div>
+          <p class="eyebrow">Workspace</p>
+          <h2 id="workspaceTitle">Compare your text</h2>
+        </div>
+
+        <div class="toolbar" role="toolbar" aria-label="Diff checker controls">
+          <button id="compareBtn" class="button button-primary" type="button">
+            <i class="fa-solid fa-code-compare" aria-hidden="true"></i>
+            <span>Compare</span>
+          </button>
+
+          <button id="swapBtn" class="button button-secondary" type="button">
+            <i class="fa-solid fa-right-left" aria-hidden="true"></i>
+            <span>Swap</span>
+          </button>
+
+          <button id="clearBtn" class="button button-secondary" type="button">
+            <i class="fa-solid fa-trash-can" aria-hidden="true"></i>
+            <span>Clear</span>
+          </button>
+
+          <button id="copyBtn" class="button button-secondary" type="button">
+            <i class="fa-regular fa-copy" aria-hidden="true"></i>
+            <span>Copy Result</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="editor-grid">
+        <article class="editor-card">
+          <div class="editor-header">
+            <label for="leftText">
+              <i class="fa-regular fa-file-lines" aria-hidden="true"></i>
+              Original Text
+            </label>
+            <span>Before</span>
+          </div>
+
+          <textarea
+            id="leftText"
+            spellcheck="false"
+            placeholder="Paste the original text here..."
+          ></textarea>
+        </article>
+
+        <article class="editor-card">
+          <div class="editor-header">
+            <label for="rightText">
+              <i class="fa-solid fa-file-pen" aria-hidden="true"></i>
+              Modified Text
+            </label>
+            <span>After</span>
+          </div>
+
+          <textarea
+            id="rightText"
+            spellcheck="false"
+            placeholder="Paste the modified text here..."
+          ></textarea>
+        </article>
+      </div>
+    </section>
+
+    <section class="status-card" aria-label="Comparison status">
+      <div class="status-icon" aria-hidden="true">
+        <i class="fa-solid fa-circle-info"></i>
+      </div>
+      <div id="stats" role="status" aria-live="polite" data-status="info">
+        Ready to compare.
+      </div>
+    </section>
+
+    <section class="tool-shell result-shell" aria-labelledby="resultTitle">
+      <div class="section-header result-header">
+        <div>
+          <p class="eyebrow">Output</p>
+          <h2 id="resultTitle">Comparison Result</h2>
+        </div>
+
+        <div class="legend" aria-label="Diff legend">
+          <span class="legend-added">
+            <i class="fa-solid fa-plus" aria-hidden="true"></i>
+            Added
+          </span>
+          <span class="legend-removed">
+            <i class="fa-solid fa-minus" aria-hidden="true"></i>
+            Removed
+          </span>
+          <span class="legend-unchanged">
+            <i class="fa-solid fa-equals" aria-hidden="true"></i>
+            Unchanged
+          </span>
+        </div>
+      </div>
+
+      <div id="diffOutput" class="diff-output" aria-live="polite">
+        <div class="empty-result">
+          <i class="fa-solid fa-code-compare" aria-hidden="true"></i>
+          <p>The comparison result will appear here.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>
+      Built for
+      <a
+        href="https://www.cubosapiens.world/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        CuboSapiens World Tools
+      </a>
+    </p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

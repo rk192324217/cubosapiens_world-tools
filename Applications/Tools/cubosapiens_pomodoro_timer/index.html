@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pomodoro Timer</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=DM+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="bg-orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <div class="logo-wrap">
+      <div class="logo-icon">
+        <img src="assets/logo.png" alt="Logo" />
+      </div>
+      <span class="logo-name">Cubo'S <span>Pomodoro</span></span>
+    </div>
+    <div class="header-right">
+      <button class="icon-header-btn" id="btnSettings" title="Settings">
+        <i class="fa-solid fa-sliders"></i>
+      </button>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+        <span class="toggle-icons">
+          <i class="fa-solid fa-sun fa-xs"></i>
+          <i class="fa-solid fa-moon fa-xs"></i>
+        </span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- Mode tabs -->
+    <div class="mode-tabs">
+      <button class="mode-tab active" data-mode="work">Focus</button>
+      <button class="mode-tab" data-mode="short">Short Break</button>
+      <button class="mode-tab" data-mode="long">Long Break</button>
+    </div>
+
+    <!-- Timer card -->
+    <div class="timer-card">
+
+      <!-- SVG ring -->
+      <div class="ring-wrap">
+        <svg class="ring-svg" viewBox="0 0 280 280">
+          <circle class="ring-track" cx="140" cy="140" r="124"/>
+          <circle class="ring-progress" id="ringProgress" cx="140" cy="140" r="124"
+            stroke-dasharray="779.1" stroke-dashoffset="0"/>
+        </svg>
+
+        <!-- Timer display inside ring -->
+        <div class="timer-inner">
+          <div class="timer-display" id="timerDisplay">25:00</div>
+          <div class="timer-mode-label" id="timerModeLabel">Focus Time</div>
+        </div>
+      </div>
+
+      <!-- Session dots -->
+      <div class="session-dots" id="sessionDots"></div>
+
+      <!-- Controls -->
+      <div class="timer-controls">
+        <button class="ctrl-btn skip-btn" id="btnSkip" title="Skip session">
+          <i class="fa-solid fa-backward-step"></i>
+        </button>
+        <button class="ctrl-btn play-btn" id="btnPlayPause">
+          <i class="fa-solid fa-play" id="playIcon"></i>
+        </button>
+        <button class="ctrl-btn skip-btn" id="btnNext" title="Next session">
+          <i class="fa-solid fa-forward-step"></i>
+        </button>
+      </div>
+
+      <!-- Stats row -->
+      <div class="stats-row">
+        <div class="stat-item">
+          <span class="stat-val" id="statCompleted">0</span>
+          <span class="stat-label">Completed</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-val" id="statStreak">0</span>
+          <span class="stat-label">Streak</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-val" id="statFocusTime">0m</span>
+          <span class="stat-label">Focus time</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Current task -->
+    <div class="current-task-wrap">
+      <div class="current-task-label">Working on</div>
+      <input type="text" id="currentTask" class="current-task-input"
+        placeholder="What are you focusing on?" maxlength="80" />
+    </div>
+
+    <!-- Task list -->
+    <div class="task-section">
+      <div class="task-header">
+        <span class="section-label">Tasks</span>
+        <button class="btn-text" id="btnClearDone">Clear done</button>
+      </div>
+
+      <div class="task-add-row">
+        <input type="text" id="taskInput" class="task-input"
+          placeholder="Add a task…" maxlength="100" />
+        <button class="btn-add-task" id="btnAddTask">
+          <i class="fa-solid fa-plus"></i>
+        </button>
+      </div>
+
+      <div class="task-list" id="taskList">
+        <p class="task-empty" id="taskEmpty">No tasks yet — add one above</p>
+      </div>
+    </div>
+
+    <!-- Ad slots -->
+    <div class="ads-row">
+      <div class="ad-slot">Advertisement</div>
+      <div class="ad-slot">Advertisement</div>
+    </div>
+
+  </main>
+
+  <!-- Settings modal -->
+  <div class="modal-backdrop" id="modalBackdrop">
+    <div class="modal" id="settingsModal">
+      <div class="modal-header">
+        <span class="modal-title">Settings</span>
+        <button class="icon-btn" id="btnCloseModal">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="modal-body">
+
+        <!-- Durations -->
+        <div class="settings-group">
+          <div class="settings-group-label">Timer durations (minutes)</div>
+          <div class="settings-row">
+            <label>Focus</label>
+            <input type="number" id="setFocus" class="setting-input" value="25" min="1" max="90" />
+          </div>
+          <div class="settings-row">
+            <label>Short break</label>
+            <input type="number" id="setShort" class="setting-input" value="5" min="1" max="30" />
+          </div>
+          <div class="settings-row">
+            <label>Long break</label>
+            <input type="number" id="setLong" class="setting-input" value="15" min="1" max="60" />
+          </div>
+          <div class="settings-row">
+            <label>Pomodoros until long break</label>
+            <input type="number" id="setPomosUntilLong" class="setting-input" value="4" min="1" max="10" />
+          </div>
+        </div>
+
+        <div class="modal-divider"></div>
+
+        <!-- Auto-start -->
+        <div class="settings-group">
+          <div class="settings-group-label">Auto-start</div>
+          <div class="settings-row">
+            <label>Auto-start breaks</label>
+            <label class="switch">
+              <input type="checkbox" id="setAutoBreak" checked />
+              <span class="switch-track"></span>
+            </label>
+          </div>
+          <div class="settings-row">
+            <label>Auto-start focus sessions</label>
+            <label class="switch">
+              <input type="checkbox" id="setAutoFocus" />
+              <span class="switch-track"></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="modal-divider"></div>
+
+        <!-- Alerts -->
+        <div class="settings-group">
+          <div class="settings-group-label">Alerts</div>
+          <div class="settings-row">
+            <label>Sound alert</label>
+            <label class="switch">
+              <input type="checkbox" id="setSoundAlert" checked />
+              <span class="switch-track"></span>
+            </label>
+          </div>
+          <div class="settings-row">
+            <label>Desktop notifications</label>
+            <label class="switch">
+              <input type="checkbox" id="setNotifications" />
+              <span class="switch-track"></span>
+            </label>
+          </div>
+        </div>
+
+        <button class="btn-action primary" id="btnSaveSettings" style="width:100%;margin-top:8px;">
+          Save settings
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+  <script src="app.js"></script>
+</body>
+</html>

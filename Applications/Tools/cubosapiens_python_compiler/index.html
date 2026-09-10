@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>cuboPy – Python Compiler</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=DM+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- Pyodide — Python in WebAssembly -->
+  <script src="https://cdn.jsdelivr.net/pyodide/v0.25.1/full/pyodide.js"></script>
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="bg-orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <div class="logo-wrap">
+      <div class="logo-icon">
+        <img src="assets/logo.png" alt="Logo" />
+      </div>
+      <span class="logo-name">cubo<span>Py</span></span>
+    </div>
+    <div class="header-right">
+      <!-- Pyodide load status -->
+      <div class="py-status" id="pyStatus">
+        <span class="py-dot loading" id="pyDot"></span>
+        <span id="pyStatusText">Loading Python…</span>
+      </div>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+        <span class="toggle-icons">
+          <i class="fa-solid fa-sun fa-xs"></i>
+          <i class="fa-solid fa-moon fa-xs"></i>
+        </span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- Toolbar -->
+    <div class="toolbar">
+      <div class="toolbar-left">
+        <!-- File name -->
+        <input type="text" id="fileName" class="filename-input" value="main.py" spellcheck="false" />
+
+        <!-- Run -->
+        <button class="btn-run" id="btnRun" disabled>
+          <i class="fa-solid fa-play" id="runIcon"></i>
+          <span id="runLabel">Run</span>
+        </button>
+
+        <!-- Stop -->
+        <button class="btn-action" id="btnStop" style="display:none;">
+          <i class="fa-solid fa-stop"></i> Stop
+        </button>
+
+        <!-- Clear output -->
+        <button class="btn-action" id="btnClearOutput">
+          <i class="fa-solid fa-trash"></i> Clear
+        </button>
+      </div>
+
+      <div class="toolbar-right">
+        <!-- Snippets -->
+        <select class="snippet-select" id="snippetSelect">
+          <option value="">Snippets…</option>
+          <option value="hello">Hello World</option>
+          <option value="fibonacci">Fibonacci</option>
+          <option value="list_comp">List comprehension</option>
+          <option value="classes">Classes</option>
+          <option value="file_io">File I/O</option>
+          <option value="numpy">NumPy</option>
+          <option value="pandas">Pandas</option>
+          <option value="regex">Regex</option>
+          <option value="sort">Sorting algorithms</option>
+          <option value="recursion">Recursion</option>
+        </select>
+
+        <!-- Font size -->
+        <div class="font-size-wrap">
+          <button class="icon-btn" id="btnFontDec" title="Decrease font size">A-</button>
+          <span class="font-size-label" id="fontSizeLabel">14px</span>
+          <button class="icon-btn" id="btnFontInc" title="Increase font size">A+</button>
+        </div>
+
+        <!-- Download code -->
+        <button class="btn-action" id="btnDownload">
+          <i class="fa-solid fa-download"></i> Save
+        </button>
+      </div>
+    </div>
+
+    <!-- Editor + Output split -->
+    <div class="editor-layout">
+
+      <!-- Editor panel -->
+      <div class="panel card" id="editorPanel">
+        <div class="panel-header">
+          <span class="panel-label">Editor</span>
+          <div class="panel-actions">
+            <button class="icon-btn" id="btnCopy" title="Copy code">
+              <i class="fa-regular fa-copy"></i>
+            </button>
+            <button class="icon-btn" id="btnWrap" title="Toggle word wrap">
+              <i class="fa-solid fa-text-width"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="editor-wrap" id="editorWrap">
+          <div class="line-numbers" id="lineNumbers"></div>
+          <textarea
+            id="codeEditor"
+            class="code-editor"
+            spellcheck="false"
+            autocomplete="off"
+            autocorrect="off"
+            autocapitalize="off"
+            placeholder="# Write your Python code here…"
+          ></textarea>
+        </div>
+      </div>
+
+      <!-- Output panel -->
+      <div class="panel card" id="outputPanel">
+        <div class="panel-header">
+          <span class="panel-label">Output</span>
+          <div class="panel-meta" id="execMeta"></div>
+        </div>
+
+        <!-- stdin prompt (shown when input() called) -->
+        <div class="stdin-wrap" id="stdinWrap" style="display:none;">
+          <span class="stdin-prompt" id="stdinPrompt">› </span>
+          <input type="text" id="stdinInput" class="stdin-input" placeholder="Type input and press Enter…" />
+        </div>
+
+        <div class="output-wrap" id="outputWrap">
+          <pre class="output-pre" id="outputPre"><span class="output-placeholder">Output will appear here after you run your code.</span></pre>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Packages bar -->
+    <div class="packages-bar card">
+      <div class="pkg-label">
+        <i class="fa-solid fa-cube"></i>
+        Install packages
+      </div>
+      <div class="pkg-input-wrap">
+        <input type="text" id="pkgInput" class="pkg-input" placeholder="numpy, pandas, matplotlib…" />
+        <button class="btn-action primary" id="btnInstall">
+          <i class="fa-solid fa-download"></i> Install
+        </button>
+      </div>
+      <div class="pkg-list" id="pkgList"></div>
+    </div>
+
+    <!-- Ad slots -->
+    <div class="ads-row">
+      <div class="ad-slot">Advertisement</div>
+      <div class="ad-slot">Advertisement</div>
+    </div>
+
+  </main>
+
+  <div class="toast" id="toast"></div>
+  <script src="app.js"></script>
+</body>
+</html>

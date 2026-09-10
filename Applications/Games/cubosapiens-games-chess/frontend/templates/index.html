@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CUBO Chess</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.css">
+<link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════
+     HEADER
+════════════════════════════════════════════ -->
+<header>
+  <a class="logo" id="logoHome">
+    <div class="logo-mark">♟</div>
+    <span class="logo-text"><em>CUBO</em> CHESS</span>
+  </a>
+  <div class="header-nav">
+    <div class="elo-chip">
+      <span class="elo-icon">♔</span>
+      <span id="headerElo">1200</span>
+    </div>
+    <button class="nav-lnk" id="navPuzzle">Puzzles</button>
+    <button class="nav-lnk" id="navAnalysis">Analysis</button>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+      <span class="t-icon t-moon">🌙</span>
+      <span class="t-icon t-sun">☀</span>
+    </button>
+  </div>
+</header>
+
+<!-- ════════════════════════════════════════════
+     MAIN HERO
+════════════════════════════════════════════ -->
+<main>
+<div class="hero">
+
+  <!-- ── LEFT PANEL ──────────────────────────── -->
+  <aside class="left">
+
+    <!-- Game Mode -->
+    <div>
+      <p class="sec-lbl">Game Mode</p>
+      <div class="mode-list">
+        <button class="mode-btn active" data-mode="bot">
+          <div class="m-icon">🤖</div>
+          <div class="m-info">
+            <span class="m-name">vs Bot</span>
+            <span class="m-desc">Challenge the AI</span>
+          </div>
+        </button>
+        <button class="mode-btn" data-mode="puzzle" id="modePuzzleBtn">
+          <div class="m-icon">🧩</div>
+          <div class="m-info">
+            <span class="m-name">Puzzles</span>
+            <span class="m-desc">Tactics training</span>
+          </div>
+        </button>
+        <button class="mode-btn locked" data-mode="pvp">
+          <div class="m-icon">👥</div>
+          <div class="m-info">
+            <span class="m-name">Local PvP</span>
+            <span class="m-desc">Pass &amp; play</span>
+          </div>
+          <span class="m-soon">Soon</span>
+        </button>
+        <button class="mode-btn locked" data-mode="online">
+          <div class="m-icon">🌐</div>
+          <div class="m-info">
+            <span class="m-name">Online</span>
+            <span class="m-desc">Play with friends</span>
+          </div>
+          <span class="m-soon">Soon</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Difficulty -->
+    <div id="diffSection">
+      <p class="sec-lbl">Difficulty</p>
+      <div class="diff-row">
+        <button class="diff-btn" data-diff="easy">Easy</button>
+        <button class="diff-btn active" data-diff="medium">Med</button>
+        <button class="diff-btn" data-diff="hard">Hard</button>
+      </div>
+    </div>
+
+    <!-- Time Control -->
+    <div id="timeSection">
+      <p class="sec-lbl">Time Control</p>
+      <div class="time-pills">
+        <button class="time-pill" data-mins="1" data-label="Bullet">1 min</button>
+        <button class="time-pill" data-mins="3" data-label="Blitz">3 min</button>
+        <button class="time-pill" data-mins="5" data-label="Blitz">5 min</button>
+        <button class="time-pill" data-mins="10" data-label="Rapid">10 min</button>
+        <button class="time-pill unlimited active" data-mins="0" data-label="Unlimited">∞ No limit</button>
+      </div>
+    </div>
+
+    <!-- ELO Rating -->
+    <div>
+      <p class="sec-lbl">Your Rating</p>
+      <div class="elo-panel">
+        <div class="elo-big" id="eloDisplay">1200</div>
+        <div class="elo-sub">CUBO Rating</div>
+        <div class="elo-delta flat" id="eloDelta">—</div>
+      </div>
+    </div>
+
+    <!-- Session Stats -->
+    <div>
+      <p class="sec-lbl">Session</p>
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-val" id="s-wins">0</div><div class="stat-lbl">Wins</div></div>
+        <div class="stat-card"><div class="stat-val" id="s-loss">0</div><div class="stat-lbl">Losses</div></div>
+        <div class="stat-card"><div class="stat-val" id="s-draw">0</div><div class="stat-lbl">Draws</div></div>
+        <div class="stat-card"><div class="stat-val" id="s-move">0</div><div class="stat-lbl">Moves</div></div>
+      </div>
+    </div>
+
+    <!-- FEN / PGN -->
+    <div>
+      <p class="sec-lbl">FEN / PGN</p>
+      <div class="pgn-section">
+        <textarea class="pgn-textarea" id="pgnInput" placeholder="Paste FEN or PGN here…"></textarea>
+        <div class="pgn-btns">
+          <button class="pgn-btn primary" id="btnImport">Import</button>
+          <button class="pgn-btn" id="btnExportFen">FEN</button>
+          <button class="pgn-btn" id="btnExportPgn">PGN</button>
+        </div>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- ── RIGHT PANEL ─────────────────────────── -->
+  <section class="right">
+
+    <!-- Bot player bar (top) -->
+    <div class="player-bar" id="barBot">
+      <div class="p-avatar av-black">♛</div>
+      <span class="p-name">CUBO Bot</span>
+      <span class="p-rating" id="botRating">Elo ~1400</span>
+      <span class="p-cap" id="capByBot"></span>
+      <span class="p-clock hidden" id="clockBot">—</span>
+    </div>
+
+    <!-- Opening name -->
+    <div class="opening-badge" id="openingBadge">
+      <span class="opening-icon">📖</span>
+      <span class="opening-name" id="openingName">Starting Position</span>
+      <span class="opening-var" id="openingVar"></span>
+    </div>
+
+    <!-- Status -->
+    <div class="status-badge" id="statusBadge" data-s="your-turn">
+      <span class="dot"></span>
+      <span id="statusTxt">Your turn</span>
+    </div>
+
+    <!-- Think progress bar -->
+    <div class="think-bar" id="thinkBar"></div>
+
+    <!-- Board + eval bar -->
+    <div class="board-eval-wrap">
+      <div class="eval-bar-wrap" id="evalBarWrap">
+        <div class="eval-bar-white" id="evalBarWhite" style="height:50%"></div>
+        <div class="eval-bar-black"></div>
+        <span class="eval-score" id="evalScore">0.0</span>
+      </div>
+      <div class="board-wrap">
+        <div id="board"></div>
+      </div>
+    </div>
+
+    <!-- You player bar (bottom) -->
+    <div class="player-bar active-turn" id="barYou">
+      <div class="p-avatar av-white">♔</div>
+      <span class="p-name">You</span>
+      <span class="p-rating">White</span>
+      <span class="p-cap" id="capByYou"></span>
+      <span class="p-clock hidden" id="clockYou">—</span>
+    </div>
+
+    <!-- Puzzle instructions bar (hidden unless puzzle mode) -->
+    <div class="puzzle-bar" id="puzzleBar">
+      <div class="puzzle-title">♟ Puzzle — Find the best move</div>
+      <div class="puzzle-desc" id="puzzleDesc">Loading puzzle…</div>
+      <div class="puzzle-rating">Puzzle rating: <strong id="puzzleRating">—</strong></div>
+      <div class="puzzle-result" id="puzzleResult"></div>
+      <div class="puzzle-nav">
+        <button class="ctrl-btn" id="btnPuzzleSkip">Skip</button>
+        <button class="ctrl-btn primary hidden" id="btnPuzzleNext">Next Puzzle →</button>
+      </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="ctrl-row">
+      <button class="ctrl-btn primary" id="btnNew">⊕ New Game</button>
+      <button class="ctrl-btn" id="btnUndo">↩ Undo</button>
+      <button class="ctrl-btn" id="btnFlip">⇅ Flip</button>
+      <button class="ctrl-btn hint-btn" id="btnHint">💡 Hint</button>
+    </div>
+
+    <!-- Move history -->
+    <div class="hist-wrap">
+      <div class="hist-hdr">
+        <span class="hist-title">Move History</span>
+      </div>
+      <div id="move-history"></div>
+    </div>
+
+  </section>
+</div>
+</main>
+
+<!-- ════════════════════════════════════════════
+     GAME OVER MODAL
+════════════════════════════════════════════ -->
+<div class="modal-ov hidden" id="modalOv">
+  <div class="modal">
+    <div class="modal-glyph" id="mGlyph">♟</div>
+    <h2 class="modal-title" id="mTitle">Game Over</h2>
+    <p class="modal-sub" id="mSub"></p>
+    <div class="modal-elo-delta" id="mEloDelta"></div>
+    <div class="modal-acts">
+      <button class="m-btn" id="mAnalyze">📊 Analysis</button>
+      <button class="m-btn" id="mClose">Review</button>
+      <button class="m-btn primary" id="mNew">Play Again</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     POST-GAME ANALYSIS PANEL
+════════════════════════════════════════════ -->
+<div class="analysis-ov hidden" id="analysisOv">
+  <div class="analysis-panel">
+    <div class="analysis-header">
+      <span class="analysis-title">Game Analysis</span>
+      <button class="analysis-close" id="analysisClose">✕</button>
+    </div>
+    <div class="analysis-body">
+      <div class="analysis-summary" id="analysisSummary"></div>
+      <div class="analysis-moves" id="analysisMoves"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     ACHIEVEMENT TOASTS
+════════════════════════════════════════════ -->
+<div class="achievement-stack" id="achievementStack"></div>
+
+<!-- ════════════════════════════════════════════
+     SCRIPTS
+════════════════════════════════════════════ -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.js"></script>
+<script src="/static/js/script.js"></script>
+
+</body>
+</html>

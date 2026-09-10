@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CGPA Calculator</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="bg-orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+  </div>
+
+  <header>
+    <div class="logo-wrap">
+      <div class="logo-icon">
+        <img src="assets/logo.png" alt="Logo" />
+      </div>
+      <span class="logo-name">CUBO<span>CGPA</span></span>
+    </div>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+      <span class="toggle-icons">
+        <i class="fa-solid fa-sun"></i>
+        <i class="fa-solid fa-moon"></i>
+      </span>
+    </button>
+  </header>
+
+  <main>
+    <div class="hero">
+      <h1>Calculate your <em>CGPA</em></h1>
+      <p>Map your grades · Add semesters · Track your target</p>
+    </div>
+
+    <!-- Tab navigation -->
+    <div class="tab-bar">
+      <button class="tab-btn active" data-tab="calculator">
+        <i class="fa-solid fa-graduation-cap"></i> Calculator
+      </button>
+      <button class="tab-btn" data-tab="gradeMap">
+        <i class="fa-solid fa-sliders"></i> Grade Map
+      </button>
+      <button class="tab-btn" data-tab="target">
+        <i class="fa-solid fa-bullseye"></i> Target
+      </button>
+    </div>
+
+    <!-- ── TAB: Calculator ── -->
+    <div class="tab-content active" id="tab-calculator">
+
+      <!-- Scale selector -->
+      <div class="card scale-card">
+        <div class="card-label">Grade scale</div>
+        <div class="seg-control">
+          <button class="seg-btn active" data-scale="10">10-point</button>
+          <button class="seg-btn" data-scale="4">4-point</button>
+          <button class="seg-btn" data-scale="custom">Custom</button>
+        </div>
+      </div>
+
+      <!-- Semesters -->
+      <div id="semesterList"></div>
+
+      <button class="btn-add-semester" id="btnAddSemester">
+        <i class="fa-solid fa-plus"></i> Add Semester
+      </button>
+
+      <!-- Overall CGPA result -->
+      <div class="result-card card" id="resultCard">
+        <div class="result-left">
+          <div class="result-label">Overall CGPA</div>
+          <div class="result-value" id="cgpaValue">—</div>
+          <div class="result-sub" id="cgpaSub">Add subjects to calculate</div>
+        </div>
+        <div class="result-right">
+          <div class="cgpa-ring" id="cgpaRing">
+            <svg viewBox="0 0 80 80">
+              <circle class="ring-bg" cx="40" cy="40" r="34"/>
+              <circle class="ring-fill" id="ringFill" cx="40" cy="40" r="34"
+                stroke-dasharray="213.6" stroke-dashoffset="213.6"/>
+            </svg>
+            <span class="ring-label" id="ringLabel">0%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Export -->
+      <div class="export-row">
+        <button class="btn-action" id="btnExportJSON">
+          <i class="fa-solid fa-code"></i> Export JSON
+        </button>
+        <button class="btn-action primary" id="btnExportPDF">
+          <i class="fa-solid fa-file-pdf"></i> Export PDF
+        </button>
+      </div>
+
+    </div>
+
+    <!-- ── TAB: Grade Map ── -->
+    <div class="tab-content" id="tab-gradeMap">
+      <div class="card" style="padding:24px;">
+        <div class="card-label" style="margin-bottom:16px;">Map your grade letters to grade points</div>
+        <p class="hint-text">Add the grades your institution uses (e.g. O, A+, A, B+…) and assign the grade point for each. These will appear as options when adding subjects.</p>
+
+        <div class="grade-map-list" id="gradeMapList"></div>
+
+        <button class="btn-action" id="btnAddGrade" style="margin-top:12px;">
+          <i class="fa-solid fa-plus"></i> Add grade
+        </button>
+      </div>
+
+      <!-- Presets -->
+      <div class="card" style="padding:24px; margin-top:16px;">
+        <div class="card-label" style="margin-bottom:12px;">Load a preset</div>
+        <div class="preset-row">
+          <button class="btn-action" data-preset="anna">Anna University</button>
+          <button class="btn-action" data-preset="vtu">VTU</button>
+          <button class="btn-action" data-preset="cbse">CBSE (10pt)</button>
+          <button class="btn-action" data-preset="usa4">US 4-point</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── TAB: Target ── -->
+    <div class="tab-content" id="tab-target">
+      <div class="card" style="padding:24px;">
+        <div class="card-label" style="margin-bottom:16px;">Target CGPA calculator</div>
+
+        <div class="target-grid">
+          <div class="target-field">
+            <label>Current CGPA</label>
+            <input type="number" id="tCurrentCGPA" placeholder="e.g. 7.8" step="0.01" min="0" />
+          </div>
+          <div class="target-field">
+            <label>Completed credits</label>
+            <input type="number" id="tDoneCredits" placeholder="e.g. 120" min="0" />
+          </div>
+          <div class="target-field">
+            <label>Target CGPA</label>
+            <input type="number" id="tTargetCGPA" placeholder="e.g. 8.5" step="0.01" min="0" />
+          </div>
+          <div class="target-field">
+            <label>Remaining credits</label>
+            <input type="number" id="tRemainingCredits" placeholder="e.g. 60" min="0" />
+          </div>
+        </div>
+
+       <div style="display:flex; gap:12px; margin-top:16px;">
+        <button class="btn-action primary" id="btnCalcTarget" style="width:100%;">
+          <i class="fa-solid fa-calculator"></i> Calculate required GPA
+        </button>
+        <button class="btn-action" id="btnResetTarget" type="button" style="white-space:nowrap;">
+          <i class="fa-solid fa-rotate-left"></i> Reset
+        </button>
+      </div>
+
+      <div class="target-result" id="targetResult" style="display:none;"></div>
+      </div>
+    </div>
+
+    <div class="ads-row">
+      <div class="ad-slot">Advertisement</div>
+      <div class="ad-slot">Advertisement</div>
+    </div>
+  </main>
+
+  <div class="toast" id="toast"></div>
+  <script src="app.js"></script>
+</body>
+</html>
