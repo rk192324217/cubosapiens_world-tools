@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tactical Squad | CuboSapiens</title>
+    <meta name="description" content="A browser based tactical squad strategy game.">
+    <meta name="keywords" content="tactical squad, strategy game, browser game">
+    <meta name="author" content="CuboSapiens">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+    <h1>⚔ Tactical Squad</h1>
+    <div class="hud">
+        <div class="card">
+            Turn :
+            <span id="turn">Player</span>
+        </div>
+        <div class="card">
+            Score :
+            <span id="score">0</span>
+        </div>
+        <div class="card">
+            High Score:
+            <span id="highScore">0</span>
+        </div>
+        <div class="card">
+            Wins :
+            <span id="wins">0</span>
+        </div>
+        <div class="card">
+            Moves :
+            <span id="moves">0</span>
+        </div>
+    </div>
+    <div class="controls">
+    <label for="difficulty">Difficulty:</label>
+    <select id="difficulty">
+        <option value="easy">Easy</option>
+        <option value="medium" selected>Medium</option>
+        <option value="hard">Hard</option>
+    </select>
+    </div>
+    <div id="board" role="grid" aria-label="Tactical Squad Game Board"></div>
+    <div class="controls">
+        <button id="restartBtn" aria-label="Restart Game">Restart Game</button>
+        <button id="themeBtn" aria-label="Toggle Theme">Toggle Theme</button>
+        <button id="helpBtn" aria-label="Open Help">How to Play</button>
+        <p class="shortcut-text">⌨️ Keyboard: <strong>R</strong> Restart •<strong>T</strong> Toggle Theme</p>
+    </div>
+</div>
+<div id="popup" class="popup hidden" role="dialog" aria-modal="true">
+    <div class="popup-content">
+        <h2 id="popupTitle"></h2>
+        <p id="popupMessage"></p>
+        <button id="closePopup" aria-label="Play Again">Play Again</button>
+    </div>
+</div>
+<div id="helpModal" class="popup hidden" role="dialog" aria-modal="true">
+    <div class="popup-content">
+        <h2>How to Play</h2>
+        <ul class="instructions">
+            <li>🪖 Click a player unit to select it.</li>
+            <li>⬜ Click an adjacent empty cell to move.</li>
+            <li>👾 Click an adjacent enemy to attack.</li>
+            <li>🪨 Obstacles cannot be crossed.</li>
+            <li>🏆 Defeat all enemies to win.</li>
+            <li>⌨️ Press <b>R</b> to restart.</li>
+            <li>🌗 Press <b>T</b> to toggle theme.</li>
+            <li>⬅️➡️ Use Arrow Keys to select soldiers.</li>
+            <li>♿ Keyboard shortcuts improve accessibility.</li>
+        </ul>
+        <button id="closeHelp" aria-label="Close Help">Close</button>
+    </div>
+</div>
+<script src="script.js"></script>
+</body>
+</html>

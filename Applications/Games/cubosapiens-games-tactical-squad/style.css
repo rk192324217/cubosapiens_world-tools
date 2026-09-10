@@ -1,0 +1,198 @@
+ *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Orbitron',sans-serif;
+        }
+        body{
+            background:#101820;
+            color:white;
+            min-height:100vh;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            padding:20px;
+            transition:background 0.3s ease, color 0.3s ease;
+        }
+        .container{
+            width:100%;
+            max-width:900px;
+            background:#1a2430;
+            border-radius:15px;
+            padding:25px;
+            box-shadow:0 0 20px rgba(0,0,0,.4);
+        }
+        h1{
+            text-align:center;
+            margin-bottom:20px;
+        }
+        .hud{
+            display:flex;
+            justify-content:space-between;
+            margin-bottom:20px;
+            flex-wrap:wrap;
+            gap:10px;
+        }
+        .card{
+            background:#263646;
+            padding:12px 20px;
+            border-radius:10px;
+        }
+        #board{
+            display:grid;
+            grid-template-columns:repeat(8,70px);
+            grid-template-rows:repeat(8,70px);
+            gap:2px;
+            justify-content:center;
+            margin:auto;
+            overflow:auto;
+        }
+        .cell{
+            width:70px;
+            height:70px;
+            background:#32485f;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            font-size:34px;
+            cursor:pointer;
+            transition:background 0.2s, transform 0.2s;
+        }
+        .cell:hover{
+            background:#44627d;
+            transform:scale(1.05);
+        }
+        .controls{
+            display:flex;
+            justify-content:center;
+            gap:15px;
+            margin-top:25px;
+            flex-wrap:wrap;
+        }
+        button{
+            padding:12px 24px;
+            border:none;
+            border-radius:8px;
+            cursor:pointer;
+            background:#2ecc71;
+            color:white;
+            font-size:16px;
+            transition:0.2s ease;
+        }
+        button:hover{
+            background:#27ae60;
+            transform:translateY(-2px);
+        }
+        @media (max-width:768px){
+            #board{
+                grid-template-columns:repeat(8,40px);
+                grid-template-rows:repeat(8,40px);
+            }
+            .cell{
+                width:40px;
+                height:40px;
+                font-size:18px;
+            }
+            button{
+                width:100%;
+            }
+            .controls{
+                flex-direction:column;
+                align-items:center;
+            }
+        }
+
+body.light{
+    background:#f2f2f2;
+    color:#222;
+}
+
+body.light .container{
+    background:#ffffff;
+    box-shadow:0 0 20px rgba(0,0,0,0.15);
+}
+
+body.light .card{
+    background:#e6e6e6;
+    color:#222;
+}
+
+body.light .cell{
+    background:#cfd8e3;
+}
+
+body.light .cell:hover{
+    background:#b8c6d8;
+}
+
+body.light button{
+    background:#3498db;
+}
+
+body.light button:hover{
+    background:#2980b9;
+}
+.popup{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.6);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.hidden{
+    display:none;
+}
+
+.popup-content{
+    background:#1a2430;
+    color:white;
+    padding:30px;
+    border-radius:12px;
+    text-align:center;
+    width:90%;
+    max-width:320px;
+}
+
+.popup-content button{
+    margin-top:20px;
+}
+.shortcut-text{
+    width:100%;
+    text-align:center;
+    margin-top:10px;
+    font-size:14px;
+    color:#bbb;
+}
+.instructions{
+    text-align:left;
+    margin:20px 0;
+    padding-left:20px;
+}
+
+.instructions li{
+    margin-bottom:10px;
+}
+body.light .popup-content{
+    background:white;
+    color:#222;
+}
+#difficulty{
+    padding:8px 12px;
+    border-radius:6px;
+    border:none;
+    font-size:15px;
+    cursor:pointer;
+}
+
+body.light #difficulty{
+    background:white;
+    color:#222;
+}
+body.light .shortcut-text{
+    color:#333;
+}

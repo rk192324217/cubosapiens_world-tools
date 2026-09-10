@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CUBO MD </title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- Marked.js — fast Markdown parser -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
+  <!-- DOMPurify — sanitise rendered HTML -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="bg-orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+  </div>
+
+  <!-- ── Header ── -->
+  <header>
+    <div class="logo-wrap">
+      <div class="logo-icon">
+        <img src="markdown-editor.png" alt="Logo" />
+      </div>
+      <span class="logo-name">CUBO<span>MD</span></span>
+    </div>
+
+    <div class="header-centre">
+      <!-- Document title (editable) -->
+      <input type="text" id="docTitle" class="doc-title-input"
+        value="Untitled document" spellcheck="false" />
+    </div>
+
+    <div class="header-right">
+      <!-- Word count -->
+      <div class="word-count" id="wordCount">
+        <i class="fa-regular fa-file-lines"></i>
+        <span id="wcWords">0</span>w
+        <span class="wc-sep">·</span>
+        <span id="wcChars">0</span>c
+      </div>
+
+      <!-- View mode toggle -->
+      <div class="view-toggle" id="viewToggle">
+        <button class="vt-btn active" data-view="split" title="Split view">
+          <i class="fa-solid fa-table-columns"></i>
+        </button>
+        <button class="vt-btn" data-view="edit" title="Editor only">
+          <i class="fa-solid fa-pen-to-square"></i>
+        </button>
+        <button class="vt-btn" data-view="preview" title="Preview only">
+          <i class="fa-solid fa-eye"></i>
+        </button>
+      </div>
+
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+        <span class="toggle-icons">
+          <i class="fa-solid fa-sun"></i>
+          <i class="fa-solid fa-moon"></i>
+        </span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ── Formatting toolbar ── -->
+  <div class="fmt-toolbar" id="fmtToolbar">
+
+    <div class="fmt-group">
+      <button class="fmt-btn" data-action="h1" title="Heading 1">
+        <i class="fa-solid fa-1"></i><sub>H</sub>
+      </button>
+      <button class="fmt-btn" data-action="h2" title="Heading 2">
+        <i class="fa-solid fa-2"></i><sub>H</sub>
+      </button>
+      <button class="fmt-btn" data-action="h3" title="Heading 3">
+        <i class="fa-solid fa-3"></i><sub>H</sub>
+      </button>
+    </div>
+
+    <div class="fmt-divider"></div>
+
+    <div class="fmt-group">
+      <button class="fmt-btn" data-action="bold" title="Bold (Ctrl+B)">
+        <i class="fa-solid fa-bold"></i>
+      </button>
+      <button class="fmt-btn" data-action="italic" title="Italic (Ctrl+I)">
+        <i class="fa-solid fa-italic"></i>
+      </button>
+      <button class="fmt-btn" data-action="strikethrough" title="Strikethrough">
+        <i class="fa-solid fa-strikethrough"></i>
+      </button>
+      <button class="fmt-btn" data-action="code-inline" title="Inline code">
+        <i class="fa-solid fa-code"></i>
+      </button>
+    </div>
+
+    <div class="fmt-divider"></div>
+
+    <div class="fmt-group">
+      <button class="fmt-btn" data-action="ul" title="Unordered list">
+        <i class="fa-solid fa-list-ul"></i>
+      </button>
+      <button class="fmt-btn" data-action="ol" title="Ordered list">
+        <i class="fa-solid fa-list-ol"></i>
+      </button>
+      <button class="fmt-btn" data-action="todo" title="Task list">
+        <i class="fa-regular fa-square-check"></i>
+      </button>
+      <button class="fmt-btn" data-action="quote" title="Blockquote">
+        <i class="fa-solid fa-quote-left"></i>
+      </button>
+      <button class="fmt-btn" data-action="hr" title="Horizontal rule">
+        <i class="fa-solid fa-minus"></i>
+      </button>
+    </div>
+
+    <div class="fmt-divider"></div>
+
+    <div class="fmt-group">
+      <button class="fmt-btn" data-action="link" title="Insert link (Ctrl+K)">
+        <i class="fa-solid fa-link"></i>
+      </button>
+      <button class="fmt-btn" data-action="image" title="Insert image">
+        <i class="fa-regular fa-image"></i>
+      </button>
+      <button class="fmt-btn" data-action="table" title="Insert table">
+        <i class="fa-solid fa-table"></i>
+      </button>
+      <button class="fmt-btn" data-action="code-block" title="Code block">
+        <i class="fa-solid fa-file-code"></i>
+      </button>
+    </div>
+
+    <div class="fmt-divider"></div>
+
+    <!-- Right side actions -->
+    <div class="fmt-group fmt-group-right">
+      <button class="fmt-btn" id="btnCopyMd" title="Copy Markdown">
+        <i class="fa-regular fa-copy"></i>
+      </button>
+      <button class="fmt-btn" id="btnCopyHtml" title="Copy HTML">
+        <i class="fa-brands fa-html5"></i>
+      </button>
+      <button class="fmt-btn" id="btnDownloadMd" title="Download .md">
+        <i class="fa-solid fa-download"></i>
+      </button>
+      <button class="fmt-btn" id="btnClear" title="Clear editor">
+        <i class="fa-solid fa-trash"></i>
+      </button>
+    </div>
+
+  </div>
+
+  <!-- ── Main workspace ── -->
+  <div class="workspace" id="workspace">
+
+    <!-- Editor pane -->
+    <div class="pane editor-pane" id="editorPane">
+      <div class="pane-label">
+        <i class="fa-solid fa-pen-nib"></i> Markdown
+      </div>
+      <div class="editor-wrap">
+        <div class="line-numbers" id="lineNumbers"></div>
+        <textarea
+          id="mdEditor"
+          class="md-editor"
+          placeholder="Start writing…"
+          spellcheck="true"
+          autocomplete="off"
+        ></textarea>
+      </div>
+    </div>
+
+    <!-- Divider (drag to resize) -->
+    <div class="pane-divider" id="paneDivider"></div>
+
+    <!-- Preview pane -->
+    <div class="pane preview-pane" id="previewPane">
+      <div class="pane-label">
+        <i class="fa-solid fa-eye"></i> Preview
+      </div>
+      <div class="preview-wrap">
+        <article class="md-preview" id="mdPreview">
+          <p class="preview-placeholder">Preview will appear here as you type…</p>
+        </article>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── Status bar ── -->
+  <div class="status-bar">
+    <div class="status-left">
+      <span class="status-item">
+        <i class="fa-solid fa-circle-info"></i>
+        <span id="statusMsg">Ready</span>
+      </span>
+    </div>
+    <div class="status-right">
+      <span class="status-item">
+        <i class="fa-regular fa-clock"></i>
+        <span id="readTime">0 min read</span>
+      </span>
+      <span class="status-sep">·</span>
+      <span class="status-item">
+        <i class="fa-solid fa-list-ol"></i>
+        <span id="lineCount">1 line</span>
+      </span>
+      <span class="status-sep">·</span>
+      <span class="status-item">
+        <span id="cursorPos">Ln 1, Col 1</span>
+      </span>
+    </div>
+  </div>
+
+  <!-- ── Mobile bottom nav ── -->
+  <div class="mobile-nav">
+    <button class="mob-btn active" data-view="edit">
+      <i class="fa-solid fa-pen-to-square"></i>
+      <span>Edit</span>
+    </button>
+    <button class="mob-btn" data-view="preview">
+      <i class="fa-solid fa-eye"></i>
+      <span>Preview</span>
+    </button>
+    <button class="mob-btn" id="mobDownload">
+      <i class="fa-solid fa-download"></i>
+      <span>Save</span>
+    </button>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

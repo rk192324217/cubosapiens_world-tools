@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Typing Race Game</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body class="day-mode">
+
+  <!-- Header & Controls -->
+  <header>
+    <div class="logo">🏁 Typing Race 🏁</div>
+    <div class="controls">
+      <button id="btn-theme">🌙 Night Mode</button>
+      <button id="btn-help">❓ How to Play</button>
+    </div>
+  </header>
+
+  <!-- Setup Screen -->
+  <div id="setup-screen" class="screen active">
+    <div class="mode-selection">
+      <h3>Race Mode</h3>
+      <div class="mode-options">
+        <button class="mode-opt active" data-mode="solo">🏁 Solo Race</button>
+        <button class="mode-opt" data-mode="ai">🤖 Player VS AI</button>
+      </div>
+    </div>
+
+    <h2>Select Difficulty</h2>
+    <div class="difficulty-buttons">
+      <button class="btn-diff" data-level="easy">Easy</button>
+      <button class="btn-diff" data-level="medium">Medium</button>
+      <button class="btn-diff" data-level="hard">Hard</button>
+      <button class="btn-diff" data-level="paragraph">Paragraph</button>
+    </div>
+
+    <div class="car-selection">
+      <h3>Choose Your Supercar</h3>
+      <div class="car-options">
+        <button class="car-opt active" data-car="🏎️">🏎️ F1 Red</button>
+        <button class="car-opt" data-car="🏎️" style="filter: hue-rotate(120deg);">🏎️ F1 Green</button>
+        <button class="car-opt" data-car="🏎️" style="filter: hue-rotate(240deg);">🏎️ F1 Purple</button>
+        <button class="car-opt" data-car="🏍️">🏍️ Superbike</button>
+      </div>
+    </div>
+
+    <div class="records-dashboard">
+      <h3>⏱️ Last Run Scores to Beat ⏱️</h3>
+      <div class="record-cards">
+        <div class="record-card" data-diff="easy">
+          <div class="card-title">EASY</div>
+          <div class="card-value"><span class="wpm-val">-</span> WPM</div>
+          <div class="card-sub"><span class="time-val">-</span>s | <span class="acc-val">-</span>% acc</div>
+        </div>
+        <div class="record-card" data-diff="medium">
+          <div class="card-title">MEDIUM</div>
+          <div class="card-value"><span class="wpm-val">-</span> WPM</div>
+          <div class="card-sub"><span class="time-val">-</span>s | <span class="acc-val">-</span>% acc</div>
+        </div>
+        <div class="record-card" data-diff="hard">
+          <div class="card-title">HARD</div>
+          <div class="card-value"><span class="wpm-val">-</span> WPM</div>
+          <div class="card-sub"><span class="time-val">-</span>s | <span class="acc-val">-</span>% acc</div>
+        </div>
+        <div class="record-card" data-diff="paragraph">
+          <div class="card-title">PARAGRAPH</div>
+          <div class="card-value"><span class="wpm-val">-</span> WPM</div>
+          <div class="card-sub"><span class="time-val">-</span>s | <span class="acc-val">-</span>% acc</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Game Screen -->
+  <div id="game-screen" class="screen">
+    <div class="hud">
+      <div class="stat-box">WPM: <span id="wpm">0</span></div>
+      <div class="stat-box">Accuracy: <span id="accuracy">100</span>%</div>
+      <div class="stat-box">Time: <span id="time">0</span>s</div>
+      <div class="stat-box">Target: <span id="target-wpm">-</span> WPM</div>
+      <button id="btn-pause">Pause</button>
+      <button id="btn-restart">Restart</button>
+    </div>
+
+    <div class="track-container">
+      <div class="tracks-wrapper">
+        <div class="track lane-player">
+          <span class="lane-tag">YOU</span>
+          <div id="car" class="car">🏎️</div>
+        </div>
+        <div class="track lane-ghost">
+          <span class="lane-tag" id="ghost-tag">GHOST</span>
+          <div id="ghost-car" class="car ghost-car">🏎️</div>
+        </div>
+        <div class="finish-line"></div>
+      </div>
+    </div>
+
+    <div class="text-container">
+      <input type="text" id="mobile-input" style="position: absolute; opacity: 0; pointer-events: none; width: 1px; height: 1px;" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+      <div id="text-display">Loading text...</div>
+    </div>
+
+    <!-- Countdown Overlay -->
+    <div id="countdown-overlay" class="countdown-overlay">
+      <div class="countdown-lights">
+        <div class="light" id="light-1"></div>
+        <div class="light" id="light-2"></div>
+        <div class="light" id="light-3"></div>
+      </div>
+      <div id="countdown-number" class="countdown-number">3</div>
+    </div>
+  </div>
+
+  <!-- Results Screen -->
+  <div id="results-screen" class="screen">
+    <h2>Race Finished! 🏆</h2>
+    <div id="beat-message" class="beat-message"></div>
+    <div class="results-stats">
+      <p>Final WPM: <span id="final-wpm">0</span></p>
+      <p>Final Accuracy: <span id="final-accuracy">0</span>%</p>
+      <p>Time: <span id="final-time">0</span>s</p>
+    </div>
+    <button id="btn-play-again">Play Again</button>
+  </div>
+
+  <!-- How to Play Modal -->
+  <div id="help-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn">&times;</span>
+      <h2>How to Play</h2>
+      <ul>
+        <li>Select a difficulty to start the race.</li>
+        <li>Type the text as fast and accurately as you can.</li>
+        <li>Every correct keystroke accelerates your car.</li>
+        <li>Every mistake slows your car down!</li>
+        <li><strong>No Backspace Allowed:</strong> If you make a mistake, you must type the correct character to continue.</li>
+        <li><strong>Solo Race:</strong> Race against your last run, or a preset pace car if it's your first time.</li>
+        <li><strong>Player VS AI:</strong> Race against a preloaded AI opponent with realistic, human-like pacing.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Pause Overlay -->
+  <div id="pause-overlay" class="modal">
+    <div class="modal-content">
+      <h2>Game Paused</h2>
+      <button id="btn-resume">Resume</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

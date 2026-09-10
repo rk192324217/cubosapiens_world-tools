@@ -1,0 +1,755 @@
+/* ============================================================
+   Cubo Random Text Generator — style.css
+   ============================================================ */
+
+/* ── 1. Design Tokens ── */
+:root {
+  --accent:       #f76c1c;
+  --accent-dim:   #de590d;
+  --accent-glow:  rgba(247, 108, 28, 0.25);
+
+  --bg:           #f5f5f7;
+  --surface:      #ffffff;
+  --surface-2:    #fafafa;
+  --border:       rgba(0, 0, 0, 0.08);
+  --text:         #1d1d1f;
+  --text-2:       #6e6e73;
+  --text-3:       #aeaeb2;
+  --shadow-sm:    0 2px 8px rgba(0, 0, 0, 0.06);
+  --shadow-md:    0 8px 32px rgba(0, 0, 0, 0.10);
+  --shadow-lg:    0 24px 64px rgba(0, 0, 0, 0.12);
+  --glass:        rgba(255, 255, 255, 0.72);
+  --glass-border: rgba(255, 255, 255, 0.5);
+
+  --radius:       12px;
+  --radius-sm:    8px;
+  --font-mono:    'DM Mono', 'Fira Code', 'Consolas', monospace;
+}
+
+[data-theme="dark"] {
+  --bg:           #000000;
+  --surface:      #1c1c1e;
+  --surface-2:    #2c2c2e;
+  --border:       rgba(255, 255, 255, 0.08);
+  --text:         #f5f5f7;
+  --text-2:       #aeaeb2;
+  --text-3:       #636366;
+  --shadow-sm:    0 2px 8px rgba(0, 0, 0, 0.4);
+  --shadow-md:    0 8px 32px rgba(0, 0, 0, 0.5);
+  --shadow-lg:    0 24px 64px rgba(0, 0, 0, 0.6);
+  --glass:        rgba(28, 28, 30, 0.8);
+  --glass-border: rgba(255, 255, 255, 0.08);
+}
+
+/* ── 2. Reset & Base ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+  transition: background 0.35s ease, color 0.35s ease;
+}
+
+main {
+  position: relative;
+  z-index: 1;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px 60px;
+}
+
+/* ── 3. Background Orbs ── */
+.bg-orbs {
+  position: fixed; inset: 0;
+  pointer-events: none; z-index: 0; overflow: hidden;
+}
+
+.orb {
+  position: absolute; border-radius: 50%;
+  filter: blur(80px); opacity: 0.15;
+  animation: orb-drift 18s ease-in-out infinite alternate;
+}
+
+.orb-1 { width: 500px; height: 500px; background: var(--accent); top: -120px; right: -100px; }
+.orb-2 { width: 350px; height: 350px; background: #6f2cf4; bottom: 100px; left: -80px; animation-delay: -6s; }
+[data-theme="dark"] .orb-2 { background: #441ea1; }
+
+@keyframes orb-drift {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(40px, 30px) scale(1.1); }
+}
+
+/* ── 4. Header ── */
+header {
+  position: sticky; top: 0; z-index: 100;
+  height: 60px; padding: 0 28px;
+  display: flex; align-items: center; justify-content: space-between;
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  background: var(--glass);
+  border-bottom: 1px solid var(--glass-border);
+  transition: background 0.35s ease, border-color 0.35s ease;
+}
+
+.logo-wrap {
+  display: flex; align-items: center; gap: 10px;
+  animation: fade-down 0.5s ease both;
+  cursor: pointer;
+}
+
+.logo-icon {
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  transition: transform 0.2s ease;
+  overflow: hidden;
+}
+
+.logo-wrap:hover .logo-icon { transform: scale(1.05); }
+
+.logo-img {
+  width: 100%; height: 100%; object-fit: cover;
+}
+
+.logo-name {
+  font-size: 19px; font-weight: 700; letter-spacing: -0.5px;
+  color: var(--text);
+}
+
+.logo-name span { color: var(--accent); }
+
+.header-actions {
+  display: flex; align-items: center; gap: 12px;
+  animation: fade-down 0.5s ease both;
+}
+
+.icon-btn {
+  background: none; border: none;
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  color: var(--text-2);
+  font-size: 16px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.icon-btn:hover { background: var(--border); color: var(--text); }
+
+.theme-toggle .toggle-icons {
+  position: relative; width: 16px; height: 16px;
+}
+
+.theme-toggle .toggle-icons i {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+}
+
+[data-theme="light"] .theme-toggle .fa-sun { transform: rotate(0) scale(1); opacity: 1; }
+[data-theme="light"] .theme-toggle .fa-moon { transform: rotate(90deg) scale(0); opacity: 0; }
+[data-theme="dark"] .theme-toggle .fa-sun { transform: rotate(-90deg) scale(0); opacity: 0; }
+[data-theme="dark"] .theme-toggle .fa-moon { transform: rotate(0) scale(1); opacity: 1; }
+
+/* ── 5. Hero ── */
+.hero {
+  text-align: center; margin: 48px 0 32px;
+  animation: fade-up 0.6s ease both;
+}
+
+.hero h1 {
+  font-size: 40px; font-weight: 800; letter-spacing: -1px; margin-bottom: 8px;
+}
+
+.hero h1 em {
+  font-style: normal;
+  background: linear-gradient(135deg, var(--accent) 30%, #ff8008 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero p {
+  color: var(--text-2); font-size: 15px; font-weight: 500;
+}
+
+/* ── 6. Grid Layout ── */
+.layout-grid {
+  display: grid;
+  grid-template-columns: 420px 1fr;
+  gap: 24px;
+  align-items: start;
+  animation: fade-up 0.7s ease both 0.1s;
+}
+
+/* Panels & Cards */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  transition: background 0.35s ease, border-color 0.35s ease, box-shadow 0.3s ease;
+}
+
+.panel {
+  display: flex; flex-direction: column;
+  height: 640px;
+}
+
+.panel-header {
+  height: 56px; padding: 0 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  transition: border-color 0.35s ease;
+}
+
+.card-label {
+  font-weight: 700; font-size: 15px; display: flex; align-items: center; gap: 8px;
+}
+
+.card-label i { color: var(--accent); }
+
+.panel-hint {
+  font-size: 12px; color: var(--text-3); font-weight: 500;
+}
+
+/* ── 7. Configurations Panel ── */
+.config-panel {
+  height: auto;
+}
+
+.config-content {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.config-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.control-title {
+  font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;
+  color: var(--text-2);
+}
+
+.type-selector-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.type-btn {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  cursor: pointer;
+  font-family: inherit; font-size: 12px; font-weight: 600;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.type-btn i {
+  font-size: 16px; color: var(--text-2);
+  transition: color 0.2s;
+}
+
+.type-btn:hover {
+  background: var(--border);
+}
+
+.type-btn.active {
+  background: var(--accent-glow);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.type-btn.active i {
+  color: var(--accent);
+}
+
+/* Options Container */
+.options-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+  background: var(--surface-2);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  transition: background 0.35s ease, border-color 0.35s ease;
+}
+
+.option-subgroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.flex-label-row {
+  display: flex; align-items: center; justify-content: space-between;
+}
+
+.flex-label-row label {
+  font-size: 13px; font-weight: 600; color: var(--text-2);
+}
+
+.range-val {
+  font-family: var(--font-mono); font-size: 12px; font-weight: 700;
+  color: var(--accent);
+  background: var(--border);
+  padding: 2px 6px; border-radius: 4px;
+}
+
+.range-wrap {
+  display: flex; align-items: center;
+}
+
+.range-wrap input[type="range"] {
+  -webkit-appearance: none;
+  width: 100%; height: 6px;
+  background: var(--border);
+  border-radius: 3px; outline: none;
+}
+
+.range-wrap input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  background: var(--accent);
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
+
+.range-wrap input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+}
+
+/* Dual Range Input fields */
+.dual-range-inputs {
+  display: flex; align-items: center; gap: 8px;
+}
+
+.dual-range-inputs input[type="number"] {
+  width: 100%;
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+  font-size: 13px; font-weight: 600;
+  font-family: var(--font-mono);
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.dual-range-inputs input[type="number"]:focus {
+  border-color: var(--accent);
+}
+
+.dual-range-inputs span {
+  font-size: 13px; font-weight: 600; color: var(--text-3);
+}
+
+/* Select wrapper styling */
+.control-label-text {
+  font-size: 13px; font-weight: 600; color: var(--text-2);
+}
+
+.select-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.select-wrapper select {
+  width: 100%;
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  font-size: 13px; font-weight: 600;
+  font-family: inherit;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.35s, color 0.35s;
+}
+
+.select-wrapper select:focus {
+  border-color: var(--accent);
+}
+
+.select-chevron {
+  position: absolute; right: 14px; top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-2); font-size: 12px;
+  pointer-events: none;
+}
+
+/* Checkboxes */
+.checkbox-container {
+  display: flex; align-items: center; gap: 10px;
+  position: relative; cursor: pointer;
+  user-select: none;
+  font-size: 13px; font-weight: 600; color: var(--text-2);
+  transition: color 0.2s;
+}
+
+.checkbox-container input {
+  position: absolute; opacity: 0; cursor: pointer; height: 0; width: 0;
+}
+
+.checkbox-checkmark {
+  height: 18px; width: 18px;
+  background-color: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: 4px;
+  display: inline-block; position: relative;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.checkbox-container:hover input ~ .checkbox-checkmark {
+  border-color: var(--text-3);
+}
+
+.checkbox-container input:checked ~ .checkbox-checkmark {
+  background-color: var(--accent);
+  border-color: var(--accent);
+}
+
+.checkbox-checkmark::after {
+  content: ""; position: absolute; display: none;
+  left: 5px; top: 2px; width: 4px; height: 8px;
+  border: solid white; border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.checkbox-container input:checked ~ .checkbox-checkmark::after {
+  display: block;
+}
+
+.checkbox-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.checkbox-grid .full-width {
+  grid-column: span 2;
+}
+
+/* Actions */
+.btn-generate {
+  width: 100%;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 12px; border-radius: var(--radius-sm);
+  font-family: inherit; font-size: 14px; font-weight: 700;
+  border: none; cursor: pointer;
+  transition: opacity 0.2s, transform 0.1s;
+}
+
+.btn-generate:active {
+  transform: scale(0.98);
+}
+
+.btn-action.primary {
+  background: var(--accent);
+  color: #fff;
+}
+
+.btn-action.primary:hover {
+  background: var(--accent-dim);
+  box-shadow: 0 4px 12px var(--accent-glow);
+}
+
+/* ── 8. Output Panel & Editor ── */
+.output-panel {
+  display: flex; flex-direction: column;
+}
+
+.output-actions {
+  display: flex; gap: 8px;
+}
+
+.btn-tool {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-2);
+  padding: 6px 12px;
+  font-family: inherit; font-size: 12px; font-weight: 600;
+  cursor: pointer;
+  display: flex; align-items: center; gap: 6px;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.btn-tool:hover {
+  background: var(--border);
+  color: var(--text);
+  border-color: var(--text-3);
+}
+
+.btn-tool i { font-size: 13px; }
+
+.editor-wrap {
+  flex: 1; position: relative;
+  display: flex;
+}
+
+.editor-textarea {
+  width: 100%; height: 100%;
+  resize: none; border: none; outline: none;
+  background: var(--surface);
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 14px; line-height: 1.6;
+  padding: 24px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+  transition: background 0.35s ease, color 0.35s ease;
+}
+
+/* Scrollbar customization */
+.editor-textarea::-webkit-scrollbar {
+  width: 8px; height: 8px;
+}
+.editor-textarea::-webkit-scrollbar-track {
+  background: transparent;
+}
+.editor-textarea::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+.editor-textarea::-webkit-scrollbar-thumb:hover {
+  background: var(--text-3);
+}
+
+/* ── 9. Statistics Panel ── */
+.stats-panel {
+  display: flex; justify-content: space-around;
+  border-top: 1px solid var(--border);
+  padding: 16px 8px;
+  background: var(--surface-2);
+  border-radius: 0 0 var(--radius) var(--radius);
+  transition: background 0.35s ease, border-color 0.35s ease;
+}
+
+.stat-item {
+  display: flex; flex-direction: column; align-items: center;
+  text-align: center; flex: 1;
+}
+
+.stat-val {
+  font-size: 18px; font-weight: 700; color: var(--text);
+  font-family: var(--font-mono);
+}
+
+.stat-lbl {
+  font-size: 11px; font-weight: 600; text-transform: uppercase;
+  color: var(--text-2); margin-top: 4px;
+}
+
+/* ── 10. Shortcuts Bar ── */
+.shortcuts-bar {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  margin-top: 24px; font-size: 12px; color: var(--text-3);
+  font-weight: 500;
+  animation: fade-up 0.7s ease both 0.2s;
+}
+
+.shortcuts-bar span { color: var(--text-2); font-weight: 600; }
+
+kbd {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-family: var(--font-mono); font-size: 10px; font-weight: 700;
+  box-shadow: 0 1px 1px rgba(0,0,0,0.05);
+  color: var(--text-2);
+}
+
+/* ── 11. Toast System ── */
+.toast-container {
+  position: fixed; bottom: 24px; right: 24px;
+  display: flex; flex-direction: column; gap: 8px;
+  z-index: 9999;
+}
+
+.toast {
+  background: var(--surface);
+  border-left: 4px solid var(--accent);
+  color: var(--text);
+  padding: 12px 18px;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-md);
+  font-size: 13px; font-weight: 600;
+  display: flex; align-items: center; gap: 10px;
+  animation: toast-slide-in 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+  min-width: 200px;
+}
+
+.toast i { color: var(--accent); font-size: 16px; }
+
+.toast.fade-out {
+  animation: toast-fade-out 0.2s ease forwards;
+}
+
+@keyframes toast-slide-in {
+  0% { transform: translateX(120%); opacity: 0; }
+  100% { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes toast-fade-out {
+  0% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(0.9); }
+}
+
+/* ── 12. Fullscreen Mode & Embed Mode ── */
+body.fullscreen-active .hero {
+  display: none !important;
+}
+
+body.embed-mode header,
+body.embed-mode .hero {
+  display: none !important;
+}
+
+@media (min-width: 1025px) {
+  body.fullscreen-active {
+    overflow: hidden;
+  }
+
+  body.fullscreen-active main {
+    padding: 12px 24px;
+    max-width: 100%;
+    height: calc(100vh - 60px);
+    display: flex;
+    flex-direction: column;
+  }
+
+  body.fullscreen-active .layout-grid {
+    flex: 1;
+    height: 100%;
+    margin-top: 0;
+  }
+
+  body.fullscreen-active .panel,
+  body.embed-mode .panel {
+    height: 100%;
+  }
+
+  body.fullscreen-active .config-panel,
+  body.embed-mode .config-panel {
+    height: 100%;
+  }
+
+  body.fullscreen-active .config-content,
+  body.embed-mode .config-content {
+    overflow-y: auto;
+    flex: 1;
+  }
+
+  body.embed-mode {
+    overflow: hidden;
+  }
+
+  body.embed-mode main {
+    padding: 12px;
+    max-width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  body.embed-mode .layout-grid {
+    flex: 1;
+    height: 100%;
+    margin-top: 0;
+  }
+}
+
+/* ── 13. Animations ── */
+@keyframes fade-up {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-down {
+  0% { opacity: 0; transform: translateY(-10px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* ── 14. Responsive Layouts ── */
+@media (max-width: 1024px) {
+  .layout-grid {
+    grid-template-columns: 1fr;
+  }
+  .panel {
+    height: auto;
+  }
+  .output-panel {
+    height: 520px;
+  }
+}
+
+@media (max-width: 768px) {
+  main {
+    padding: 0 16px 40px;
+  }
+  .hero h1 {
+    font-size: 32px;
+  }
+  .toolbar-right span {
+    display: none; /* Hide labels for icons if toolbar is dense */
+  }
+  .stats-panel {
+    flex-wrap: wrap; gap: 16px;
+  }
+  .stat-item {
+    flex: 1 1 40%;
+  }
+}
+
+@media (max-width: 480px) {
+  .type-selector-grid {
+    grid-template-columns: 1fr;
+  }
+  .checkbox-grid {
+    grid-template-columns: 1fr;
+  }
+  .checkbox-grid .full-width {
+    grid-column: span 1;
+  }
+  .output-actions span {
+    display: none;
+  }
+  .btn-tool {
+    padding: 8px 10px;
+  }
+}
+
+/* ── 15. Accessibility/Preffered Motion ── */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

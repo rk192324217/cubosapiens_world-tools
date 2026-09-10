@@ -1,0 +1,140 @@
+:root {
+    --bg-color: #0d1117;
+    --panel-bg: #161b22;
+    --accent-color: #58a6ff;
+    --text-main: #c9d1d9;
+    --text-muted: #8b949e;
+    --border-color: #30363d;
+    --success-color: #238636;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.control-room {
+    max-width: 900px;
+    width: 100%;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+header h1 {
+    margin: 0 0 10px 0;
+    color: #ffffff;
+}
+
+header p {
+    color: var(--text-muted);
+    margin: 0;
+}
+
+.panel {
+    background-color: var(--panel-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.panel h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #ffffff;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 8px;
+}
+
+.preset-panel select {
+    width: 100%;
+}
+
+.config-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+select {
+    width: 100%;
+    padding: 10px;
+    background-color: var(--bg-color);
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    border-radius: 6px;
+    font-size: 14px;
+    outline: none;
+}
+
+select:focus {
+    border-color: var(--accent-color);
+}
+
+.output-panel {
+    border-left: 4px solid var(--accent-color);
+}
+
+.output-group {
+    margin-bottom: 15px;
+}
+
+.output-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #ffffff;
+}
+
+.input-wrapper {
+    display: flex;
+    gap: 10px;
+}
+
+#cron-output {
+    flex: 1;
+    padding: 12px;
+    background-color: var(--bg-color);
+    border: 1px solid var(--border-color);
+    color: var(--accent-color);
+    font-family: "Courier New", Courier, monospace;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 6px;
+    text-align: center;
+}
+
+#copy-btn {
+    padding: 0 20px;
+    background-color: var(--success-color);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+#copy-btn:hover {
+    opacity: 0.9;
+}
+
+.explanation-group h4 {
+    margin: 0 0 5px 0;
+    color: var(--text-muted);
+}
+
+#cron-explanation {
+    font-size: 16px;
+    color: #ffffff;
+    margin: 0;
+}

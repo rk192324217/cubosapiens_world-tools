@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PassGen – Password Generator</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Background orbs -->
+  <div class="bg-orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <div class="logo-wrap">
+      <div class="logo-icon">
+        <img src="assets/logo.png" alt="Logo" />
+      </div>
+      <span class="logo-name">Pass<span>Gen</span></span>
+    </div>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+      <span class="toggle-icons">
+        <i class="fa-solid fa-sun"></i>
+        <i class="fa-solid fa-moon"></i>
+      </span>
+    </button>
+  </header>
+
+  <main>
+
+    <!-- Hero -->
+    <div class="hero">
+      <h1>Generate <em>secure</em> passwords instantly</h1>
+      <p>Customise · Copy · Stay safe</p>
+    </div>
+
+    <div class="grid">
+
+      <!-- Left: Controls -->
+      <div class="card controls-card">
+        <div class="card-label">Settings</div>
+
+        <!-- Length -->
+        <div class="setting-row">
+          <div class="setting-label">
+            Length <span id="lengthVal">16</span>
+          </div>
+          <input type="range" id="lengthSlider" min="4" max="64" step="1" value="16" />
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Character toggles -->
+        <div class="setting-row">
+          <div class="setting-label">Character types</div>
+          <div class="toggle-group">
+            <label class="toggle-pill active" id="pillUpper">
+              <input type="checkbox" id="chkUpper" checked hidden />
+              ABC
+            </label>
+            <label class="toggle-pill active" id="pillLower">
+              <input type="checkbox" id="chkLower" checked hidden />
+              abc
+            </label>
+            <label class="toggle-pill active" id="pillNumbers">
+              <input type="checkbox" id="chkNumbers" checked hidden />
+              123
+            </label>
+            <label class="toggle-pill" id="pillSymbols">
+              <input type="checkbox" id="chkSymbols" hidden />
+              !@#
+            </label>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Bulk count -->
+        <div class="setting-row">
+          <div class="setting-label">
+            Bulk generate <span id="bulkVal">1</span>
+          </div>
+          <input type="range" id="bulkSlider" min="1" max="10" step="1" value="1" />
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Generate button -->
+        <button class="btn-generate" id="btnGenerate">
+          <i class="fa-solid fa-rotate-right"></i>
+          Generate
+        </button>
+      </div>
+
+      <!-- Right: Output -->
+      <div class="card output-card">
+        <div class="card-label">Generated</div>
+
+        <!-- Password list -->
+        <div id="passwordList" class="password-list">
+          <div class="pw-placeholder">
+            <i class="fa-solid fa-lock"></i>
+            <p>Hit Generate to create your password</p>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Strength meter -->
+        <div class="strength-wrap" id="strengthWrap" style="display:none;">
+          <div class="setting-label">
+            Strength <span id="strengthLabel">—</span>
+          </div>
+          <div class="strength-bar">
+            <div class="strength-fill" id="strengthFill"></div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Ad slots -->
+    <div class="ads-row">
+      <div class="ad-slot">Advertisement</div>
+      <div class="ad-slot">Advertisement</div>
+    </div>
+
+  </main>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

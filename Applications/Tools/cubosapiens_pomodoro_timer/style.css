@@ -1,0 +1,711 @@
+/* ── 1. Tokens ── */
+:root {
+  --red:        #e34949;
+  --red-dim:    #c93c3c;
+  --red-glow:   rgba(227,73,73,0.25);
+
+  /* Mode accent colours */
+  --work-color:  #e34949;
+  --short-color: #34c759;
+  --long-color:  #007aff;
+  --accent:      var(--work-color);
+
+  --bg:           #f5f5f7;
+  --surface:      #ffffff;
+  --surface-2:    #fafafa;
+  --border:       rgba(0,0,0,0.08);
+  --text:         #1d1d1f;
+  --text-2:       #6e6e73;
+  --text-3:       #aeaeb2;
+  --shadow-sm:    0 2px 8px rgba(0,0,0,0.06);
+  --shadow-md:    0 8px 32px rgba(0,0,0,0.10);
+  --shadow-lg:    0 24px 64px rgba(0,0,0,0.14);
+  --glass:        rgba(255,255,255,0.72);
+  --glass-border: rgba(255,255,255,0.5);
+}
+
+[data-theme="dark"] {
+  --bg:           #000000;
+  --surface:      #1c1c1e;
+  --surface-2:    #2c2c2e;
+  --border:       rgba(255,255,255,0.08);
+  --text:         #f5f5f7;
+  --text-2:       #aeaeb2;
+  --text-3:       #636366;
+  --shadow-sm:    0 2px 8px rgba(0,0,0,0.4);
+  --shadow-md:    0 8px 32px rgba(0,0,0,0.5);
+  --shadow-lg:    0 24px 64px rgba(0,0,0,0.6);
+  --glass:        rgba(28,28,30,0.8);
+  --glass-border: rgba(255,255,255,0.08);
+}
+
+/* Mode-driven accent swap */
+body[data-mode="work"]  { --accent: var(--work-color);  }
+body[data-mode="short"] { --accent: var(--short-color); }
+body[data-mode="long"]  { --accent: var(--long-color);  }
+
+
+/* ── 2. Reset & Base ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg); color: var(--text);
+  min-height: 100vh; overflow-x: hidden;
+  transition: background 0.35s ease, color 0.35s ease;
+}
+
+
+/* ── 3. Background Orbs ── */
+.bg-orbs { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+
+.orb {
+  position: absolute; border-radius: 50%;
+  filter: blur(90px); opacity: 0.15;
+  animation: orb-drift 18s ease-in-out infinite alternate;
+}
+
+.orb-1 {
+  width: 560px; height: 560px;
+  background: var(--accent);
+  top: -160px; right: -120px;
+  transition: background 0.6s ease;
+}
+
+.orb-2 {
+  width: 380px; height: 380px;
+  background: #1d1d1f;
+  bottom: 60px; left: -100px;
+  animation-delay: -7s;
+}
+
+[data-theme="dark"] .orb-2 { background: #444; }
+
+
+/* ── 4. Header ── */
+header {
+  position: sticky; top: 0; z-index: 100;
+  height: 60px; padding: 0 28px;
+  display: flex; align-items: center; justify-content: space-between;
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  background: var(--glass); border-bottom: 1px solid var(--glass-border);
+  transition: background 0.35s ease, border-color 0.35s ease;
+}
+
+.logo-wrap { display: flex; align-items: center; gap: 10px; animation: fade-down 0.5s ease both; }
+
+.logo-icon {
+  /* width: 34px; height: 34px; background: var(--accent);  */
+  border-radius: 100%;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.15); overflow: hidden;
+  transition: transform 0.2s ease, background 0.4s ease;
+  cursor: pointer; flex-shrink: 0;
+}
+
+.logo-icon:hover { transform: rotate(-6deg) scale(1.08); }
+.logo-icon img { width: 44px; height: 44px; object-fit: contain; display: block; }
+.logo-name { font-weight: 700; font-size: 1.1rem; letter-spacing: -0.02em; color: var(--text); }
+.logo-name span { color: var(--accent); transition: color 0.4s ease; }
+
+.header-right { display: flex; align-items: center; gap: 10px; animation: fade-down 0.5s 0.08s ease both; }
+
+.icon-header-btn {
+  width: 36px; height: 36px; border-radius: 9px;
+  border: 1.5px solid var(--border); background: var(--surface-2);
+  color: var(--text-2); display: flex; align-items: center;
+  justify-content: center; font-size: 0.85rem; cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+}
+
+.icon-header-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+.theme-toggle {
+  position: relative; width: 44px; height: 26px; border-radius: 13px;
+  background: var(--surface-2); border: 1.5px solid var(--border);
+  cursor: pointer; transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+.theme-toggle::after {
+  content: ''; position: absolute; top: 2px; left: 2px;
+  width: 18px; height: 18px; border-radius: 50%; background: var(--text-2);
+  transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), background 0.3s ease;
+}
+
+[data-theme="dark"] .theme-toggle::after { transform: translateX(18px); background: var(--accent); }
+
+.toggle-icons {
+  position: absolute; inset: 0; display: flex; align-items: center;
+  justify-content: space-between; padding: 0 5px;
+  pointer-events: none; font-size: 9px; color: var(--text-3);
+}
+
+
+/* ── 5. Main Layout ── */
+main {
+  position: relative; z-index: 1;
+  max-width: 520px; margin: 0 auto;
+  padding: 36px 20px 32px;
+}
+
+
+/* ── 6. Mode tabs ── */
+.mode-tabs {
+  display: flex; gap: 4px; margin-bottom: 24px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 14px; padding: 4px;
+  animation: fade-up 0.5s ease both;
+}
+
+.mode-tab {
+  flex: 1; padding: 8px 10px; border-radius: 10px;
+  border: none; background: transparent;
+  color: var(--text-2); font-family: 'DM Sans', sans-serif;
+  font-size: 0.82rem; font-weight: 500; cursor: pointer;
+  transition: background 0.25s ease, color 0.25s ease;
+  white-space: nowrap;
+}
+
+.mode-tab.active {
+  background: var(--accent); color: #fff;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+  transition: background 0.4s ease;
+}
+
+
+/* ── 7. Timer card ── */
+.timer-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 28px; padding: 32px 24px 24px;
+  box-shadow: var(--shadow-md);
+  display: flex; flex-direction: column; align-items: center;
+  gap: 24px;
+  animation: fade-up 0.6s 0.06s ease both;
+  transition: background 0.35s ease, border-color 0.35s ease, box-shadow 0.3s ease;
+}
+
+.timer-card:hover { box-shadow: var(--shadow-lg); }
+
+
+/* ── 8. SVG ring ── */
+.ring-wrap {
+  position: relative; width: 240px; height: 240px;
+  flex-shrink: 0;
+}
+
+.ring-svg {
+  width: 240px; height: 240px;
+  transform: rotate(-90deg);
+}
+
+.ring-track {
+  fill: none; stroke: var(--border); stroke-width: 10;
+}
+
+.ring-progress {
+  fill: none; stroke: var(--accent); stroke-width: 10;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 1s linear, stroke 0.4s ease;
+  filter: drop-shadow(0 0 8px rgba(227,73,73,0.4));
+}
+
+
+/* ── 9. Timer display ── */
+.timer-inner {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 6px;
+}
+
+.timer-display {
+  font-family: 'DM Mono', monospace;
+  font-size: 3.4rem; font-weight: 600;
+  color: var(--text); letter-spacing: -0.02em;
+  line-height: 1;
+  transition: color 0.3s ease;
+}
+
+.timer-mode-label {
+  font-size: 0.75rem; font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--accent); transition: color 0.4s ease;
+}
+
+
+/* ── 10. Session dots ── */
+.session-dots {
+  display: flex; gap: 8px; align-items: center;
+}
+
+.session-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--border); border: 2px solid var(--border);
+  transition: background 0.3s ease, transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+}
+
+.session-dot.done {
+  background: var(--accent); border-color: var(--accent);
+}
+
+.session-dot.active {
+  background: transparent; border-color: var(--accent);
+  transform: scale(1.3);
+  box-shadow: 0 0 0 3px rgba(227,73,73,0.2);
+}
+
+
+/* ── 11. Timer controls ── */
+.timer-controls {
+  display: flex; align-items: center; gap: 16px;
+}
+
+.ctrl-btn {
+  border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+  transition: transform 0.15s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.play-btn {
+  width: 68px; height: 68px; font-size: 1.4rem;
+  background: var(--accent); color: #fff;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.18);
+  transition: background 0.4s ease, transform 0.15s ease, box-shadow 0.2s ease;
+}
+
+.play-btn:hover { transform: scale(1.06); box-shadow: 0 8px 28px rgba(0,0,0,0.22); }
+.play-btn:active { transform: scale(0.96); }
+
+.skip-btn {
+  width: 44px; height: 44px; font-size: 0.9rem;
+  background: var(--surface-2); color: var(--text-2);
+  border: 1.5px solid var(--border);
+}
+
+.skip-btn:hover {
+  background: var(--surface); color: var(--accent);
+  border-color: var(--accent); transform: scale(1.05);
+}
+
+.skip-btn:active { transform: scale(0.95); }
+
+
+/* ── 12. Stats row ── */
+.stats-row {
+  display: flex; align-items: center; gap: 0;
+  width: 100%; background: var(--surface-2);
+  border: 1px solid var(--border); border-radius: 14px;
+  overflow: hidden;
+}
+
+.stat-item {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; gap: 3px; padding: 12px 8px;
+}
+
+.stat-val {
+  font-family: 'DM Mono', monospace;
+  font-size: 1.1rem; font-weight: 600; color: var(--text);
+  transition: color 0.3s ease;
+}
+
+.stat-label {
+  font-size: 0.65rem; font-weight: 600;
+  letter-spacing: 0.07em; text-transform: uppercase;
+  color: var(--text-3);
+}
+
+.stat-divider {
+  width: 1px; height: 36px; background: var(--border);
+}
+
+
+/* ── 13. Current task input ── */
+.current-task-wrap {
+  margin-top: 20px;
+  animation: fade-up 0.6s 0.12s ease both;
+}
+
+.current-task-label {
+  font-size: 0.68rem; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--text-3); margin-bottom: 8px;
+}
+
+.current-task-input {
+  width: 100%; padding: 13px 16px;
+  border-radius: 14px; border: 1.5px solid var(--border);
+  background: var(--surface); color: var(--text);
+  font-family: 'DM Sans', sans-serif; font-size: 0.95rem; font-weight: 500;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.current-task-input::placeholder { color: var(--text-3); font-weight: 400; }
+
+.current-task-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px rgba(227,73,73,0.12);
+}
+
+
+/* ── 14. Task section ── */
+.task-section {
+  margin-top: 24px;
+  animation: fade-up 0.6s 0.18s ease both;
+}
+
+.task-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.section-label {
+  font-size: 0.68rem; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3);
+}
+
+.btn-text {
+  background: none; border: none; font-family: 'DM Sans', sans-serif;
+  font-size: 0.75rem; font-weight: 500; color: var(--text-3);
+  cursor: pointer; transition: color 0.2s ease;
+}
+
+.btn-text:hover { color: var(--accent); }
+
+.task-add-row {
+  display: flex; gap: 8px; margin-bottom: 10px;
+}
+
+.task-input {
+  flex: 1; padding: 11px 14px;
+  border-radius: 12px; border: 1.5px solid var(--border);
+  background: var(--surface); color: var(--text);
+  font-family: 'DM Sans', sans-serif; font-size: 0.88rem;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.task-input::placeholder { color: var(--text-3); }
+
+.task-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(227,73,73,0.1);
+}
+
+.btn-add-task {
+  width: 42px; height: 42px; border-radius: 12px;
+  border: none; background: var(--accent); color: #fff;
+  font-size: 0.9rem; cursor: pointer; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 3px 12px var(--red-glow);
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.btn-add-task:hover { background: var(--red-dim); transform: scale(1.05); }
+.btn-add-task:active { transform: scale(0.96); }
+
+
+/* ── 15. Task list & items ── */
+.task-list {
+  display: flex; flex-direction: column; gap: 6px;
+}
+
+.task-empty {
+  font-size: 0.82rem; color: var(--text-3);
+  text-align: center; padding: 20px 0;
+}
+
+.task-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 11px 14px; border-radius: 12px;
+  background: var(--surface); border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  animation: task-in 0.3s cubic-bezier(0.34,1.56,0.64,1) both;
+  transition: border-color 0.2s ease, opacity 0.2s ease, transform 0.2s ease;
+}
+
+.task-item:hover { border-color: var(--accent); }
+
+.task-item.done {
+  opacity: 0.5;
+}
+
+.task-item.done .task-text {
+  text-decoration: line-through;
+  color: var(--text-3);
+}
+
+/* Custom checkbox */
+.task-check {
+  width: 20px; height: 20px; border-radius: 6px;
+  border: 2px solid var(--border); flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; background: var(--surface-2);
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+}
+
+.task-check:hover { border-color: var(--accent); transform: scale(1.1); }
+
+.task-check.checked {
+  background: var(--accent); border-color: var(--accent);
+  color: #fff; font-size: 0.65rem;
+}
+
+.task-text {
+  flex: 1; font-size: 0.88rem; color: var(--text);
+  line-height: 1.4; word-break: break-word;
+  transition: color 0.2s ease, text-decoration 0.2s ease;
+}
+
+.task-remove {
+  width: 28px; height: 28px; border-radius: 7px; flex-shrink: 0;
+  border: none; background: transparent; color: var(--text-3);
+  font-size: 0.72rem; cursor: pointer; opacity: 0;
+  display: flex; align-items: center; justify-content: center;
+  transition: opacity 0.15s ease, color 0.15s ease, background 0.15s ease;
+}
+
+.task-item:hover .task-remove { opacity: 1; }
+.task-remove:hover { color: var(--accent); background: var(--surface-2); }
+
+/* Pomodoro count badge per task */
+.task-pomo-count {
+  font-size: 0.65rem; font-weight: 600; color: var(--text-3);
+  font-family: 'DM Mono', monospace; white-space: nowrap; flex-shrink: 0;
+}
+
+.task-pomo-count i { color: var(--accent); font-size: 0.6rem; }
+
+
+/* ── 16. Settings modal ── */
+.modal-backdrop {
+  position: fixed; inset: 0; z-index: 200;
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(6px);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.modal-backdrop.open { opacity: 1; pointer-events: auto; }
+
+.modal {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 24px; width: 100%; max-width: 420px;
+  box-shadow: var(--shadow-lg); padding: 24px;
+  transform: translateY(20px) scale(0.97);
+  transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  max-height: 90vh; overflow-y: auto;
+}
+
+.modal-backdrop.open .modal { transform: translateY(0) scale(1); }
+
+.modal-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.modal-title {
+  font-size: 1rem; font-weight: 700; color: var(--text);
+}
+
+.icon-btn {
+  width: 32px; height: 32px; border-radius: 8px;
+  border: 1.5px solid var(--border); background: var(--surface-2);
+  color: var(--text-2); display: flex; align-items: center;
+  justify-content: center; font-size: 0.78rem; cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.icon-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+.modal-body { display: flex; flex-direction: column; gap: 16px; }
+
+.settings-group { display: flex; flex-direction: column; gap: 12px; }
+
+.settings-group-label {
+  font-size: 0.65rem; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3);
+}
+
+.settings-row {
+  display: flex; align-items: center; justify-content: space-between;
+  font-size: 0.88rem; color: var(--text-2);
+}
+
+.setting-input {
+  width: 70px; padding: 7px 10px; text-align: center;
+  border-radius: 9px; border: 1.5px solid var(--border);
+  background: var(--surface-2); color: var(--text);
+  font-family: 'DM Mono', monospace; font-size: 0.88rem;
+  outline: none; -moz-appearance: textfield;
+  transition: border-color 0.2s ease;
+}
+
+.setting-input::-webkit-inner-spin-button { -webkit-appearance: none; }
+.setting-input:focus { border-color: var(--accent); }
+
+.modal-divider { height: 1px; background: var(--border); }
+
+
+/* ── 17. Switch toggle ── */
+.switch { position: relative; display: inline-block; flex-shrink: 0; }
+
+.switch input { opacity: 0; width: 0; height: 0; position: absolute; }
+
+.switch-track {
+  display: block; width: 42px; height: 24px; border-radius: 12px;
+  background: var(--border); cursor: pointer;
+  position: relative;
+  transition: background 0.3s ease;
+}
+
+.switch-track::after {
+  content: ''; position: absolute;
+  top: 3px; left: 3px;
+  width: 18px; height: 18px; border-radius: 50%;
+  background: #fff; box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+  transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+}
+
+.switch input:checked + .switch-track { background: var(--accent); }
+.switch input:checked + .switch-track::after { transform: translateX(18px); }
+
+
+/* ── 18. Action Buttons ── */
+.btn-action {
+  display: flex; align-items: center; justify-content: center; gap: 7px;
+  padding: 11px 18px; border-radius: 11px;
+  border: 1.5px solid var(--border);
+  background: var(--surface-2); color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.85rem; font-weight: 500; cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease,
+              transform 0.15s ease, color 0.2s ease;
+}
+
+.btn-action:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
+.btn-action:active { transform: translateY(0); }
+
+.btn-action.primary {
+  background: var(--accent); color: #fff;
+  border-color: transparent;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+  transition: background 0.4s ease, transform 0.15s ease;
+}
+
+.btn-action.primary:hover { filter: brightness(0.92); color: #fff; }
+
+
+/* ── 19. Ad Slots ── */
+.ads-row {
+  margin-top: 28px; display: flex; gap: 16px;
+  animation: fade-up 0.6s 0.24s ease both;
+}
+
+.ad-slot {
+  flex: 1; height: 90px; border-radius: 14px;
+  border: 1.5px dashed var(--border);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text-3); font-size: 0.75rem;
+  letter-spacing: 0.05em; text-transform: uppercase;
+  font-weight: 500; background: var(--surface);
+}
+
+
+/* ── 20. Toast ── */
+.toast {
+  position: fixed; bottom: 28px; left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: var(--text); color: var(--bg);
+  padding: 12px 22px; border-radius: 30px;
+  font-size: 0.85rem; font-weight: 500;
+  box-shadow: var(--shadow-lg); opacity: 0; z-index: 999;
+  white-space: nowrap; pointer-events: none;
+  transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), opacity 0.35s ease;
+}
+
+.toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+
+/* ── 21. Animations ── */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+@keyframes fade-down {
+  from { opacity: 0; transform: translateY(-12px); }
+  to   { opacity: 1; transform: translateY(0);     }
+}
+
+@keyframes orb-drift {
+  from { transform: translate(0,0) scale(1); }
+  to   { transform: translate(30px,40px) scale(1.12); }
+}
+
+@keyframes task-in {
+  from { opacity: 0; transform: translateY(8px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Tick animation on play button */
+@keyframes pomo-pulse {
+  0%,100% { box-shadow: 0 6px 24px rgba(0,0,0,0.18); }
+  50%      { box-shadow: 0 6px 32px rgba(227,73,73,0.4); }
+}
+
+.play-btn.running { animation: pomo-pulse 2s ease-in-out infinite; }
+
+
+/* ── 22. Responsive ── */
+@media (max-width: 560px) {
+  main { padding: 24px 14px 24px; }
+  header { padding: 0 16px; }
+  .ring-wrap { width: 200px; height: 200px; }
+  .ring-svg  { width: 200px; height: 200px; }
+  .timer-display { font-size: 2.8rem; }
+  .play-btn  { width: 60px; height: 60px; font-size: 1.2rem; }
+  .skip-btn  { width: 40px; height: 40px; }
+  .ads-row   { flex-direction: column; }
+  .ad-slot   { height: 60px; }
+}
+
+@media (max-width: 380px) {
+  .hero h1 { font-size: 1.6rem; }
+  .ring-wrap { width: 180px; height: 180px; }
+  .ring-svg  { width: 180px; height: 180px; }
+  .timer-display { font-size: 2.4rem; }
+  .mode-tab  { font-size: 0.74rem; padding: 7px 6px; }
+  .logo-name { font-size: 0.95rem; }
+  /* .logo-icon { width: 28px; height: 28px; } */
+  .logo-icon img { width: 28px; height: 28px; }
+  .modal     { padding: 18px; }
+}
+
+@media (max-width: 300px) {
+  header { padding: 0 10px; height: 52px; }
+  main   { padding: 16px 10px 20px; }
+  .ring-wrap { width: 160px; height: 160px; }
+  .ring-svg  { width: 160px; height: 160px; }
+  .timer-display { font-size: 2rem; }
+  .mode-tabs { gap: 2px; padding: 3px; }
+  .mode-tab  { font-size: 0.68rem; padding: 6px 4px; border-radius: 8px; }
+  .play-btn  { width: 54px; height: 54px; font-size: 1rem; }
+  .skip-btn  { width: 36px; height: 36px; font-size: 0.78rem; }
+  .stats-row { border-radius: 10px; }
+  .stat-val  { font-size: 0.9rem; }
+  .stat-label { font-size: 0.58rem; }
+  .logo-name { font-size: 0.82rem; }
+  /* .logo-icon { width: 26px; height: 26px; border-radius: 7px; } */
+  .logo-icon img { width: 26px; height: 26px; }
+  .theme-toggle { width: 38px; height: 22px; }
+  .theme-toggle::after { width: 15px; height: 15px; }
+  [data-theme="dark"] .theme-toggle::after { transform: translateX(13px); }
+  .icon-header-btn { width: 30px; height: 30px; font-size: 0.75rem; }
+  .toast { font-size: 0.7rem; padding: 8px 12px; white-space: normal; text-align: center; max-width: 90vw; }
+  .ad-slot { display: none; }
+}

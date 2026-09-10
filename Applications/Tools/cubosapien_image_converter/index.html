@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pixlit – Image Converter</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- JSZip for batch ZIP download -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Background orbs -->
+  <div class="bg-orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <div class="logo-wrap">
+      <div class="logo-icon">
+        <img src="assets/logo.png" alt="Logo" />
+      </div>
+      <span class="logo-name">Pix<span>lit</span></span>
+    </div>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+      <span class="toggle-icons">
+        <i class="fa-solid fa-sun "></i>
+        <i class="fa-solid fa-moon "></i>
+      </span>
+    </button>
+  </header>
+
+  <main>
+
+    <!-- Hero -->
+    <div class="hero">
+      <h1>Convert images <em>instantly</em></h1>
+      <p>PNG · JPEG · WebP · BMP · ICO · TIFF · AVIF · GIF — all in your browser</p>
+    </div>
+
+    <!-- Drop zone -->
+    <div class="dropzone" id="dropzone">
+      <input type="file" id="fileInput" accept="image/*" multiple hidden />
+      <div class="dropzone-inner">
+        <div class="drop-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+        <p class="drop-title">Drop images here</p>
+        <p class="drop-sub">or <button class="btn-link" id="btnBrowse">browse files</button></p>
+        <p class="drop-formats">Accepts PNG, JPEG, WebP, BMP, GIF, TIFF, AVIF, ICO and more</p>
+      </div>
+    </div>
+
+    <!-- Settings bar (shown after upload) -->
+    <div class="settings-bar card" id="settingsBar" style="display:none;">
+
+      <!-- Output format grid -->
+      <div class="setting-section">
+        <div class="setting-label">Convert to</div>
+        <div class="format-grid" id="formatGrid">
+          <!-- Format pills injected by JS based on browser support -->
+        </div>
+      </div>
+
+      <div class="settings-divider"></div>
+
+      <!-- Quality slider (lossy formats only) -->
+      <div class="setting-section" id="qualitySection">
+        <div class="setting-label">
+          Quality <span id="qualityVal">92%</span>
+        </div>
+        <input type="range" id="qualitySlider" min="1" max="100" step="1" value="92" />
+        <p class="setting-hint">Applies to JPEG, WebP, AVIF</p>
+      </div>
+
+      <div class="settings-divider"></div>
+
+      <!-- Resize -->
+      <div class="setting-section">
+        <div class="setting-label">Resize output</div>
+        <div class="resize-row">
+          <div class="resize-input-wrap">
+            <label class="resize-label">W</label>
+            <input type="number" id="resizeW" class="resize-input" placeholder="Auto" min="1" max="8000" />
+          </div>
+          <span class="resize-x">×</span>
+          <div class="resize-input-wrap">
+            <label class="resize-label">H</label>
+            <input type="number" id="resizeH" class="resize-input" placeholder="Auto" min="1" max="8000" />
+          </div>
+          <label class="lock-label" id="lockLabel" title="Lock aspect ratio">
+            <input type="checkbox" id="lockAspect" checked hidden />
+            <i class="fa-solid fa-lock" id="lockIcon"></i>
+          </label>
+        </div>
+        <p class="setting-hint">Leave blank to keep original size</p>
+      </div>
+
+      <div class="settings-divider"></div>
+
+      <!-- Actions -->
+      <div class="setting-section setting-actions">
+        <button class="btn-action primary" id="btnConvertAll">
+          <i class="fa-solid fa-rotate-right"></i> Convert all
+        </button>
+        <button class="btn-action" id="btnDownloadZip" style="display:none;">
+          <i class="fa-solid fa-file-zipper"></i> Download ZIP
+        </button>
+        <button class="btn-action danger" id="btnClearAll">
+          <i class="fa-solid fa-trash"></i> Clear
+        </button>
+      </div>
+
+    </div>
+
+    <!-- File list -->
+    <div class="file-list" id="fileList"></div>
+
+    <!-- Ad slots -->
+    <div class="ads-row">
+      <div class="ad-slot">Advertisement</div>
+      <div class="ad-slot">Advertisement</div>
+    </div>
+
+  </main>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

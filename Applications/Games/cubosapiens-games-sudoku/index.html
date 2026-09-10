@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="en"> 
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sudoku — CUBOSAPIENS</title>
+
+<!-- Font Awesome: gives us icons like fa-lightbulb, fa-redo etc. -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<!-- Google Fonts: Orbitron for scores/logo, Rajdhani for UI text -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* ================================================================
+   CSS VARIABLES — Our design tokens (colours, fonts, spacing).
+   Change ONE value here and it updates the whole page.
+   ================================================================ */
+:root {
+  --bg:        #0a0e1a;   /* darkest background */
+  --surface:   #111827;   /* slightly lighter panels */
+  --card:      #1a2235;   /* cards and raised elements */
+  --border:    #2a3a55;   /* subtle borders */
+  --accent:    #00ff88;   /* neon green — primary highlight */
+  --accent2:   #00ccff;   /* cyan — secondary highlight */
+  --danger:    #ff4466;   /* red — errors, wrong numbers */
+  --gold:      #ffd700;   /* gold — hints, special actions */
+  --text:      #e8f4f8;   /* main text colour */
+  --muted:     #7a9ab5;   /* subdued/secondary text */
+  --given:     #a0c4e0;   /* pre-filled "given" numbers */
+  --cell-sel:  rgba(0,255,136,0.15); /* selected cell highlight */
+  --cell-peer: rgba(0,204,255,0.07); /* same row/col/box tint */
+  --cell-err:  rgba(255,68,102,0.18);/* error cell tint */
+  --shadow-accent: 0 0 20px rgba(0,255,136,0.3);
+}
+
+/* Box-sizing: makes width/padding calculations predictable */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Rajdhani', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* justify-content centers children vertically */
+  justify-content: flex-start;
+  padding: 16px 8px 32px;
+  /* The radial-gradient gives a subtle glow in top-left and right corners */
+  background-image:
+    radial-gradient(ellipse at 10% 10%, rgba(0,255,136,0.06) 0%, transparent 45%),
+    radial-gradient(ellipse at 90% 80%, rgba(0,204,255,0.06) 0%, transparent 45%);
+}
+
+/* ================================================================
+   HEADER — logo + game title
+   ================================================================ */
+.site-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 20px;
+  width: 100%;
+  max-width: 540px;
+}
+
+/* The logo image slot — swap src for your logo.png */
+.logo-img {
+  height: 44px;
+  width: auto;
+  /* If no image loads, show a fallback neon box */
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  border-radius: 10px;
+  padding: 2px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Orbitron', monospace;
+  font-size: 1rem;
+  font-weight: 900;
+  color: #0a0e1a;
+  letter-spacing: 1px;
+  text-decoration: none;
+}
+
+.header-text h1 {
+  font-family: 'Orbitron', monospace;
+  font-size: 1.5rem;
+  font-weight: 900;
+  /* Gradient text technique: clip the gradient to the text shape */
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+}
+
+.header-text p {
+  font-size: 0.78rem;
+  color: var(--muted);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+
+/* ================================================================
+   STATS BAR — score, time, mistakes
+   ================================================================ */
+.stats-bar {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  max-width: 540px;
+  margin-bottom: 14px;
+}
+
+.stat-card {
+  flex: 1;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px 8px;
+  text-align: center;
+}
+
+.stat-card .label {
+  font-size: 0.65rem;
+  color: var(--muted);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  display: block;
+}
+
+.stat-card .value {
+  font-family: 'Orbitron', monospace;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--accent);
+  display: block;
+  line-height: 1.2;
+}
+
+.stat-card .value.cyan  { color: var(--accent2); }
+.stat-card .value.red   { color: var(--danger); }
+.stat-card .value.gold  { color: var(--gold); }
+
+/* ================================================================
+   DIFFICULTY SELECTOR
+   ================================================================ */
+.diff-row {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.diff-btn {
+  flex: 1;
+  padding: 7px 4px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--card);
+  color: var(--muted);
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+}
+
+.diff-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.diff-btn.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #0a0e1a;
+  box-shadow: var(--shadow-accent);
+}
+
+/* ================================================================
+   THE 9×9 SUDOKU GRID
+   ================================================================ */
+.grid-wrapper {
+  background: var(--card);
+  border: 2px solid var(--border);
+  border-radius: 16px;
+  padding: 12px;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+  margin-bottom: 16px;
+  width: 100%;
+  max-width: 540px;
+}
+
+/* CSS Grid: 9 equal columns */
+#sudoku-grid {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  gap: 2px;
+  width: 100%;
+  /* aspect-ratio keeps the grid square no matter the screen width */
+  aspect-ratio: 1;
+}
+
+/* Each individual cell */
+.cell {
+  background: var(--surface);
+  border: 1px solid #1e2d42;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: clamp(0.9rem, 2.8vw, 1.35rem);
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s;
+  position: relative;
+  color: var(--text);
+  user-select: none;
+  /* aspect-ratio 1:1 makes each cell a perfect square */
+  aspect-ratio: 1;
+}
+
+/* Bold lines every 3 cells to show the 3×3 boxes */
+/* Right border of col 3 and col 6 */
+.cell[data-col="2"], .cell[data-col="5"] {
+  border-right: 2px solid var(--accent2);
+}
+/* Bottom border of row 3 and row 6 */
+.cell[data-row="2"], .cell[data-row="5"] {
+  border-bottom: 2px solid var(--accent2);
+}
+
+.cell:hover:not(.given) { background: rgba(0,255,136,0.08); }
+
+.cell.selected  { background: var(--cell-sel) !important; box-shadow: inset 0 0 0 2px var(--accent); }
+.cell.peer      { background: var(--cell-peer); }
+.cell.error     { background: var(--cell-err) !important; color: var(--danger); }
+.cell.given     { color: var(--given); cursor: default; font-weight: 600; }
+.cell.same-num  { background: rgba(255,215,0,0.1); }
+
+/* Pencil/candidate marks — tiny numbers in corners */
+.cell .pencil {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  width: 100%;
+  height: 100%;
+  padding: 1px;
+}
+
+.cell .pencil span {
+  font-size: clamp(0.35rem, 1vw, 0.5rem);
+  color: var(--accent2);
+  text-align: center;
+  line-height: 1.6;
+  font-weight: 500;
+}
+
+/* Pop animation when placing a number */
+@keyframes pop {
+  0%   { transform: scale(0.8); }
+  50%  { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+.cell.pop { animation: pop 0.2s ease; }
+
+/* Shake animation for wrong number */
+@keyframes shake {
+  0%,100% { transform: translateX(0); }
+  25%      { transform: translateX(-4px); }
+  75%      { transform: translateX(4px); }
+}
+.cell.shake { animation: shake 0.3s ease; }
+
+/* ================================================================
+   NUMBER PAD — tap numbers instead of keyboard
+   ================================================================ */
+.numpad {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  gap: 6px;
+  width: 100%;
+  max-width: 540px;
+  margin-bottom: 16px;
+}
+
+.num-btn {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-family: 'Orbitron', monospace;
+  font-size: 1rem;
+  font-weight: 700;
+  padding: 10px 4px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-align: center;
+  position: relative;
+}
+
+.num-btn:hover {
+  background: var(--accent);
+  color: #0a0e1a;
+  border-color: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(0,255,136,0.35);
+}
+
+/* Badge showing how many of this number remain to place */
+.num-btn .remain {
+  position: absolute;
+  top: 2px;
+  right: 3px;
+  font-size: 0.45rem;
+  color: var(--muted);
+  font-family: 'Rajdhani', sans-serif;
+}
+
+.num-btn.exhausted { opacity: 0.3; pointer-events: none; }
+
+/* ================================================================
+   ACTION BUTTONS — Hint, Erase, Pencil, New Game
+   ================================================================ */
+.actions {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  max-width: 540px;
+  margin-bottom: 12px;
+}
+
+.action-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding: 10px 4px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  color: var(--muted);
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.action-btn i { font-size: 1.1rem; }
+
+.action-btn:hover {
+  border-color: var(--accent2);
+  color: var(--accent2);
+  background: rgba(0,204,255,0.08);
+}
+
+.action-btn.active-mode {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: rgba(255,215,0,0.08);
+}
+
+.action-btn.new-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: rgba(0,255,136,0.08);
+}
+
+/* ================================================================
+   WIN OVERLAY — shown when puzzle is solved
+   ================================================================ */
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(10,14,26,0.92);
+  z-index: 100;
+  align-items: center;
+  justify-content: center;
+  /* backdrop-filter blurs what's behind the overlay */
+  backdrop-filter: blur(6px);
+}
+
+.overlay.show { display: flex; }
+
+.win-card {
+  background: var(--card);
+  border: 2px solid var(--accent);
+  border-radius: 20px;
+  padding: 40px 32px;
+  text-align: center;
+  max-width: 340px;
+  width: 90%;
+  box-shadow: 0 0 60px rgba(0,255,136,0.2);
+  animation: slideUp 0.4s ease;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(40px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+.win-card .trophy {
+  font-size: 3.5rem;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.win-card h2 {
+  font-family: 'Orbitron', monospace;
+  font-size: 1.6rem;
+  font-weight: 900;
+  background: linear-gradient(90deg, var(--accent), var(--gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 8px;
+}
+
+.win-card p {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin-bottom: 20px;
+}
+
+.win-stats {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.win-stat { text-align: center; }
+.win-stat .wv {
+  font-family: 'Orbitron', monospace;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--accent);
+  display: block;
+}
+.win-stat .wl { font-size: 0.7rem; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; }
+
+.play-again-btn {
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  border: none;
+  border-radius: 10px;
+  padding: 12px 32px;
+  font-family: 'Orbitron', monospace;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #0a0e1a;
+  cursor: pointer;
+  letter-spacing: 1px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.play-again-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,255,136,0.4);
+}
+
+/* ================================================================
+   TOAST — brief notification messages
+   ================================================================ */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-size: 0.85rem;
+  color: var(--text);
+  transition: transform 0.3s ease;
+  z-index: 200;
+  white-space: nowrap;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+.toast.success { border-color: var(--accent); color: var(--accent); }
+.toast.error   { border-color: var(--danger); color: var(--danger); }
+.toast.info    { border-color: var(--accent2); color: var(--accent2); }
+</style>
+</head>
+
+<body>
+
+<!-- ================================================================
+     HEADER
+     The <a> tag wraps the logo so clicking it could go to a hub page.
+     Replace "ZAP" text with an <img src="logo.png"> when you have it.
+     ================================================================ -->
+<header class="site-header">
+  <a href="#" class="logo-img" id="logo-slot">
+    <!-- REPLACE THIS TEXT WITH:  <img src="logo.png" alt="ZapGames" style="height:40px;">  -->
+    CUBOSAPIENS
+  </a>
+  <div class="header-text">
+    <h1>SUDOKU</h1>
+    <p>Fill the grid · Train your brain</p>
+  </div>
+</header>
+
+<!-- STATS BAR: score, timer, mistakes, hints left -->
+<div class="stats-bar">
+  <div class="stat-card">
+    <span class="label"><i class="fa-solid fa-star"></i> Score</span>
+    <span class="value" id="score">0</span>
+  </div>
+  <div class="stat-card">
+    <span class="label"><i class="fa-solid fa-clock"></i> Time</span>
+    <span class="value cyan" id="timer">00:00</span>
+  </div>
+  <div class="stat-card">
+    <span class="label"><i class="fa-solid fa-xmark"></i> Mistakes</span>
+    <span class="value red" id="mistakes">0 / 5</span>
+  </div>
+  <div class="stat-card">
+    <span class="label"><i class="fa-solid fa-lightbulb"></i> Hints</span>
+    <span class="value gold" id="hints-left">3</span>
+  </div>
+</div>
+
+<!-- DIFFICULTY BUTTONS -->
+<div class="diff-row" style="width:100%;max-width:540px;">
+  <button class="diff-btn" data-diff="easy">Easy</button>
+  <button class="diff-btn active" data-diff="medium">Medium</button>
+  <button class="diff-btn" data-diff="hard">Hard</button>
+  <button class="diff-btn" data-diff="expert">Expert</button>
+</div>
+
+<!-- THE SUDOKU GRID — cells are generated by JavaScript -->
+<div class="grid-wrapper">
+  <div id="sudoku-grid"></div>
+</div>
+
+<!-- NUMBER PAD — buttons 1-9 -->
+<div class="numpad" id="numpad">
+  <!-- Generated by JS -->
+</div>
+
+<!-- ACTION BUTTONS -->
+<div class="actions">
+  <button class="action-btn" id="btn-undo">
+    <i class="fa-solid fa-rotate-left"></i> Undo
+  </button>
+  <button class="action-btn" id="btn-erase">
+    <i class="fa-solid fa-eraser"></i> Erase
+  </button>
+  <button class="action-btn" id="btn-pencil">
+    <i class="fa-solid fa-pencil"></i> Notes
+  </button>
+  <button class="action-btn" id="btn-hint">
+    <i class="fa-solid fa-lightbulb"></i> Hint
+  </button>
+  <button class="action-btn new-btn" id="btn-new">
+    <i class="fa-solid fa-shuffle"></i> New
+  </button>
+</div>
+
+<!-- WIN OVERLAY -->
+<div class="overlay" id="win-overlay">
+  <div class="win-card">
+    <span class="trophy">🏆</span>
+    <h2>PUZZLE SOLVED!</h2>
+    <p>Outstanding! You cracked it.</p>
+    <div class="win-stats">
+      <div class="win-stat">
+        <span class="wv" id="w-time">--:--</span>
+        <span class="wl">Time</span>
+      </div>
+      <div class="win-stat">
+        <span class="wv" id="w-score">0</span>
+        <span class="wl">Score</span>
+      </div>
+      <div class="win-stat">
+        <span class="wv" id="w-mistakes">0</span>
+        <span class="wl">Mistakes</span>
+      </div>
+    </div>
+    <button class="play-again-btn" id="play-again">PLAY AGAIN</button>
+  </div>
+</div>
+
+<!-- TOAST NOTIFICATION -->
+<div class="toast" id="toast"></div>
+
+
+<!-- ================================================================
+     JAVASCRIPT — ALL THE GAME LOGIC
+     Reading order: variables → helper functions → game functions
+     → event listeners → init
+     ================================================================ -->
+<script>
+/* ----------------------------------------------------------------
+   STATE — all data that describes the current game.
+   Think of state as "what do we know right now?"
+   ---------------------------------------------------------------- */
+let board       = [];      // 81-cell array, current values (0 = empty)
+let solution    = [];      // 81-cell array, the answer
+let given       = [];      // 81 booleans — true if cell is pre-filled
+let pencilMarks = [];      // 81 sets, candidate marks per cell
+let selected    = null;    // index 0-80 of the selected cell
+let pencilMode  = false;   // toggle: enter notes instead of answers
+let mistakes    = 0;
+let hintsLeft   = 3;
+let score       = 0;
+let seconds     = 0;
+let timerID     = null;
+let difficulty  = 'medium';
+let history     = [];      // stack of moves for undo
+let winTime     = '';
+let gameActive  = false;
+
+/* Clues removed per difficulty level */
+const CLUES = { easy: 36, medium: 46, hard: 52, expert: 58 };
+
+/* ----------------------------------------------------------------
+   SUDOKU GENERATOR
+   We start with a solved board and remove clues.
+   ---------------------------------------------------------------- */
+
+/** Returns a freshly-shuffled solved 9×9 grid as a flat 81-element array */
+function generateSolution() {
+  const grid = Array(81).fill(0);
+  fillGrid(grid);
+  return grid;
+}
+
+/** Recursive backtracking filler — tries numbers in random order */
+function fillGrid(grid) {
+  const idx = grid.indexOf(0);          // find first empty cell
+  if (idx === -1) return true;           // all filled → success
+  const nums = shuffle([1,2,3,4,5,6,7,8,9]);
+  for (const n of nums) {
+    if (isValid(grid, idx, n)) {
+      grid[idx] = n;
+      if (fillGrid(grid)) return true;   // recurse
+      grid[idx] = 0;                     // backtrack
+    }
+  }
+  return false;
+}
+
+/** Returns true if placing num at idx doesn't break Sudoku rules */
+function isValid(grid, idx, num) {
+  const row = Math.floor(idx / 9);
+  const col = idx % 9;
+  const boxR = Math.floor(row / 3) * 3;
+  const boxC = Math.floor(col / 3) * 3;
+
+  for (let i = 0; i < 9; i++) {
+    if (grid[row * 9 + i] === num) return false;  // same row
+    if (grid[i * 9 + col] === num) return false;  // same col
+    // 3×3 box: iterate the box's 9 cells
+    const br = boxR + Math.floor(i / 3);
+    const bc = boxC + (i % 3);
+    if (grid[br * 9 + bc] === num) return false;
+  }
+  return true;
+}
+
+/** Fisher-Yates shuffle — randomises an array in place */
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+/** Create puzzle by removing `clues` cells from a solved grid */
+function createPuzzle(sol, clues) {
+  const puzzle = [...sol];
+  const positions = shuffle([...Array(81).keys()]);
+  for (let i = 0; i < clues; i++) puzzle[positions[i]] = 0;
+  return puzzle;
+}
+
+/* ----------------------------------------------------------------
+   TIMER
+   ---------------------------------------------------------------- */
+function startTimer() {
+  clearInterval(timerID);
+  seconds = 0;
+  timerID = setInterval(() => {
+    seconds++;
+    const m = String(Math.floor(seconds / 60)).padStart(2, '0');
+    const s = String(seconds % 60).padStart(2, '0');
+    document.getElementById('timer').textContent = `${m}:${s}`;
+  }, 1000);
+}
+
+function stopTimer() {
+  clearInterval(timerID);
+  const m = String(Math.floor(seconds / 60)).padStart(2, '0');
+  const s = String(seconds % 60).padStart(2, '0');
+  winTime = `${m}:${s}`;
+}
+
+/* ----------------------------------------------------------------
+   SCORING
+   ---------------------------------------------------------------- */
+function addScore(pts) {
+  score += pts;
+  document.getElementById('score').textContent = score;
+}
+
+/* ----------------------------------------------------------------
+   TOAST — brief pop-up messages
+   ---------------------------------------------------------------- */
+let toastTimer = null;
+function showToast(msg, type = 'info') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = `toast ${type} show`;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+/* ----------------------------------------------------------------
+   RENDER — build/update the visible grid from state
+   ---------------------------------------------------------------- */
+function renderGrid() {
+  const gridEl = document.getElementById('sudoku-grid');
+  gridEl.innerHTML = '';
+
+  for (let i = 0; i < 81; i++) {
+    const cell = document.createElement('div');
+    cell.className = 'cell';
+    cell.dataset.idx = i;
+    cell.dataset.row = Math.floor(i / 9);
+    cell.dataset.col = i % 9;
+
+    if (given[i]) cell.classList.add('given');
+
+    /* Highlight selected cell and its peers (same row/col/box) */
+    if (selected !== null) {
+      if (i === selected) {
+        cell.classList.add('selected');
+      } else if (isPeer(i, selected)) {
+        cell.classList.add('peer');
+      }
+      /* Highlight cells with same number */
+      if (board[i] !== 0 && board[i] === board[selected]) {
+        cell.classList.add('same-num');
+      }
+    }
+
+    /* Show pencil marks or the main number */
+    const marks = pencilMarks[i];
+    if (board[i] === 0 && marks && marks.size > 0) {
+      const pencilDiv = document.createElement('div');
+      pencilDiv.className = 'pencil';
+      for (let n = 1; n <= 9; n++) {
+        const span = document.createElement('span');
+        span.textContent = marks.has(n) ? n : '';
+        pencilDiv.appendChild(span);
+      }
+      cell.appendChild(pencilDiv);
+    } else if (board[i] !== 0) {
+      cell.textContent = board[i];
+      /* If the placed number is wrong, show error style */
+      if (!given[i] && board[i] !== solution[i]) {
+        cell.classList.add('error');
+      }
+    }
+
+    cell.addEventListener('click', () => selectCell(i));
+    gridEl.appendChild(cell);
+  }
+  updateNumpad();
+}
+
+/* ----------------------------------------------------------------
+   PEER CHECK — is cell b in the same row, col, or box as cell a?
+   ---------------------------------------------------------------- */
+function isPeer(a, b) {
+  const rA = Math.floor(a / 9), cA = a % 9;
+  const rB = Math.floor(b / 9), cB = b % 9;
+  if (rA === rB || cA === cB) return true;
+  return Math.floor(rA/3) === Math.floor(rB/3) &&
+         Math.floor(cA/3) === Math.floor(cB/3);
+}
+
+/* ----------------------------------------------------------------
+   CELL SELECTION
+   ---------------------------------------------------------------- */
+function selectCell(idx) {
+  selected = idx;
+  renderGrid();
+}
+
+/* ----------------------------------------------------------------
+   PLACE A NUMBER
+   ---------------------------------------------------------------- */
+function placeNumber(num) {
+  if (selected === null || !gameActive) return;
+  if (given[selected]) { showToast('Given cell — cannot edit', 'info'); return; }
+
+  /* Pencil mode: toggle candidate marks */
+  if (pencilMode) {
+    if (!pencilMarks[selected]) pencilMarks[selected] = new Set();
+    if (pencilMarks[selected].has(num)) pencilMarks[selected].delete(num);
+    else pencilMarks[selected].add(num);
+    renderGrid();
+    return;
+  }
+
+  if (board[selected] === num) return; // same number, ignore
+
+  /* Save state for undo */
+  history.push({ idx: selected, prev: board[selected], prevMarks: new Set(pencilMarks[selected] || []) });
+
+  board[selected] = num;
+  pencilMarks[selected] = new Set(); // clear pencil marks on that cell
+
+  /* Auto-clear pencil marks from peers */
+  for (let i = 0; i < 81; i++) {
+    if (i !== selected && isPeer(i, selected) && pencilMarks[i]) {
+      pencilMarks[i].delete(num);
+    }
+  }
+
+  /* Check correctness */
+  const correct = (num === solution[selected]);
+  if (!correct) {
+    mistakes++;
+    document.getElementById('mistakes').textContent = `${mistakes} / 5`;
+    addScore(-20);
+    showToast('Wrong number! −20 pts', 'error');
+    renderGrid();
+    /* Shake animation */
+    const cellEl = document.querySelector(`.cell[data-idx="${selected}"]`);
+    if (cellEl) { cellEl.classList.add('shake'); setTimeout(() => cellEl.classList.remove('shake'), 400); }
+    if (mistakes >= 5) { gameOver(); return; }
+  } else {
+    addScore(50);
+    /* Pop animation */
+    renderGrid();
+    const cellEl = document.querySelector(`.cell[data-idx="${selected}"]`);
+    if (cellEl) { cellEl.classList.add('pop'); setTimeout(() => cellEl.classList.remove('pop'), 300); }
+    checkWin();
+  }
+}
+
+/* ----------------------------------------------------------------
+   ERASE
+   ---------------------------------------------------------------- */
+function eraseCell() {
+  if (selected === null || given[selected] || !gameActive) return;
+  if (board[selected] === 0 && (!pencilMarks[selected] || pencilMarks[selected].size === 0)) return;
+  history.push({ idx: selected, prev: board[selected], prevMarks: new Set(pencilMarks[selected] || []) });
+  board[selected] = 0;
+  pencilMarks[selected] = new Set();
+  renderGrid();
+}
+
+/* ----------------------------------------------------------------
+   UNDO
+   ---------------------------------------------------------------- */
+function undo() {
+  if (!history.length) { showToast('Nothing to undo', 'info'); return; }
+  const { idx, prev, prevMarks } = history.pop();
+  board[idx] = prev;
+  pencilMarks[idx] = prevMarks;
+  renderGrid();
+}
+
+/* ----------------------------------------------------------------
+   HINT — reveals the correct value in a selected empty cell
+   ---------------------------------------------------------------- */
+function useHint() {
+  if (!gameActive) return;
+  if (hintsLeft <= 0) { showToast('No hints remaining!', 'error'); return; }
+  if (selected === null) { showToast('Select a cell first', 'info'); return; }
+  if (given[selected] || board[selected] === solution[selected]) {
+    showToast('Pick an empty or wrong cell', 'info'); return;
+  }
+  history.push({ idx: selected, prev: board[selected], prevMarks: new Set(pencilMarks[selected] || []) });
+  board[selected] = solution[selected];
+  pencilMarks[selected] = new Set();
+  given[selected] = true; // treat as given so it can't be erased
+  hintsLeft--;
+  document.getElementById('hints-left').textContent = hintsLeft;
+  addScore(-100);
+  showToast(`Hint used! −100 pts · ${hintsLeft} left`, 'info');
+  renderGrid();
+  checkWin();
+}
+
+/* ----------------------------------------------------------------
+   NUMBER PAD update — grey out exhausted numbers
+   ---------------------------------------------------------------- */
+function updateNumpad() {
+  const counts = Array(10).fill(0);
+  board.forEach(v => { if (v) counts[v]++; });
+  document.querySelectorAll('.num-btn').forEach(btn => {
+    const n = parseInt(btn.dataset.num);
+    const remain = 9 - counts[n];
+    btn.querySelector('.remain').textContent = remain > 0 ? remain : '';
+    btn.classList.toggle('exhausted', remain <= 0);
+  });
+}
+
+/* ----------------------------------------------------------------
+   WIN / GAME OVER CHECK
+   ---------------------------------------------------------------- */
+function checkWin() {
+  if (board.every((v, i) => v === solution[i])) {
+    stopTimer();
+    gameActive = false;
+    /* Bonus score based on speed and difficulty */
+    const diffBonus = { easy: 200, medium: 400, hard: 700, expert: 1000 };
+    const timeBonus = Math.max(0, 500 - seconds);
+    addScore(diffBonus[difficulty] + timeBonus);
+    setTimeout(showWinScreen, 600);
+  }
+}
+
+function showWinScreen() {
+  document.getElementById('w-time').textContent = winTime;
+  document.getElementById('w-score').textContent = score;
+  document.getElementById('w-mistakes').textContent = mistakes;
+  document.getElementById('win-overlay').classList.add('show');
+}
+
+function gameOver() {
+  stopTimer();
+  gameActive = false;
+  showToast('5 mistakes — game over! Starting new game…', 'error');
+  setTimeout(newGame, 2500);
+}
+
+/* ----------------------------------------------------------------
+   NEW GAME
+   ---------------------------------------------------------------- */
+function newGame() {
+  document.getElementById('win-overlay').classList.remove('show');
+  solution = generateSolution();
+  board     = createPuzzle(solution, CLUES[difficulty]);
+  given     = board.map(v => v !== 0);
+  pencilMarks = Array.from({ length: 81 }, () => new Set());
+  selected   = null;
+  mistakes   = 0;
+  hintsLeft  = 3;
+  score      = 0;
+  history    = [];
+  gameActive = true;
+  document.getElementById('score').textContent = '0';
+  document.getElementById('mistakes').textContent = '0 / 5';
+  document.getElementById('hints-left').textContent = '3';
+  startTimer();
+  renderGrid();
+}
+
+/* ----------------------------------------------------------------
+   BUILD THE NUMBER PAD
+   ---------------------------------------------------------------- */
+function buildNumpad() {
+  const pad = document.getElementById('numpad');
+  pad.innerHTML = '';
+  for (let n = 1; n <= 9; n++) {
+    const btn = document.createElement('button');
+    btn.className = 'num-btn';
+    btn.dataset.num = n;
+    btn.innerHTML = `${n}<span class="remain"></span>`;
+    btn.addEventListener('click', () => placeNumber(n));
+    pad.appendChild(btn);
+  }
+}
+
+/* ----------------------------------------------------------------
+   KEYBOARD SUPPORT
+   ---------------------------------------------------------------- */
+document.addEventListener('keydown', e => {
+  if (!gameActive) return;
+  const key = e.key;
+
+  /* Arrow keys to move selection */
+  if (selected !== null && ['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(key)) {
+    e.preventDefault();
+    const r = Math.floor(selected / 9), c = selected % 9;
+    if (key === 'ArrowUp'    && r > 0) selectCell(selected - 9);
+    if (key === 'ArrowDown'  && r < 8) selectCell(selected + 9);
+    if (key === 'ArrowLeft'  && c > 0) selectCell(selected - 1);
+    if (key === 'ArrowRight' && c < 8) selectCell(selected + 1);
+    return;
+  }
+
+  /* 1-9 to place numbers */
+  if (key >= '1' && key <= '9') placeNumber(parseInt(key));
+
+  /* Backspace / Delete to erase */
+  if (key === 'Backspace' || key === 'Delete') eraseCell();
+
+  /* Z to undo */
+  if ((e.ctrlKey || e.metaKey) && key === 'z') { e.preventDefault(); undo(); }
+
+  /* P to toggle pencil */
+  if (key === 'p' || key === 'P') togglePencil();
+});
+
+/* ----------------------------------------------------------------
+   PENCIL TOGGLE
+   ---------------------------------------------------------------- */
+function togglePencil() {
+  pencilMode = !pencilMode;
+  const btn = document.getElementById('btn-pencil');
+  btn.classList.toggle('active-mode', pencilMode);
+  showToast(pencilMode ? 'Notes mode ON' : 'Notes mode OFF', 'info');
+}
+
+/* ----------------------------------------------------------------
+   EVENT LISTENERS for action buttons and difficulty
+   ---------------------------------------------------------------- */
+document.getElementById('btn-undo').addEventListener('click', undo);
+document.getElementById('btn-erase').addEventListener('click', eraseCell);
+document.getElementById('btn-pencil').addEventListener('click', togglePencil);
+document.getElementById('btn-hint').addEventListener('click', useHint);
+document.getElementById('btn-new').addEventListener('click', newGame);
+document.getElementById('play-again').addEventListener('click', newGame);
+
+document.querySelectorAll('.diff-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.diff-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    difficulty = btn.dataset.diff;
+    newGame();
+  });
+});
+
+/* ----------------------------------------------------------------
+   INIT — build numpad then start a game on page load
+   ---------------------------------------------------------------- */
+buildNumpad();
+newGame();
+</script>
+</body>
+</html>

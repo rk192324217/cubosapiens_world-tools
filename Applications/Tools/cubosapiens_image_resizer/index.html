@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- ══════════════════════════════════════════
+       PRIMARY SEO META
+       Canonical URL tells Google this page should
+       rank under cubosapiens.world/tools/image-editor
+       even though the app lives on a subdomain.
+  ══════════════════════════════════════════ -->
+  <title>Free Image Editor – Resize, Crop, Shape & Cut | Cubosapiens</title>
+  <meta name="description" content="Free browser-based image editor. Resize to any dimension, crop with drag handles, clip to custom shapes, cut subjects with polygon lasso, rotate, flip — no upload, 100% private." />
+  <meta name="keywords" content="image resizer, image cropper, background remover, polygon cut, image editor, free image tool, resize image online, crop image, shape image" />
+  <meta name="author" content="Cubosapiens" />
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+
+  <!-- Canonical — tells Google the preferred URL to index.
+       Even though the page is served from image-editor.cubosapiens.world,
+       Google will show cubosapiens.world/tools/image-editor in search results. -->
+  <link rel="canonical" href="https://cubosapiens.world/tools/image-editor" />
+
+  <!-- ══════════════════════════════════════════
+       FAVICON & SITE ICON
+       Google shows the favicon next to your URL
+       in search results. All sizes covered below.
+       Place these files in your domain root:
+         /favicon.ico          (32×32, classic)
+         /favicon-16x16.png
+         /favicon-32x32.png
+         /apple-touch-icon.png (180×180, iOS)
+         /android-chrome-192.png
+         /android-chrome-512.png
+         /site.webmanifest
+  ══════════════════════════════════════════ -->
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <meta name="theme-color" content="#e34949" />
+
+  <!-- ══════════════════════════════════════════
+       OPEN GRAPH (Facebook, LinkedIn, WhatsApp)
+       og:url must match canonical for consistency.
+  ══════════════════════════════════════════ -->
+  <meta property="og:type"        content="website" />
+  <meta property="og:url"         content="https://cubosapiens.world/tools/image-editor" />
+  <meta property="og:title"       content="Free Image Editor – Resize, Crop, Shape & Cut | Cubosapiens" />
+  <meta property="og:description" content="Resize, crop, shape-clip, polygon-lasso cut, rotate and flip images — all in your browser, no upload needed." />
+  <meta property="og:image"       content="https://cubosapiens.world/assets/og-image-editor.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height"content="630" />
+  <meta property="og:site_name"   content="Cubosapiens" />
+  <meta property="og:locale"      content="en_IN" />
+
+  <!-- ══════════════════════════════════════════
+       TWITTER CARD
+  ══════════════════════════════════════════ -->
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:site"        content="@cubosapiens" />
+  <meta name="twitter:url"         content="https://cubosapiens.world/tools/image-editor" />
+  <meta name="twitter:title"       content="Free Image Editor | Cubosapiens" />
+  <meta name="twitter:description" content="Resize, crop, shape-clip, lasso cut — all in your browser." />
+  <meta name="twitter:image"       content="https://cubosapiens.world/assets/og-image-editor.png" />
+
+  <!-- ══════════════════════════════════════════
+       STRUCTURED DATA — WebApplication schema
+       This enables Google's rich results (star ratings,
+       category label, pricing) next to your search listing.
+  ══════════════════════════════════════════ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "cuboShape – Image Editor",
+    "url": "https://cubosapiens.world/tools/image-editor",
+    "description": "Free browser-based image editor. Resize, crop, clip to shapes, polygon-lasso cut subjects, rotate and flip images — no upload, 100% private.",
+    "applicationCategory": "MultimediaApplication",
+    "operatingSystem": "Web",
+    "browserRequirements": "Requires JavaScript",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "INR"
+    },
+    "creator": {
+      "@type": "Organization",
+      "name": "Cubosapiens",
+      "url": "https://cubosapiens.world"
+    },
+    "featureList": [
+      "Image resize with presets",
+      "Drag crop with aspect ratio lock",
+      "Shape clip (circle, hexagon, star, heart, blob and more)",
+      "Polygon lasso cut with transparent background",
+      "Rotate and flip",
+      "Bulk resize with ZIP download",
+      "No upload — runs 100% in browser"
+    ],
+    "screenshot": "https://cubosapiens.world/assets/og-image-editor.png"
+  }
+  </script>
+
+  <!-- Breadcrumb structured data — shows path in Google results -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home",  "item": "https://cubosapiens.world" },
+      { "@type": "ListItem", "position": 2, "name": "Tools", "item": "https://cubosapiens.world/tools" },
+      { "@type": "ListItem", "position": 3, "name": "Image Editor", "item": "https://cubosapiens.world/tools/image-editor" }
+    ]
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="bg-orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+  </div>
+
+  <header>
+    <div class="logo-wrap">
+      <div class="logo-icon"><img src="logo.png" alt="Logo" /></div>
+      <span class="logo-name">CUBO <span>IMAGE </span> EDITOR</span>
+    </div>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+      <span class="toggle-icons">
+        <i class="fa-solid fa-sun fa-xs"></i>
+        <i class="fa-solid fa-moon fa-xs"></i>
+      </span>
+    </button>
+  </header>
+
+  <main>
+    <div class="hero">
+      <h1>Resize & reshape <em>images</em></h1>
+      <p>Crop · Shape · Rotate · Flip · Export — all in your browser</p>
+    </div>
+
+    <!-- Upload zone (always visible until image loaded) -->
+    <div class="dropzone" id="dropzone">
+      <input type="file" id="fileInput" accept="image/*" hidden />
+      <div class="dropzone-inner">
+        <div class="drop-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+        <p class="drop-title">Drop an image here</p>
+        <p class="drop-sub">or <button class="btn-link" id="btnBrowse">browse files</button></p>
+        <p class="drop-formats">PNG · JPEG · WebP · GIF · BMP · AVIF</p>
+      </div>
+    </div>
+
+    <!-- Workspace (hidden until image loaded) -->
+    <div class="workspace" id="workspace" style="display:none;">
+
+      <!-- Top bar: filename + change image -->
+      <div class="workspace-topbar">
+        <div class="file-info-bar">
+          <i class="fa-regular fa-image"></i>
+          <span id="fileNameLabel">image.png</span>
+          <span class="file-dims" id="fileDimsLabel"></span>
+        </div>
+        <button class="btn-action" id="btnChangeImage">
+          <i class="fa-solid fa-arrow-up-from-bracket"></i> Change image
+        </button>
+      </div>
+
+      <!-- Tab bar -->
+      <div class="tab-bar">
+        <button class="tab-btn active" data-tab="resize">
+          <i class="fa-solid fa-expand"></i> Resize
+        </button>
+        <button class="tab-btn" data-tab="crop">
+          <i class="fa-solid fa-crop-simple"></i> Crop
+        </button>
+        <button class="tab-btn" data-tab="shape">
+          <i class="fa-solid fa-shapes"></i> Shape
+        </button>
+        <button class="tab-btn" data-tab="lasso">
+          <i class="fa-solid fa-draw-polygon"></i> Lasso Cut
+        </button>
+        <button class="tab-btn" data-tab="transform">
+          <i class="fa-solid fa-rotate"></i> Transform
+        </button>
+      </div>
+
+      <!-- Global download format bar (shown for Crop / Shape / Lasso / Transform) -->
+      <div class="global-fmt-bar card" id="globalFmtBar" style="display:none;">
+        <span class="gfmt-label"><i class="fa-solid fa-download"></i> Download as</span>
+        <div class="gfmt-pills" id="gfmtPills">
+          <button class="gfmt-pill active" data-fmt="png">PNG</button>
+          <button class="gfmt-pill" data-fmt="jpeg">JPEG</button>
+          <button class="gfmt-pill" data-fmt="webp">WebP</button>
+        </div>
+        <div class="gfmt-quality" id="gfmtQualityWrap" style="display:none;">
+          <label>Quality</label>
+          <input type="range" id="gfmtQuality" min="1" max="100" value="92" />
+          <span id="gfmtQualityVal">92%</span>
+        </div>
+      </div>
+
+      <!-- ── TAB: Resize ── -->
+      <div class="tab-content active" id="tab-resize">
+        <div class="two-col">
+
+          <!-- Controls -->
+          <div class="ctrl-panel">
+
+            <!-- Dimensions -->
+            <div class="card ctrl-card">
+              <div class="card-label">Dimensions</div>
+
+              <div class="dim-row">
+                <div class="dim-field">
+                  <label>Width (px)</label>
+                  <input type="number" id="rszW" class="field-input" placeholder="Width" min="1" max="8000" />
+                </div>
+                <button class="lock-btn" id="lockBtn" title="Lock aspect ratio">
+                  <i class="fa-solid fa-lock" id="lockIcon"></i>
+                </button>
+                <div class="dim-field">
+                  <label>Height (px)</label>
+                  <input type="number" id="rszH" class="field-input" placeholder="Height" min="1" max="8000" />
+                </div>
+              </div>
+
+              <!-- Percentage -->
+              <div class="pct-row">
+                <label class="setting-label">Scale</label>
+                <div class="pct-btns">
+                  <button class="pct-btn" data-pct="25">25%</button>
+                  <button class="pct-btn" data-pct="50">50%</button>
+                  <button class="pct-btn" data-pct="75">75%</button>
+                  <button class="pct-btn active" data-pct="100">100%</button>
+                  <button class="pct-btn" data-pct="150">150%</button>
+                  <button class="pct-btn" data-pct="200">200%</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Presets -->
+            <div class="card ctrl-card">
+              <div class="card-label">Presets</div>
+              <div class="preset-tabs">
+                <button class="preset-tab active" data-group="social">Social</button>
+                <button class="preset-tab" data-group="web">Web</button>
+                <button class="preset-tab" data-group="print">Print</button>
+                <button class="preset-tab" data-group="device">Device</button>
+              </div>
+              <div class="preset-list" id="presetList"></div>
+            </div>
+
+            <!-- Output -->
+            <div class="card ctrl-card">
+              <div class="card-label">Output format</div>
+              <div class="format-row">
+                <select id="rszFormat" class="field-select">
+                  <option value="png">PNG</option>
+                  <option value="jpeg" selected>JPEG</option>
+                  <option value="webp">WebP</option>
+                  <option value="avif">AVIF</option>
+                </select>
+                <div class="quality-wrap" id="qualityWrap">
+                  <label>Quality</label>
+                  <input type="range" id="rszQuality" min="1" max="100" value="92" />
+                  <span id="rszQualityVal">92%</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="action-row">
+              <button class="btn-action primary" id="btnApplyResize">
+                <i class="fa-solid fa-check"></i> Apply & Download
+              </button>
+              <button class="btn-action" id="btnBulkResize">
+                <i class="fa-solid fa-layer-group"></i> Bulk resize
+              </button>
+            </div>
+
+            <!-- Bulk file input (hidden) -->
+            <input type="file" id="bulkInput" accept="image/*" multiple hidden />
+          </div>
+
+          <!-- Preview -->
+          <div class="preview-panel card">
+            <div class="card-label">Preview</div>
+            <div class="preview-stage" id="rszPreviewStage">
+              <canvas id="rszCanvas"></canvas>
+            </div>
+            <div class="preview-meta" id="rszMeta"></div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ── TAB: Crop ── -->
+      <div class="tab-content" id="tab-crop">
+        <div class="two-col">
+
+          <div class="ctrl-panel">
+            <!-- Aspect ratio -->
+            <div class="card ctrl-card">
+              <div class="card-label">Aspect ratio</div>
+              <div class="ratio-grid">
+                <button class="ratio-btn active" data-ratio="free">Free</button>
+                <button class="ratio-btn" data-ratio="1:1">1 : 1</button>
+                <button class="ratio-btn" data-ratio="4:3">4 : 3</button>
+                <button class="ratio-btn" data-ratio="16:9">16 : 9</button>
+                <button class="ratio-btn" data-ratio="9:16">9 : 16</button>
+                <button class="ratio-btn" data-ratio="3:2">3 : 2</button>
+                <button class="ratio-btn" data-ratio="2:3">2 : 3</button>
+                <button class="ratio-btn" data-ratio="5:4">5 : 4</button>
+              </div>
+            </div>
+
+            <!-- Crop info -->
+            <div class="card ctrl-card">
+              <div class="card-label">Crop area</div>
+              <div class="crop-info" id="cropInfo">Select area on the image →</div>
+            </div>
+
+            <div class="action-row">
+              <button class="btn-action primary" id="btnApplyCrop">
+                <i class="fa-solid fa-crop-simple"></i> Crop & Download
+              </button>
+              <button class="btn-action" id="btnResetCrop">
+                <i class="fa-solid fa-rotate-left"></i> Reset
+              </button>
+            </div>
+          </div>
+
+          <!-- Crop canvas -->
+          <div class="preview-panel card">
+            <div class="card-label">Drag to crop</div>
+            <div class="crop-stage" id="cropStage">
+              <canvas id="cropCanvas"></canvas>
+              <div class="crop-overlay" id="cropOverlay">
+                <div class="crop-box" id="cropBox">
+                  <div class="crop-handle tl"></div>
+                  <div class="crop-handle tr"></div>
+                  <div class="crop-handle bl"></div>
+                  <div class="crop-handle br"></div>
+                  <div class="crop-rule-h"></div>
+                  <div class="crop-rule-v"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ── TAB: Shape ── -->
+      <div class="tab-content" id="tab-shape">
+        <div class="two-col">
+
+          <div class="ctrl-panel">
+            <div class="card ctrl-card">
+              <div class="card-label">Shape clip</div>
+              <div class="shape-grid" id="shapeGrid">
+                <button class="shape-btn active" data-shape="none" title="None">
+                  <i class="fa-regular fa-square"></i><span>None</span>
+                </button>
+                <button class="shape-btn" data-shape="circle" title="Circle">
+                  <i class="fa-regular fa-circle"></i><span>Circle</span>
+                </button>
+                <button class="shape-btn" data-shape="hexagon" title="Hexagon">
+                  <i class="fa-solid fa-hexagon"></i><span>Hexagon</span>
+                </button>
+                <button class="shape-btn" data-shape="star" title="Star">
+                  <i class="fa-solid fa-star"></i><span>Star</span>
+                </button>
+                <button class="shape-btn" data-shape="diamond" title="Diamond">
+                  <i class="fa-solid fa-diamond"></i><span>Diamond</span>
+                </button>
+                <button class="shape-btn" data-shape="shield" title="Shield">
+                  <i class="fa-solid fa-shield"></i><span>Shield</span>
+                </button>
+                <button class="shape-btn" data-shape="triangle" title="Triangle">
+                  <i class="fa-solid fa-play" style="transform:rotate(-90deg)"></i><span>Triangle</span>
+                </button>
+                <button class="shape-btn" data-shape="pentagon" title="Pentagon">
+                  <i class="fa-solid fa-pentagon"></i><span>Pentagon</span>
+                </button>
+                <button class="shape-btn" data-shape="arrow" title="Arrow">
+                  <i class="fa-solid fa-arrow-right"></i><span>Arrow</span>
+                </button>
+                <button class="shape-btn" data-shape="heart" title="Heart">
+                  <i class="fa-solid fa-heart"></i><span>Heart</span>
+                </button>
+                <button class="shape-btn" data-shape="blob" title="Blob">
+                  <i class="fa-solid fa-cloud"></i><span>Blob</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Rounded corners -->
+            <div class="card ctrl-card" id="roundedCard">
+              <div class="card-label">Rounded corners <span id="radiusVal">0px</span></div>
+              <input type="range" id="radiusSlider" min="0" max="50" value="0" />
+              <p class="hint-text">Applies when Shape is set to None</p>
+            </div>
+
+            <!-- Background -->
+            <div class="card ctrl-card">
+              <div class="card-label">Background</div>
+              <div class="bg-row">
+                <button class="bg-btn active" data-bg="transparent" title="Transparent">
+                  <span class="bg-swatch transparent-swatch"></span> Transparent
+                </button>
+                <button class="bg-btn" data-bg="white" title="White">
+                  <span class="bg-swatch" style="background:#fff;border:1px solid #ddd;"></span> White
+                </button>
+                <button class="bg-btn" data-bg="black" title="Black">
+                  <span class="bg-swatch" style="background:#000;"></span> Black
+                </button>
+                <button class="bg-btn" data-bg="custom" title="Custom">
+                  <span class="bg-swatch" id="customBgSwatch" style="background:#e34949;"></span> Custom
+                  <input type="color" id="customBgColor" value="#e34949" hidden />
+                </button>
+              </div>
+            </div>
+
+            <div class="action-row">
+              <button class="btn-action primary" id="btnApplyShape">
+                <i class="fa-solid fa-download"></i> Download shape
+              </button>
+            </div>
+          </div>
+
+          <div class="preview-panel card">
+            <div class="card-label">Shape preview</div>
+            <div class="preview-stage checkerboard" id="shapePreviewStage">
+              <canvas id="shapeCanvas"></canvas>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ── TAB: Lasso Cut ── -->
+      <div class="tab-content" id="tab-lasso">
+        <div class="two-col">
+
+          <div class="ctrl-panel">
+            <div class="card ctrl-card">
+              <div class="card-label">Polygon lasso tool</div>
+              <p class="hint-text" style="margin-bottom:12px;">
+                Click on the image to place nodes around the subject you want to cut out.
+                Close the path by clicking the first node (it glows red) or pressing
+                <kbd>Enter</kbd>. Press <kbd>Escape</kbd> to cancel.
+              </p>
+
+              <div class="lasso-stats" id="lassoStats">
+                <span class="lasso-stat"><i class="fa-solid fa-circle-dot"></i> <span id="lassoNodeCount">0</span> nodes</span>
+                <span class="lasso-stat"><i class="fa-solid fa-vector-square"></i> <span id="lassoArea">—</span></span>
+              </div>
+            </div>
+
+            <div class="card ctrl-card">
+              <div class="card-label">Background after cut</div>
+              <div class="bg-row">
+                <button class="lasso-bg-btn active" data-lbg="transparent" title="Transparent PNG">
+                  <span class="bg-swatch transparent-swatch"></span> Transparent
+                </button>
+                <button class="lasso-bg-btn" data-lbg="white">
+                  <span class="bg-swatch" style="background:#fff;border:1px solid #ddd;"></span> White
+                </button>
+                <button class="lasso-bg-btn" data-lbg="black">
+                  <span class="bg-swatch" style="background:#000;"></span> Black
+                </button>
+              </div>
+            </div>
+
+            <div class="card ctrl-card">
+              <div class="card-label">Feather edge <span id="featherVal">0px</span></div>
+              <input type="range" id="featherSlider" min="0" max="20" value="0" />
+              <p class="hint-text">Softens the cut edge — useful for natural subjects</p>
+            </div>
+
+            <div class="action-row">
+              <button class="btn-action primary" id="btnApplyLasso" disabled>
+                <i class="fa-solid fa-scissors"></i> Cut & Download
+              </button>
+              <button class="btn-action" id="btnUndoNode">
+                <i class="fa-solid fa-rotate-left"></i> Undo node
+              </button>
+              <button class="btn-action danger" id="btnResetLasso">
+                <i class="fa-solid fa-trash"></i> Reset
+              </button>
+            </div>
+
+            <!-- Keyboard hint -->
+            <div class="kbd-hints">
+              <span><kbd>Click</kbd> Add node</span>
+              <span><kbd>Enter</kbd> Close path</span>
+              <span><kbd>Esc</kbd> Cancel</span>
+              <span><kbd>Z</kbd> Undo last</span>
+            </div>
+          </div>
+
+          <!-- Lasso canvas -->
+          <div class="preview-panel card">
+            <div class="card-label">Click to place nodes — close the shape to cut</div>
+            <div class="lasso-stage" id="lassoStage">
+              <canvas id="lassoCanvas"></canvas>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ── TAB: Transform ── -->
+      <div class="tab-content" id="tab-transform">
+        <div class="two-col">
+
+          <div class="ctrl-panel">
+
+            <div class="card ctrl-card">
+              <div class="card-label">Rotate</div>
+              <div class="rotate-btns">
+                <button class="btn-action" id="btnRot90L">
+                  <i class="fa-solid fa-rotate-left"></i> 90°
+                </button>
+                <button class="btn-action" id="btnRot90R">
+                  <i class="fa-solid fa-rotate-right"></i> 90°
+                </button>
+                <button class="btn-action" id="btnRot180">
+                  <i class="fa-solid fa-arrows-rotate"></i> 180°
+                </button>
+              </div>
+              <div class="custom-angle-row">
+                <label class="setting-label">Custom angle</label>
+                <div class="angle-input-wrap">
+                  <input type="number" id="customAngle" class="field-input"
+                    placeholder="0" min="-360" max="360" value="0" />
+                  <span class="deg-label">°</span>
+                </div>
+              </div>
+              <input type="range" id="angleSlider" min="-180" max="180" value="0" />
+            </div>
+
+            <div class="card ctrl-card">
+              <div class="card-label">Flip</div>
+              <div class="flip-row">
+                <button class="btn-action" id="btnFlipH">
+                  <i class="fa-solid fa-left-right"></i> Flip horizontal
+                </button>
+                <button class="btn-action" id="btnFlipV">
+                  <i class="fa-solid fa-up-down"></i> Flip vertical
+                </button>
+              </div>
+            </div>
+
+            <div class="action-row">
+              <button class="btn-action primary" id="btnApplyTransform">
+                <i class="fa-solid fa-download"></i> Download
+              </button>
+              <button class="btn-action" id="btnResetTransform">
+                <i class="fa-solid fa-rotate-left"></i> Reset
+              </button>
+            </div>
+          </div>
+
+          <div class="preview-panel card">
+            <div class="card-label">Transform preview</div>
+            <div class="preview-stage" id="transformPreviewStage">
+              <canvas id="transformCanvas"></canvas>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div><!-- /workspace -->
+
+    <div class="ads-row">
+      <div class="ad-slot">Advertisement</div>
+      <div class="ad-slot">Advertisement</div>
+    </div>
+  </main>
+
+  <div class="toast" id="toast"></div>
+  <script src="app.js"></script>
+</body>
+</html>

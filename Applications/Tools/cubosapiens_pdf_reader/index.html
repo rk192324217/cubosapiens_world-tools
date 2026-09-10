@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- ── Primary Meta ── -->
+  <title>Cubo PDF — Read PDFs & EPUBs in Your Browser</title>
+  <meta name="description" content="Cubo PDF is a free, privacy-first PDF and EPUB reader that runs entirely in your browser. No uploads, no accounts — your files never leave your device.">
+  <meta name="keywords" content="PDF reader, EPUB reader, online PDF viewer, browser PDF reader, privacy PDF reader, free ebook reader">
+  <meta name="author" content="Cubosapiens">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#ffffff">
+
+  <!-- ── Canonical & Alternate ── -->
+  <link rel="canonical" href="https://cubosapiens.world/tools/pdf-reader">
+  <link rel="alternate" href="https://pdf-reader.cubosapiens.world">
+
+  <!-- ── Open Graph ── -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://pdf-reader.cubosapiens.world">
+  <meta property="og:title" content="Cubo PDF — Read PDFs & EPUBs in Your Browser">
+  <meta property="og:description" content="Free, private PDF and EPUB reader. Files stay on your device. Progress saved locally. No sign-up needed.">
+  <meta property="og:image" content="https://pdf-reader.cubosapiens.world/assets/og-image.png">
+  <meta property="og:site_name" content="Cubosapiens">
+
+  <!-- ── Twitter Card ── -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://pdf-reader.cubosapiens.world">
+  <meta name="twitter:title" content="Cubo PDF — Read PDFs & EPUBs in Your Browser">
+  <meta name="twitter:description" content="Free, private PDF and EPUB reader. Files stay on your device. Progress saved locally.">
+  <meta name="twitter:image" content="https://pdf-reader.cubosapiens.world/assets/og-image.png">
+
+  <!-- ── Structured Data ── -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Cubo PDF",
+    "url": "https://pdf-reader.cubosapiens.world",
+    "description": "Free browser-based PDF and EPUB reader with local progress saving. No uploads, no accounts.",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Cubosapiens",
+      "url": "https://cubosapiens.world"
+    }
+  }
+  </script>
+
+  <!-- ── Fonts ── -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Permanent+Marker&family=Comic+Neue:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+  <!-- ── Font Awesome ── -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- ── PDF.js & JSZip ── -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+  <!-- ── Styles ── -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ── HALFTONE BACKGROUND ── -->
+  <div class="halftone-bg" aria-hidden="true"></div>
+  <div class="panel-lines" aria-hidden="true"></div>
+
+  <!-- ══════════════════════════════════
+       LIBRARY VIEW
+  ══════════════════════════════════ -->
+  <div class="view active" id="library" role="main" aria-label="Book library">
+
+    <!-- Header -->
+    <header class="lib-header" role="banner">
+      <div class="lib-brand">
+        <img src="assets/logo.png" alt="Cubosapiens logo" class="brand-logo" onerror="this.style.display='none'">
+        <div class="brand-text">
+          <span class="brand-name">Cubo<span class="brand-accent">PDF</span></span>
+          <span class="brand-tagline">Your browser. Your books. Your privacy.</span>
+        </div>
+      </div>
+      <div class="lib-header-right">
+        <div class="cache-pill" id="cachePill" style="display:none" aria-live="polite">
+          <i class="fa-solid fa-database" aria-hidden="true"></i>
+          <span id="cacheInfo">0 books cached</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Upload zone -->
+    <section class="upload-section" aria-label="Upload books">
+      <div class="upload-area" id="uploadArea" role="button" tabindex="0" aria-label="Upload PDF or EPUB file">
+        <!-- BUG FIX: input must be the LAST child at z-index above everything,
+             not buried under upload-inner which was intercepting clicks -->
+        <div class="upload-inner">
+          <div class="upload-icon-wrap">
+            <i class="fa-solid fa-file-arrow-up" aria-hidden="true"></i>
+          </div>
+          <p class="upload-title">Drop your books here!</p>
+          <p class="upload-sub">PDF, EPUB &amp; CBZ supported &bull; Stored <strong>only</strong> in your browser</p>
+          <div class="upload-btn" aria-hidden="true">
+            <i class="fa-solid fa-plus" aria-hidden="true"></i> Choose Files
+          </div>
+        </div>
+        <input type="file" id="fileInput" accept=".pdf,.epub,.cbz,application/pdf,application/epub+zip,application/x-cbz,application/vnd.comicbook+zip" multiple aria-label="Choose PDF or EPUB files">
+        <div class="upload-corner upload-corner--tl" aria-hidden="true"></div>
+        <div class="upload-corner upload-corner--tr" aria-hidden="true"></div>
+        <div class="upload-corner upload-corner--bl" aria-hidden="true"></div>
+        <div class="upload-corner upload-corner--br" aria-hidden="true"></div>
+      </div>
+    </section>
+
+    <!-- Continue reading -->
+    <section id="continueSection" style="display:none" aria-label="Continue reading">
+      <div class="section-head">
+        <i class="fa-solid fa-bookmark" aria-hidden="true"></i>
+        Continue Reading
+      </div>
+      <div class="continue-strip" id="continueStrip"></div>
+    </section>
+
+    <!-- Library grid -->
+    <section aria-label="Your library">
+      <div class="section-head">
+        <i class="fa-solid fa-layer-group" aria-hidden="true"></i>
+        Your Library
+        <span class="book-count" id="bookCount"></span>
+      </div>
+      <div class="books-grid" id="booksGrid">
+        <div class="empty-state" id="emptyState">
+          <i class="fa-regular fa-face-smile-wink" aria-hidden="true"></i>
+          <p>No books yet — add one above!</p>
+        </div>
+      </div>
+    </section>
+
+  </div><!-- /library -->
+
+
+  <!-- ══════════════════════════════════
+       READER VIEW
+  ══════════════════════════════════ -->
+  <div class="view" id="reader" aria-label="Book reader">
+
+    <!-- Top bar -->
+    <div class="reader-topbar">
+      <button class="btn-back" id="btnBack" aria-label="Back to library">
+        <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+        <span class="btn-back-label">Library</span>
+      </button>
+      <div class="reader-title" id="readerTitle" aria-live="polite">—</div>
+      <div class="reader-topbar-right">
+        <!-- Zoom controls -->
+        <button class="btn-icon" id="btnZoomOut" aria-label="Zoom out">
+          <i class="fa-solid fa-magnifying-glass-minus" aria-hidden="true"></i>
+        </button>
+        <div class="zoom-badge" id="zoomBadge" aria-live="polite">100%</div>
+        <button class="btn-icon" id="btnZoomIn" aria-label="Zoom in">
+          <i class="fa-solid fa-magnifying-glass-plus" aria-hidden="true"></i>
+        </button>
+        <!-- Continuous scroll toggle -->
+        <button class="btn-icon" id="btnScroll" aria-label="Toggle continuous scroll" aria-pressed="false" title="Continuous scroll">
+          <i class="fa-solid fa-scroll" aria-hidden="true"></i>
+        </button>
+        <!-- TOC (EPUB/CBZ) -->
+        <button class="btn-icon" id="btnToc" style="display:none" aria-label="Toggle table of contents" aria-pressed="false" title="Contents">
+          <i class="fa-solid fa-list" aria-hidden="true"></i>
+        </button>
+        <!-- Fullscreen -->
+        <button class="btn-icon" id="btnFullscreen" aria-label="Toggle fullscreen" title="Fullscreen (F)">
+          <i class="fa-solid fa-expand" aria-hidden="true"></i>
+        </button>
+        <div class="reader-page-badge" id="pageInfo" aria-live="polite"></div>
+      </div>
+    </div>
+
+    <!-- Body -->
+    <div class="reader-body">
+
+      <!-- EPUB Sidebar / TOC -->
+      <aside class="epub-sidebar" id="epubSidebar" aria-label="Table of contents" aria-hidden="true">
+        <div class="sidebar-head">
+          <i class="fa-solid fa-list-ul" aria-hidden="true"></i> Contents
+        </div>
+        <div id="chapterList" role="list"></div>
+      </aside>
+
+      <!-- Canvas / Content area -->
+      <div class="reader-canvas-wrap" id="canvasWrap" role="region" aria-label="Book content">
+        <div class="loader" id="loader" aria-live="polite">
+          <div class="loader-panels">
+            <div class="loader-panel"></div>
+            <div class="loader-panel"></div>
+            <div class="loader-panel"></div>
+          </div>
+          <span>Opening book<span class="loader-dots">...</span></span>
+        </div>
+      </div>
+
+    </div><!-- /reader-body -->
+
+    <!-- Nav bar -->
+    <div class="epub-nav-bar" role="toolbar" aria-label="Reading navigation">
+      <button class="nav-btn" id="btnPrev" aria-label="Previous page">
+        <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+        <span class="nav-btn-label">Prev</span>
+      </button>
+      <div class="nav-progress" role="group" aria-label="Reading progress">
+        <div class="nav-progress-track" id="progressTrack" role="slider" tabindex="0"
+             aria-label="Jump to page" aria-valuemin="1" aria-valuemax="100" aria-valuenow="1">
+          <div class="nav-progress-thumb" id="progressThumb"></div>
+          <div class="nav-progress-dot" id="progressDot"></div>
+        </div>
+        <label class="sr-only" for="pageInput">Page number</label>
+        <input class="nav-page-input" id="pageInput" type="number" min="1" value="1" aria-label="Current page">
+        <span class="nav-total" id="navTotal">/ 1</span>
+      </div>
+      <button class="nav-btn" id="btnNext" aria-label="Next page">
+        <span class="nav-btn-label">Next</span>
+        <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+      </button>
+    </div>
+
+  </div><!-- /reader -->
+
+
+  <!-- ── TOAST ── -->
+  <div class="toast" id="toast" role="alert" aria-live="assertive" aria-atomic="true"></div>
+
+  <!-- ── DELETE CONFIRM MODAL ── -->
+  <div class="modal-overlay" id="modalOverlay" aria-hidden="true">
+    <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-icon"><i class="fa-solid fa-trash-can" aria-hidden="true"></i></div>
+      <h2 class="modal-title" id="modalTitle">Delete this book?</h2>
+      <p class="modal-sub">This will remove the file and your reading progress from this device.</p>
+      <div class="modal-actions">
+        <button class="modal-btn modal-btn--cancel" id="modalCancel">
+          <i class="fa-solid fa-xmark" aria-hidden="true"></i> Cancel
+        </button>
+        <button class="modal-btn modal-btn--confirm" id="modalConfirm">
+          <i class="fa-solid fa-trash-can" aria-hidden="true"></i> Delete
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── JS ── -->
+  <script src="js/db.js"></script>
+  <script src="js/reader.js"></script>
+  <script src="js/app.js"></script>
+
+</body>
+</html>

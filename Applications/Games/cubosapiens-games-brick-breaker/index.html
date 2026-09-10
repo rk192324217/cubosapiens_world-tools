@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Brick Breaker – Free Retro Arcade Game | CuboSapiens</title>
+
+    <meta name="description"
+        content="Play classic Brick Breaker online at CuboSapiens. Destroy bricks, collect powerups, chase high scores across multiple levels with responsive desktop and mobile controls." />
+    <meta name="keywords" content="brick breaker, breakout game, arcade game, retro game, cubosapiens, free online game" />
+    <meta name="author" content="CuboSapiens" />
+    <meta name="robots" content="index, follow" />
+
+    <link rel="canonical" href="https://cubosapiens.world/games/brick-breaker" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://cubosapiens.world/games/brick-breaker" />
+    <meta property="og:title" content="Brick Breaker – Free Retro Arcade | CuboSapiens" />
+    <meta property="og:description" content="Destroy bricks, unlock powerups, beat levels. Free arcade action at CuboSapiens." />
+    <meta property="og:image" content="https://cubosapiens.world/games/brick-breaker/og-image.png" />
+    <meta property="og:site_name" content="CuboSapiens" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Brick Breaker – Free Retro Arcade | CuboSapiens" />
+    <meta name="twitter:description" content="Classic Brick Breaker with powerups, level progression, themes. Free forever." />
+    <meta name="twitter:image" content="https://cubosapiens.world/games/brick-breaker/og-image.png" />
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Game",
+        "name": "Brick Breaker",
+        "description": "Classic arcade brick breaking game with multi-layer bricks, power-ups, levels, high scores, and touch/keyboard controls.",
+        "url": "https://cubosapiens.world/games/brick-breaker",
+        "publisher": {
+            "@type": "Organization",
+            "name": "CuboSapiens",
+            "url": "https://cubosapiens.world"
+        },
+        "genre": "Arcade",
+        "playMode": "SinglePlayer"
+    }
+    </script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <main class="wrapper">
+        <header class="site-header">
+            <a href="https://cubosapiens.world" class="logo-slot" aria-label="CuboSapiens Home">
+                <div class="logo-pill">CUBO</div>
+                <div class="site-name">CUBO SAPIENS</div>
+            </a>
+
+            <nav class="breadcrumb" aria-label="Breadcrumb">
+                <a href="https://cubosapiens.world">HOME</a> &rsaquo;
+                <a href="https://cubosapiens.world/games">GAMES</a> &rsaquo; BRICK BREAKER
+            </nav>
+        </header>
+
+        <div class="arcade-cabinet">
+            <div class="cabinet-header">
+                <h1 class="game-title"><span class="title-primary">BRICK</span> <span class="title-accent">BREAKER</span></h1>
+
+                <div class="mode-selector" aria-label="Difficulty selection">
+                    <span class="mode-lbl">MODE</span>
+                    <div class="mode-btns">
+                        <button class="difficulty-btn active" data-difficulty="easy">EASY</button>
+                        <button class="difficulty-btn" data-difficulty="medium">MEDIUM</button>
+                        <button class="difficulty-btn" data-difficulty="hard">HARD</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="arcade-display">
+                <div class="arcade-hud">
+                    <div class="hud-item"><span class="hud-label">SCORE</span><strong id="score" class="hud-val">0</strong></div>
+                    <div class="hud-item"><span class="hud-label">HIGH</span><strong id="highScore" class="hud-val">0</strong></div>
+                    <div class="hud-item"><span class="hud-label">LIVES</span><strong id="lives" class="hud-val">♥♥♥</strong></div>
+                    <div class="hud-item"><span class="hud-label">LEVEL</span><strong id="level" class="hud-val">1</strong></div>
+                    <div class="hud-item"><span class="hud-label">BRICKS</span><strong id="bricksLeft" class="hud-val">0</strong></div>
+                </div>
+
+                <div class="board-container">
+                    <canvas id="board" width="600" height="360" aria-label="Brick Breaker game board"></canvas>
+                </div>
+            </div>
+
+            <div class="arcade-control-strip">
+                <div class="action-buttons">
+                    <button id="startBtn" aria-label="Start Game"><i class="fa-solid fa-play"></i> START</button>
+                    <button id="pauseBtn" aria-label="Pause Game"><i class="fa-solid fa-pause"></i> PAUSE</button>
+                    <button id="restartBtn" aria-label="Restart Game"><i class="fa-solid fa-rotate-right"></i> RESTART</button>
+                    <button id="themeBtn" aria-label="Toggle Dark/Light Theme"><i class="fa-solid fa-moon"></i> THEME</button>
+                </div>
+
+                <div class="keyboard-shortcuts" aria-label="Keyboard Shortcuts">
+                    <span class="shortcut-item"><kbd>←</kbd> <kbd>→</kbd> / <kbd>A</kbd> <kbd>D</kbd> STEER</span>
+                    <span class="shortcut-item"><kbd>SPACE</kbd> LAUNCH / PAUSE</span>
+                </div>
+            </div>
+
+            <div class="mobile-controls" aria-label="Mobile Touch Controls">
+                <button id="leftBtn" aria-label="Move Left"><i class="fa-solid fa-chevron-left"></i></button>
+                <button id="launchBtn" class="launch-btn-compact" aria-label="Launch Ball"><i class="fa-solid fa-circle-play"></i> LAUNCH</button>
+                <button id="rightBtn" aria-label="Move Right"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+        </div>
+
+        <section class="how-to-play-compact">
+            <h2 class="help-title"><i class="fa-solid fa-gamepad"></i> QUICK GUIDE</h2>
+            <div class="help-grid">
+                <div class="help-card"><span>STEER PADDLE</span> <strong>← / → or A / D</strong></div>
+                <div class="help-card"><span>LAUNCH BALL</span> <strong>SPACE or LAUNCH</strong></div>
+                <div class="help-card"><span>MOBILE PLAY</span> <strong>Touch Drag / Buttons</strong></div>
+                <div class="help-card"><span>POWER-UPS</span> <strong>Catch falling items</strong></div>
+            </div>
+        </section>
+
+        <footer>
+            &copy; 2026 <a href="https://cubosapiens.world">CuboSapiens</a> · Brick Breaker Game
+        </footer>
+    </main>
+
+    <div class="overlay" id="overlay">
+        <div class="arcade-result-modal">
+            <div class="result-badge">ARCADE RESULT</div>
+            <h2 id="resultTitle">GAME OVER</h2>
+            <div id="resultSub" class="result-score-box">SCORE <span id="finalScore">0</span></div>
+            <button id="playAgainBtn">PLAY AGAIN</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

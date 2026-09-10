@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tetris – Free Online Game | CuboSapiens</title>
+
+    <meta name="description"
+        content="Play Tetris online at CuboSapiens. A lightweight browser-based block puzzle game with score, levels, next piece preview, keyboard and mobile controls." />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <main class="wrapper">
+        <header class="site-header">
+            <a href="https://cubosapiens.world" class="logo-slot" aria-label="CuboSapiens Home">
+                <img src="/assets/logo.png" alt="CuboSapiens" class="logo-img" />
+                <div class="site-name">CUBO<br />SAPIENS</div>
+            </a>
+
+            <nav class="breadcrumb" aria-label="Breadcrumb">
+                <a href="https://cubosapiens.world">HOME</a> &rsaquo;
+                <a href="https://cubosapiens.world/games">GAMES</a> &rsaquo; TETRIS
+            </nav>
+        </header>
+
+        <section class="title-block">
+            <h1><span class="orange">TET</span><span class="cyan">RIS</span></h1>
+            <p>CLASSIC BLOCK PUZZLE</p>
+        </section>
+
+        <section class="difficulty-row" aria-label="Difficulty selection">
+            <button class="difficulty-btn active" data-speed="easy">EASY</button>
+            <button class="difficulty-btn" data-speed="medium">MEDIUM</button>
+            <button class="difficulty-btn" data-speed="hard">HARD</button>
+        </section>
+
+        <section class="game-layout">
+            <aside class="info-panel">
+                <div class="stat-card">
+                    <span>SCORE</span>
+                    <strong id="score">0</strong>
+                </div>
+
+                <div class="stat-card">
+                    <span>HIGH</span>
+                    <strong id="highScore">0</strong>
+                </div>
+
+                <div class="stat-card">
+                    <span>LEVEL</span>
+                    <strong id="level">1</strong>
+                </div>
+
+                <div class="stat-card">
+                    <span>LINES</span>
+                    <strong id="lines">0</strong>
+                </div>
+
+                <div class="next-card">
+                    <span>NEXT</span>
+                    <canvas id="next" width="96" height="96"></canvas>
+                </div>
+            </aside>
+
+            <section class="board-card">
+                <canvas id="board" width="300" height="600" aria-label="Tetris game board"></canvas>
+            </section>
+        </section>
+
+        <section class="actions">
+            <button id="startBtn"><i class="fa-solid fa-play"></i> START</button>
+            <button id="pauseBtn"><i class="fa-solid fa-pause"></i> PAUSE</button>
+            <button id="restartBtn"><i class="fa-solid fa-rotate-right"></i> RESTART</button>
+        </section>
+
+        <section class="mobile-controls" aria-label="Mobile controls">
+            <button id="leftBtn"><i class="fa-solid fa-arrow-left"></i></button>
+            <button id="rotateBtn"><i class="fa-solid fa-rotate"></i></button>
+            <button id="rightBtn"><i class="fa-solid fa-arrow-right"></i></button>
+            <button id="downBtn"><i class="fa-solid fa-arrow-down"></i></button>
+        </section>
+
+        <section class="how-to-play">
+            <h2><i class="fa-solid fa-gamepad"></i> HOW TO PLAY</h2>
+            <ul>
+                <li>Use arrow keys to move the falling blocks.</li>
+                <li>Use Up Arrow to rotate the block.</li>
+                <li>Use Space for hard drop.</li>
+                <li>Clear full rows to increase score.</li>
+                <li>Game speed increases as level increases.</li>
+                <li>Mobile users can play using touch buttons.</li>
+            </ul>
+        </section>
+
+        <footer>
+            &copy; 2026 <a href="https://cubosapiens.world">CuboSapiens</a> · Tetris Game
+        </footer>
+    </main>
+
+    <div class="overlay" id="gameOver">
+        <div class="result-card">
+            <h2>GAME OVER</h2>
+            <p>Your Score: <span id="finalScore">0</span></p>
+            <button id="playAgainBtn">PLAY AGAIN</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

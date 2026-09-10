@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Pattern Match – Indie Logic Memory Game | CuboSapiens</title>
+    <meta name="description"
+        content="Observe flashing grid pattern sequences and reproduce them in Pattern Match on CuboSapiens." />
+    <meta name="theme-color" content="#171512" />
+    <link rel="canonical" href="https://pattern-match.cubosapiens.world" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://pattern-match.cubosapiens.world" />
+    <meta property="og:title" content="Pattern Match – CuboSapiens" />
+    <meta property="og:description"
+        content="Observe, recall, and reproduce grid pattern sequences in this browser memory game." />
+    <meta property="og:site_name" content="CuboSapiens" />
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Pattern Match",
+      "applicationCategory": "GameApplication",
+      "operatingSystem": "Browser",
+      "url": "https://pattern-match.cubosapiens.world"
+    }
+    </script>
+
+    <!-- FontAwesome Icons & Google Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet" />
+
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Site Header -->
+        <header class="site-header">
+            <a href="https://cubosapiens.world" class="logo-slot" aria-label="CuboSapiens Home">
+                <div class="logo-circle"><i class="fa-solid fa-cube"></i></div>
+                <div class="site-name">CUBO<br />SAPIENS</div>
+            </a>
+            <nav class="breadcrumb" aria-label="Breadcrumb navigation">
+                <a href="https://cubosapiens.world">HOME</a> &rsaquo;
+                <a href="https://cubosapiens.world/games">GAMES</a> &rsaquo; <span class="active-crumb">PATTERN MATCH</span>
+            </nav>
+            <button id="themeToggle" class="icon-btn" aria-label="Toggle color theme" title="Toggle Theme">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+        </header>
+
+        <!-- Main Game Layout (Wide Desktop Two-Column Layout) -->
+        <main class="game-layout">
+            <!-- Left Side Control Panel -->
+            <aside class="control-side">
+                <div class="game-identity">
+                    <h1 class="game-title">Pattern Match</h1>
+                    <p class="game-sub">Observe the pattern. Remember the sequence and reproduce it.</p>
+                </div>
+
+                <div class="game-actions">
+                    <button id="startBtn" class="btn btn-primary btn-start hidden">Start Game</button>
+
+                    <div class="secondary-actions">
+                        <button id="hintBtn" class="btn btn-secondary" disabled>Replay (<span
+                                id="hintCount">3</span>)</button>
+                        <button id="restartBtn" class="btn btn-secondary">Restart</button>
+                    </div>
+
+                    <button id="soundToggle" class="btn btn-quiet" aria-label="Toggle Sound">
+                        <i class="fa-solid fa-volume-high" id="soundIcon"></i>
+                        <span id="soundText">Sound On</span>
+                    </button>
+                </div>
+
+                <hr class="control-divider" />
+
+                <details class="help-accordion">
+                    <summary class="help-summary">
+                        <span><i class="fa-solid fa-circle-question"></i> How to Play</span>
+                        <i class="fa-solid fa-chevron-down summary-arrow"></i>
+                    </summary>
+                    <div class="help-content">
+                        <ul>
+                            <li><strong>1. Watch:</strong> Observe the highlighted cells on the board.</li>
+                            <li><strong>2. Remember:</strong> Keep the sequence in mind.</li>
+                            <li><strong>3. Repeat:</strong> Tap the exact cells when the board unlocks.</li>
+                            <li><strong>Keyboard:</strong> Arrow keys to navigate, Space/Enter or 1-9 to select.</li>
+                        </ul>
+                    </div>
+                </details>
+            </aside>
+
+            <!-- Right Stage Area (Game Status + Banner + Large Board) -->
+            <section class="stage-side">
+                <!-- Integrated Horizontal Game Status Strip -->
+                <div class="status-strip" role="region" aria-label="Game Stats">
+                    <span class="strip-item"><span class="strip-label">Round</span> <strong
+                            id="roundVal">1</strong></span>
+                    <span class="strip-sep">•</span>
+                    <span class="strip-item"><span class="strip-label">Score</span> <strong
+                            id="scoreVal">0</strong></span>
+                    <span class="strip-sep">•</span>
+                    <span class="strip-item"><span class="strip-label">Best</span> <strong
+                            id="bestScoreVal">0</strong></span>
+                    <span class="strip-sep">•</span>
+                    <span class="strip-item"><span class="strip-label">Streak</span> <strong
+                            id="streakVal">0x</strong></span>
+                    <span class="strip-sep">•</span>
+                    <span class="strip-item lives-item" id="livesContainer">
+                        <i class="fa-solid fa-heart active"></i>
+                        <i class="fa-solid fa-heart active"></i>
+                        <i class="fa-solid fa-heart active"></i>
+                    </span>
+                </div>
+
+                <!-- Phase Status Banner -->
+                <div class="status-banner state-idle" id="statusBanner" role="status" aria-live="polite">
+                    <span id="statusText">Press Start to begin</span>
+                </div>
+
+                <!-- Main Game Board Frame (Large Hero Element) -->
+                <div class="board-frame" id="boardFrame">
+                    <div id="grid" class="pattern-grid grid-3x3" role="grid" aria-label="Pattern match grid"></div>
+
+                    <!-- Warm Retro-Modern Intro Overlay -->
+                    <div class="board-overlay" id="boardOverlay">
+                        <div class="overlay-card">
+                            <h2>Pattern Match</h2>
+                            <p class="overlay-instruction">
+                                Watch the highlighted cells.<br />
+                                Remember their order.<br />
+                                Repeat the pattern.
+                            </p>
+                            <button id="overlayStartBtn" class="btn btn-primary btn-large">START</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="site-footer">
+            &copy; 2026 <a href="https://cubosapiens.world">CuboSapiens</a> · Pattern Match
+        </footer>
+    </div>
+
+    <!-- Result Modal -->
+    <div class="modal-overlay" id="gameOverModal" aria-hidden="true" role="dialog" aria-labelledby="modalTitle">
+        <div class="modal-card">
+            <h2 id="modalTitle">Game Over</h2>
+            <p class="modal-sub" id="modalSub">Run completed</p>
+
+            <div class="modal-stats">
+                <div class="stat-box">
+                    <span class="stat-box-label">Final Score</span>
+                    <span class="stat-box-val" id="finalScore">0</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-box-label">Rounds</span>
+                    <span class="stat-box-val" id="finalRounds">0</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-box-label">Best Streak</span>
+                    <span class="stat-box-val" id="finalStreak">0x</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-box-label">Best Score</span>
+                    <span class="stat-box-val highlight" id="modalBestScore">0</span>
+                </div>
+            </div>
+
+            <button id="playAgainBtn" class="btn btn-primary btn-large">Play Again</button>
+        </div>
+    </div>
+
+    <div id="srLive" class="sr-only" role="status" aria-live="polite"></div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

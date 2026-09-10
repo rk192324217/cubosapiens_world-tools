@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Word Search – Free Online Game | CuboSapiens</title>
+    <meta name="description"
+        content="Play Word Search online at CuboSapiens. A modern, immersive puzzle game with multiple topics, custom word lists, drag selection, and mobile touch support." />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Orbitron:wght@600;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <div class="app-viewport">
+        <!-- Site Navigation / Header -->
+        <header class="app-header">
+            <a href="https://cubosapiens.world" class="brand-link" aria-label="CuboSapiens Home">
+                <span class="brand-mark">CUBO</span><span class="brand-sub">SAPIENS</span>
+            </a>
+
+            <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+                <a href="https://cubosapiens.world">Home</a>
+                <span class="sep">/</span>
+                <a href="https://cubosapiens.world/games">Games</a>
+                <span class="sep">/</span>
+                <span class="current">Word Search</span>
+            </nav>
+        </header>
+
+        <!-- Hero Title -->
+        <div class="hero-section">
+            <h1 class="game-title">Word Search</h1>
+            <p class="game-subtitle">Find all hidden words in the letter grid</p>
+        </div>
+
+        <!-- Toolbar / Game Config -->
+        <div class="game-toolbar">
+            <div class="topic-selector">
+                <label for="categorySelect"><i class="fa-solid fa-compass"></i> Topic</label>
+                <select id="categorySelect" class="select-input">
+                    <option value="programming">Programming</option>
+                    <option value="webdev">Web Development</option>
+                    <option value="cyberpunk">Cyberpunk</option>
+                    <option value="space">Space & Cosmos</option>
+                    <option value="animals">Animals & Nature</option>
+                    <option value="custom">Custom Word List...</option>
+                </select>
+            </div>
+
+            <div class="difficulty-pills" role="radiogroup" aria-label="Difficulty">
+                <button class="pill-btn active" data-diff="easy">Easy</button>
+                <button class="pill-btn" data-diff="medium">Medium</button>
+                <button class="pill-btn" data-diff="hard">Hard</button>
+            </div>
+        </div>
+
+        <!-- Live Game Stats Bar -->
+        <div class="stats-bar">
+            <div class="stat-item">
+                <i class="fa-solid fa-trophy stat-icon"></i>
+                <div class="stat-content">
+                    <span class="stat-label">Score</span>
+                    <span class="stat-value" id="scoreVal">0</span>
+                </div>
+            </div>
+
+            <div class="stat-item">
+                <i class="fa-solid fa-crown stat-icon gold"></i>
+                <div class="stat-content">
+                    <span class="stat-label">Best</span>
+                    <span class="stat-value" id="highScoreVal">0</span>
+                </div>
+            </div>
+
+            <div class="stat-item">
+                <i class="fa-solid fa-bullseye stat-icon cyan"></i>
+                <div class="stat-content">
+                    <span class="stat-label">Found</span>
+                    <span class="stat-value" id="progressVal">0 / 0</span>
+                </div>
+            </div>
+
+            <div class="stat-item">
+                <i class="fa-solid fa-clock stat-icon green"></i>
+                <div class="stat-content">
+                    <span class="stat-label">Time</span>
+                    <span class="stat-value" id="timerVal">00:00</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Gameplay Arena -->
+        <main class="game-arena">
+            <!-- Hero Word Board -->
+            <div class="board-stage">
+                <div id="wordGrid" class="word-grid"></div>
+            </div>
+
+            <!-- Side Panel Controls & Word Checklist -->
+            <aside class="game-sidebar">
+                <div class="words-panel">
+                    <div class="panel-header">
+                        <h2><i class="fa-solid fa-list-check"></i> Target Words</h2>
+                    </div>
+                    <ul id="wordList" class="word-checklist"></ul>
+                </div>
+
+                <div class="actions-panel">
+                    <button id="newGameBtn" class="btn btn-primary">
+                        <i class="fa-solid fa-rotate-right"></i> New Game
+                    </button>
+                    
+                    <div class="btn-group">
+                        <button id="hintBtn" class="btn btn-secondary hint-btn">
+                            <i class="fa-solid fa-lightbulb"></i> Hint (<span id="hintCount">3</span>)
+                        </button>
+                        
+                        <button id="soundToggleBtn" class="btn btn-icon" title="Toggle Sound" aria-label="Toggle Sound">
+                            <i class="fa-solid fa-volume-high"></i>
+                        </button>
+                    </div>
+                </div>
+            </aside>
+        </main>
+
+        <!-- Compact How To Play Accordion -->
+        <details class="instructions-accordion">
+            <summary><i class="fa-solid fa-circle-info"></i> How to Play & Instructions</summary>
+            <div class="instructions-content">
+                <ul>
+                    <li><strong>Desktop:</strong> Click and drag your mouse across adjacent letters (horizontal, vertical, or diagonal).</li>
+                    <li><strong>Mobile:</strong> Drag your finger across cells, or tap the starting letter then tap the ending letter.</li>
+                    <li><strong>Hints:</strong> Click the Hint button to highlight the starting letter of a missing word.</li>
+                    <li><strong>Custom Words:</strong> Select <em>Custom Word List...</em> in the Topic dropdown to build custom puzzles.</li>
+                </ul>
+            </div>
+        </details>
+
+        <!-- Minimal Footer -->
+        <footer class="app-footer">
+            <p>&copy; 2026 <a href="https://cubosapiens.world">CuboSapiens</a> &middot; Standalone Browser Games</p>
+        </footer>
+    </div>
+
+    <!-- Victory Modal -->
+    <div class="modal-backdrop" id="victoryModal">
+        <div class="modal-dialog">
+            <canvas id="confettiCanvas"></canvas>
+            <div class="modal-header">
+                <div class="trophy-badge"><i class="fa-solid fa-trophy"></i></div>
+                <h2>Puzzle Solved!</h2>
+                <p class="modal-subtitle">Great job finding all the words!</p>
+            </div>
+            
+            <div class="modal-stats-grid">
+                <div class="m-stat">
+                    <span class="m-label">Time Elapsed</span>
+                    <span class="m-val" id="finalTime">00:00</span>
+                </div>
+                <div class="m-stat">
+                    <span class="m-label">Total Score</span>
+                    <span class="m-val highlight" id="finalScore">0</span>
+                </div>
+                <div class="m-stat">
+                    <span class="m-label">Words Completed</span>
+                    <span class="m-val" id="finalWords">0</span>
+                </div>
+            </div>
+
+            <button id="playAgainBtn" class="btn btn-primary btn-lg">
+                <i class="fa-solid fa-play"></i> Play Next Puzzle
+            </button>
+        </div>
+    </div>
+
+    <!-- Custom Word Modal -->
+    <div class="modal-backdrop" id="customModal">
+        <div class="modal-dialog custom-dialog">
+            <button class="modal-close-btn" id="closeCustomModal" aria-label="Close">&times;</button>
+            <div class="modal-header">
+                <h2>Custom Word Puzzle</h2>
+                <p class="modal-subtitle">Enter 3 to 15 custom words separated by commas or newlines</p>
+            </div>
+            
+            <textarea id="customWordsInput" class="custom-textarea" placeholder="JAVASCRIPT, HTML, CSS, REACT, PYTHON, NODE"></textarea>
+
+            <button id="startCustomBtn" class="btn btn-primary btn-lg">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> Generate Puzzle
+            </button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

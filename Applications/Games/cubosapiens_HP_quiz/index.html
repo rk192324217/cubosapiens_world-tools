@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Wizarding Quiz — Are You a True Witch or Wizard?</title>
+  <meta name="description" content="Over 120 questions spanning all 7 books. Test your wizarding knowledge." />
+
+  <!-- Gothic serif: Cinzel for headings, IM Fell for body, Share Tech Mono for stats -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cinzel+Decorative:wght@400;700&family=IM+Fell+English:ital@0;1&family=MedievalSharp&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Animated magic particles -->
+  <div class="particles" id="particles"></div>
+
+  <!-- Candle flames -->
+  <div class="candles">
+    <div class="candle"><div class="flame"></div></div>
+    <div class="candle"><div class="flame"></div></div>
+    <div class="candle"><div class="flame"></div></div>
+    <div class="candle"><div class="flame"></div></div>
+  </div>
+
+  <!-- ── Screen 1: Welcome / Intro ── -->
+  <div class="screen active" id="screenWelcome">
+    <div class="welcome-wrap">
+      <div class="hp-crest">
+        <img src="assets/logo.png" alt="Hogwarts Crest" class="crest-img" />
+      </div>
+
+      <div class="welcome-title-wrap">
+        <p class="subtitle-top">Welcome to</p>
+        <h1 class="welcome-title">The Wizarding<br/><span class="gold">Quiz</span></h1>
+        <p class="welcome-subtitle">
+          <em>"It is our choices, Harry, that show what we truly are."</em><br/>
+          — Albus Dumbledore
+        </p>
+      </div>
+
+      <div class="scroll-divider"><span>✦ ✦ ✦</span></div>
+
+      <div class="welcome-stats">
+        <div class="ws-item">
+          <i class="fa-solid fa-scroll"></i>
+          <span class="ws-num">120+</span>
+          <span class="ws-label">Questions</span>
+        </div>
+        <div class="ws-sep">|</div>
+        <div class="ws-item">
+          <i class="fa-solid fa-hourglass-half"></i>
+          <span class="ws-num">Mixed</span>
+          <span class="ws-label">Time Limits</span>
+        </div>
+        <div class="ws-sep">|</div>
+        <div class="ws-item">
+          <i class="fa-solid fa-star"></i>
+          <span class="ws-num">10–20</span>
+          <span class="ws-label">Points Each</span>
+        </div>
+      </div>
+
+      <div class="settings-wrap">
+        <label class="settings-label">
+          <i class="fa-solid fa-list-ol"></i> Number of questions
+        </label>
+        <div class="q-count-btns">
+          <button class="qc-btn active" data-count="10">10</button>
+          <button class="qc-btn" data-count="20">20</button>
+          <button class="qc-btn" data-count="30">30</button>
+          <button class="qc-btn" data-count="50">50</button>
+          <button class="qc-btn" data-count="0">All</button>
+        </div>
+      </div>
+
+      <button class="btn-begin" id="btnBegin">
+        <i class="fa-solid fa-wand-magic-sparkles"></i>
+        Begin the Quiz
+      </button>
+
+      <p class="welcome-footer">Spanning all 7 books & wizarding lore</p>
+    </div>
+  </div>
+
+  <!-- ── Screen 2: Quiz ── -->
+  <div class="screen" id="screenQuiz">
+    <div class="quiz-wrap">
+
+      <!-- Header bar -->
+      <div class="quiz-header">
+        <div class="qh-left">
+          <img src="assets/logo.png" alt="Logo" class="qh-logo" />
+          <span class="qh-title">Wizarding Quiz</span>
+        </div>
+        <div class="qh-right">
+          <div class="score-badge">
+            <i class="fa-solid fa-star"></i>
+            <span id="scoreDisplay">0</span>
+          </div>
+          <div class="lives-display" id="livesDisplay"></div>
+        </div>
+      </div>
+
+      <!-- Progress bar -->
+      <div class="progress-wrap">
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill"></div>
+          <div class="progress-shine"></div>
+        </div>
+        <span class="progress-label" id="progressLabel">1 / 10</span>
+      </div>
+
+      <!-- Timer arc -->
+      <div class="timer-wrap">
+        <svg class="timer-svg" viewBox="0 0 100 100">
+          <circle class="timer-bg"   cx="50" cy="50" r="44"/>
+          <circle class="timer-ring" id="timerRing" cx="50" cy="50" r="44"
+            stroke-dasharray="276.5" stroke-dashoffset="0"/>
+        </svg>
+        <div class="timer-inner">
+          <span class="timer-num" id="timerNum">15</span>
+          <span class="timer-sec">sec</span>
+        </div>
+      </div>
+
+      <!-- Question card -->
+      <div class="question-card" id="questionCard">
+        <div class="question-number" id="questionNumber">Question 1</div>
+        <div class="question-points" id="questionPoints">
+          <i class="fa-solid fa-bolt"></i> 10 pts
+        </div>
+        <p class="question-text" id="questionText">Loading…</p>
+      </div>
+
+      <!-- Answer options -->
+      <div class="options-grid" id="optionsGrid"></div>
+
+      <!-- Feedback overlay (correct / wrong) -->
+      <div class="feedback-overlay" id="feedbackOverlay">
+        <div class="feedback-inner" id="feedbackInner">
+          <div class="feedback-icon" id="feedbackIcon"></div>
+          <div class="feedback-word" id="feedbackWord"></div>
+          <div class="feedback-msg"  id="feedbackMsg"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── Screen 3: Results ── -->
+  <div class="screen" id="screenResult">
+    <div class="result-wrap">
+
+      <div class="result-crest">
+        <img src="assets/logo.png" alt="Crest" />
+      </div>
+
+      <h2 class="result-title" id="resultTitle">The Sorting Hat Has Spoken</h2>
+
+      <div class="result-score-ring">
+        <svg viewBox="0 0 160 160">
+          <circle class="rs-bg"   cx="80" cy="80" r="70"/>
+          <circle class="rs-fill" id="rsCircle" cx="80" cy="80" r="70"
+            stroke-dasharray="439.8" stroke-dashoffset="439.8"/>
+        </svg>
+        <div class="rs-inner">
+          <span class="rs-score" id="rsScore">0</span>
+          <span class="rs-label">points</span>
+        </div>
+      </div>
+
+      <div class="result-stats">
+        <div class="rs-stat">
+          <i class="fa-solid fa-check"></i>
+          <span id="rsCorrect">0</span>
+          <small>Correct</small>
+        </div>
+        <div class="rs-stat">
+          <i class="fa-solid fa-xmark"></i>
+          <span id="rsWrong">0</span>
+          <small>Wrong</small>
+        </div>
+        <div class="rs-stat">
+          <i class="fa-solid fa-clock"></i>
+          <span id="rsTime">0s</span>
+          <small>Fastest</small>
+        </div>
+        <div class="rs-stat">
+          <i class="fa-solid fa-percent"></i>
+          <span id="rsPct">0</span>
+          <small>Accuracy</small>
+        </div>
+      </div>
+
+      <div class="result-rank" id="resultRank"></div>
+      <p class="result-quote" id="resultQuote"></p>
+
+      <div class="result-btns">
+        <button class="btn-begin" id="btnRestart">
+          <i class="fa-solid fa-rotate-right"></i>
+          Play Again
+        </button>
+        <button class="btn-secondary" id="btnShare">
+          <i class="fa-solid fa-share-nodes"></i>
+          Share Score
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

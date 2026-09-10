@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Text Analyse</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ── Background orbs (same as QRaft) ── -->
+  <div class="bg-orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+  </div>
+
+  <!-- ── Header ── -->
+  <header>
+    <div class="logo-wrap">
+      <div class="logo-icon">
+        <img src="assets/logo.png" alt="Logo" />
+      </div>
+      <span class="logo-name">Text<span> Analyse</span></span>
+    </div>
+
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+      <span class="toggle-icons">
+        <i class="fa-solid fa-sun"></i>
+        <i class="fa-solid fa-moon"></i>
+      </span>
+    </button>
+  </header>
+
+  <!-- ── Main ── -->
+  <main>
+
+    <!-- Hero -->
+    <div class="hero">
+      <h1>Analyze <em>text</em> instantly</h1>
+      <p>Understand structure · Count words · Export insights</p>
+    </div>
+
+    <!-- Two-column grid -->
+    <div class="grid">
+
+      <!-- Input Card -->
+      <div class="card">
+        <div class="card-label">Input</div>
+        <textarea id="textInput" placeholder="Paste or type your text here..."></textarea>
+        <div id="highlightBox"></div>
+      </div>
+
+      <!-- Analysis Card -->
+      <div class="card">
+        <div class="card-label">Analysis</div>
+
+        <div class="stats">
+          <div class="stat"><span>Words</span><b id="words">0</b></div>
+          <div class="stat"><span>Characters</span><b id="chars">0</b></div>
+          <div class="stat"><span>No Spaces</span><b id="noSpaces">0</b></div>
+          <div class="stat"><span>Numbers</span><b id="numbers">0</b></div>
+          <div class="stat"><span>Symbols</span><b id="symbols">0</b></div>
+          <div class="stat"><span>Spaces</span><b id="spaces">0</b></div>
+          <div class="stat"><span>Lines</span><b id="lines">0</b></div>
+          <div class="stat"><span>Unique</span><b id="unique">0</b></div>
+          <div class="stat reading-stat"><span>Reading time</span><b id="reading">0 min</b></div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="card-label">Top Words</div>
+        <ul id="topWords"></ul>
+
+        <div class="divider"></div>
+
+        <button class="btn-action primary" id="exportBtn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          Export JSON
+        </button>
+      </div>
+
+    </div><!-- /grid -->
+
+    <!-- Ad slots (matching QRaft layout) -->
+    <div class="ads-row">
+      <div class="ad-slot">Advertisement</div>
+      <div class="ad-slot">Advertisement</div>
+    </div>
+
+  </main>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

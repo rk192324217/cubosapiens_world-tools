@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 160" width="480" height="160">
+  <defs>
+    <linearGradient id="topFace" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF7A5A"/>
+      <stop offset="100%" stop-color="#F04E22"/>
+    </linearGradient>
+    <linearGradient id="leftFace" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#D43E14"/>
+      <stop offset="100%" stop-color="#BE3310"/>
+    </linearGradient>
+    <linearGradient id="rightFace" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FF9478"/>
+      <stop offset="100%" stop-color="#FF7A5A"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="cubeGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur"/>
+      <feMerge><feMergeNode in="blur" result="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Ambient glow behind cube on dark bg -->
+  <ellipse cx="80" cy="74" rx="52" ry="52" fill="#FF6B47" opacity="0.07" filter="url(#cubeGlow)"/>
+
+  <!-- Shadow -->
+  <ellipse cx="80" cy="138" rx="38" ry="8" fill="#FF6B47" opacity="0.12"/>
+
+  <!-- Cube top -->
+  <polygon points="80,30  118,52  80,74  42,52" fill="url(#topFace)"/>
+
+  <!-- Cube left -->
+  <polygon points="42,52  80,74  80,118  42,96" fill="url(#leftFace)"/>
+
+  <!-- Cube right -->
+  <polygon points="80,74  118,52  118,96  80,118" fill="url(#rightFace)"/>
+
+  <!-- Edge lines -->
+  <polyline points="80,30  118,52  118,96  80,118  42,96  42,52  80,30"
+    fill="none" stroke="#fff" stroke-width="0.6" stroke-opacity="0.2"/>
+  <line x1="80" y1="74" x2="80" y2="118" stroke="#fff" stroke-width="0.6" stroke-opacity="0.15"/>
+
+  <!-- Clock face -->
+  <ellipse cx="80" cy="52" rx="22" ry="12.7" fill="rgba(0,0,0,0.25)"/>
+  <ellipse cx="80" cy="52" rx="19" ry="11" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.5)" stroke-width="0.8"/>
+  <circle cx="80" cy="41.5" r="1.2" fill="rgba(255,255,255,0.9)"/>
+  <circle cx="80" cy="62.5" r="1.2" fill="rgba(255,255,255,0.9)"/>
+  <circle cx="90.5" cy="57.5" r="1.2" fill="rgba(255,255,255,0.9)"/>
+  <circle cx="69.5" cy="46.5" r="1.2" fill="rgba(255,255,255,0.9)"/>
+  <line x1="80" y1="52" x2="80" y2="43.2" stroke="rgba(255,255,255,0.95)" stroke-width="1.4" stroke-linecap="round"/>
+  <line x1="80" y1="52" x2="87.5" y2="56.7" stroke="rgba(255,255,255,0.95)" stroke-width="1.8" stroke-linecap="round"/>
+  <circle cx="80" cy="52" r="2" fill="#fff" filter="url(#glow)"/>
+
+  <!-- Circuit dots on left face -->
+  <circle cx="54" cy="72" r="1.4" fill="rgba(255,255,255,0.3)"/>
+  <circle cx="61" cy="78" r="1.4" fill="rgba(255,255,255,0.3)"/>
+  <circle cx="54" cy="84" r="1.4" fill="rgba(255,255,255,0.3)"/>
+  <circle cx="61" cy="90" r="1.4" fill="rgba(255,255,255,0.3)"/>
+  <circle cx="68" cy="78" r="1" fill="rgba(255,255,255,0.18)"/>
+  <circle cx="68" cy="90" r="1" fill="rgba(255,255,255,0.18)"/>
+  <line x1="54" y1="72" x2="61" y2="78" stroke="rgba(255,255,255,0.18)" stroke-width="0.8"/>
+  <line x1="61" y1="78" x2="54" y2="84" stroke="rgba(255,255,255,0.18)" stroke-width="0.8"/>
+  <line x1="54" y1="84" x2="61" y2="90" stroke="rgba(255,255,255,0.18)" stroke-width="0.8"/>
+  <line x1="61" y1="78" x2="68" y2="78" stroke="rgba(255,255,255,0.18)" stroke-width="0.8"/>
+  <line x1="61" y1="90" x2="68" y2="90" stroke="rgba(255,255,255,0.18)" stroke-width="0.8"/>
+
+  <!-- Leaf stem -->
+  <path d="M80,30 Q84,22 89,20 Q85,26 80,30 Z" fill="#5EC974" opacity="0.95"/>
+  <path d="M80,30 Q76,21 72,20 Q75,26 80,30 Z" fill="#4AB861" opacity="0.85"/>
+  <line x1="80" y1="30" x2="80" y2="22" stroke="#5EC974" stroke-width="1.5" stroke-linecap="round"/>
+
+  <!-- Wordmark — light on dark -->
+  <text
+    x="155" y="82"
+    font-family="'Space Grotesk', 'DM Sans', sans-serif"
+    font-weight="700"
+    font-size="42"
+    letter-spacing="-1"
+    fill="#FF7A5A">Cubo</text>
+
+  <text
+    x="267" y="82"
+    font-family="'Space Grotesk', 'DM Sans', sans-serif"
+    font-weight="700"
+    font-size="42"
+    letter-spacing="-1"
+    fill="#FFFFFF">Sapiens</text>
+
+  <text
+    x="156" y="106"
+    font-family="'DM Sans', sans-serif"
+    font-weight="400"
+    font-size="13"
+    letter-spacing="3.5"
+    fill="rgba(255,255,255,0.4)"
+    text-anchor="start">FOCUS · THINK · BUILD</text>
+
+  <circle cx="262" cy="72" r="3.5" fill="#FF7A5A"/>
+</svg>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Paletto – Color Palette Generator</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Background orbs -->
+  <div class="bg-orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <div class="logo-wrap">
+      <div class="logo-icon">
+        <img src="assets/logo.png" alt="Logo" />
+      </div>
+      <span class="logo-name">C<span>Palette</span></span>
+    </div>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+      <span class="toggle-icons">
+        <i class="fa-solid fa-sun "></i>
+        <i class="fa-solid fa-moon"></i>
+      </span>
+    </button>
+  </header>
+
+  <main>
+
+    <!-- Hero -->
+    <div class="hero">
+      <h1>Build <em>beautiful</em> color palettes</h1>
+      <p>Pick a base · Generate harmonies · Export anywhere</p>
+    </div>
+
+    <!-- Controls bar -->
+    <div class="controls-bar">
+
+      <!-- Base color picker -->
+      <div class="control-group">
+        <label class="control-label">Base color</label>
+        <div class="color-pick-wrap">
+          <div class="color-preview" id="basePreview"></div>
+          <input type="color" id="baseColor" value="#e34949" />
+          <span class="hex-display" id="baseHexDisplay">#e34949</span>
+        </div>
+      </div>
+
+      <!-- Harmony mode -->
+      <div class="control-group">
+        <label class="control-label">Harmony</label>
+        <div class="seg-control">
+          <button class="seg-btn active" data-harmony="analogous">Analogous</button>
+          <button class="seg-btn" data-harmony="complementary">Complement</button>
+          <button class="seg-btn" data-harmony="triadic">Triadic</button>
+          <button class="seg-btn" data-harmony="random">Random</button>
+        </div>
+      </div>
+
+      <!-- Action buttons -->
+      <div class="control-group control-actions">
+        <button class="btn-action primary" id="btnGenerate">
+          <i class="fa-solid fa-rotate-right"></i> Generate
+        </button>
+        <button class="btn-action" id="btnExportPNG">
+          <i class="fa-solid fa-image"></i> PNG
+        </button>
+        <button class="btn-action" id="btnExportJSON">
+          <i class="fa-solid fa-code"></i> JSON
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Palette display -->
+    <div class="palette-wrap">
+      <div class="palette" id="palette">
+        <!-- Color swatches injected by JS -->
+      </div>
+
+      <!-- User can add/pick custom colours -->
+      <div class="add-color-wrap">
+        <label class="add-color-btn" id="addColorBtn" title="Add custom color">
+          <input type="color" id="customColorPicker" hidden />
+          <i class="fa-solid fa-plus"></i>
+        </label>
+      </div>
+    </div>
+
+    <!-- History -->
+    <div class="history-section">
+      <div class="history-header">
+        <span class="card-label">Recent palettes</span>
+        <button class="btn-text" id="btnClearHistory">Clear</button>
+      </div>
+      <div class="history-list" id="historyList">
+        <p class="history-empty" id="historyEmpty">No palettes yet — generate one above</p>
+      </div>
+    </div>
+
+    <!-- Ad slots -->
+    <div class="ads-row">
+      <div class="ad-slot">Advertisement</div>
+      <div class="ad-slot">Advertisement</div>
+    </div>
+
+  </main>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

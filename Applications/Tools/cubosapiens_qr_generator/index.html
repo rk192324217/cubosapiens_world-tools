@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gen QR</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&display=swap"
+    rel="stylesheet" />
+
+  <!-- QR Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- ── Background orbs ── -->
+  <div class="bg-orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+  </div>
+
+  <!-- ── Header ── -->
+  <header>
+    <div class="logo-wrap">
+      <img src="assets/logo.png" alt="GenQR Logo" class="logo-icon" />
+      <span class="logo-name">Gen<span>QR</span></span>
+    </div>
+
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+      <span class="toggle-icons">
+        <i class="fa-solid fa-sun fa-xs"></i>
+        <i class="fa-solid fa-moon fa-xs"></i>
+      </span>
+    </button>
+  </header>
+
+  <!-- ── Main ── -->
+  <main>
+
+    <!-- Hero -->
+    <div class="hero">
+      <h1>Generate <em>beautiful</em><br />QR codes instantly</h1>
+      <p>Paste any URL · Customise · Download in seconds</p>
+    </div>
+
+    <!-- URL Bar -->
+    <div class="url-bar-wrap">
+      <div class="url-bar">
+        <span class="url-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10" />
+            <line x1="2" y1="12" x2="22" y2="12" />
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+          </svg>
+        </span>
+        <input type="url" id="urlInput" placeholder="https://example.com" autocomplete="off" spellcheck="false" />
+        <button class="btn-generate" id="btnGenerate">Generate</button>
+      </div>
+    </div>
+
+    <!-- Main Grid -->
+    <div class="grid">
+
+      <!-- QR Preview Card -->
+      <div class="card qr-card">
+        <div class="card-label">Preview</div>
+
+        <div class="qr-stage" id="qrStage">
+          <div id="qr-render">
+            <!-- Placeholder shown before generation -->
+            <div class="qr-placeholder" id="qrPlaceholder">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+                <rect x="3" y="3" width="7" height="7" rx="1.5" />
+                <rect x="14" y="3" width="7" height="7" rx="1.5" />
+                <rect x="3" y="14" width="7" height="7" rx="1.5" />
+                <line x1="14" y1="14" x2="21" y2="14" />
+                <line x1="14" y1="14" x2="14" y2="21" />
+                <line x1="21" y1="17" x2="21" y2="21" />
+                <line x1="17" y1="21" x2="21" y2="21" />
+              </svg>
+              <p>Enter a URL above<br />and hit Generate</p>
+            </div>
+          </div>
+
+          <!-- Centre logo overlay (shown after generation) -->
+          <div class="qr-logo-overlay" id="qrLogo">
+            <img src="assets/logo.png" alt="Logo" id="qrLogoImg" />
+          </div>
+        </div>
+
+        <!-- Action buttons -->
+        <div class="qr-actions" id="qrActions">
+          <button class="btn-action" id="btnCopy">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <rect x="9" y="9" width="13" height="13" rx="2" />
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+            </svg>
+            Copy
+          </button>
+          <button class="btn-action primary" id="btnDownload">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="7 10 12 15 17 10" />
+              <line x1="12" y1="15" x2="12" y2="3" />
+            </svg>
+            Download
+          </button>
+        </div>
+      </div>
+
+      <!-- Settings Card -->
+      <div class="card settings-card">
+        <div class="card-label">Customise</div>
+        <!-- Logo Upload -->
+        <div class="setting-row">
+          <div class="setting-label">
+            Center logo
+            <span id="logoResetBtn" style="cursor:pointer;color:var(--red);display:none;">Reset</span>
+          </div>
+          <label class="logo-upload-label" id="logoUploadLabel">
+            <input type="file" id="logoUpload" accept="image/*" hidden />
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="17 8 12 3 7 8" />
+              <line x1="12" y1="3" x2="12" y2="15" />
+            </svg>
+            <span id="logoUploadText">Upload your logo</span>
+          </label>
+        </div>
+
+        <div class="divider"></div>
+        <!-- Size -->
+        <div class="setting-row">
+          <div class="setting-label">
+            Size <span id="sizeVal">256 px</span>
+          </div>
+          <input type="range" id="sizeSlider" min="128" max="512" step="32" value="256" />
+        </div>
+
+        <!-- Colors -->
+        <div class="setting-row">
+          <div class="setting-label">
+            Background color
+            <span id="lightColorHint">#ffffff</span>
+          </div>
+          <div class="bg-palette" id="bgPalette" aria-label="QR background color options"></div>
+          <p class="palette-helper">Choose a scan-safe light background for dark QR pixels.</p>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Error Correction -->
+        <div class="setting-row">
+          <div class="setting-label">Error correction</div>
+          <div class="seg-control">
+            <button class="seg-btn" data-ec="L">L</button>
+            <button class="seg-btn active" data-ec="M">M</button>
+            <button class="seg-btn" data-ec="Q">Q</button>
+            <button class="seg-btn" data-ec="H">H</button>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Quick Links -->
+        <div class="setting-row">
+          <div class="setting-label">Try a quick link</div>
+          <div class="quick-links">
+            <!-- <button class="btn-action" data-quick="https://apple.com">apple.com</button> -->
+            <button class="btn-action" data-quick="https://github.com">github.com</button>
+            <button class="btn-action" data-quick="https://youtube.com">youtube.com</button>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /grid -->
+
+    <!-- Ad Slots -->
+    <!-- <div class="ads-row">
+      <div class="ad-slot">Advertisement</div>
+      <div class="ad-slot">Advertisement</div>
+    </div> -->
+
+  </main>
+
+  <!-- Toast notification -->
+  <div class="toast" id="toast"></div>
+
+  <!-- Scripts -->
+  <script src="app.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,547 @@
+/* ============================================================
+   cuboPy – style.css
+   Sections:
+   1.  Tokens
+   2.  Reset & Base
+   3.  Background Orbs
+   4.  Header & Py status
+   5.  Main Layout
+   6.  Toolbar
+   7.  Editor layout (split)
+   8.  Panel header
+   9.  Line numbers
+   10. Code editor (textarea)
+   11. Output panel
+   12. stdin prompt
+   13. Output pre — stdout / stderr / system
+   14. Packages bar
+   15. Action buttons
+   16. Ad slots
+   17. Toast
+   18. Animations & Keyframes
+   19. Responsive
+   ============================================================ */
+
+
+/* ── 1. Tokens ── */
+:root {
+  --red:        #e34949;
+  --red-dim:    #c93c3c;
+  --red-glow:   rgba(227,73,73,0.25);
+
+  --bg:           #f5f5f7;
+  --surface:      #ffffff;
+  --surface-2:    #fafafa;
+  --border:       rgba(0,0,0,0.08);
+  --text:         #1d1d1f;
+  --text-2:       #6e6e73;
+  --text-3:       #aeaeb2;
+  --shadow-sm:    0 2px 8px rgba(0,0,0,0.06);
+  --shadow-md:    0 8px 32px rgba(0,0,0,0.10);
+  --shadow-lg:    0 24px 64px rgba(0,0,0,0.12);
+  --glass:        rgba(255,255,255,0.72);
+  --glass-border: rgba(255,255,255,0.5);
+
+  /* Editor colours — light */
+  --editor-bg:    #fafafa;
+  --editor-text:  #1d1d1f;
+  --ln-bg:        #f0f0f2;
+  --ln-text:      #aeaeb2;
+
+  /* Output colours */
+  --out-stdout:   #1d1d1f;
+  --out-stderr:   #c93c3c;
+  --out-system:   #6e6e73;
+  --out-success:  #34c759;
+}
+
+[data-theme="dark"] {
+  --bg:           #000000;
+  --surface:      #1c1c1e;
+  --surface-2:    #2c2c2e;
+  --border:       rgba(255,255,255,0.08);
+  --text:         #f5f5f7;
+  --text-2:       #aeaeb2;
+  --text-3:       #636366;
+  --shadow-sm:    0 2px 8px rgba(0,0,0,0.4);
+  --shadow-md:    0 8px 32px rgba(0,0,0,0.5);
+  --shadow-lg:    0 24px 64px rgba(0,0,0,0.6);
+  --glass:        rgba(28,28,30,0.8);
+  --glass-border: rgba(255,255,255,0.08);
+
+  --editor-bg:    #141416;
+  --editor-text:  #e8e8ed;
+  --ln-bg:        #1c1c1e;
+  --ln-text:      #48484a;
+  --out-stdout:   #e8e8ed;
+  --out-stderr:   #ff6b6b;
+  --out-system:   #636366;
+}
+
+
+/* ── 2. Reset & Base ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg); color: var(--text);
+  min-height: 100vh; overflow-x: hidden;
+  transition: background 0.35s ease, color 0.35s ease;
+}
+
+
+/* ── 3. Background Orbs ── */
+.bg-orbs { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+
+.orb {
+  position: absolute; border-radius: 50%;
+  filter: blur(80px); opacity: 0.12;
+  animation: orb-drift 18s ease-in-out infinite alternate;
+}
+
+.orb-1 { width: 500px; height: 500px; background: var(--red); top: -120px; right: -100px; }
+.orb-2 { width: 350px; height: 350px; background: #1d1d1f; bottom: 100px; left: -80px; animation-delay: -6s; }
+[data-theme="dark"] .orb-2 { background: #555; }
+
+
+/* ── 4. Header & Py status ── */
+header {
+  position: sticky; top: 0; z-index: 100;
+  height: 60px; padding: 0 24px;
+  display: flex; align-items: center; justify-content: space-between;
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  background: var(--glass); border-bottom: 1px solid var(--glass-border);
+  transition: background 0.35s ease, border-color 0.35s ease;
+}
+
+.logo-wrap { display: flex; align-items: center; gap: 10px; animation: fade-down 0.5s ease both; }
+
+.logo-icon {
+  width: 34px; height: 34px; background: var(--red); border-radius: 9px;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 2px 10px var(--red-glow); overflow: hidden;
+  transition: transform 0.2s ease; cursor: pointer; flex-shrink: 0;
+}
+
+.logo-icon:hover { transform: rotate(-6deg) scale(1.08); }
+.logo-icon img   { width: 24px; height: 24px; object-fit: contain; display: block; }
+.logo-name       { font-weight: 700; font-size: 1.1rem; letter-spacing: -0.02em; color: var(--text); }
+.logo-name span  { color: var(--red); }
+
+.header-right {
+  display: flex; align-items: center; gap: 14px;
+  animation: fade-down 0.5s 0.08s ease both;
+}
+
+/* Pyodide status indicator */
+.py-status {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 0.75rem; font-weight: 500; color: var(--text-2);
+}
+
+.py-dot {
+  width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+  transition: background 0.3s ease;
+}
+
+.py-dot.loading { background: var(--text-3); animation: blink 1.2s ease infinite; }
+.py-dot.ready   { background: #34c759; }
+.py-dot.error   { background: var(--red); }
+
+.theme-toggle {
+  position: relative; width: 44px; height: 26px; border-radius: 13px;
+  background: var(--surface-2); border: 1.5px solid var(--border);
+  cursor: pointer; transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+.theme-toggle::after {
+  content: ''; position: absolute; top: 2px; left: 2px;
+  width: 18px; height: 18px; border-radius: 50%; background: var(--text-2);
+  transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), background 0.3s ease;
+}
+
+[data-theme="dark"] .theme-toggle::after { transform: translateX(18px); background: var(--red); }
+
+.toggle-icons {
+  position: absolute; inset: 0; display: flex; align-items: center;
+  justify-content: space-between; padding: 0 5px;
+  pointer-events: none; font-size: 9px; color: var(--text-3);
+}
+
+
+/* ── 5. Main Layout ── */
+main {
+  position: relative; z-index: 1;
+  max-width: 1400px; margin: 0 auto;
+  padding: 20px 20px 28px;
+  display: flex; flex-direction: column; gap: 12px;
+}
+
+
+/* ── 6. Toolbar ── */
+.toolbar {
+  display: flex; align-items: center;
+  justify-content: space-between; flex-wrap: wrap; gap: 10px;
+  animation: fade-up 0.5s ease both;
+}
+
+.toolbar-left, .toolbar-right {
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+}
+
+.filename-input {
+  padding: 8px 13px; border-radius: 10px;
+  border: 1.5px solid var(--border); background: var(--surface);
+  color: var(--text); font-family: 'DM Mono', monospace;
+  font-size: 0.83rem; outline: none; width: 130px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.filename-input:focus { border-color: var(--red); box-shadow: 0 0 0 3px var(--red-glow); }
+
+.btn-run {
+  display: flex; align-items: center; gap: 8px;
+  padding: 9px 20px; border-radius: 10px;
+  background: var(--red); color: #fff; border: none;
+  font-family: 'DM Sans', sans-serif; font-size: 0.88rem; font-weight: 600;
+  cursor: pointer; white-space: nowrap;
+  box-shadow: 0 4px 14px var(--red-glow);
+  transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+}
+
+.btn-run:hover:not(:disabled) { background: var(--red-dim); transform: translateY(-1px); }
+.btn-run:active:not(:disabled){ transform: translateY(0); }
+.btn-run:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.btn-run i { transition: transform 0.3s ease; }
+.btn-run.running i { animation: spin 0.8s linear infinite; }
+
+.snippet-select {
+  padding: 8px 12px; border-radius: 10px;
+  border: 1.5px solid var(--border); background: var(--surface);
+  color: var(--text-2); font-family: 'DM Sans', sans-serif;
+  font-size: 0.82rem; outline: none; cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.snippet-select:focus { border-color: var(--red); }
+
+.font-size-wrap {
+  display: flex; align-items: center; gap: 5px;
+}
+
+.font-size-label {
+  font-family: 'DM Mono', monospace; font-size: 0.75rem;
+  color: var(--text-3); min-width: 32px; text-align: center;
+}
+
+
+/* ── 7. Editor layout ── */
+.editor-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  animation: fade-up 0.5s 0.06s ease both;
+}
+
+.panel {
+  display: flex; flex-direction: column;
+  min-height: 500px; max-height: 620px;
+  overflow: hidden;
+}
+
+.card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 18px; box-shadow: var(--shadow-sm);
+  transition: background 0.35s ease, border-color 0.35s ease;
+}
+
+
+/* ── 8. Panel header ── */
+.panel-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.panel-label {
+  font-size: 0.68rem; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3);
+}
+
+.panel-actions { display: flex; gap: 6px; }
+
+.panel-meta {
+  font-family: 'DM Mono', monospace; font-size: 0.72rem; color: var(--text-3);
+}
+
+.icon-btn {
+  display: flex; align-items: center; justify-content: center;
+  min-width: 30px; height: 30px; padding: 0 8px;
+  border-radius: 7px; border: 1.5px solid var(--border);
+  background: var(--surface-2); color: var(--text-2);
+  font-size: 0.78rem; font-family: 'DM Mono', monospace; font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+}
+
+.icon-btn:hover { border-color: var(--red); color: var(--red); }
+
+
+/* ── 9. Line numbers ── */
+.editor-wrap {
+  display: flex; flex: 1; overflow: hidden;
+}
+
+.line-numbers {
+  flex-shrink: 0; width: 46px;
+  padding: 14px 0;
+  background: var(--ln-bg);
+  border-right: 1px solid var(--border);
+  text-align: right;
+  font-family: 'DM Mono', monospace; font-size: 0.8rem;
+  color: var(--ln-text); line-height: 1.65;
+  overflow: hidden; user-select: none;
+  transition: background 0.35s ease;
+}
+
+.line-numbers span { display: block; padding: 0 10px 0 4px; }
+
+
+/* ── 10. Code editor ── */
+.code-editor {
+  flex: 1; border: none; outline: none; resize: none;
+  background: var(--editor-bg); color: var(--editor-text);
+  font-family: 'DM Mono', monospace; font-size: 14px;
+  line-height: 1.65; padding: 14px 16px;
+  overflow-y: auto; overflow-x: auto;
+  white-space: pre; tab-size: 4;
+  caret-color: var(--red);
+  transition: background 0.35s ease, color 0.35s ease, font-size 0.15s ease;
+}
+
+.code-editor::placeholder { color: var(--text-3); font-style: italic; }
+.code-editor.wrap { white-space: pre-wrap; overflow-x: hidden; }
+
+
+/* ── 11. Output panel ── */
+.output-wrap {
+  flex: 1; overflow-y: auto; overflow-x: auto;
+  padding: 0; position: relative;
+}
+
+.output-pre {
+  font-family: 'DM Mono', monospace; font-size: 0.83rem;
+  line-height: 1.65; padding: 14px 18px;
+  white-space: pre-wrap; word-break: break-word;
+  min-height: 100%;
+  background: var(--editor-bg);
+  color: var(--out-stdout);
+  transition: background 0.35s ease;
+}
+
+.output-placeholder { color: var(--text-3); font-style: italic; }
+
+/* Output line types */
+.out-stdout { color: var(--out-stdout); }
+.out-stderr { color: var(--out-stderr); }
+.out-system { color: var(--out-system); font-style: italic; }
+.out-success{ color: var(--out-success); }
+.out-timing { color: var(--text-3); font-size: 0.72rem; }
+
+
+/* ── 12. stdin prompt ── */
+.stdin-wrap {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 16px;
+  background: rgba(227,73,73,0.06);
+  border-top: 1px solid rgba(227,73,73,0.2);
+  border-bottom: 1px solid rgba(227,73,73,0.2);
+  flex-shrink: 0;
+}
+
+.stdin-prompt {
+  font-family: 'DM Mono', monospace; font-size: 0.85rem;
+  color: var(--red); font-weight: 600; white-space: nowrap;
+}
+
+.stdin-input {
+  flex: 1; border: none; outline: none;
+  background: transparent; color: var(--text);
+  font-family: 'DM Mono', monospace; font-size: 0.85rem;
+}
+
+
+/* ── 13. Packages bar ── */
+.packages-bar {
+  padding: 14px 18px;
+  display: flex; align-items: center;
+  gap: 12px; flex-wrap: wrap;
+  animation: fade-up 0.5s 0.12s ease both;
+}
+
+.pkg-label {
+  font-size: 0.72rem; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--text-3); display: flex; align-items: center;
+  gap: 6px; flex-shrink: 0;
+}
+
+.pkg-input-wrap {
+  display: flex; gap: 8px; flex: 1; min-width: 200px;
+}
+
+.pkg-input {
+  flex: 1; padding: 8px 12px; border-radius: 10px;
+  border: 1.5px solid var(--border); background: var(--surface-2);
+  color: var(--text); font-family: 'DM Mono', monospace;
+  font-size: 0.82rem; outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.pkg-input:focus { border-color: var(--red); box-shadow: 0 0 0 3px var(--red-glow); }
+
+.pkg-list {
+  display: flex; gap: 6px; flex-wrap: wrap; width: 100%;
+}
+
+.pkg-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 4px 10px; border-radius: 20px;
+  background: rgba(227,73,73,0.1); color: var(--red);
+  border: 1px solid rgba(227,73,73,0.2);
+  font-family: 'DM Mono', monospace; font-size: 0.72rem; font-weight: 500;
+}
+
+.pkg-badge i { cursor: pointer; opacity: 0.6; }
+.pkg-badge i:hover { opacity: 1; }
+
+
+/* ── 14. Action Buttons ── */
+.btn-action {
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  padding: 8px 14px; border-radius: 10px;
+  border: 1.5px solid var(--border);
+  background: var(--surface); color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.82rem; font-weight: 500; cursor: pointer; white-space: nowrap;
+  transition: background 0.2s ease, border-color 0.2s ease,
+              transform 0.15s ease, color 0.2s ease;
+}
+
+.btn-action:hover { border-color: var(--red); color: var(--red); transform: translateY(-1px); }
+.btn-action:active { transform: translateY(0); }
+
+.btn-action.primary {
+  background: var(--red); color: #fff;
+  border-color: transparent; box-shadow: 0 4px 14px var(--red-glow);
+}
+
+.btn-action.primary:hover { background: var(--red-dim); color: #fff; }
+
+
+/* ── 15. Ad Slots ── */
+.ads-row {
+  display: flex; gap: 16px;
+  animation: fade-up 0.5s 0.18s ease both;
+}
+
+.ad-slot {
+  flex: 1; height: 90px; border-radius: 14px;
+  border: 1.5px dashed var(--border);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text-3); font-size: 0.75rem;
+  letter-spacing: 0.05em; text-transform: uppercase;
+  font-weight: 500; background: var(--surface);
+}
+
+
+/* ── 16. Toast ── */
+.toast {
+  position: fixed; bottom: 28px; left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: var(--text); color: var(--bg);
+  padding: 12px 22px; border-radius: 30px;
+  font-size: 0.85rem; font-weight: 500;
+  box-shadow: var(--shadow-lg); opacity: 0; z-index: 999;
+  white-space: nowrap; pointer-events: none;
+  transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), opacity 0.35s ease;
+}
+
+.toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+
+/* ── 17. Animations ── */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+@keyframes fade-down {
+  from { opacity: 0; transform: translateY(-10px); }
+  to   { opacity: 1; transform: translateY(0);     }
+}
+
+@keyframes orb-drift {
+  from { transform: translate(0,0) scale(1); }
+  to   { transform: translate(30px,40px) scale(1.1); }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes blink {
+  0%,100% { opacity: 1; }
+  50%      { opacity: 0.3; }
+}
+
+
+/* ── 18. Responsive ── */
+@media (max-width: 900px) {
+  .editor-layout { grid-template-columns: 1fr; }
+  .panel         { min-height: 360px; max-height: 480px; }
+}
+
+@media (max-width: 600px) {
+  header   { padding: 0 14px; }
+  main     { padding: 14px 12px 20px; gap: 10px; }
+  .toolbar { gap: 6px; }
+  .toolbar-left, .toolbar-right { gap: 6px; }
+  .filename-input { width: 100px; }
+  .btn-run { padding: 8px 14px; font-size: 0.82rem; }
+  .packages-bar { flex-direction: column; align-items: flex-start; }
+  .ads-row { flex-direction: column; }
+  .ad-slot { height: 60px; }
+  .py-status span:last-child { display: none; }
+}
+
+@media (max-width: 380px) {
+  .logo-name { font-size: 0.95rem; }
+  .logo-icon { width: 28px; height: 28px; }
+  .logo-icon img { width: 18px; height: 18px; }
+  .code-editor { font-size: 12px; }
+  .output-pre  { font-size: 0.75rem; }
+  .line-numbers { width: 36px; font-size: 0.7rem; }
+  .filename-input { width: 80px; font-size: 0.75rem; }
+}
+
+@media (max-width: 300px) {
+  header { padding: 0 10px; height: 52px; }
+  main   { padding: 10px 8px 16px; }
+  .logo-name { font-size: 0.82rem; }
+  .logo-icon { width: 26px; height: 26px; border-radius: 7px; }
+  .logo-icon img { width: 16px; height: 16px; }
+  .theme-toggle { width: 38px; height: 22px; }
+  .theme-toggle::after { width: 15px; height: 15px; }
+  [data-theme="dark"] .theme-toggle::after { transform: translateX(13px); }
+  .btn-run { padding: 7px 10px; font-size: 0.76rem; }
+  .btn-action { padding: 6px 9px; font-size: 0.72rem; }
+  .snippet-select { font-size: 0.72rem; padding: 6px 8px; }
+  .toast { font-size: 0.7rem; padding: 8px 12px; white-space: normal; text-align: center; max-width: 90vw; }
+  .ad-slot { display: none; }
+}
